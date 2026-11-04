@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { useTranslations } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { use } from "react";
-import { getAlternates } from "@/i18n/alternates";
+import { RacketsOverview } from "@/components/rackets/rackets-overview";
 import { routing, type Locale } from "@/i18n/routing";
+import { listingSeo } from "@/lib/catalog/listing-metadata";
 import { SPORTS, sportFromSlug, sportSlug } from "@/lib/catalog/taxonomy";
-import { Header } from "@/components/layout/header";
 
 export function generateStaticParams() {
   return routing.locales.flatMap((locale) =>
@@ -16,38 +14,26 @@ export function generateStaticParams() {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: PageProps<"/[locale]/rackets/[sport]">): Promise<Metadata> {
-  const { locale, sport: slug } = await params;
-  const sport = sportFromSlug(slug, locale as Locale);
+  const { locale, sport: slug } = (await params) as { locale: Locale; sport: string };
+  const sport = sportFromSlug(slug, locale);
   if (!sport) return {};
-  const t = await getTranslations({ locale: locale as Locale, namespace: "rackets" });
+  const t = await getTranslations({ locale, namespace: "rackets" });
   return {
-    title: t(`sportTitle.${sport}`),
-    // Sport slugs differ per market (tafeltennis / tenis-de-mesa).
-    alternates: getAlternates(
-      (l) => ({ pathname: "/rackets/[sport]", params: { sport: sportSlug(sport, l) } }),
-      locale as Locale,
-    ),
+    title: t("pageTitle", { name: t(`sportTitle.${sport}`) }),
+    ...listingSeo(locale, sport, await searchParams),
   };
 }
 
-// Placeholder until the overview with filters is built (RP-26/27).
-export default function SportRacketsPage({ params }: PageProps<"/[locale]/rackets/[sport]">) {
-  const { locale, sport: slug } = use(params);
-  setRequestLocale(locale as Locale);
-  const sport = sportFromSlug(slug, locale as Locale);
+/** Overview per sport, e.g. /nl/rackets/padel?merk=adidas. Unknown sports 404 in the proxy. */
+export default async function SportRacketsPage({
+  params,
+  searchParams,
+}: PageProps<"/[locale]/rackets/[sport]">) {
+  const { locale, sport: slug } = (await params) as { locale: Locale; sport: string };
+  setRequestLocale(locale);
+  const sport = sportFromSlug(slug, locale);
   if (!sport) notFound();
-  const t = useTranslations("rackets");
-
-  return (
-    <>
-      <div className="rp-hero-sub">
-        <Header active="rackets" />
-      </div>
-      <main id="main" tabIndex={-1} className="rp-container flex-1 py-16">
-        <h1 className="rp-h1">{t(`sportTitle.${sport}`)}</h1>
-        <p className="text-muted mt-3">{t("sportIntro")}</p>
-      </main>
-    </>
-  );
+  return <RacketsOverview locale={locale} sport={sport} searchParams={searchParams} />;
 }

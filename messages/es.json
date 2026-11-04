@@ -101,7 +101,69 @@
       "pickleball": "Palas de pickleball",
       "table-tennis": "Palas de tenis de mesa"
     },
-    "sportIntro": "El listado con filtros y precios por tienda llegará pronto."
+    "sportIntro": "El listado con filtros y precios por tienda llegará pronto.",
+    "allTitle": "Compara todas las palas y raquetas",
+    "pageTitle": "Compara {name}",
+    "heroIntro": "Compara precios en {count} tiendas. Filtra por marca, nivel, estilo de juego y precio, o deja que el asesor haga el trabajo.",
+    "heroIntroNoCount": "Compara precios en tiendas españolas. Filtra por marca, nivel, estilo de juego y precio, o deja que el asesor haga el trabajo.",
+    "breadcrumb": "Ruta de navegación",
+    "home": "Inicio",
+    "allSports": "Todos los deportes",
+    "sportTabs": "Elige un deporte",
+    "filters": {
+      "title": "Filtros",
+      "clearAll": "Borrar todo",
+      "onlyDeals": "Solo ofertas",
+      "hideSoldOut": "Ocultar agotados",
+      "facet": {
+        "merk": "Marca",
+        "prijs": "Precio",
+        "niveau": "Nivel",
+        "stijl": "Estilo de juego",
+        "gewicht": "Peso"
+      },
+      "level": {
+        "beginner": "Principiante",
+        "gemiddeld": "Intermedio",
+        "gevorderd": "Avanzado",
+        "competitie": "Competición"
+      },
+      "style": {
+        "controle": "Control",
+        "allround": "Polivalente",
+        "power": "Potencia"
+      },
+      "weight": {
+        "licht": "Ligera",
+        "gemiddeld": "Media",
+        "zwaar": "Pesada"
+      },
+      "priceUnder": "Hasta {max}",
+      "priceRange": "{min} – {max}",
+      "priceOver": "{min}+",
+      "optionCount": "{count, plural, one {# resultado} other {# resultados}}",
+      "apply": "Mostrar resultados",
+      "open": "Filtros",
+      "openCount": "Filtros ({count})",
+      "close": "Cerrar filtros",
+      "showResults": "{count, plural, =0 {Sin palas} one {Ver # pala} other {Ver # palas}}",
+      "advisorDoubt": "¿Demasiadas opciones?",
+      "advisorLink": "Usa el asesor gratuito",
+      "updating": "Actualizando resultados",
+      "weightTag": {
+        "licht": "Ligera",
+        "gemiddeld": "Peso medio",
+        "zwaar": "Pesada"
+      }
+    },
+    "results": {
+      "total": "{count, plural, one {<b>#</b> pala} other {<b>#</b> palas}}",
+      "emptyTitle": "No hay palas con estos filtros",
+      "emptyText": "Quita un filtro o prueba el asesor.",
+      "clearAll": "Borrar todos los filtros",
+      "noneYetTitle": "Aún no hay palas",
+      "noneYetText": "Todavía no tenemos palas de este deporte. Mira los otros deportes o vuelve pronto."
+    }
   },
   "productCard": {
     "shopsCompared": "Comparado en {count, plural, one {# tienda} other {# tiendas}}",
