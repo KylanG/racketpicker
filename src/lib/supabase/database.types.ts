@@ -9,6 +9,59 @@ export type Database = {
   };
   public: {
     Tables: {
+      brands: {
+        Row: {
+          created_at: string;
+          id: string;
+          logo_path: string | null;
+          name: string;
+          slug: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          logo_path?: string | null;
+          name: string;
+          slug: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          logo_path?: string | null;
+          name?: string;
+          slug?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      categories: {
+        Row: {
+          key: string;
+          sort_order: number;
+          sport_key: string;
+        };
+        Insert: {
+          key: string;
+          sort_order?: number;
+          sport_key: string;
+        };
+        Update: {
+          key?: string;
+          sort_order?: number;
+          sport_key?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "categories_sport_key_fkey";
+            columns: ["sport_key"];
+            isOneToOne: false;
+            referencedRelation: "sports";
+            referencedColumns: ["key"];
+          },
+        ];
+      };
       markets: {
         Row: {
           code: string;
@@ -36,15 +89,510 @@ export type Database = {
         };
         Relationships: [];
       };
+      offers: {
+        Row: {
+          affiliate_url: string;
+          created_at: string;
+          currency: string;
+          delivery_days_max: number | null;
+          delivery_days_min: number | null;
+          external_id: string;
+          feed_title: string | null;
+          gtin: string | null;
+          id: string;
+          is_active: boolean;
+          last_seen_at: string;
+          market_code: string;
+          price: number;
+          product_id: string;
+          product_url: string | null;
+          shipping_cost: number | null;
+          shop_id: string;
+          stock_status: Database["public"]["Enums"]["stock_status"];
+          updated_at: string;
+        };
+        Insert: {
+          affiliate_url: string;
+          created_at?: string;
+          currency?: string;
+          delivery_days_max?: number | null;
+          delivery_days_min?: number | null;
+          external_id: string;
+          feed_title?: string | null;
+          gtin?: string | null;
+          id?: string;
+          is_active?: boolean;
+          last_seen_at?: string;
+          market_code: string;
+          price: number;
+          product_id: string;
+          product_url?: string | null;
+          shipping_cost?: number | null;
+          shop_id: string;
+          stock_status?: Database["public"]["Enums"]["stock_status"];
+          updated_at?: string;
+        };
+        Update: {
+          affiliate_url?: string;
+          created_at?: string;
+          currency?: string;
+          delivery_days_max?: number | null;
+          delivery_days_min?: number | null;
+          external_id?: string;
+          feed_title?: string | null;
+          gtin?: string | null;
+          id?: string;
+          is_active?: boolean;
+          last_seen_at?: string;
+          market_code?: string;
+          price?: number;
+          product_id?: string;
+          product_url?: string | null;
+          shipping_cost?: number | null;
+          shop_id?: string;
+          stock_status?: Database["public"]["Enums"]["stock_status"];
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "offers_market_code_fkey";
+            columns: ["market_code"];
+            isOneToOne: false;
+            referencedRelation: "markets";
+            referencedColumns: ["code"];
+          },
+          {
+            foreignKeyName: "offers_product_id_fkey";
+            columns: ["product_id"];
+            isOneToOne: false;
+            referencedRelation: "products";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "offers_shop_id_fkey";
+            columns: ["shop_id"];
+            isOneToOne: false;
+            referencedRelation: "shops";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      price_history: {
+        Row: {
+          offer_id: string;
+          price: number;
+          recorded_on: string;
+          shipping_cost: number | null;
+          stock_status: Database["public"]["Enums"]["stock_status"];
+        };
+        Insert: {
+          offer_id: string;
+          price: number;
+          recorded_on?: string;
+          shipping_cost?: number | null;
+          stock_status: Database["public"]["Enums"]["stock_status"];
+        };
+        Update: {
+          offer_id?: string;
+          price?: number;
+          recorded_on?: string;
+          shipping_cost?: number | null;
+          stock_status?: Database["public"]["Enums"]["stock_status"];
+        };
+        Relationships: [
+          {
+            foreignKeyName: "price_history_offer_id_fkey";
+            columns: ["offer_id"];
+            isOneToOne: false;
+            referencedRelation: "offers";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      product_content: {
+        Row: {
+          created_at: string;
+          faq: Json;
+          ideal_for: string | null;
+          intro: string | null;
+          is_published: boolean;
+          market_code: string;
+          product_id: string;
+          seo_description: string | null;
+          seo_title: string | null;
+          slug: string;
+          strengths: string[];
+          title: string;
+          updated_at: string;
+          watch_outs: string[];
+        };
+        Insert: {
+          created_at?: string;
+          faq?: Json;
+          ideal_for?: string | null;
+          intro?: string | null;
+          is_published?: boolean;
+          market_code: string;
+          product_id: string;
+          seo_description?: string | null;
+          seo_title?: string | null;
+          slug: string;
+          strengths?: string[];
+          title: string;
+          updated_at?: string;
+          watch_outs?: string[];
+        };
+        Update: {
+          created_at?: string;
+          faq?: Json;
+          ideal_for?: string | null;
+          intro?: string | null;
+          is_published?: boolean;
+          market_code?: string;
+          product_id?: string;
+          seo_description?: string | null;
+          seo_title?: string | null;
+          slug?: string;
+          strengths?: string[];
+          title?: string;
+          updated_at?: string;
+          watch_outs?: string[];
+        };
+        Relationships: [
+          {
+            foreignKeyName: "product_content_market_code_fkey";
+            columns: ["market_code"];
+            isOneToOne: false;
+            referencedRelation: "markets";
+            referencedColumns: ["code"];
+          },
+          {
+            foreignKeyName: "product_content_product_id_fkey";
+            columns: ["product_id"];
+            isOneToOne: false;
+            referencedRelation: "products";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      product_images: {
+        Row: {
+          alt: string | null;
+          created_at: string;
+          height: number | null;
+          id: string;
+          position: number;
+          product_id: string;
+          source_url: string | null;
+          storage_path: string;
+          width: number | null;
+        };
+        Insert: {
+          alt?: string | null;
+          created_at?: string;
+          height?: number | null;
+          id?: string;
+          position?: number;
+          product_id: string;
+          source_url?: string | null;
+          storage_path: string;
+          width?: number | null;
+        };
+        Update: {
+          alt?: string | null;
+          created_at?: string;
+          height?: number | null;
+          id?: string;
+          position?: number;
+          product_id?: string;
+          source_url?: string | null;
+          storage_path?: string;
+          width?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "product_images_product_id_fkey";
+            columns: ["product_id"];
+            isOneToOne: false;
+            referencedRelation: "products";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      product_scores: {
+        Row: {
+          comfort: number | null;
+          control: number | null;
+          maneuverability: number | null;
+          method_note: string | null;
+          power: number | null;
+          product_id: string;
+          source: Database["public"]["Enums"]["score_source"];
+          sweet_spot: number | null;
+          updated_at: string;
+        };
+        Insert: {
+          comfort?: number | null;
+          control?: number | null;
+          maneuverability?: number | null;
+          method_note?: string | null;
+          power?: number | null;
+          product_id: string;
+          source: Database["public"]["Enums"]["score_source"];
+          sweet_spot?: number | null;
+          updated_at?: string;
+        };
+        Update: {
+          comfort?: number | null;
+          control?: number | null;
+          maneuverability?: number | null;
+          method_note?: string | null;
+          power?: number | null;
+          product_id?: string;
+          source?: Database["public"]["Enums"]["score_source"];
+          sweet_spot?: number | null;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "product_scores_product_id_fkey";
+            columns: ["product_id"];
+            isOneToOne: true;
+            referencedRelation: "products";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      products: {
+        Row: {
+          brand_id: string;
+          category_key: string;
+          created_at: string;
+          gtins: string[];
+          id: string;
+          is_sample: boolean;
+          model: string;
+          model_year: number | null;
+          status: Database["public"]["Enums"]["product_status"];
+          tier: Database["public"]["Enums"]["content_tier"];
+          updated_at: string;
+        };
+        Insert: {
+          brand_id: string;
+          category_key: string;
+          created_at?: string;
+          gtins?: string[];
+          id?: string;
+          is_sample?: boolean;
+          model: string;
+          model_year?: number | null;
+          status?: Database["public"]["Enums"]["product_status"];
+          tier?: Database["public"]["Enums"]["content_tier"];
+          updated_at?: string;
+        };
+        Update: {
+          brand_id?: string;
+          category_key?: string;
+          created_at?: string;
+          gtins?: string[];
+          id?: string;
+          is_sample?: boolean;
+          model?: string;
+          model_year?: number | null;
+          status?: Database["public"]["Enums"]["product_status"];
+          tier?: Database["public"]["Enums"]["content_tier"];
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "products_brand_id_fkey";
+            columns: ["brand_id"];
+            isOneToOne: false;
+            referencedRelation: "brands";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "products_category_key_fkey";
+            columns: ["category_key"];
+            isOneToOne: false;
+            referencedRelation: "categories";
+            referencedColumns: ["key"];
+          },
+        ];
+      };
+      racket_specs: {
+        Row: {
+          balance: Database["public"]["Enums"]["racket_balance"] | null;
+          balance_mm: number | null;
+          core_material: string | null;
+          face_material: string | null;
+          frame_material: string | null;
+          levels: Database["public"]["Enums"]["play_level"][];
+          play_style: Database["public"]["Enums"]["play_style"] | null;
+          product_id: string;
+          shape: Database["public"]["Enums"]["racket_shape"] | null;
+          surface_texture: string | null;
+          thickness_mm: number | null;
+          updated_at: string;
+          weight_max_g: number | null;
+          weight_min_g: number | null;
+        };
+        Insert: {
+          balance?: Database["public"]["Enums"]["racket_balance"] | null;
+          balance_mm?: number | null;
+          core_material?: string | null;
+          face_material?: string | null;
+          frame_material?: string | null;
+          levels?: Database["public"]["Enums"]["play_level"][];
+          play_style?: Database["public"]["Enums"]["play_style"] | null;
+          product_id: string;
+          shape?: Database["public"]["Enums"]["racket_shape"] | null;
+          surface_texture?: string | null;
+          thickness_mm?: number | null;
+          updated_at?: string;
+          weight_max_g?: number | null;
+          weight_min_g?: number | null;
+        };
+        Update: {
+          balance?: Database["public"]["Enums"]["racket_balance"] | null;
+          balance_mm?: number | null;
+          core_material?: string | null;
+          face_material?: string | null;
+          frame_material?: string | null;
+          levels?: Database["public"]["Enums"]["play_level"][];
+          play_style?: Database["public"]["Enums"]["play_style"] | null;
+          product_id?: string;
+          shape?: Database["public"]["Enums"]["racket_shape"] | null;
+          surface_texture?: string | null;
+          thickness_mm?: number | null;
+          updated_at?: string;
+          weight_max_g?: number | null;
+          weight_min_g?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "racket_specs_product_id_fkey";
+            columns: ["product_id"];
+            isOneToOne: true;
+            referencedRelation: "products";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      shops: {
+        Row: {
+          created_at: string;
+          free_shipping_from: number | null;
+          id: string;
+          is_active: boolean;
+          logo_path: string | null;
+          market_code: string;
+          name: string;
+          network: Database["public"]["Enums"]["affiliate_network"];
+          network_advertiser_id: string | null;
+          shipping_info: string | null;
+          slug: string;
+          updated_at: string;
+          website_url: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          free_shipping_from?: number | null;
+          id?: string;
+          is_active?: boolean;
+          logo_path?: string | null;
+          market_code: string;
+          name: string;
+          network: Database["public"]["Enums"]["affiliate_network"];
+          network_advertiser_id?: string | null;
+          shipping_info?: string | null;
+          slug: string;
+          updated_at?: string;
+          website_url?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          free_shipping_from?: number | null;
+          id?: string;
+          is_active?: boolean;
+          logo_path?: string | null;
+          market_code?: string;
+          name?: string;
+          network?: Database["public"]["Enums"]["affiliate_network"];
+          network_advertiser_id?: string | null;
+          shipping_info?: string | null;
+          slug?: string;
+          updated_at?: string;
+          website_url?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "shops_market_code_fkey";
+            columns: ["market_code"];
+            isOneToOne: false;
+            referencedRelation: "markets";
+            referencedColumns: ["code"];
+          },
+        ];
+      };
+      sports: {
+        Row: {
+          key: string;
+          sort_order: number;
+        };
+        Insert: {
+          key: string;
+          sort_order?: number;
+        };
+        Update: {
+          key?: string;
+          sort_order?: number;
+        };
+        Relationships: [];
+      };
     };
     Views: {
-      [_ in never]: never;
+      product_price_summary: {
+        Row: {
+          in_stock_count: number | null;
+          last_updated_at: string | null;
+          lowest_price: number | null;
+          lowest_total_price: number | null;
+          market_code: string | null;
+          offer_count: number | null;
+          product_id: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "offers_market_code_fkey";
+            columns: ["market_code"];
+            isOneToOne: false;
+            referencedRelation: "markets";
+            referencedColumns: ["code"];
+          },
+          {
+            foreignKeyName: "offers_product_id_fkey";
+            columns: ["product_id"];
+            isOneToOne: false;
+            referencedRelation: "products";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Functions: {
       [_ in never]: never;
     };
     Enums: {
-      [_ in never]: never;
+      affiliate_network: "daisycon" | "awin" | "direct" | "other";
+      content_tier: "A" | "B" | "C";
+      play_level: "beginner" | "intermediate" | "advanced" | "pro";
+      play_style: "control" | "all_round" | "power";
+      product_status: "draft" | "published" | "archived";
+      racket_balance: "low" | "medium" | "high";
+      racket_shape: "round" | "teardrop" | "diamond" | "hybrid";
+      score_source: "specs" | "test" | "editorial";
+      stock_status: "in_stock" | "low_stock" | "out_of_stock" | "preorder" | "unknown";
     };
     CompositeTypes: {
       [_ in never]: never;
@@ -165,6 +713,16 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      affiliate_network: ["daisycon", "awin", "direct", "other"],
+      content_tier: ["A", "B", "C"],
+      play_level: ["beginner", "intermediate", "advanced", "pro"],
+      play_style: ["control", "all_round", "power"],
+      product_status: ["draft", "published", "archived"],
+      racket_balance: ["low", "medium", "high"],
+      racket_shape: ["round", "teardrop", "diamond", "hybrid"],
+      score_source: ["specs", "test", "editorial"],
+      stock_status: ["in_stock", "low_stock", "out_of_stock", "preorder", "unknown"],
+    },
   },
 } as const;

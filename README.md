@@ -64,6 +64,7 @@ supabase/       Migraties en seeds (vanaf RP-13)
   - `browser.ts`: Client Components
   - `admin.ts`: secret key, omzeilt RLS, alleen voor imports en cron (`server-only`)
 - Health check: `GET /api/health`.
+- Schema, tabellen en RLS-regels: zie [`docs/database.md`](docs/database.md).
 
 ## Omgevingsvariabelen
 
