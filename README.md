@@ -22,14 +22,16 @@ npm run dev                  # http://localhost:3000
 
 ## Scripts
 
-| Script              | Wat het doet                               |
-| ------------------- | ------------------------------------------ |
-| `npm run dev`       | Ontwikkelserver                            |
-| `npm run build`     | Productiebuild                             |
-| `npm run lint`      | ESLint                                     |
-| `npm run typecheck` | TypeScript-controle                        |
-| `npm run format`    | Prettier (incl. Tailwind-klassensortering) |
-| `npm run check`     | Lint + typecheck + formatcontrole          |
+| Script                 | Wat het doet                               |
+| ---------------------- | ------------------------------------------ |
+| `npm run dev`          | Ontwikkelserver                            |
+| `npm run build`        | Productiebuild                             |
+| `npm run lint`         | ESLint                                     |
+| `npm run typecheck`    | TypeScript-controle                        |
+| `npm run format`       | Prettier (incl. Tailwind-klassensortering) |
+| `npm run test`         | Unit tests (Vitest)                        |
+| `npm run check`        | Lint + typecheck + formatcontrole + tests  |
+| `npm run feeds:import` | Feed importeren (zie `docs/feeds.md`)      |
 
 ## Mappenstructuur
 
@@ -65,6 +67,7 @@ supabase/       Migraties en seeds (vanaf RP-13)
   - `admin.ts`: secret key, omzeilt RLS, alleen voor imports en cron (`server-only`)
 - Health check: `GET /api/health`.
 - Schema, tabellen en RLS-regels: zie [`docs/database.md`](docs/database.md).
+- Feed-import (Daisycon/Awin), matching en CLI: zie [`docs/feeds.md`](docs/feeds.md).
 
 ## Omgevingsvariabelen
 

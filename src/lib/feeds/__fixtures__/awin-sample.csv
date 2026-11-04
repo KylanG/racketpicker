@@ -1,0 +1,8 @@
+aw_deep_link,product_name,aw_product_id,merchant_product_id,merchant_image_url,merchant_category,search_price,currency,delivery_cost,merchant_deep_link,brand_name,ean,in_stock,stock_quantity,delivery_time
+https://www.awin1.com/pclick.php?p=1001&a=3144483&m=1,"Adidas Metalbone 2026 Padel Racket",1001,MB26,https://img.example.com/mb26.jpg,Padel > Rackets,"289.95",EUR,0.00,https://www.padel-point.nl/adidas-metalbone-2026,Adidas,4066000000017,1,12,1-2 werkdagen
+https://www.awin1.com/pclick.php?p=1002&a=3144483&m=1,"Adidas Metalbone HRD+ 2026",1002,MBHRD26,https://img.example.com/mbhrd.jpg,Padel > Rackets,299.95,EUR,0.00,https://www.padel-point.nl/adidas-metalbone-hrd-2026,Adidas,,1,2,1-2 werkdagen
+https://www.awin1.com/pclick.php?p=1003&a=3144483&m=1,"Adidas Drive Padelracket",1003,DRV26,https://img.example.com/drive.jpg,Padel > Rackets,79.95,EUR,4.95,https://www.padel-point.nl/adidas-drive,Adidas,,1,,2-4 dagen
+https://www.awin1.com/pclick.php?p=1004&a=3144483&m=1,"Adidas Drive 2025 Padel Racket",1004,DRV25,https://img.example.com/drive25.jpg,Padel > Rackets,59.95,EUR,4.95,https://www.padel-point.nl/adidas-drive-2025,Adidas,,0,0,
+https://www.awin1.com/pclick.php?p=1005&a=3144483&m=1,"Head Overgrip Prime 3-pack",1005,OG3,https://img.example.com/og.jpg,Padel > Accessoires,9.95,EUR,4.95,https://www.padel-point.nl/head-overgrip,Head,8726000000024,1,50,1-2 werkdagen
+https://www.awin1.com/pclick.php?p=1006&a=3144483&m=1,"Bullpadel Vertex 04 2026",1006,BPV04,https://img.example.com/vertex.jpg,Padel > Rackets,239.00,EUR,0.00,https://www.padel-point.nl/bullpadel-vertex-04,Bullpadel,8435000000031,1,5,1-2 werkdagen
+,"Row without link",1007,X,,Padel > Rackets,10.00,EUR,,,Test,,1,,

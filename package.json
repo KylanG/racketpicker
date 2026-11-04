@@ -10,13 +10,16 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "npm run lint && npm run typecheck && npm run format:check",
+    "check": "npm run lint && npm run typecheck && npm run format:check && npm run test",
     "db:types": "supabase gen types typescript --project-id ghzuepngihlcyisrannm --schema public > src/lib/supabase/database.types.ts && prettier --write src/lib/supabase/database.types.ts",
-    "db:seed": "psql \"$SUPABASE_DB_URL\" -v ON_ERROR_STOP=1 -f supabase/seed.sql"
+    "db:seed": "psql \"$SUPABASE_DB_URL\" -v ON_ERROR_STOP=1 -f supabase/seed.sql",
+    "test": "vitest run",
+    "feeds:import": "tsx --conditions=react-server --env-file-if-exists=.env.local scripts/import-feed.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.118.0",
+    "csv-parse": "^7.0.3",
     "next": "16.4.5",
     "next-intl": "^4.14.9",
     "react": "19.3.0",
@@ -25,7 +28,7 @@
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
-    "@types/node": "^20",
+    "@types/node": "^22.20.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
@@ -35,7 +38,9 @@
     "prettier-plugin-tailwindcss": "^0.8.1",
     "supabase": "^3.0.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vitest": "^5.1.0"
   },
   "engines": {
     "node": ">=22"
