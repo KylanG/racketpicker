@@ -3,6 +3,15 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { FeaturedDeals } from "@/components/home/featured-deals";
+import {
+  BrandBlock,
+  CtaBlocks,
+  HowItWorks,
+  LatestArticles,
+  PriceAlertPromo,
+  ShopBlock,
+} from "@/components/home/home-sections";
+import { TrustpilotReviews } from "@/components/home/trustpilot-reviews";
 import { HeroSearch } from "@/components/home/hero-search";
 import { Header } from "@/components/layout/header";
 import { ArrowIcon } from "@/components/ui/icons";
@@ -18,11 +27,6 @@ export async function generateMetadata({ params }: PageProps<"/[locale]">): Prom
   const { locale } = await params;
   return { alternates: getAlternates("/", locale as Locale) };
 }
-
-/** Blocks built so far; the CTA blocks and "Waar wil je beginnen?" follow in RP-30. */
-const BLOCKS: Partial<Record<HomeBlock, () => ReactNode>> = {
-  deals: () => <FeaturedDeals key="deals" />,
-};
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = (await params) as { locale: Locale };
@@ -83,7 +87,28 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </section>
       </div>
 
-      <div className="flex flex-col">{season.blocks.map((block) => BLOCKS[block]?.())}</div>
+      <div className="flex flex-col">
+        {/* Order of the first three blocks depends on the season (src/lib/home/season.ts). */}
+        {season.blocks.map((block) => {
+          const blocks: Record<HomeBlock, ReactNode> = {
+            deals: <FeaturedDeals key="deals" />,
+            ctas: (
+              <CtaBlocks
+                key="ctas"
+                shopCount={shopCount}
+                eyebrow={t(`season.${ACTIVE_SEASON}.ctaEyebrow`)}
+              />
+            ),
+            shop: <ShopBlock key="shop" />,
+          };
+          return blocks[block];
+        })}
+        <HowItWorks shopCount={shopCount} />
+        <BrandBlock />
+        <PriceAlertPromo />
+        <TrustpilotReviews />
+        <LatestArticles />
+      </div>
     </>
   );
 }
