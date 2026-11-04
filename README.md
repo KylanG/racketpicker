@@ -43,6 +43,19 @@ messages/       Vertalingen per taal (nl.json, es.json)
 supabase/       Migraties en seeds (vanaf RP-13)
 ```
 
+## Database (Supabase)
+
+- Project `racketpicker` in organisatie makeupmath, regio Frankfurt (eu-central-1).
+- Migraties staan in `supabase/migrations/` (SQL, op volgorde van tijdstempel).
+- Tabellen worden **niet** automatisch via de API gepubliceerd: geef per tabel expliciet `grant select` + een RLS-policy.
+- Types bijwerken na een migratie: `npm run db:types` (vereist `SUPABASE_ACCESS_TOKEN`).
+- Clients in `src/lib/supabase/`:
+  - `public.ts`: catalogusdata in Server Components, zonder cookies, cachebaar
+  - `server.ts`: met cookies, voor Server Actions en Route Handlers
+  - `browser.ts`: Client Components
+  - `admin.ts`: secret key, omzeilt RLS, alleen voor imports en cron (`server-only`)
+- Health check: `GET /api/health`.
+
 ## Omgevingsvariabelen
 
 Zie `.env.example`. Secrets staan nooit in de repo; in Vercel per omgeving (Production / Preview / Development). `SUPABASE_SERVICE_ROLE_KEY` alleen server-side.
