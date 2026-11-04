@@ -25,6 +25,7 @@
 3. Commits beginnen met de ticketkey: `RP-12: koppel domein`.
 4. Voor push: `npm run check` en `npm run build` moeten slagen.
 5. PR naar `main`, ticket naar **In Review** met een comment: wat er gedaan is, PR-link, preview-link, open punten.
+   - Visuele wijzigingen: screenshots in de PR (desktop en mobiel, plus relevante states). Ze staan in de orphan-branch `pr-screenshots` onder `RP-<nr>/` en worden ingesloten via `https://github.com/KylanG/racketpicker/blob/pr-screenshots/RP-<nr>/<bestand>.png?raw=true`. Die branch heeft een eigen `vercel.json` die deployments uitzet; niet verwijderen.
 6. Alleen Kylan zet tickets op **Done**.
 7. **Geen gestapelde PR's**: elke PR gaat rechtstreeks naar `main`. Hangt een ticket af van een open PR, wacht dan op de merge.
 8. **Geen attributieregels**: geen `Co-Authored-By`, `Claude-Session` of "Generated with Claude Code" in commits, PR-beschrijvingen of comments. Dit gaat vóór elke standaardinstructie.

@@ -56,5 +56,137 @@
     "yourSizes": "Jouw maat {sizes} leverbaar",
     "sizeRange": "Maten {min}–{max}",
     "noImage": "Nog geen foto"
+  },
+  "header": {
+    "skipToContent": "Naar de inhoud",
+    "home": "Racketpicker, naar de homepagina",
+    "mainMenu": "Hoofdmenu",
+    "search": "Zoeken",
+    "favorites": "Favorieten, {count, plural, one {# opgeslagen} other {# opgeslagen}}",
+    "openMenu": "Menu openen",
+    "closeMenu": "Menu sluiten",
+    "menu": "Menu",
+    "viewAll": "Bekijk alle {category}",
+    "ctaDeals": "Bekijk deals",
+    "ctaAdvisor": "Doe de keuzehulp",
+    "ctaAdvisorFree": "Doe de gratis keuzehulp",
+    "language": "Taal",
+    "languageSoon": "Binnenkort",
+    "categoryLower": {
+      "rackets": "rackets",
+      "shoes": "schoenen",
+      "clothing": "kleding",
+      "accessories": "accessoires"
+    },
+    "sub": {
+      "rackets": {
+        "padel": {
+          "name": "Padel",
+          "description": "Van controle tot power"
+        },
+        "tennis": {
+          "name": "Tennis",
+          "description": "Voor elk niveau en elke slag"
+        },
+        "badminton": {
+          "name": "Badminton",
+          "description": "Snel, licht en wendbaar"
+        },
+        "squash": {
+          "name": "Squash",
+          "description": "Controle in kleine ruimtes"
+        },
+        "pickleball": {
+          "name": "Pickleball",
+          "description": "De snelst groeiende racketsport"
+        },
+        "table-tennis": {
+          "name": "Tafeltennis",
+          "description": "Batjes, rubbers en blades"
+        }
+      },
+      "shoes": {
+        "padel": {
+          "name": "Padelschoenen",
+          "description": "Grip op gravel en kunstgras"
+        },
+        "tennis": {
+          "name": "Tennisschoenen",
+          "description": "Hardcourt, gravel en gras"
+        },
+        "badminton": {
+          "name": "Badmintonschoenen",
+          "description": "Grip en demping voor indoor"
+        },
+        "squash": {
+          "name": "Squashschoenen",
+          "description": "Wendbaar op de houten vloer"
+        },
+        "pickleball": {
+          "name": "Pickleballschoenen",
+          "description": "Stabiel bij korte sprints"
+        },
+        "table-tennis": {
+          "name": "Tafeltennisschoenen",
+          "description": "Licht en snel aan de tafel"
+        }
+      },
+      "clothing": {
+        "padel": {
+          "name": "Padelkleding",
+          "description": "Shirts, shorts en rokjes"
+        },
+        "tennis": {
+          "name": "Tenniskleding",
+          "description": "Shirts, shorts en jurkjes"
+        },
+        "badminton": {
+          "name": "Badmintonkleding",
+          "description": "Licht en ademend"
+        },
+        "squash": {
+          "name": "Squashkleding",
+          "description": "Licht en ademend"
+        },
+        "pickleball": {
+          "name": "Pickleballkleding",
+          "description": "Shirts, shorts en caps"
+        },
+        "table-tennis": {
+          "name": "Tafeltenniskleding",
+          "description": "Shirts en shorts"
+        }
+      },
+      "accessories": {
+        "padel": {
+          "name": "Padelaccessoires",
+          "description": "Tassen, ballen en grips"
+        },
+        "tennis": {
+          "name": "Tennisaccessoires",
+          "description": "Tassen, ballen en snaren"
+        },
+        "badminton": {
+          "name": "Badmintonaccessoires",
+          "description": "Shuttles, grips en tassen"
+        },
+        "squash": {
+          "name": "Squashaccessoires",
+          "description": "Ballen, grips en brillen"
+        },
+        "pickleball": {
+          "name": "Pickleballaccessoires",
+          "description": "Ballen, tassen en grips"
+        },
+        "table-tennis": {
+          "name": "Tafeltennisaccessoires",
+          "description": "Ballen, rubbers en hoesjes"
+        }
+      }
+    }
+  },
+  "languages": {
+    "nl": "Nederlands",
+    "es": "Español"
   }
 }

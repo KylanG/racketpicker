@@ -6,6 +6,7 @@ import { getAlternates } from "@/i18n/alternates";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { SPORTS, sportSlug } from "@/lib/catalog/taxonomy";
+import { Header } from "@/components/layout/header";
 
 export async function generateMetadata({
   params,
@@ -22,24 +23,29 @@ export default function RacketsPage({ params }: PageProps<"/[locale]/rackets">) 
   const t = useTranslations("rackets");
 
   return (
-    <main className="rp-container flex-1 py-16">
-      <h1 className="rp-h1">{t("title")}</h1>
-      <p className="text-muted mt-3">{t("intro")}</p>
-      <ul className="mt-8 flex flex-wrap gap-3">
-        {SPORTS.map(({ key }) => (
-          <li key={key}>
-            <Link
-              href={{
-                pathname: "/rackets/[sport]",
-                params: { sport: sportSlug(key, locale as Locale) },
-              }}
-              className="rp-underline font-medium"
-            >
-              {t(`sportTitle.${key}`)}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </main>
+    <>
+      <div className="rp-hero-sub">
+        <Header active="rackets" />
+      </div>
+      <main id="main" tabIndex={-1} className="rp-container flex-1 py-16">
+        <h1 className="rp-h1">{t("title")}</h1>
+        <p className="text-muted mt-3">{t("intro")}</p>
+        <ul className="mt-8 flex flex-wrap gap-3">
+          {SPORTS.map(({ key }) => (
+            <li key={key}>
+              <Link
+                href={{
+                  pathname: "/rackets/[sport]",
+                  params: { sport: sportSlug(key, locale as Locale) },
+                }}
+                className="rp-underline font-medium"
+              >
+                {t(`sportTitle.${key}`)}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </main>
+    </>
   );
 }

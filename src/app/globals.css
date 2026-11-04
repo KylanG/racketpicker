@@ -153,6 +153,11 @@
     outline-offset: 2px;
     box-shadow: 0 0 0 6px var(--color-lime);
   }
+  /* Skip-link target: receives focus, but is not an interactive element itself. */
+  #main:focus {
+    outline: none;
+    box-shadow: none;
+  }
   :focus-visible[data-slant],
   [data-slant]:has(:focus-visible) {
     clip-path: none !important;
