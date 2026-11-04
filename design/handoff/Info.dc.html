@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Racketpicker</title>
+<style>
+body{margin:0;background:#fff;font-family:'Outfit',sans-serif;color:#0B2A17;-webkit-font-smoothing:antialiased}
+a{color:#0B2A17;text-decoration:none}a:hover{color:#05561F}
+*{box-sizing:border-box}
+:focus-visible{outline:3px solid #0B2A17;outline-offset:2px;box-shadow:0 0 0 6px #C8E63A}
+[style*="clip-path"]:focus-visible{clip-path:none!important}
+@keyframes rpLine{0%{background-size:100% 2px;background-position:right bottom}45%{background-size:0% 2px;background-position:right bottom}46%{background-size:0% 2px;background-position:left bottom}100%{background-size:100% 2px;background-position:left bottom}}
+</style>
+<script src="reveal.js"></script>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <div style="background:radial-gradient(ellipse 70% 120% at 40% 20%, #07602A 0%, #04471F 60%, #033A19 100%);color:#fff">
+    <dc-import name="Header" active="" hint-size="100%,88px" style="position:relative;z-index:30;display:block"></dc-import>
+    <section id="main" style="max-width:1440px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(20px,5.5vw,80px) clamp(48px,6vw,88px);display:flex;flex-direction:column;gap:18px">
+      <nav aria-label="Kruimelpad" style="display:flex;gap:8px;font-size:13px;color:#D3E3D7"><a href="Homepagina.dc.html" style="color:#D3E3D7">Home</a><span aria-hidden="true">/</span><span style="color:#fff">{{ title }}</span></nav>
+      <h1 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(32px,3.2vw,46px);line-height:1.05;letter-spacing:-.4px;max-width:820px;text-wrap:balance">{{ title }}</h1>
+      <p style="margin:0;font-size:17px;line-height:1.5;color:#E2EDE5;max-width:640px">{{ intro }}</p>
+    </section>
+  </div>
+
+  <section style="max-width:1440px;width:100%;margin:0 auto;padding:72px clamp(20px,5.5vw,80px) 120px;display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+    <sc-if value="{{ hasToc }}">
+      <nav aria-label="Op deze pagina" style="flex:1 1 220px;max-width:280px;position:sticky;top:calc(var(--rp-hdr,0px) + 24px);display:flex;flex-direction:column;gap:2px;transition:top .5s cubic-bezier(.22,1,.36,1)">
+        <span style="font-size:13px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:#05561F;margin-bottom:8px">Op deze pagina</span>
+        <sc-for list="{{ blocks }}" as="b"><a href="#{{ b.id }}" style="font-size:15px;padding:8px 0;color:#3C5A47" style-hover="color:#033A19">{{ b.h }}</a></sc-for>
+      </nav>
+    </sc-if>
+    <div style="flex:3 1 min(100%,560px);min-width:0;max-width:{{ colMax }};display:flex;flex-direction:column;gap:40px">
+      <sc-for list="{{ blocks }}" as="b">
+        <div id="{{ b.id }}" data-reveal="" style="display:flex;flex-direction:column;gap:12px;scroll-margin-top:calc(var(--rp-hdr,0px) + 24px)">
+          <h2 style="margin:0;font-size:24px;font-weight:600;letter-spacing:-.2px">{{ b.h }}</h2>
+          <sc-for list="{{ b.ps }}" as="t"><p style="margin:0;font-size:17px;line-height:1.65;color:#23402E;text-wrap:pretty">{{ t }}</p></sc-for>
+        </div>
+      </sc-for>
+
+      <sc-if value="{{ isFaq }}">
+        <div style="display:flex;flex-direction:column;border-top:1px solid #DCE6D6">
+          <sc-for list="{{ faq }}" as="f">
+            <div style="border-bottom:1px solid #DCE6D6">
+              <button onClick="{{ f.toggle }}" aria-expanded="{{ f.open }}" style="width:100%;background:none;border:0;text-align:left;font:600 17px 'Outfit',sans-serif;color:#0B2A17;padding:20px 0;cursor:pointer;display:flex;justify-content:space-between;gap:16px;align-items:center">{{ f.q }}<span aria-hidden="true" style="font-size:22px;font-weight:400;transform:{{ f.rot }};transition:transform .3s cubic-bezier(.22,1,.36,1);flex-shrink:0">+</span></button>
+              <sc-if value="{{ f.open }}"><p data-reveal="" style="margin:0 0 20px;font-size:16px;line-height:1.6;color:#3C5A47">{{ f.a }}</p></sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isContact }}">
+       <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+        <div style="order:2;flex:1 1 260px;display:flex;flex-direction:column;gap:14px;position:sticky;top:calc(var(--rp-hdr,0px) + 24px)">
+        <a href="mailto:hello@racketpicker.com" data-reveal="" style="display:flex;align-items:center;gap:18px;background:#033A19;color:#fff;padding:22px 26px;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)" style-hover="background:#04471F;color:#fff">
+          <span style="width:48px;height:48px;background:#C8E63A;display:grid;place-items:center;flex-shrink:0;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="#033A19" stroke-width="1.7"><rect x="2.5" y="4.5" width="15" height="11"></rect><path d="M3 5l7 6 7-6"></path></svg></span>
+          <span style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0"><span style="font-size:13px;color:#C8E63A;font-weight:600">Mail ons direct</span><span style="font-size:clamp(18px,2vw,22px);font-weight:600;word-break:break-all">hello@racketpicker.com</span></span>
+          <svg data-arrow="" aria-hidden="true" width="14" height="14" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#C8E63A" stroke-width="1.8"></path></svg>
+        </a>
+        <span style="font-size:15px;line-height:1.5;color:#3C5A47">Liever direct mailen? Dat kan ook. We reageren meestal binnen twee werkdagen.</span>
+        </div>
+        <div style="order:1;flex:2 1 min(100%,420px);min-width:0;display:flex;flex-direction:column">
+        <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ send }}" style="display:flex;flex-direction:column;gap:16px;background:#F3F7EE;padding:clamp(20px,3vw,32px)">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px">
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600">Naam<input required="" autocomplete="name" style="font:400 16px 'Outfit',sans-serif;padding:13px 14px;border:1px solid #8FA595;background:#fff;color:#0B2A17;outline:0"></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600">E-mailadres<input type="email" required="" autocomplete="email" style="font:400 16px 'Outfit',sans-serif;padding:13px 14px;border:1px solid #8FA595;background:#fff;color:#0B2A17;outline:0"></label>
+            </div>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600">Onderwerp
+              <select style="font:400 16px 'Outfit',sans-serif;padding:13px 14px;border:1px solid #8FA595;background:#fff;color:#0B2A17">
+                <option>Vraag over een product</option><option>Fout in een prijs</option><option>Samenwerken als winkel</option><option>Iets anders</option>
+              </select>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600">Bericht<textarea required="" rows="5" style="font:400 16px 'Outfit',sans-serif;padding:13px 14px;border:1px solid #8FA595;background:#fff;color:#0B2A17;outline:0;resize:vertical"></textarea></label>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+              <p style="margin:0;font-size:13px;line-height:1.5;color:#3C5A47;max-width:380px">We gebruiken je gegevens alleen om je bericht te beantwoorden. Zie onze <a href="Info.dc.html#privacy" style="color:#0B2A17;text-decoration:underline">privacyverklaring</a>.</p>
+              <button style="min-height:48px;border:0;background:#033A19;color:#fff;font:600 15px 'Outfit',sans-serif;padding:0 22px 0 24px;cursor:pointer;display:flex;align-items:center;gap:10px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="background:#05561F"><span>Verstuur bericht</span><svg data-arrow="" aria-hidden="true" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#C8E63A" stroke-width="1.8"></path></svg></button>
+            </div>
+          </form>
+        </sc-if>
+        <sc-if value="{{ sent }}"><div role="status" data-reveal="" style="background:#F3F7EE;padding:28px 32px;font-size:17px;font-weight:500">Bedankt voor je bericht. We reageren meestal binnen twee werkdagen.</div></sc-if>
+        </div>
+       </div>
+      </sc-if>
+
+      <sc-if value="{{ isPlaceholder }}">
+        <div style="background:#F3F7EE;padding:28px 32px;display:flex;flex-direction:column;gap:8px">
+          <span style="font-size:13px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:#05561F">Prototype</span>
+          <p style="margin:0;font-size:16px;line-height:1.55">Deze pagina wordt in de volgende fase uitgewerkt.</p>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+  <dc-import name="Footer" hint-size="100%,520px" style="margin-top:auto;display:block"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const P = (h, ...ps) => ({ h, ps });
+const PAGES = {
+  'over-ons': ['Over ons', 'Racketpicker helpt je het juiste racket voor de beste prijs te vinden, voor zes racketsporten.', [
+    P('Waarom Racketpicker', 'Een racket kopen is lastig. Er zijn honderden modellen, de prijzen verschillen per winkel en aanbiedingen zijn niet altijd wat ze lijken. Wij zetten alles op één plek, zodat je snel en eerlijk kunt kiezen.'),
+    P('Wat we doen', 'We vergelijken elke dag de prijzen van rackets, schoenen, kleding en accessoires bij meer dan 24 winkels. Met de prijshistorie zie je of een korting echt is, en de keuzehulp vertelt welk racket bij jouw spel past.'),
+    P('Onafhankelijk', 'Winkels kunnen niet betalen voor een hogere plek in de resultaten. De volgorde wordt alleen bepaald door prijs, beschikbaarheid en wat je zelf kiest.')]],
+  'hoe-we-verdienen': ['Hoe we verdienen', 'Racketpicker is gratis. We verdienen aan een vergoeding van de winkel, niet aan jou.', [
+    P('De vergoeding', 'Koop je via een link op Racketpicker, dan krijgen wij een vergoeding van die winkel. Jij betaalt daar niets extra voor: de prijs is hetzelfde als wanneer je direct naar de winkel gaat.'),
+    P('Geen invloed op de volgorde', 'De hoogte van de vergoeding verschilt per winkel, maar heeft nooit invloed op de volgorde van de prijzen of de aanbevelingen van de keuzehulp.'),
+    P('Kortingen', 'Een korting tonen we alleen als die klopt met de laagste prijs van de afgelopen 30 dagen.')]],
+  'contact': ['Contact', 'Een vraag, een fout in een prijs gezien of wil je als winkel samenwerken? Laat het ons weten.', [
+    P('Snel antwoord', 'We reageren meestal binnen twee werkdagen. Voor vragen over een bestelling, levering of retour neem je het beste direct contact op met de winkel waar je hebt gekocht.')], 'contact'],
+  'privacy': ['Privacyverklaring', 'Wat we met je gegevens doen, hoe lang we ze bewaren en welke rechten je hebt.', [
+    P('Welke gegevens we verzamelen', 'Als je je aanmeldt voor de nieuwsbrief of een prijsalert, bewaren we je e-mailadres en je voorkeuren. Met je toestemming verzamelen we ook anonieme gebruiksgegevens.'),
+    P('Waarvoor we ze gebruiken', 'Om je de nieuwsbrief en alerts te sturen, de site te verbeteren en winkels te laten zien dat je via ons kwam. We verkopen je gegevens nooit.'),
+    P('Cookies', 'Noodzakelijke cookies zijn nodig om de site te laten werken. Analytische en affiliate-cookies plaatsen we alleen met je toestemming. Je past je keuze aan via Cookie-instellingen in de footer.'),
+    P('Bewaartermijn', 'We bewaren je e-mailadres zolang je aangemeld bent. Meld je je af, dan verwijderen we het binnen 30 dagen.'),
+    P('Jouw rechten', 'Je kunt je gegevens altijd inzien, laten aanpassen of laten verwijderen via de contactpagina.')]],
+  'prijshistorie': ['Zo werkt de prijshistorie', 'We volgen elke dag de prijzen bij alle winkels, zodat je ziet of een aanbieding echt voordelig is.', [
+    P('Elke dag gecontroleerd', 'Elke ochtend halen we de actuele prijs, verzendkosten en voorraad op bij alle aangesloten winkels.'),
+    P('Echte en nep-kortingen', 'Rond acties als Black Friday verhogen sommige winkels eerst hun prijs om daarna een grote korting te tonen. In de grafiek zie je dat direct.'),
+    P('Prijsalert', 'Stel een prijsalert in met je doelprijs. Zodra een winkel eronder zakt, krijg je een mail.')]],
+  'veelgestelde-vragen': ['Veelgestelde vragen', 'Antwoorden op de meest gestelde vragen over Racketpicker.', [], 'faq']
+};
+const FAQ = [
+  ['Kan ik via Racketpicker een racket kopen?', 'Nee, je koopt altijd bij de winkel zelf. Wij vergelijken de prijzen en sturen je door naar de winkel van jouw keuze.'],
+  ['Betaal ik meer als ik via jullie koop?', 'Nee. De winkel betaalt ons een vergoeding; jij betaalt dezelfde prijs als wanneer je direct naar de winkel gaat.'],
+  ['Hoe actueel zijn de prijzen?', 'We controleren de prijzen elke dag.'],
+  ['Waarom staat een racket als uitverkocht?', 'Geen enkele aangesloten winkel heeft het nu op voorraad. Stel een voorraadalert in, dan hoor je het zodra het terug is.'],
+  ['Moet ik een account aanmaken?', 'Nee. Favorieten worden op je apparaat bewaard en voor alerts is alleen een e-mailadres nodig.']
+];
+const slug = s => s.toLowerCase().normalize('NFD').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+class Component extends DCLogic {
+  state = { key: '', faqOpen: 0, sent: false };
+  componentDidMount() { this.onHash = () => this.setState({ key: decodeURIComponent(location.hash.slice(1)), sent: false }); this.onHash(); window.addEventListener('hashchange', this.onHash); }
+  componentDidUpdate() { document.title = this.title() + ' | Racketpicker'; }
+  componentWillUnmount() { window.removeEventListener('hashchange', this.onHash); }
+  title() { const k = this.state.key; if (PAGES[k]) return PAGES[k][0]; const t = k.replace(/^artikel-/, '').replace(/-/g, ' '); return t ? t.charAt(0).toUpperCase() + t.slice(1) : 'Racketpicker'; }
+  renderVals() {
+    const st = this.state, pg = PAGES[st.key], kind = pg && pg[3];
+    const blocks = pg ? pg[2].map(b => ({ ...b, id: slug(b.h) })) : [];
+    return {
+      title: this.title(),
+      intro: pg ? pg[1] : 'Deze pagina is onderdeel van de volgende fase.',
+      blocks, hasToc: blocks.length > 2,
+      colMax: kind === 'contact' ? '1120px' : '760px', isFaq: kind === 'faq', isContact: kind === 'contact', isPlaceholder: !pg,
+      faq: FAQ.map(([q, a], i) => ({ q, a, open: st.faqOpen === i, rot: st.faqOpen === i ? 'rotate(45deg)' : 'none', toggle: () => this.setState({ faqOpen: st.faqOpen === i ? null : i }) })),
+      notSent: !st.sent, sent: st.sent, send: e => { e.preventDefault(); this.setState({ sent: true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# Racketpicker
+
+> Racketpicker.com is een onafhankelijke Nederlandse prijsvergelijker voor rackets, schoenen, kleding en accessoires voor padel, tennis, badminton, squash, pickleball en tafeltennis. Prijzen bij 24+ winkels worden dagelijks bijgewerkt. Koop je via Racketpicker, dan betaalt de winkel een vergoeding; de koper betaalt niets extra en de vergoeding heeft geen invloed op de volgorde van prijzen.
+
+## Belangrijkste pagina's
+- [Rackets vergelijken](https://racketpicker.com/rackets/): alle rackets, filterbaar op sport, merk, niveau, speelstijl, gewicht en prijs.
+- [Gratis keuzehulp](https://racketpicker.com/keuzehulp/): vijf vragen over sport, niveau, speelstijl, speelfrequentie en budget; resultaat als lijst met match-percentage.
+- [Schoenen](https://racketpicker.com/schoenen/): padel-, tennis- en indoorschoenen met voorraad per maat.
+- [Blogs & tips](https://racketpicker.com/blog/): koopgidsen en uitleg.
+
+## Hoe we werken
+- [Hoe we verdienen](https://racketpicker.com/hoe-we-verdienen/)
+- [Zo werkt de prijshistorie](https://racketpicker.com/prijshistorie/)
+- [Over ons](https://racketpicker.com/over-ons/)
+
+## Contact
+- hello@racketpicker.com

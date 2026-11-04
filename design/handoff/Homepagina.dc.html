@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Racketpicker: rackets en gear vergelijken voor elke racketsport</title>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://racketpicker.com/#org","name":"Racketpicker","url":"https://racketpicker.com/","logo":"https://racketpicker.com/logo.svg","email":"hello@racketpicker.com","description":"Onafhankelijke prijsvergelijker voor rackets, schoenen en gear voor padel, tennis, badminton, squash, pickleball en tafeltennis."},{"@type":"WebSite","@id":"https://racketpicker.com/#site","url":"https://racketpicker.com/","name":"Racketpicker","inLanguage":"nl-NL","publisher":{"@id":"https://racketpicker.com/#org"},"potentialAction":{"@type":"SearchAction","target":"https://racketpicker.com/zoeken?q={q}","query-input":"required name=q"}}]}</script>
+<meta name="description" content="Vergelijk prijzen van padel-, tennis-, badminton-, squash-, pickleball- en tafeltennisrackets bij 24+ winkels. Met prijshistorie en een gratis keuzehulp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fff;font-family:'Outfit',sans-serif;color:#0B2A17;-webkit-font-smoothing:antialiased}
+a{color:#0B2A17;text-decoration:none}a:hover{color:#05561F}
+*{box-sizing:border-box}
+input::placeholder{color:#3C5A47}
+@keyframes rpLine{0%{background-size:100% 2px;background-position:right bottom}45%{background-size:0% 2px;background-position:right bottom}46%{background-size:0% 2px;background-position:left bottom}100%{background-size:100% 2px;background-position:left bottom}}
+:focus-visible{outline:3px solid #0B2A17;outline-offset:2px;box-shadow:0 0 0 6px #C8E63A}
+[style*="clip-path"]:focus-visible{clip-path:none!important}
+</style>
+<script src="reveal.js"></script>
+<script src="favs.js"></script>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+<!-- HERO -->
+<div style="background:radial-gradient(ellipse 70% 80% at 45% 45%, #07602A 0%, #04471F 60%, #033A19 100%);color:#fff;position:relative">
+  <dc-import name="Header" active="home" hint-size="100%,88px" style="position:relative;z-index:30;display:block"></dc-import>
+
+  <section id="main" data-reveal-stagger="" style="max-width:1440px;margin:0 auto;padding:clamp(40px,7vw,100px) clamp(20px,5.5vw,80px) clamp(60px,9vw,140px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:48px;align-items:center">
+    <div style="display:flex;flex-direction:column;gap:28px">
+      <h1 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(36px,3.6vw,52px);line-height:1.04;letter-spacing:-.5px;text-wrap:balance">Black friday padel deals, eerlijk vergeleken</h1>
+      <p style="margin:0;font-size:18px;line-height:1.5;max-width:500px">We vergelijken padelrackets, schoenen en gear bij <strong style="color:#C8E63A">24+</strong> winkels. Met de prijshistorie zie je meteen of je echt voordeel hebt.</p>
+      <div style="position:relative;max-width:420px;margin-top:22px">
+        <form role="search" onSubmit="{{ onSearch }}" style="background:#fff;display:flex;align-items:center;padding:10px 10px 10px 20px;clip-path:polygon(0 0,100% 0,calc(100% - 10px) 100%,0 100%)">
+          <input aria-label="Zoek op racket, merk of kenmerk" value="{{ query }}" onChange="{{ onQuery }}" onFocus="{{ onFocus }}" onBlur="{{ onBlur }}" placeholder="Zoek op racket, merk of kenmerk" style="flex:1;border:0;outline:0;font:400 15px 'Outfit',sans-serif;color:#0B2A17;background:transparent;padding:8px 0;min-width:0">
+          <button aria-label="Zoeken" style="width:44px;height:44px;border-radius:50%;background:#C8E63A;border:0;display:grid;place-items:center;cursor:pointer;flex-shrink:0"><svg data-arrow="" aria-hidden="true" width="14" height="14" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#033A19" stroke-width="1.6"></path></svg></button>
+        </form>
+        <sc-if value="{{ showSuggest }}">
+          <div style="position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;color:#0B2A17;box-shadow:0 18px 40px rgba(0,30,10,.3);padding:8px;z-index:4;display:flex;flex-direction:column">
+            <sc-for list="{{ suggestions }}" as="s">
+              <a href="Product.dc.html" style="padding:10px 12px;display:flex;justify-content:space-between;gap:12px;font-size:14px" style-hover="background:#EEF5E0"><span>{{ s.name }}</span><span style="color:#3C5A47">{{ s.brand }}</span></a>
+            </sc-for>
+            <sc-if value="{{ noSuggest }}"><div style="padding:10px 12px;font-size:14px;color:#3C5A47">Geen resultaten. Probeer een merk.</div></sc-if>
+          </div>
+        </sc-if>
+      </div>
+      <a href="Keuzehulp.dc.html" style="align-self:flex-start;display:flex;align-items:center;gap:10px;margin-top:-10px;color:#fff;font-size:15px;font-weight:500" style-hover="color:#C8E63A"><span>Twijfel je? <span style="font-weight:600">Doe de gratis keuzehulp</span></span><svg data-arrow="" aria-hidden="true" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#C8E63A" stroke-width="1.8"></path></svg></a>
+    </div>
+    <img src="assets/black-friday.png" alt="Black Friday: letters gemaakt van tennisballen met twee padelrackets" style="width:100%;max-width:580px;justify-self:end;filter:drop-shadow(0 24px 40px rgba(0,0,0,.35))">
+  </section>
+</div>
+
+<!-- DEALS -->
+<section id="deals" style="order:{{ ordDeals }};max-width:1440px;width:100%;margin:0 auto;padding:96px clamp(20px,5.5vw,80px) 40px;display:flex;flex-direction:column;gap:32px">
+  <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:13px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:#05561F">Uitgelichte deals</div>
+      <h2 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(28px,2.6vw,38px);letter-spacing:-.3px">Laagste prijs van de afgelopen 90 dagen</h2>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <sc-for list="{{ dealTabs }}" as="t" hint-placeholder-count="4">
+        <button onClick="{{ t.select }}" aria-pressed="{{ t.pressed }}" style="border:0;min-height:44px;background:{{ t.bg }};color:{{ t.fg }};font:500 14px 'Outfit',sans-serif;padding:9px 16px;cursor:pointer;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)">{{ t.label }}</button>
+      </sc-for>
+    </div>
+  </div>
+  <div data-reveal-stagger="" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px">
+    <sc-for list="{{ deals }}" as="d" hint-placeholder-count="4">
+      <div style="display:flex;flex-direction:column;border:1px solid #DCE6D6;background:#fff;color:#0B2A17;transition:box-shadow .2s" style-hover="box-shadow:0 14px 30px rgba(4,71,31,.12)">
+        <div style="position:relative;aspect-ratio:1/1;background:#F4F7F0;display:grid;place-items:center">
+          <img src="assets/racket.png" alt="" style="width:84%;height:84%;object-fit:contain;mix-blend-mode:multiply">
+          <span style="position:absolute;top:12px;left:12px;background:#033A19;color:#C8E63A;font-size:13px;font-weight:600;padding:5px 10px;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)">-{{ d.pct }}%</span>
+          <button onClick="{{ d.toggleFav }}" aria-label="Bewaar {{ d.name }}" aria-pressed="{{ d.favPressed }}" style="position:absolute;top:6px;right:6px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;display:grid;place-items:center;cursor:pointer">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z" fill="{{ d.favFill }}" stroke="#033A19" stroke-width="2"></path></svg>
+          </button>
+        </div>
+        <div style="padding:18px;display:flex;flex-direction:column;gap:10px;flex:1">
+          <div style="font-size:13px;color:#3C5A47;font-weight:500;text-transform:uppercase;letter-spacing:.8px">{{ d.brand }} · {{ d.sport }}</div>
+          <h3 style="margin:0;font-size:17px;font-weight:600;line-height:1.25">{{ d.name }}</h3>
+          <div style="display:flex;align-items:baseline;gap:10px;margin-top:auto">
+            <span style="font-size:22px;font-weight:700">€{{ d.price }}</span>
+            <span style="font-size:14px;color:#56695C;text-decoration:line-through">€{{ d.was }}</span>
+          </div>
+          <div style="font-size:13px;color:#05561F;font-weight:500">Bij {{ d.shops }} winkels vergeleken</div>
+          <a href="Product.dc.html" aria-label="Bekijk beste prijs van {{ d.name }}" style="margin-top:8px;background:#033A19;color:#fff;font-weight:600;font-size:14px;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;transition:background .3s cubic-bezier(.22,1,.36,1);clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="background:#05561F;color:#fff">Bekijk beste prijs<svg data-arrow="" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#C8E63A" stroke-width="1.8"></path></svg></a>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section style="order:{{ ordShop }};max-width:1440px;width:100%;margin:0 auto;padding:72px clamp(20px,5.5vw,80px);display:flex;flex-direction:column;gap:28px">
+  <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+    <h2 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(28px,2.6vw,38px);letter-spacing:-.3px">Waar wil je beginnen?</h2>
+    <div style="display:flex;gap:8px">
+      <sc-for list="{{ shopTabs }}" as="t" hint-placeholder-count="2">
+        <button onClick="{{ t.select }}" aria-pressed="{{ t.pressed }}" style="border:0;min-height:44px;background:{{ t.bg }};color:{{ t.fg }};font:500 14px 'Outfit',sans-serif;padding:9px 18px;cursor:pointer;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)">{{ t.label }}</button>
+      </sc-for>
+    </div>
+  </div>
+  <sc-if value="{{ shopSport }}" hint-placeholder-val="{{ true }}">
+    <div data-reveal-stagger="" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px">
+      <sc-for list="{{ sports }}" as="s" hint-placeholder-count="6">
+        <a href="{{ s.href }}" style="position:relative;aspect-ratio:4/5;background:#04471F;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;overflow:hidden" style-hover="background:#05561F">
+          <div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.04) 0 12px,transparent 12px 24px);display:grid;place-items:center"><span style="font:500 12px ui-monospace,monospace;color:rgba(255,255,255,.55)">sportfoto</span></div>
+          <div style="position:relative;display:flex;justify-content:space-between;align-items:end;gap:8px">
+            <div style="display:flex;flex-direction:column;gap:2px"><h3 style="margin:0;font-size:22px;font-weight:600">{{ s.name }}</h3><span style="font-size:13px;color:#C8E63A">{{ s.count }} producten</span></div>
+            <span style="width:34px;height:34px;border-radius:50%;background:#C8E63A;display:grid;place-items:center;flex-shrink:0"><svg data-arrow="" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#033A19" stroke-width="1.8"></path></svg></span>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </sc-if>
+  <sc-if value="{{ shopCat }}">
+    <div data-reveal-stagger="" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px">
+      <sc-for list="{{ cats }}" as="c">
+        <a href="{{ c.href }}" style="position:relative;aspect-ratio:4/5;background:#F3F7EE;color:#0B2A17;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;overflow:hidden" style-hover="background:#E6EFDA">
+          <div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,#EDF2E7 0 12px,transparent 12px 24px);display:grid;place-items:center"><span style="font:500 12px ui-monospace,monospace;color:#5E7466">categoriefoto</span></div>
+          <div style="position:relative;display:flex;justify-content:space-between;align-items:end;gap:8px">
+            <div style="display:flex;flex-direction:column;gap:2px"><h3 style="margin:0;font-size:22px;font-weight:600">{{ c.name }}</h3><span style="font-size:13px;color:#3C5A47">{{ c.desc }}</span></div>
+            <span style="width:34px;height:34px;border-radius:50%;background:#033A19;display:grid;place-items:center;flex-shrink:0"><svg data-arrow="" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#C8E63A" stroke-width="1.8"></path></svg></span>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </sc-if>
+</section>
+
+<!-- KEUZEHULP -->
+<section id="keuzehulp" style="order:{{ ordKeuze }};max-width:1440px;width:100%;margin:0 auto;padding:24px clamp(20px,5.5vw,80px) 88px">
+  <div data-reveal-stagger="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px">
+    <a href="Keuzehulp.dc.html" style="clip-path:polygon(32px 0,100% 0,calc(100% - 32px) 100%,0 100%);background:#C8E63A;color:#033A19;padding:clamp(32px,4vw,56px) clamp(48px,5vw,72px);display:flex;flex-direction:column;gap:16px;min-height:320px" style-hover="background:#D2EC4E">
+      <div style="font-size:13px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase">Gratis keuzehulp</div>
+      <h2 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(30px,3vw,44px);line-height:1.05;letter-spacing:-.4px;text-wrap:balance;max-width:460px">Welk racket past bij jouw spel?</h2>
+      <p style="margin:0;font-size:17px;line-height:1.5;max-width:420px">Vijf vragen over je niveau, speelstijl en budget. Je ziet direct welke rackets het best bij je passen.</p>
+      <span style="margin-top:auto;align-self:flex-start;background:#033A19;color:#fff;font-weight:600;font-size:15px;padding:15px 24px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);display:flex;align-items:center;gap:10px">Start de keuzehulp<svg data-arrow="" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#C8E63A" stroke-width="1.8"></path></svg></span>
+    </a>
+    <a href="#deals" style="clip-path:polygon(32px 0,100% 0,calc(100% - 32px) 100%,0 100%);background:#033A19;color:#fff;padding:clamp(32px,4vw,56px) clamp(48px,5vw,72px);display:flex;flex-direction:column;gap:16px;min-height:320px" style-hover="background:#04471F">
+      <div style="font-size:13px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:#C8E63A">Black Friday</div>
+      <h2 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(30px,3vw,44px);line-height:1.05;letter-spacing:-.4px;text-wrap:balance;max-width:460px">Weet je al wat je zoekt?</h2>
+      <p style="margin:0;font-size:17px;line-height:1.5;max-width:420px;color:#D3E3D7">Bekijk alle deals bij 24+ winkels, met prijshistorie zodat je ziet of de korting echt is.</p>
+      <span style="margin-top:auto;align-self:flex-start;background:#C8E63A;color:#033A19;font-weight:600;font-size:15px;padding:15px 24px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);display:flex;align-items:center;gap:10px">Bekijk alle deals<svg data-arrow="" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#033A19" stroke-width="1.8"></path></svg></span>
+    </a>
+  </div>
+</section>
+
+<!-- MERKEN -->
+<section data-no-round="" style="order:10;clip-path:polygon(0 24px,100% 0,100% calc(100% - 24px),0 100%);background:radial-gradient(ellipse 80% 70% at 30% 0%, #04471F 0%, #033A19 55%, #02301A 100%);color:#fff">
+  <div style="max-width:1440px;margin:0 auto;padding:96px clamp(20px,5.5vw,80px);display:flex;flex-direction:column;gap:48px">
+    <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">Populaire merken</h2>
+    <div onMouseEnter="{{ pauseB }}" onMouseLeave="{{ resumeB }}" onFocus="{{ pauseB }}" onBlur="{{ resumeB }}" style="display:flex;flex-direction:column;gap:20px">
+    <div data-reveal-stagger="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(max(140px,calc((100% - 72px) / 4)),1fr));row-gap:56px;column-gap:24px;padding:24px 0">
+      <sc-for list="{{ brands }}" as="b" hint-placeholder-count="12">
+        <a href="{{ b.href }}" aria-label="{{ b.name }}" style="height:64px;display:grid;place-items:center;color:#9FB3A5;font-size:22px;font-weight:700;letter-spacing:-.3px;text-transform:uppercase;transition:color .25s;text-align:center;overflow:hidden" style-hover="color:#fff"><span style="display:block;opacity:{{ b.op }};transform:{{ b.tf }};transition:{{ b.tr }}">{{ b.name }}</span></a>
+      </sc-for>
+    </div>
+    <button onClick="{{ toggleB }}" aria-pressed="{{ bPaused }}" style="align-self:flex-end;min-height:44px;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:0;color:#D3E3D7;font:500 13px 'Outfit',sans-serif;padding:0 14px;cursor:pointer;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)" style-hover="background:rgba(255,255,255,.16);color:#fff"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="{{ bIcon }}"></path></svg>{{ bLabel }}</button>
+    </div>
+  </div>
+</section>
+
+<!-- ZO WERKT HET -->
+<section style="order:4;max-width:1440px;width:100%;margin:0 auto;padding:24px clamp(20px,5.5vw,80px) 96px;display:flex;flex-direction:column;gap:32px">
+  <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:640px"><div style="font-size:13px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:#05561F">Zo werkt Racketpicker</div><h2 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(28px,2.6vw,38px);letter-spacing:-.3px;text-wrap:balance">In drie stappen de beste prijs</h2></div>
+    <a href="Info.dc.html#hoe-we-verdienen" style="font-weight:600;font-size:15px;background:linear-gradient(#C8E63A,#C8E63A) left bottom/100% 2px no-repeat;padding-bottom:3px" style-hover="animation:rpLine .8s cubic-bezier(.22,1,.36,1)">Hoe we verdienen</a>
+  </div>
+  <div data-reveal-stagger="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px">
+      <div style="display:flex;flex-direction:column;gap:14px;padding:28px;background:#F3F7EE">
+        <span style="align-self:flex-start;background:#C8E63A;color:#033A19;font-size:15px;font-weight:700;padding:6px 14px;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)">01</span>
+        <h3 style="margin:0;font-size:20px;font-weight:600">Vergelijk</h3>
+        <p style="margin:0;font-size:16px;line-height:1.55;color:#3C5A47;text-wrap:pretty">Zoek je racket of laat de keuzehulp kiezen. We tonen de prijs bij 24+ winkels naast elkaar, inclusief verzendkosten.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;padding:28px;background:#F3F7EE">
+        <span style="align-self:flex-start;background:#C8E63A;color:#033A19;font-size:15px;font-weight:700;padding:6px 14px;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)">02</span>
+        <h3 style="margin:0;font-size:20px;font-weight:600">Check de prijshistorie</h3>
+        <p style="margin:0;font-size:16px;line-height:1.55;color:#3C5A47;text-wrap:pretty">Zie in één oogopslag of een aanbieding echt voordelig is, of dat je beter even kunt wachten.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;padding:28px;background:#F3F7EE">
+        <span style="align-self:flex-start;background:#C8E63A;color:#033A19;font-size:15px;font-weight:700;padding:6px 14px;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)">03</span>
+        <h3 style="margin:0;font-size:20px;font-weight:600">Koop bij de winkel</h3>
+        <p style="margin:0;font-size:16px;line-height:1.55;color:#3C5A47;text-wrap:pretty">Je rekent af bij de winkel zelf. De winkel betaalt ons een vergoeding; jij betaalt niets extra en de volgorde van de prijzen verandert nooit.</p>
+      </div>
+  </div>
+</section>
+
+<!-- PRIJSALERT -->
+<section style="order:11;max-width:1440px;width:100%;margin:0 auto;padding:136px clamp(20px,5.5vw,80px) 0">
+  <div style="background:#F3F7EE;padding:clamp(32px,4.5vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:48px;align-items:center">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="font-size:13px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:#05561F">Prijsalert</div>
+      <h2 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(28px,2.6vw,38px);letter-spacing:-.3px;text-wrap:balance">Wacht op de juiste prijs, wij houden hem in de gaten</h2>
+      <p style="margin:0;font-size:17px;line-height:1.55;color:#3C5A47;max-width:480px">Kies een racket en je doelprijs. Zodra een winkel eronder zakt, krijg je direct een mail. Gratis en zonder account.</p>
+      <a href="Product.dc.html" style="margin-top:8px;align-self:flex-start;background:#033A19;color:#fff;font-weight:600;font-size:15px;padding:15px 22px 15px 24px;display:flex;align-items:center;gap:10px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="background:#05561F;color:#fff"><span>Stel een prijsalert in</span><svg data-arrow="" aria-hidden="true" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#C8E63A" stroke-width="1.8"></path></svg></a>
+    </div>
+    <div data-reveal="" aria-hidden="true" style="background:#fff;padding:24px;display:flex;flex-direction:column;gap:18px;box-shadow:0 24px 50px rgba(4,71,31,.12);max-width:460px;justify-self:center;width:100%">
+      <div style="display:flex;gap:16px;align-items:center">
+        <div style="width:72px;height:72px;background:#F4F7F0;display:grid;place-items:center;flex-shrink:0"><img src="assets/racket.png" alt="" style="width:84%;height:84%;object-fit:contain;mix-blend-mode:multiply"></div>
+        <div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:13px;color:#56695C;font-weight:500;text-transform:uppercase;letter-spacing:.8px">Oxdog · Padel</span><span style="font-size:17px;font-weight:600">Ultimate Pro Light HES-Carbon</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="background:#F3F7EE;padding:14px 16px;display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#3C5A47">Nu</span><span style="font-size:22px;font-weight:700">€199</span></div>
+        <div style="background:#033A19;color:#fff;padding:14px 16px;display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#C8E63A">Jouw doelprijs</span><span style="font-size:22px;font-weight:700">€179</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;background:rgba(200,230,58,.25);padding:12px 14px;font-size:14px;font-weight:500;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="#033A19" stroke-width="1.7" style="flex-shrink:0"><path d="M10 2.5a5 5 0 015 5v3.5l1.5 2.5h-13L5 11V7.5a5 5 0 015-5zM8 16a2 2 0 004 0"></path></svg>
+        We mailen je zodra de prijs onder €179 zakt
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUSTPILOT -->
+<section style="order:11;max-width:1440px;width:100%;margin:0 auto;padding:136px clamp(20px,5.5vw,80px) 0;display:flex;flex-direction:column;gap:32px">
+  <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+    <div style="display:flex;flex-direction:column;gap:8px"><div style="font-size:13px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:#05561F">Reviews</div><h2 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(28px,2.6vw,38px);letter-spacing:-.3px;text-wrap:balance">Wat bezoekers over ons zeggen</h2></div>
+    <a href="https://www.trustpilot.com" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:14px;border:1px solid #DCE6D6;padding:12px 18px" style-hover="border-color:#0B2A17">
+      <span role="img" aria-label="5 van 5 sterren" style="display:flex;gap:3px"><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span></span>
+      <span style="display:flex;flex-direction:column;gap:1px"><span style="font-size:15px;font-weight:600">Bekijk onze reviews</span><span style="font-size:13px;color:#56695C">op Trustpilot</span></span>
+      <svg data-arrow="" aria-hidden="true" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#0B2A17" stroke-width="1.8"></path></svg>
+    </a>
+  </div>
+  <div data-reveal-stagger="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px">
+      <figure style="margin:0;border:1px solid #DCE6D6;padding:26px;display:flex;flex-direction:column;gap:16px;background:#fff">
+        <span role="img" aria-label="5 van 5 sterren" style="display:flex;gap:3px"><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span></span>
+        <blockquote style="margin:0;font-size:17px;line-height:1.5;text-wrap:pretty">Via de prijshistorie zag ik dat mijn racket vorige maand goedkoper was. Twee weken gewacht en flink bespaard.</blockquote>
+        <figcaption style="margin-top:auto;font-size:14px;color:#3C5A47"><strong style="color:#0B2A17">Sanne</strong> · Padel</figcaption>
+      </figure>
+      <figure style="margin:0;border:1px solid #DCE6D6;padding:26px;display:flex;flex-direction:column;gap:16px;background:#fff">
+        <span role="img" aria-label="5 van 5 sterren" style="display:flex;gap:3px"><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span></span>
+        <blockquote style="margin:0;font-size:17px;line-height:1.5;text-wrap:pretty">De keuzehulp raadde een lichter racket aan dan ik zelf had gekozen. Precies wat ik nodig had.</blockquote>
+        <figcaption style="margin-top:auto;font-size:14px;color:#3C5A47"><strong style="color:#0B2A17">Mark</strong> · Tennis</figcaption>
+      </figure>
+      <figure style="margin:0;border:1px solid #DCE6D6;padding:26px;display:flex;flex-direction:column;gap:16px;background:#fff">
+        <span role="img" aria-label="5 van 5 sterren" style="display:flex;gap:3px"><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span><span style="width:22px;height:22px;background:#00B67A;display:grid;place-items:center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z" fill="#fff"></path></svg></span></span>
+        <blockquote style="margin:0;font-size:17px;line-height:1.5;text-wrap:pretty">Eindelijk één plek waar ik badmintonrackets van verschillende winkels naast elkaar zie.</blockquote>
+        <figcaption style="margin-top:auto;font-size:14px;color:#3C5A47"><strong style="color:#0B2A17">Yusuf</strong> · Badminton</figcaption>
+      </figure>
+  </div>
+</section>
+
+<!-- GIDSEN -->
+<section style="order:12;max-width:1440px;width:100%;margin:0 auto;padding:136px clamp(20px,5.5vw,80px) 120px;display:flex;flex-direction:column;gap:28px">
+  <div style="display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap">
+    <h2 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(28px,2.6vw,38px);letter-spacing:-.3px">Blogs &amp; tips</h2>
+    <a href="Blog.dc.html" style="font-weight:600;font-size:15px;background:linear-gradient(#C8E63A,#C8E63A) left bottom/100% 2px no-repeat;padding-bottom:3px" style-hover="animation:rpLine .8s cubic-bezier(.22,1,.36,1)">Alle artikelen</a>
+  </div>
+  <div data-reveal-stagger="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:24px">
+    <a href="Artikel.dc.html#rond-druppel-of-diamant-welke-racketvorm-past-bij-jou" style="display:flex;flex-direction:column;gap:14px;color:#0B2A17" style-hover="color:#05561F">
+        <div style="aspect-ratio:16/10;background:#E8EEE2;overflow:hidden"><img src="assets/blog-padel-1.png" alt="Rond, druppel of diamant: welke racketvorm past bij jou?" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.22,1,.36,1)" style-hover="transform:scale(1.03)"></div>
+        <div style="font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#05561F">Padel · 6 min</div>
+        <h3 style="margin:0;font-size:20px;font-weight:600;line-height:1.25;text-wrap:pretty">Rond, druppel of diamant: welke racketvorm past bij jou?</h3>
+      </a>
+    
+      <a href="Artikel.dc.html#snaarspanning-uitgelegd-voor-recreatieve-spelers" style="display:flex;flex-direction:column;gap:14px;color:#0B2A17" style-hover="color:#05561F">
+        <div style="aspect-ratio:16/10;background:#E8EEE2;overflow:hidden"><img src="assets/blog-tennis.png" alt="Snaarspanning uitgelegd voor recreatieve spelers" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.22,1,.36,1)" style-hover="transform:scale(1.03)"></div>
+        <div style="font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#05561F">Tennis · 8 min</div>
+        <h3 style="margin:0;font-size:20px;font-weight:600;line-height:1.25;text-wrap:pretty">Snaarspanning uitgelegd voor recreatieve spelers</h3>
+      </a>
+    
+      <a href="Artikel.dc.html#zo-herken-je-een-nep-korting-tijdens-black-friday" style="display:flex;flex-direction:column;gap:14px;color:#0B2A17" style-hover="color:#05561F">
+        <div style="aspect-ratio:16/10;background:#E8EEE2;overflow:hidden"><img src="assets/blog-padel-2.png" alt="Zo herken je een nep-korting tijdens Black Friday" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.22,1,.36,1)" style-hover="transform:scale(1.03)"></div>
+        <div style="font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#05561F">Deals · 4 min</div>
+        <h3 style="margin:0;font-size:20px;font-weight:600;line-height:1.25;text-wrap:pretty">Zo herken je een nep-korting tijdens Black Friday</h3>
+      </a>
+  </div>
+</section>
+
+<div style="order:20;margin-top:auto"><dc-import name="Footer" hint-size="100%,520px" style="display:block"></dc-import></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;volgorde&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Black Friday&quot;,&quot;Regulier&quot;],&quot;default&quot;:&quot;Black Friday&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const BRANDS = ['Bullpadel', 'Babolat', 'Head', 'Wilson', 'Nox', 'Yonex', 'Adidas', 'Siux', 'StarVie', 'Asics', 'Dunlop', 'Victor', 'Tecnifibre', 'Prince', 'Li-Ning', 'Joola', 'Selkirk', 'Franklin', 'Butterfly', 'Stiga', 'Donic', 'Oxdog', 'Drop Shot', 'Black Crown', 'K-Swiss', 'Mizuno'];
+class Component extends DCLogic {
+  swapBrand() {
+    if (document.hidden || this.state.bStop || this.bHover) return;
+    const slots = this.state.slots, used = new Set(slots.map(x => x.i));
+    const free = BRANDS.map((_, i) => i).filter(i => !used.has(i));
+    let k; do { k = Math.floor(Math.random() * slots.length); } while (k === this.lastSlot && slots.length > 1);
+    this.lastSlot = k;
+    const next = free[Math.floor(Math.random() * free.length)];
+    const upd = (ph, i) => this.setState(st => ({ slots: st.slots.map((x, j) => j === k ? { i: i ?? x.i, ph } : x) }));
+    upd('out');
+    this.bt1 = setTimeout(() => { upd('pre', next); this.bt2 = setTimeout(() => upd('in'), 40); }, 600);
+  }
+  state = { slots: Array.from({ length: 12 }, (_, i) => ({ i, ph: 'in' })), openNav: null, sub: 0, shopTab: 'sport', query: '', focus: false, tab: 'Alles', favs: {}, q: 0, answers: [], subscribed: false };
+  NAV = (() => {
+    const c = (name, links, all = 'Alle modellen') => ({ name, links, all });
+    const s = (name, desc, cols) => ({ name, desc, cols });
+    return [
+      ['Rackets', [
+        s('Padel', 'Van controle tot power', [c('Bullpadel', ['Vertex 04', 'Hack 03', 'Neuron', 'Flow']), c('Nox', ['AT10 Genius', 'ML10 Pro Cup', 'X-One']), c('Head', ['Delta Pro', 'Speed Motion', 'Extreme One']), c('Adidas', ['Metalbone', 'Adipower', 'Match']), c('Overig', ['Racketvormen uitgelegd', 'Gewicht & balans', 'Beginnersrackets'], 'Alle gidsen')]),
+        s('Tennis', 'Voor elk niveau en elke slag', [c('Babolat', ['Pure Aero', 'Pure Drive', 'Pure Strike']), c('Wilson', ['Blade 98', 'Clash 100', 'Pro Staff']), c('Head', ['Speed MP', 'Radical', 'Gravity']), c('Yonex', ['Ezone 98', 'VCore 100', 'Percept'])]),
+        s('Badminton', 'Snel, licht en wendbaar', [c('Yonex', ['Astrox 88D', 'Nanoflare 800', 'Arcsaber 11']), c('Victor', ['Thruster', 'Auraspeed', 'Jetspeed']), c('Li-Ning', ['Axforce', 'Halbertec', 'Aeronaut'])]),
+        s('Squash', 'Controle in kleine ruimtes', [c('Dunlop', ['Hyperfibre', 'Sonic Core', 'Blackstorm']), c('Head', ['Speed 120', 'Extreme', 'Radical']), c('Tecnifibre', ['Carboflex', 'Suprem', 'Dynergy'])]),
+        s('Pickleball', 'De snelst groeiende racketsport', [c('Joola', ['Perseus', 'Hyperion', 'Scorpeus']), c('Selkirk', ['Vanguard', 'Amped', 'Luxx']), c('Franklin', ['Signature', 'X-40', 'FS Tour'])], ),
+        s('Tafeltennis', 'Batjes, rubbers en blades', [c('Butterfly', ['Timo Boll', 'Viscaria', 'Fan Zhendong']), c('Stiga', ['Cybershape', 'Clipper', 'Allround']), c('Donic', ['Waldner', 'Ovtcharov', 'Persson'])])
+      ]],
+      ['Schoenen', [
+        s('Padelschoenen', 'Grip op gravel en kunstgras', [c('Heren', ['Allround', 'Omnicourt', 'Clay'], 'Alle herenschoenen'), c('Dames', ['Allround', 'Omnicourt', 'Clay'], 'Alle damesschoenen'), c('Per merk', ['Asics', 'Bullpadel', 'Adidas', 'Babolat'], 'Alle merken')]),
+        s('Tennisschoenen', 'Hardcourt, gravel en gras', [c('Heren', ['Allcourt', 'Gravel', 'Gras'], 'Alle herenschoenen'), c('Dames', ['Allcourt', 'Gravel', 'Gras'], 'Alle damesschoenen'), c('Per merk', ['Asics', 'Nike', 'Adidas', 'K-Swiss'], 'Alle merken')]),
+        s('Indoorschoenen', 'Badminton, squash en tafeltennis', [c('Heren', ['Badminton', 'Squash', 'Tafeltennis'], 'Alle herenschoenen'), c('Dames', ['Badminton', 'Squash', 'Tafeltennis'], 'Alle damesschoenen'), c('Per merk', ['Yonex', 'Asics', 'Victor', 'Mizuno'], 'Alle merken')])
+      ]],
+      ['Kleding', [
+        s('Heren', 'Shirts, shorts en jassen', [c('Tops', ['T-shirts', 'Polo’s', 'Tanktops'], 'Alle tops'), c('Onderkant', ['Shorts', 'Broeken', 'Tights'], 'Alles bekijken'), c('Warm', ['Hoodies', 'Jassen', 'Trainingspakken'], 'Alles bekijken')]),
+        s('Dames', 'Shirts, rokjes en jurkjes', [c('Tops', ['T-shirts', 'Tanktops', 'Sportbeha’s'], 'Alle tops'), c('Onderkant', ['Rokjes', 'Shorts', 'Leggings'], 'Alles bekijken'), c('Warm', ['Hoodies', 'Jassen', 'Trainingspakken'], 'Alles bekijken')]),
+        s('Kids', 'Voor de jonge talenten', [c('Jongens', ['Shirts', 'Shorts', 'Hoodies'], 'Alles bekijken'), c('Meisjes', ['Shirts', 'Rokjes', 'Hoodies'], 'Alles bekijken')])
+      ]],
+      ['Accessoires', [
+        s('Tassen', 'Racketbags en rugzakken', [c('Type', ['Racketbags', 'Rugzakken', 'Sporttassen'], 'Alle tassen'), c('Per merk', ['Bullpadel', 'Babolat', 'Head', 'Wilson'], 'Alle merken')]),
+        s('Ballen', 'Padel, tennis en shuttles', [c('Padel', ['Wedstrijdballen', 'Trainingsballen'], 'Alle padelballen'), c('Tennis', ['Wedstrijdballen', 'Drukloze ballen'], 'Alle tennisballen'), c('Overig', ['Shuttles', 'Squashballen', 'Pickleballs'], 'Alles bekijken')]),
+        s('Grips & snaren', 'Onderhoud voor je racket', [c('Grips', ['Overgrips', 'Basisgrips'], 'Alle grips'), c('Snaren', ['Polyester', 'Multifilament', 'Synthetisch'], 'Alle snaren')]),
+        s('Protectors', 'Bescherm je racket', [c('Type', ['Frame protectors', 'Antivibratie', 'Polsbandjes'], 'Alles bekijken')])
+      ]],
+      ['Merken', [
+        s('Padelmerken', 'Alle padelmerken op een rij', [c('Populair', ['Bullpadel', 'Nox', 'Head', 'Adidas', 'Babolat'], 'Alle padelmerken'), c('Opkomend', ['Siux', 'StarVie', 'Black Crown', 'Drop Shot'], 'Alles bekijken')]),
+        s('Tennismerken', 'Van Babolat tot Yonex', [c('Populair', ['Babolat', 'Wilson', 'Head', 'Yonex'], 'Alle tennismerken'), c('Overig', ['Dunlop', 'Tecnifibre', 'Prince'], 'Alles bekijken')]),
+        s('Indoormerken', 'Badminton, squash, tafeltennis', [c('Badminton', ['Yonex', 'Victor', 'Li-Ning'], 'Alles bekijken'), c('Squash', ['Dunlop', 'Tecnifibre', 'Head'], 'Alles bekijken'), c('Tafeltennis', ['Butterfly', 'Stiga', 'Donic'], 'Alles bekijken')])
+      ]]
+    ];
+  })();
+  DEALS = [
+    { id: 1, name: 'Vertex 04 2025', brand: 'Bullpadel', sport: 'Padel', price: 189, was: 299, shops: 14 },
+    { id: 2, name: 'AT10 Genius 18K', brand: 'Nox', sport: 'Padel', price: 214, was: 329, shops: 11 },
+    { id: 3, name: 'Pure Aero 98', brand: 'Babolat', sport: 'Tennis', price: 179, was: 249, shops: 9 },
+    { id: 4, name: 'Astrox 88D Pro', brand: 'Yonex', sport: 'Badminton', price: 159, was: 229, shops: 7 },
+    { id: 5, name: 'Speed MP 2024', brand: 'Head', sport: 'Tennis', price: 164, was: 239, shops: 12 },
+    { id: 6, name: 'Delta Pro', brand: 'Head', sport: 'Padel', price: 129, was: 199, shops: 10 },
+    { id: 7, name: 'Nanoflare 800', brand: 'Yonex', sport: 'Badminton', price: 139, was: 199, shops: 6 },
+    { id: 8, name: 'Blade 98 v9', brand: 'Wilson', sport: 'Tennis', price: 189, was: 269, shops: 8 }
+  ];
+  QUIZ = [
+    { t: 'Welke sport speel je?', o: ['Padel', 'Tennis', 'Badminton'] },
+    { t: 'Wat is je niveau?', o: ['Beginner', 'Gevorderd', 'Competitie'] },
+    { t: 'Wat is je speelstijl?', o: ['Controle', 'Allround', 'Power'] }
+  ];
+  componentDidMount() { if (!matchMedia('(prefers-reduced-motion: reduce)').matches) this.bi = setInterval(() => this.swapBrand(), 2200); this.__fv = () => this.forceUpdate(); window.addEventListener('rp-favs', this.__fv); this.onR = () => this.setState({ w: window.innerWidth }); this.onR(); window.addEventListener('resize', this.onR); }
+  componentWillUnmount() { clearInterval(this.bi); clearTimeout(this.bt1); clearTimeout(this.bt2); window.removeEventListener('resize', this.onR); }
+  renderVals() {
+    const s = this.state, set = o => this.setState(o);
+    const ql = s.query.trim().toLowerCase();
+    const matches = ql ? this.DEALS.filter(d => (d.name + ' ' + d.brand + ' ' + d.sport).toLowerCase().includes(ql)).slice(0, 5) : this.DEALS.slice(0, 4);
+    const deals = this.DEALS.filter(d => s.tab === 'Alles' || d.sport === s.tab).map(d => ({
+      ...d, pct: Math.round((1 - d.price / d.was) * 100),
+      favFill: window.rpFavs?.has(d) ? '#C8E63A' : 'none',
+      favPressed: window.rpFavs?.has(d) ? 'true' : 'false', toggleFav: e => { e.preventDefault(); e.stopPropagation(); window.rpFavs?.toggle(d); }
+    }));
+    const done = s.q >= 3, cur = this.QUIZ[Math.min(s.q, 2)];
+    return {
+      ...(() => {
+        const cur = this.state.lang || (typeof localStorage !== 'undefined' && localStorage.getItem('rp-lang')) || 'nl';
+        return {
+          langCode: cur.toUpperCase(), langOpen: !!this.state.langOpen,
+          toggleLang: () => this.setState({ langOpen: !this.state.langOpen }),
+          langs: [['nl', 'Nederlands'], ['en', 'English'], ['es', 'Español']].map(([c, name]) => {
+            const soon = c === 'es';
+            return { name, soon, note: soon ? 'Binnenkort' : c === cur ? '✓' : '', color: soon ? '#9FB3A5' : '#0B2A17',
+              pick: () => { if (soon) return; localStorage.setItem('rp-lang', c); this.setState({ lang: c, langOpen: false }); } };
+          })
+        };
+      })(),
+      nav: this.NAV.map(([label], i) => ({ label, line: s.openNav === i ? '#C8E63A' : 'transparent', rot: s.openNav === i ? 'rotate(180deg)' : 'none', open: () => { if (s.openNav !== i) set({ openNav: i, sub: 0 }); } })),
+      megaOpen: s.openNav !== null,
+      megaLabel: s.openNav !== null ? this.NAV[s.openNav][0].toLowerCase() : '',
+      megaSubs: s.openNav !== null ? this.NAV[s.openNav][1].map((x, j) => ({ name: x.name, desc: x.desc, bg: s.sub === j ? '#fff' : 'transparent', arrow: s.sub === j ? 1 : .35, hover: () => set({ sub: j }) })) : [],
+      activeSub: (() => { if (s.openNav === null) return { cols: [] }; const x = this.NAV[s.openNav][1][s.sub] || this.NAV[s.openNav][1][0]; return { ...x, lower: x.name.toLowerCase() }; })(),
+      closeNav: () => set({ openNav: null }),
+      wide: (s.w ?? 1440) >= 1100,
+      query: s.query,
+      onSearch: e => { e.preventDefault(); location.href = 'Rackets.dc.html'; },
+      onQuery: e => set({ query: e.target.value }),
+      onFocus: () => set({ focus: true }),
+      onBlur: () => set({ focus: false }),
+      showSuggest: s.focus,
+      noSuggest: matches.length === 0,
+      suggestions: matches.map(d => ({ name: d.name, brand: d.brand, pick: () => set({ query: d.name, tab: d.sport }) })),
+      dealTabs: ['Alles', 'Padel', 'Tennis', 'Badminton'].map(l => ({ label: l, pressed: s.tab === l ? 'true' : 'false', bg: s.tab === l ? '#0B2A17' : '#F3F7EE', fg: s.tab === l ? '#fff' : '#0B2A17', select: () => set({ tab: l }) })),
+      deals,
+      sports: [['Padel', 1240], ['Tennis', 980], ['Badminton', 410], ['Squash', 260], ['Pickleball', 190], ['Tafeltennis', 330]].map(([name, count]) => ({ name, count, href: 'Rackets.dc.html#' + name.toLowerCase() })),
+      cats: [['Rackets', 'Voor alle zes de sporten'], ['Schoenen', 'Padel, tennis en indoor'], ['Kleding', 'Heren, dames en kids'], ['Accessoires', 'Tassen, ballen en grips']].map(([name, desc]) => ({ name, desc, href: name === 'Rackets' ? 'Rackets.dc.html' : 'Categorie.dc.html#' + name.toLowerCase() })),
+      shopTabs: [['sport', 'Per sport'], ['cat', 'Per categorie']].map(([k, label]) => ({ label, pressed: s.shopTab === k ? 'true' : 'false', bg: s.shopTab === k ? '#0B2A17' : '#F3F7EE', fg: s.shopTab === k ? '#fff' : '#0B2A17', select: () => set({ shopTab: k }) })),
+      shopSport: s.shopTab === 'sport', shopCat: s.shopTab === 'cat',
+      ...((this.props.volgorde ?? 'Black Friday') === 'Regulier' ? { ordShop: 1, ordDeals: 2, ordKeuze: 3 } : { ordDeals: 1, ordKeuze: 2, ordShop: 3 }),
+      quizActive: !done, quizDone: done,
+      qNum: s.q + 1, qProgress: ((s.q) / 3 * 100) + '%', qText: cur.t,
+      qOptions: cur.o.map(label => ({ label, pick: () => set({ q: s.q + 1, answers: [...s.answers, label] }) })),
+      quizSummary: done ? `${s.answers[0]} · ${s.answers[1]} · ${s.answers[2]}` : '',
+      quizReset: () => set({ q: 0, answers: [] }),
+      bPaused: s.bStop ? 'true' : 'false', bLabel: s.bStop ? 'Merken laten wisselen' : 'Pauzeer wisselen',
+      bIcon: s.bStop ? 'M3 1.5v9l7.5-4.5z' : 'M2.5 1.5h2.5v9H2.5zM7 1.5h2.5v9H7z',
+      toggleB: () => set({ bStop: !s.bStop }), pauseB: () => { this.bHover = true; }, resumeB: () => { this.bHover = false; },
+      brands: s.slots.map(sl => { const name = BRANDS[sl.i]; return { name, href: 'Rackets.dc.html#merk-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        op: sl.ph === 'in' ? 1 : 0, tf: sl.ph === 'out' ? 'translateY(-14px)' : sl.ph === 'pre' ? 'translateY(14px)' : 'none',
+        tr: sl.ph === 'pre' ? 'none' : 'opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1)' }; }),
+      reviews: [
+        { quote: 'Via de prijshistorie zag ik dat mijn racket vorige maand goedkoper was. Twee weken gewacht en €60 bespaard.', name: 'Sanne', sport: 'Padel' },
+        { quote: 'De keuzehulp raadde een lichter racket aan dan ik zelf had gekozen. Mijn elleboog is er blij mee.', name: 'Mark', sport: 'Tennis' },
+        { quote: 'Eindelijk één plek waar ik badmintonrackets van verschillende winkels naast elkaar zie.', name: 'Yusuf', sport: 'Badminton' }
+      ],
+      guides: [
+        { tag: 'Padel', min: 6, img: 'assets/blog-padel-1.png', title: 'Rond, druppel of diamant: welke racketvorm past bij jou?', href: 'Info.dc.html#artikel-rond-druppel-of-diamant-welke-racketvorm-past-bij-jou' },
+        { tag: 'Tennis', min: 8, img: 'assets/blog-tennis.png', title: 'Snaarspanning uitgelegd voor recreatieve spelers', href: 'Info.dc.html#artikel-snaarspanning-uitgelegd-voor-recreatieve-spelers' },
+        { tag: 'Deals', min: 4, img: 'assets/blog-padel-2.png', title: 'Zo herken je een nep-korting tijdens Black Friday', href: 'Info.dc.html#artikel-zo-herken-je-een-nep-korting-tijdens-black-friday' }
+      ],
+      notSubscribed: !s.subscribed, subscribed: s.subscribed,
+      subscribe: e => { e.preventDefault(); set({ subscribed: true }); },
+      footerCols: [
+        { title: 'Vergelijken', links: ['Padelrackets', 'Tennisrackets', 'Badmintonrackets', 'Schoenen', 'Deals'] },
+        { title: 'Hulp', links: ['Keuzehulp', 'Gidsen', 'Prijshistorie', 'Veelgestelde vragen'] },
+        { title: 'Racketpicker', links: ['Over ons', 'Hoe we verdienen', 'Contact', 'Privacy'] }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

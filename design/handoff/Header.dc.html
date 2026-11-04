@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+@keyframes rpLine{0%{background-size:100% 2px;background-position:right bottom}45%{background-size:0% 2px;background-position:right bottom}46%{background-size:0% 2px;background-position:left bottom}100%{background-size:100% 2px;background-position:left bottom}}
+:focus-visible{outline:3px solid #0B2A17;outline-offset:2px;box-shadow:0 0 0 6px #C8E63A}
+[style*="clip-path"]:focus-visible{clip-path:none!important}
+</style>
+<script src="favs.js"></script>
+<script src="reveal.js"></script>
+</helmet>
+<div style="height:{{ phH }}">
+<div style="position:{{ pos }};top:{{ topV }};left:0;right:0;z-index:50;background:{{ barBg }};box-shadow:{{ barSh }};transition:{{ barTr }}">
+<header ref="{{ rootRef }}" onMouseLeave="{{ closeNav }}" style="max-width:1440px;margin:0 auto;padding:{{ pad }} clamp(20px,5.5vw,80px);transition:padding .5s cubic-bezier(.22,1,.36,1);display:flex;align-items:center;gap:clamp(16px,2.8vw,40px);position:relative;color:#fff">
+  <a href="#main" style="position:absolute;left:-9999px;top:8px;background:#C8E63A;color:#033A19;font-weight:600;font-size:14px;padding:12px 16px;z-index:70;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-focus="left:16px">Naar de inhoud</a>
+  <a href="Homepagina.dc.html" aria-label="Racketpicker, naar de homepagina" onMouseEnter="{{ closeNav }}" style="display:block;flex-shrink:0"><img src="assets/logo.svg" alt="" width="95" height="40" style="display:block;height:40px;width:auto"></a>
+
+  <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+    <nav aria-label="Hoofdmenu" style="display:flex;flex-wrap:nowrap;flex:1;min-width:0">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
+        <button onMouseEnter="{{ n.open }}" onClick="{{ n.click }}" aria-expanded="{{ n.expanded }}" aria-haspopup="true" style="background:none;border:0;border-bottom:2px solid {{ n.line }};color:#fff;font:500 14px 'Outfit',sans-serif;padding:12px clamp(6px,.9vw,12px) 10px;display:flex;align-items:center;gap:6px;cursor:pointer;white-space:nowrap">{{ n.label }}<svg aria-hidden="true" width="10" height="10" viewBox="0 0 10 10" style="transform:{{ n.rot }};transition:transform .3s cubic-bezier(.22,1,.36,1)"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg></button>
+      </sc-for>
+    </nav>
+    <div onMouseEnter="{{ closeNav }}" style="display:flex;align-items:center;gap:2px">
+      <button onClick="{{ toggleSearch }}" aria-label="Zoeken" aria-expanded="{{ searchOpen }}" style="width:44px;height:44px;border:0;background:none;color:#fff;display:grid;place-items:center;cursor:pointer;flex-shrink:0" style-hover="color:#C8E63A"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8.5" cy="8.5" r="6"></circle><path d="M13 13l5 5"></path></svg></button>
+      <a href="Favorieten.dc.html" aria-label="Favorieten, {{ favCount }} opgeslagen" style="position:relative;width:44px;height:44px;display:grid;place-items:center;color:#fff;flex-shrink:0" style-hover="color:#C8E63A"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z" fill="{{ favFill }}" stroke="currentColor" stroke-width="1.8"></path></svg><sc-if value="{{ hasFavs }}"><span style="position:absolute;top:4px;right:2px;min-width:18px;height:18px;padding:0 5px;background:#C8E63A;color:#033A19;font-size:12px;font-weight:700;display:grid;place-items:center;clip-path:polygon(3px 0,100% 0,calc(100% - 3px) 100%,0 100%)">{{ favCount }}</span></sc-if></a>
+
+      <a href="{{ ctaHref }}" style="margin-left:16px;background:#C8E63A;color:#033A19;font-weight:600;font-size:14px;padding:16px 22px 16px 24px;white-space:nowrap;display:flex;align-items:center;gap:10px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="background:#D8F25A;color:#033A19"><span>{{ ctaLabel }}</span><svg data-arrow="" aria-hidden="true" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#033A19" stroke-width="1.8"></path></svg></a>
+    </div>
+
+    <sc-if value="{{ megaOpen }}">
+      <div data-reveal="" style="position:absolute;top:calc(100% - 6px);left:clamp(20px,5.5vw,80px);right:clamp(20px,5.5vw,80px);background:#fff;color:#0B2A17;box-shadow:0 30px 60px rgba(0,30,10,.28);display:grid;grid-template-columns:minmax(220px,300px) minmax(0,1fr);min-height:440px;z-index:40">
+        <div style="background:#F3F7EE;padding:20px;display:flex;flex-direction:column;gap:2px">
+          <a href="{{ megaAllHref }}" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px 16px;font-size:16px;font-weight:600;border-bottom:1px solid #DCE6D6;margin-bottom:8px"><span>Bekijk alle {{ megaLabel }}</span><svg data-arrow="" aria-hidden="true" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="currentColor" stroke-width="1.8"></path></svg></a>
+          <sc-for list="{{ megaSubs }}" as="sub" hint-placeholder-count="5">
+            <a href="{{ sub.href }}" onMouseEnter="{{ sub.hover }}" onFocus="{{ sub.hover }}" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 14px;background:{{ sub.bg }};transition:background .3s cubic-bezier(.22,1,.36,1)">
+              <span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:600">{{ sub.name }}</span><span style="font-size:13px;color:#3C5A47">{{ sub.desc }}</span></span>
+              <svg aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" style="flex-shrink:0;opacity:{{ sub.arrow }}"><path d="M2 2l4 4-4 4" fill="none" stroke="#033A19" stroke-width="1.8"></path></svg>
+            </a>
+          </sc-for>
+          <a href="Keuzehulp.dc.html" style="margin-top:auto;background:#033A19;color:#fff;padding:16px;display:flex;flex-direction:column;gap:4px" style-hover="background:#04471F;color:#fff">
+            <span style="font-size:13px;color:#C8E63A;font-weight:600">Twijfel je?</span>
+            <span style="font-size:15px;font-weight:600">Doe de gratis keuzehulp</span>
+          </a>
+        </div>
+        <div style="padding:32px 36px;display:flex;flex-direction:column;gap:28px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap">
+            <div style="font-size:24px;font-weight:600;letter-spacing:-.2px">{{ activeSub.name }}</div>
+            <a href="{{ activeSub.href }}" style="font-size:14px;font-weight:600;background:linear-gradient(#C8E63A,#C8E63A) left bottom/100% 2px no-repeat;padding-bottom:3px" style-hover="animation:rpLine .8s cubic-bezier(.22,1,.36,1)">Bekijk alle {{ activeSub.lower }}</a>
+          </div>
+          <div data-reveal-stagger="" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:32px 28px">
+            <sc-for list="{{ activeSub.cols }}" as="col" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:9px">
+                <a href="{{ col.href }}" style="font-size:15px;font-weight:700;margin-bottom:4px">{{ col.name }}</a>
+                <sc-for list="{{ col.items }}" as="l">
+                  <a href="{{ l.href }}" style="font-size:14px;color:#3C5A47" style-hover="color:#033A19">{{ l.label }}</a>
+                </sc-for>
+                <a href="{{ col.href }}" style="font-size:14px;font-weight:600;color:#05561F;margin-top:2px">{{ col.all }}</a>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <sc-if value="{{ mobile }}">
+    <div style="flex:1"></div>
+    <a data-fav="" href="Favorieten.dc.html" aria-label="Favorieten, {{ favCount }} opgeslagen" style="position:relative;width:44px;height:44px;display:grid;place-items:center;color:#fff;flex-shrink:0" style-hover="color:#C8E63A"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z" fill="{{ favFill }}" stroke="currentColor" stroke-width="1.8"></path></svg><sc-if value="{{ hasFavs }}"><span style="position:absolute;top:4px;right:2px;min-width:18px;height:18px;padding:0 5px;background:#C8E63A;color:#033A19;font-size:12px;font-weight:700;display:grid;place-items:center;clip-path:polygon(3px 0,100% 0,calc(100% - 3px) 100%,0 100%)">{{ favCount }}</span></sc-if></a>
+    <button onClick="{{ toggleSearch }}" aria-label="Zoeken" aria-expanded="{{ searchOpen }}" style="width:44px;height:44px;border:0;background:none;color:#fff;display:grid;place-items:center;cursor:pointer;flex-shrink:0" style-hover="color:#C8E63A"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8.5" cy="8.5" r="6"></circle><path d="M13 13l5 5"></path></svg></button>
+    <button onClick="{{ openMobile }}" aria-label="Menu openen" aria-expanded="{{ mobileOpen }}" style="width:44px;height:44px;border:0;background:#C8E63A;color:#033A19;display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.8"></path></svg></button>
+  </sc-if>
+
+  <sc-if value="{{ mobileOpen }}">
+    <div data-reveal="" data-trap="" role="dialog" aria-modal="true" aria-label="Menu" style="position:fixed;inset:0;z-index:80;background:#033A19;color:#fff;overflow:auto;display:flex;flex-direction:column">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:20px clamp(20px,5.5vw,80px)">
+        <a href="Homepagina.dc.html" aria-label="Racketpicker, naar de homepagina" style="display:block;flex-shrink:0"><img src="assets/logo.svg" alt="" width="95" height="40" style="display:block;height:40px;width:auto"></a>
+        <button onClick="{{ closeMobile }}" aria-label="Menu sluiten" style="width:44px;height:44px;border:1px solid rgba(255,255,255,.4);background:none;color:#fff;display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8"></path></svg></button>
+      </div>
+      <nav aria-label="Hoofdmenu" style="display:flex;flex-direction:column;padding:8px clamp(20px,5.5vw,80px)">
+        <sc-for list="{{ mnav }}" as="m">
+          <div style="border-bottom:1px solid rgba(255,255,255,.14)">
+            <button onClick="{{ m.toggle }}" aria-expanded="{{ m.open }}" style="width:100%;min-height:60px;background:none;border:0;color:#fff;font:600 20px 'Outfit',sans-serif;display:flex;justify-content:space-between;align-items:center;cursor:pointer;padding:0">{{ m.label }}<svg aria-hidden="true" width="12" height="12" viewBox="0 0 10 10" style="transform:{{ m.rot }};transition:transform .3s cubic-bezier(.22,1,.36,1)"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg></button>
+            <sc-if value="{{ m.open }}">
+              <div data-reveal="" style="display:flex;flex-direction:column;padding-bottom:14px">
+                <a href="{{ m.allHref }}" style="min-height:48px;display:flex;align-items:center;color:#C8E63A;font-weight:600;font-size:16px">Bekijk alle {{ m.lower }}</a>
+                <sc-for list="{{ m.subs }}" as="s">
+                  <a href="{{ s.href }}" style="min-height:48px;display:flex;flex-direction:column;justify-content:center;color:#fff;font-size:16px;padding:4px 0"><span>{{ s.name }}</span><span style="font-size:13px;color:#B7CBBC">{{ s.desc }}</span></a>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </nav>
+      <div style="margin-top:auto;padding:24px clamp(20px,5.5vw,80px) 32px;display:flex;flex-direction:column;gap:16px">
+        <div role="group" aria-label="Taal" style="display:flex;gap:8px">
+          <sc-for list="{{ langs }}" as="l">
+            <button onClick="{{ l.pick }}" disabled="{{ l.soon }}" aria-pressed="{{ l.current }}" style="flex:1;min-height:44px;border:1px solid rgba(255,255,255,.3);background:{{ l.mbg }};color:{{ l.mfg }};font:500 14px 'Outfit',sans-serif;cursor:pointer">{{ l.short }}</button>
+          </sc-for>
+        </div>
+        <a href="Keuzehulp.dc.html" style="min-height:52px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.12);color:#fff;font-weight:600;font-size:16px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)">Doe de gratis keuzehulp</a>
+        <a href="Homepagina.dc.html#deals" onClick="{{ closeMobile }}" style="min-height:52px;display:flex;align-items:center;justify-content:center;gap:10px;background:#C8E63A;color:#033A19;font-weight:600;font-size:16px"><span>Bekijk deals</span><svg data-arrow="" aria-hidden="true" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#033A19" stroke-width="1.8"></path></svg></a>
+      </div>
+    </div>
+  </sc-if>
+<sc-if value="{{ searchOpen }}">
+    <div data-trap="" role="dialog" aria-modal="true" aria-label="Zoeken" onClick="{{ backdropClose }}" style="position:fixed;inset:0;z-index:90;background:rgba(0,10,4,.9);display:flex;justify-content:center;align-items:flex-start;padding:16vh 20px 20px;overflow:auto">
+      <div data-reveal="" role="search" style="width:100%;max-width:760px;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;color:#fff;padding:0 6px">
+          <span style="font-size:13px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:#C8E63A">Zoeken</span>
+          <button type="button" onClick="{{ toggleSearch }}" aria-label="Zoeken sluiten" style="width:44px;height:44px;border:0;background:rgba(255,255,255,.1);color:#fff;cursor:pointer;display:grid;place-items:center;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)" style-hover="background:rgba(255,255,255,.2)"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8"></path></svg></button>
+        </div>
+        <form onSubmit="{{ submitSearch }}" style="display:flex;align-items:center;gap:14px;background:#fff;padding:10px 10px 10px 30px;clip-path:polygon(14px 0,100% 0,calc(100% - 14px) 100%,0 100%)">
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="#05561F" stroke-width="1.8" style="flex-shrink:0"><circle cx="8.5" cy="8.5" r="6"></circle><path d="M13 13l5 5"></path></svg>
+          <input ref="{{ searchRef }}" value="{{ sq }}" onChange="{{ onSq }}" onKeyDown="{{ onSqKey }}" role="combobox" aria-expanded="{{ hasSq }}" aria-controls="rp-sug" aria-activedescendant="{{ activeId }}" aria-label="Zoek op racket, merk of sport" placeholder="Zoek op racket, merk of sport" autocomplete="off" style="flex:1;min-width:0;border:0;outline:0;font:500 clamp(18px,2.2vw,24px) 'Outfit',sans-serif;color:#0B2A17;background:transparent;padding:10px 0">
+          <button style="flex-shrink:0;min-height:52px;border:0;background:#C8E63A;color:#033A19;font:600 15px 'Outfit',sans-serif;padding:0 22px 0 24px;cursor:pointer;display:flex;align-items:center;gap:10px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="background:#D8F25A"><span>Zoeken</span><svg data-arrow="" aria-hidden="true" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#033A19" stroke-width="1.8"></path></svg></button>
+        </form>
+        <sc-if value="{{ hasSq }}">
+          <div data-reveal="" style="background:#fff;color:#0B2A17;padding:10px 22px 14px;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)">
+            <div id="rp-sug" role="listbox" aria-label="Suggesties" style="display:flex;flex-direction:column">
+              <sc-for list="{{ sug }}" as="s">
+                <a id="{{ s.id }}" role="option" aria-selected="{{ s.sel }}" href="{{ s.href }}" onMouseEnter="{{ s.hover }}" style="min-height:52px;display:flex;align-items:center;gap:14px;padding:6px 12px;font-size:16px;background:{{ s.bg }};border-bottom:1px solid #EEF3EA;transition:background .3s cubic-bezier(.22,1,.36,1)">
+                  <span style="font-size:12px;font-weight:600;background:{{ s.chipBg }};color:{{ s.chipFg }};padding:4px 9px;min-width:62px;text-align:center;clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%)">{{ s.type }}</span>
+                  <span style="flex:1;min-width:0">{{ s.pre }}<strong style="color:#05561F;font-weight:700">{{ s.mid }}</strong>{{ s.post }}</span>
+                  <span style="font-size:13px;color:#56695C">{{ s.meta }}</span>
+                  <svg data-arrow="" aria-hidden="true" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#033A19" stroke-width="1.8"></path></svg>
+                </a>
+              </sc-for>
+            </div>
+            <sc-if value="{{ noSug }}"><div style="padding:18px 12px;font-size:15px;color:#3C5A47">Niets gevonden voor “{{ sq }}”. Probeer een merk of sport.</div></sc-if>
+            <a href="{{ allHref }}" style="margin-top:12px;display:flex;justify-content:space-between;align-items:center;gap:12px;background:#033A19;color:#fff;font-weight:600;font-size:15px;padding:14px 18px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="background:#05561F;color:#fff"><span>Alle resultaten voor “{{ sq }}”</span><svg data-arrow="" aria-hidden="true" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#C8E63A" stroke-width="1.8"></path></svg></a>
+          </div>
+        </sc-if>
+        <div style="display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:#C3D5C8;padding:0 6px">
+          <span><strong style="color:#fff;font-weight:600">Enter</strong> om te zoeken</span>
+          <span><strong style="color:#fff;font-weight:600">↑ ↓</strong> om te kiezen</span>
+          <span><strong style="color:#fff;font-weight:600">Esc</strong> om te sluiten</span>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</header>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;1440px&quot;,&quot;height&quot;:&quot;560px&quot;},&quot;active&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;rackets&quot;,&quot;schoenen&quot;,&quot;kleding&quot;,&quot;accessoires&quot;,&quot;merken&quot;],&quot;default&quot;:&quot;rackets&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;cta&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;deals&quot;,&quot;keuzehulp&quot;],&quot;default&quot;:&quot;deals&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const slug = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+const c = (name, links, all = 'Alle modellen') => ({ name, links, all });
+const s = (name, desc, cols) => ({ name, desc, cols });
+const NAV = [
+  ['Rackets', [
+    s('Padel', 'Van controle tot power', [c('Bullpadel', ['Vertex 04', 'Hack 03', 'Neuron', 'Flow']), c('Nox', ['AT10 Genius', 'ML10 Pro Cup', 'X-One']), c('Head', ['Delta Pro', 'Speed Motion', 'Extreme One']), c('Adidas', ['Metalbone', 'Adipower', 'Match'])]),
+    s('Tennis', 'Voor elk niveau en elke slag', [c('Babolat', ['Pure Aero', 'Pure Drive', 'Pure Strike']), c('Wilson', ['Blade 98', 'Clash 100', 'Pro Staff']), c('Head', ['Speed MP', 'Radical', 'Gravity']), c('Yonex', ['Ezone 98', 'VCore 100', 'Percept'])]),
+    s('Badminton', 'Snel, licht en wendbaar', [c('Yonex', ['Astrox 88D', 'Nanoflare 800', 'Arcsaber 11']), c('Victor', ['Thruster', 'Auraspeed', 'Jetspeed']), c('Li-Ning', ['Axforce', 'Halbertec', 'Aeronaut'])]),
+    s('Squash', 'Controle in kleine ruimtes', [c('Dunlop', ['Hyperfibre', 'Sonic Core', 'Blackstorm']), c('Head', ['Speed 120', 'Extreme', 'Radical']), c('Tecnifibre', ['Carboflex', 'Suprem', 'Dynergy'])]),
+    s('Pickleball', 'De snelst groeiende racketsport', [c('Joola', ['Perseus', 'Hyperion', 'Scorpeus']), c('Selkirk', ['Vanguard', 'Amped', 'Luxx']), c('Franklin', ['Signature', 'X-40', 'FS Tour'])]),
+    s('Tafeltennis', 'Batjes, rubbers en blades', [c('Butterfly', ['Timo Boll', 'Viscaria', 'Fan Zhendong']), c('Stiga', ['Cybershape', 'Clipper', 'Allround']), c('Donic', ['Waldner', 'Ovtcharov', 'Persson'])])
+  ]],
+  ['Schoenen', [
+    s('Padelschoenen', 'Grip op gravel en kunstgras', [c('Heren', ['Allround', 'Omnicourt', 'Clay'], 'Alle herenschoenen'), c('Dames', ['Allround', 'Omnicourt', 'Clay'], 'Alle damesschoenen'), c('Per merk', ['Asics', 'Bullpadel', 'Adidas', 'Babolat'], 'Alle merken')]),
+    s('Tennisschoenen', 'Hardcourt, gravel en gras', [c('Heren', ['Allcourt', 'Gravel', 'Gras'], 'Alle herenschoenen'), c('Dames', ['Allcourt', 'Gravel', 'Gras'], 'Alle damesschoenen'), c('Per merk', ['Asics', 'Nike', 'Adidas', 'K-Swiss'], 'Alle merken')]),
+    s('Indoorschoenen', 'Badminton, squash en tafeltennis', [c('Heren', ['Badminton', 'Squash', 'Tafeltennis'], 'Alle herenschoenen'), c('Dames', ['Badminton', 'Squash', 'Tafeltennis'], 'Alle damesschoenen'), c('Per merk', ['Yonex', 'Asics', 'Victor', 'Mizuno'], 'Alle merken')])
+  ]],
+  ['Kleding', [
+    s('Heren', 'Shirts, shorts en jassen', [c('Tops', ['T-shirts', 'Polo’s', 'Tanktops'], 'Alle tops'), c('Onderkant', ['Shorts', 'Broeken', 'Tights'], 'Alles bekijken'), c('Warm', ['Hoodies', 'Jassen', 'Trainingspakken'], 'Alles bekijken')]),
+    s('Dames', 'Shirts, rokjes en jurkjes', [c('Tops', ['T-shirts', 'Tanktops', 'Sportbeha’s'], 'Alle tops'), c('Onderkant', ['Rokjes', 'Shorts', 'Leggings'], 'Alles bekijken'), c('Warm', ['Hoodies', 'Jassen', 'Trainingspakken'], 'Alles bekijken')]),
+    s('Kids', 'Voor de jonge talenten', [c('Jongens', ['Shirts', 'Shorts', 'Hoodies'], 'Alles bekijken'), c('Meisjes', ['Shirts', 'Rokjes', 'Hoodies'], 'Alles bekijken')])
+  ]],
+  ['Accessoires', [
+    s('Tassen', 'Racketbags en rugzakken', [c('Type', ['Racketbags', 'Rugzakken', 'Sporttassen'], 'Alle tassen'), c('Per merk', ['Bullpadel', 'Babolat', 'Head', 'Wilson'], 'Alle merken')]),
+    s('Ballen', 'Padel, tennis en shuttles', [c('Padel', ['Wedstrijdballen', 'Trainingsballen'], 'Alle padelballen'), c('Tennis', ['Wedstrijdballen', 'Drukloze ballen'], 'Alle tennisballen'), c('Overig', ['Shuttles', 'Squashballen', 'Pickleballs'], 'Alles bekijken')]),
+    s('Grips & snaren', 'Onderhoud voor je racket', [c('Grips', ['Overgrips', 'Basisgrips'], 'Alle grips'), c('Snaren', ['Polyester', 'Multifilament', 'Synthetisch'], 'Alle snaren')]),
+    s('Protectors', 'Bescherm je racket', [c('Type', ['Frame protectors', 'Antivibratie', 'Polsbandjes'], 'Alles bekijken')])
+  ]],
+  ['Merken', [
+    s('Padelmerken', 'Alle padelmerken op een rij', [c('Populair', ['Bullpadel', 'Nox', 'Head', 'Adidas', 'Babolat'], 'Alle padelmerken'), c('Opkomend', ['Siux', 'StarVie', 'Black Crown', 'Drop Shot'], 'Alles bekijken')]),
+    s('Tennismerken', 'Van Babolat tot Yonex', [c('Populair', ['Babolat', 'Wilson', 'Head', 'Yonex'], 'Alle tennismerken'), c('Overig', ['Dunlop', 'Tecnifibre', 'Prince'], 'Alles bekijken')]),
+    s('Indoormerken', 'Badminton, squash, tafeltennis', [c('Badminton', ['Yonex', 'Victor', 'Li-Ning'], 'Alles bekijken'), c('Squash', ['Dunlop', 'Tecnifibre', 'Head'], 'Alles bekijken'), c('Tafeltennis', ['Butterfly', 'Stiga', 'Donic'], 'Alles bekijken')])
+  ]]
+];
+const SPORT_OF = { Padelmerken: 'padel', Tennismerken: 'tennis' };
+const hrefs = (top, sub, col, item) => {
+  if (top === 'Rackets') {
+    if (!sub) return 'Rackets.dc.html';
+    const sp = slug(sub.name);
+    if (item) return 'Product.dc.html';
+    if (col) return `Rackets.dc.html#${sp}/merk-${slug(col.name)}`;
+    return `Rackets.dc.html#${sp}`;
+  }
+  if (top === 'Merken') {
+    if (item) return `Rackets.dc.html#${SPORT_OF[sub.name] ? SPORT_OF[sub.name] + '/' : ''}merk-${slug(item)}`;
+    if (sub && SPORT_OF[sub.name]) return `Rackets.dc.html#${SPORT_OF[sub.name]}`;
+    return 'Rackets.dc.html';
+  }
+  return 'Categorie.dc.html#' + slug(top) + (sub ? '/' + slug(sub.name) : '');
+};
+
+class Component extends DCLogic {
+  state = { fixed: false, vis: true, entering: false, phH: 'auto', openNav: null, sub: 0, w: 1440, langOpen: false, mobileOpen: false, mOpen: null, searchOpen: false, sq: '' };
+  rootRef = React.createRef();
+  searchRef = React.createRef();
+  onScroll() {
+    const y = window.scrollY, last = this.lastY || 0, d = y - last;
+    const fixed = y > 160;
+    let vis = this.state.vis;
+    if (!fixed) vis = true; else if (d > 6) vis = false; else if (d < -6) vis = true;
+    if (Math.abs(d) > 6 || !fixed) this.lastY = y;
+    if (!this.state.fixed && fixed) vis = false;
+    if (fixed !== this.state.fixed || vis !== this.state.vis) {
+      const o = { fixed, vis, entering: !this.state.fixed && fixed };
+      if (fixed && !vis) Object.assign(o, { openNav: null, langOpen: false, searchOpen: false });
+      this.setState(o);
+    }
+  }
+  componentDidUpdate(pp, ps) {
+    if (this.state.searchOpen && !ps.searchOpen) setTimeout(() => this.searchRef.current && this.searchRef.current.focus(), 30);
+    const off = this.state.fixed && this.state.vis && this.rootRef.current ? this.rootRef.current.offsetHeight : 0;
+    document.documentElement.style.setProperty('--rp-hdr', off + 'px');
+    if (this.state.entering) requestAnimationFrame(() => this.setState({ entering: false }));
+  }
+  componentDidMount() { this.__fv = () => this.forceUpdate(); window.addEventListener('rp-favs', this.__fv);
+    this.onR = () => this.setState({ w: window.innerWidth });
+    this.onKey = e => { if (e.key === 'Escape') this.closeAll(); };
+    this.onDown = e => { if (this.rootRef.current && !this.rootRef.current.contains(e.target)) this.setState({ openNav: null, langOpen: false, searchOpen: false }); };
+    this.onR();
+    this.reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.onS = () => this.onScroll(); window.addEventListener('scroll', this.onS, { passive: true });
+    setTimeout(() => { if (this.rootRef.current) this.setState({ phH: this.rootRef.current.offsetHeight + 'px' }); this.onScroll(); }, 0);
+    this.onLang = () => this.setState({ lang: localStorage.getItem('rp-lang') }); window.addEventListener('rp-lang', this.onLang);
+    window.addEventListener('resize', this.onR); window.addEventListener('keydown', this.onKey); document.addEventListener('mousedown', this.onDown);
+  }
+  componentWillUnmount() { window.removeEventListener('scroll', this.onS); document.documentElement.style.removeProperty('--rp-hdr'); window.removeEventListener('resize', this.onR); window.removeEventListener('keydown', this.onKey); document.removeEventListener('mousedown', this.onDown); document.body.style.overflow = ''; }
+  closeAll() { if (this.state.mobileOpen) document.body.style.overflow = ''; this.setState({ openNav: null, langOpen: false, mobileOpen: false, searchOpen: false }); }
+  renderVals() {
+    const st = this.state, set = o => this.setState(o);
+    const active = this.props.active ?? 'rackets';
+    const desktop = st.w >= 960;
+    const cur = st.lang || (typeof localStorage !== 'undefined' && localStorage.getItem('rp-lang')) || 'nl';
+    const top = st.openNav !== null ? NAV[st.openNav] : null;
+    const subObj = top ? (top[1][st.sub] || top[1][0]) : null;
+    return {
+      rootRef: this.rootRef, searchRef: this.searchRef,
+      phH: st.phH, pos: st.fixed ? 'fixed' : 'relative',
+      topV: st.fixed && !st.vis ? '-120px' : '0px',
+      barBg: st.fixed ? '#033A19' : 'transparent', barSh: st.fixed ? '0 10px 30px rgba(0,20,8,.25)' : 'none',
+      barTr: st.entering || this.reduce ? 'none' : 'top .5s cubic-bezier(.22,1,.36,1), box-shadow .5s',
+      pad: st.fixed ? '12px' : '20px',
+      ctaLabel: (this.props.cta ?? 'deals') === 'keuzehulp' ? 'Doe de keuzehulp' : 'Bekijk deals',
+      ctaHref: (this.props.cta ?? 'deals') === 'keuzehulp' ? 'Keuzehulp.dc.html' : 'Homepagina.dc.html#deals',
+      ...(() => {
+        const q = st.sq.trim().toLowerCase();
+        const idx = [];
+        NAV[0][1].forEach(sp => { idx.push({ type: 'Sport', label: sp.name, meta: '', href: 'Rackets.dc.html#' + slug(sp.name) });
+          sp.cols.forEach(col => { if (!idx.some(x => x.type === 'Merk' && x.label === col.name)) idx.push({ type: 'Merk', label: col.name, meta: sp.name, href: 'Rackets.dc.html#merk-' + slug(col.name) });
+            col.links.forEach(m => idx.push({ type: 'Racket', label: col.name + ' ' + m, meta: sp.name, href: 'Product.dc.html' })); }); });
+        const hits = q ? idx.filter(x => (x.label + ' ' + x.meta).toLowerCase().includes(q)).sort((x, y) => { const ix = x.label.toLowerCase().indexOf(q), iy = y.label.toLowerCase().indexOf(q); return (ix < 0 ? 99 : ix) - (iy < 0 ? 99 : iy); }).slice(0, 6) : [];
+        const si = Math.min(st.si ?? -1, hits.length - 1);
+        const go = href => { location.href = href; set({ searchOpen: false }); };
+        const all = 'Rackets.dc.html#zoek-' + encodeURIComponent(slug(st.sq));
+        return {
+          searchOpen: st.searchOpen, sq: st.sq, hasSq: !!q, noSug: !!q && hits.length === 0,
+          activeId: si >= 0 ? 'rp-sug-' + si : '',
+          sug: hits.map((x, i) => { const L = x.label, at = L.toLowerCase().indexOf(q), on = i === si;
+            return { ...x, id: 'rp-sug-' + i, sel: on ? 'true' : 'false', bg: on ? '#F3F7EE' : 'transparent',
+              chipBg: x.type === 'Racket' ? '#033A19' : x.type === 'Merk' ? '#C8E63A' : '#E6EFDA', chipFg: x.type === 'Racket' ? '#fff' : '#033A19',
+              pre: at >= 0 ? L.slice(0, at) : L, mid: at >= 0 ? L.slice(at, at + q.length) : '', post: at >= 0 ? L.slice(at + q.length) : '',
+              hover: () => { if (st.si !== i) set({ si: i }); } }; }),
+          allHref: all,
+          onSq: e => set({ sq: e.target.value, si: -1 }),
+          onSqKey: e => {
+            if (e.key === 'ArrowDown') { e.preventDefault(); set({ si: Math.min(hits.length - 1, si + 1) }); }
+            else if (e.key === 'ArrowUp') { e.preventDefault(); set({ si: Math.max(-1, si - 1) }); }
+            else if (e.key === 'Enter' && si >= 0) { e.preventDefault(); go(hits[si].href); }
+          },
+          backdropClose: e => { if (e.target === e.currentTarget) set({ searchOpen: false }); },
+          toggleSearch: () => set({ searchOpen: !st.searchOpen, openNav: null, langOpen: false, si: -1 }),
+          submitSearch: e => { e.preventDefault(); if (q) go(all); }
+        };
+      })(),
+      ...(() => { const n = (typeof window !== 'undefined' && window.rpFavs) ? window.rpFavs.count() : 0; return { favCount: n, hasFavs: n > 0, favFill: n > 0 ? '#C8E63A' : 'none' }; })(),
+      desktop, mobile: !desktop, wide: st.w >= 1180,
+      nav: NAV.map(([label], i) => ({ label, expanded: st.openNav === i ? 'true' : 'false',
+        line: st.openNav === i || slug(label) === active ? '#C8E63A' : 'transparent', rot: st.openNav === i ? 'rotate(180deg)' : 'none',
+        open: () => { if (st.openNav !== i && !st.searchOpen) set({ openNav: i, sub: 0, langOpen: false }); },
+        click: () => set({ openNav: st.openNav === i ? null : i, sub: 0, langOpen: false, searchOpen: false }) })),
+      closeNav: () => { if (st.openNav !== null) set({ openNav: null }); },
+      megaOpen: desktop && !!top,
+      megaLabel: top ? top[0].toLowerCase() : '',
+      megaAllHref: top ? hrefs(top[0]) : '#',
+      megaSubs: top ? top[1].map((x, j) => ({ name: x.name, desc: x.desc, href: hrefs(top[0], x), bg: st.sub === j ? '#fff' : 'transparent', arrow: st.sub === j ? 1 : .35, hover: () => { if (st.sub !== j) set({ sub: j }); } })) : [],
+      activeSub: subObj ? { name: subObj.name, lower: subObj.name.toLowerCase(), href: hrefs(top[0], subObj),
+        cols: subObj.cols.map(col => ({ name: col.name, all: col.all, href: hrefs(top[0], subObj, col), items: col.links.map(l => ({ label: l, href: hrefs(top[0], subObj, col, l) })) })) } : { cols: [] },
+      langCode: cur.toUpperCase(), langName: { nl: 'Nederlands', en: 'English' }[cur], langOpen: st.langOpen,
+      toggleLang: () => set({ langOpen: !st.langOpen, openNav: null }),
+      langs: [['nl', 'Nederlands', 'NL'], ['en', 'English', 'EN'], ['es', 'Español', 'ES']].map(([code, name, short]) => {
+        const soon = code === 'es', on = code === cur;
+        return { name, short, soon, current: on ? 'true' : 'false', note: soon ? 'Binnenkort' : on ? '✓' : '', color: soon ? '#7A8C80' : '#0B2A17',
+          mbg: on ? '#C8E63A' : 'transparent', mfg: on ? '#033A19' : soon ? '#9DB5A3' : '#fff',
+          pick: () => { if (soon) return; localStorage.setItem('rp-lang', code); window.dispatchEvent(new Event('rp-lang')); set({ lang: code, langOpen: false }); } };
+      }),
+      mobileOpen: st.mobileOpen,
+      openMobile: () => { document.body.style.overflow = 'hidden'; set({ mobileOpen: true }); },
+      closeMobile: () => { document.body.style.overflow = ''; set({ mobileOpen: false }); },
+      mnav: NAV.map(([label, subs], i) => ({ label, lower: label.toLowerCase(), open: st.mOpen === i, rot: st.mOpen === i ? 'rotate(180deg)' : 'none', allHref: hrefs(label),
+        toggle: () => set({ mOpen: st.mOpen === i ? null : i }), subs: subs.map(x => ({ name: x.name, desc: x.desc, href: hrefs(label, x) })) }))
+    };
+  }
+}
+</script>
+</body>
+</html>

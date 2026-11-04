@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Archivo+Black&display=swap" rel="stylesheet">
+<title>Alle rackets vergelijken | Racketpicker</title>
+<meta name="description" content="Vergelijk rackets voor padel, tennis, badminton, squash, pickleball en tafeltennis. Filter op merk, niveau, speelstijl en prijs.">
+<style>
+body{margin:0;background:#fff;font-family:'Outfit',sans-serif;color:#0B2A17;-webkit-font-smoothing:antialiased}
+a{color:#0B2A17;text-decoration:none}a:hover{color:#05561F}
+*{box-sizing:border-box}
+input::placeholder{color:#3C5A47}
+@keyframes rpLine{0%{background-size:100% 2px;background-position:right bottom}45%{background-size:0% 2px;background-position:right bottom}46%{background-size:0% 2px;background-position:left bottom}100%{background-size:100% 2px;background-position:left bottom}}
+:focus-visible{outline:3px solid #0B2A17;outline-offset:2px;box-shadow:0 0 0 6px #C8E63A}
+[style*="clip-path"]:focus-visible{clip-path:none!important}
+</style>
+<script src="reveal.js"></script>
+<script src="favs.js"></script>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+<div style="background:radial-gradient(ellipse 70% 120% at 40% 20%, #07602A 0%, #04471F 60%, #033A19 100%);color:#fff">
+  <dc-import name="Header" active="rackets" hint-size="100%,88px" style="position:relative;z-index:30;display:block"></dc-import>
+  <section style="max-width:1440px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(20px,5.5vw,80px) clamp(48px,6vw,88px);display:flex;flex-direction:column;gap:22px">
+    <nav aria-label="Kruimelpad" style="display:flex;gap:8px;font-size:13px;color:#B7CBBC"><a href="Homepagina.dc.html" style="color:#B7CBBC">Home</a><span>/</span><span style="color:#fff">Rackets</span><sc-if value="{{ hasSportCrumb }}"><span>/</span><span style="color:#fff">{{ sportCrumb }}</span></sc-if></nav>
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+      <div style="display:flex;flex-direction:column;gap:10px;max-width:680px">
+        <h1 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(32px,3.2vw,46px);line-height:1.05;letter-spacing:-.4px">{{ pageTitle }}</h1>
+        <p style="margin:0;font-size:16px;line-height:1.5;color:#E2EDE5">Vergelijk prijzen bij 24+ winkels. Filter op merk, niveau, speelstijl en prijs, of laat de keuzehulp het werk doen.</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+      <sc-for list="{{ sportTabs }}" as="t" hint-placeholder-count="7">
+        <button onClick="{{ t.select }}" aria-pressed="{{ t.pressed }}" style="border:0;background:{{ t.bg }};color:{{ t.fg }};font:500 14px 'Outfit',sans-serif;padding:10px 18px;min-height:44px;cursor:pointer;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);display:flex;gap:8px;align-items:center">{{ t.label }}<span style="font-size:13px;opacity:.7">{{ t.count }}</span></button>
+      </sc-for>
+    </div>
+  </section>
+</div>
+
+<main id="main" style="max-width:1440px;width:100%;margin:0 auto;padding:32px clamp(20px,5.5vw,80px) 120px;display:grid;grid-template-columns:{{ cols }};gap:40px;align-items:start">
+
+  <sc-if value="{{ showFilters }}" hint-placeholder-val="{{ true }}">
+    <aside style="display:flex;flex-direction:column;position:{{ asidePos }};top:calc(var(--rp-hdr,0px) + 16px);transition:top .5s cubic-bezier(.22,1,.36,1);max-height:calc(100vh - 32px - var(--rp-hdr,0px));overflow:auto;padding-right:4px">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid #DCE6D6">
+        <h2 style="margin:0;font-size:17px;font-weight:600">Filters</h2>
+        <sc-if value="{{ anyActive }}"><button onClick="{{ clearAll }}" style="background:none;border:0;font:500 13px 'Outfit',sans-serif;color:#05561F;cursor:pointer;padding:0;text-decoration:underline">Wis alles</button></sc-if>
+      </div>
+      <label style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 0;border-bottom:1px solid #DCE6D6;cursor:pointer">
+        <span style="font-size:15px;font-weight:600">Alleen deals</span>
+        <button onClick="{{ toggleDeals }}" role="switch" aria-checked="{{ onlyDeals }}" style="width:42px;height:24px;border:0;padding:3px;background:{{ dealsTrack }};cursor:pointer;display:flex;justify-content:{{ dealsAlign }};transition:background .2s"><span style="width:18px;height:18px;background:#fff;display:block"></span></button>
+      </label>
+      <label style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 0;border-bottom:1px solid #DCE6D6;cursor:pointer">
+        <span style="font-size:15px;font-weight:600">Verberg uitverkocht</span>
+        <button onClick="{{ toggleHideOut }}" role="switch" aria-checked="{{ hideOutOn }}" style="width:42px;height:24px;border:0;padding:3px;background:{{ hideOutTrack }};cursor:pointer;display:flex;justify-content:{{ hideOutAlign }};transition:background .2s"><span style="width:18px;height:18px;background:#fff;display:block"></span></button>
+      </label>
+      <sc-for list="{{ facets }}" as="f" hint-placeholder-count="5">
+        <div style="border-bottom:1px solid #DCE6D6">
+          <button onClick="{{ f.toggle }}" style="width:100%;background:none;border:0;display:flex;justify-content:space-between;align-items:center;padding:16px 0;font:600 15px 'Outfit',sans-serif;color:#0B2A17;cursor:pointer">{{ f.title }}<svg width="10" height="10" viewBox="0 0 10 10" style="transform:{{ f.rot }};transition:transform .2s"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg></button>
+          <sc-if value="{{ f.open }}">
+            <div style="display:flex;flex-direction:column;gap:2px;padding-bottom:14px">
+              <sc-for list="{{ f.options }}" as="o">
+                <button role="checkbox" aria-checked="{{ o.checked }}" onClick="{{ o.toggle }}" disabled="{{ o.disabled }}" style="background:none;border:0;display:flex;align-items:center;gap:10px;min-height:40px;padding:4px 0;font:400 14px 'Outfit',sans-serif;color:#0B2A17;cursor:pointer;opacity:{{ o.opacity }};text-align:left">
+                  <span style="width:18px;height:18px;border:1.5px solid {{ o.boxBorder }};background:{{ o.boxBg }};display:grid;place-items:center;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 10 10" style="opacity:{{ o.checkOp }}"><path d="M1.5 5l2.5 2.5 4.5-5" fill="none" stroke="#C8E63A" stroke-width="1.8"></path></svg></span>
+                  <span style="flex:1">{{ o.label }}</span>
+                  <span style="font-size:13px;color:#56695C">{{ o.count }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+      <a href="Keuzehulp.dc.html" style="margin-top:20px;background:#033A19;color:#fff;padding:18px;display:flex;flex-direction:column;gap:4px" style-hover="background:#04471F">
+        <span style="font-size:13px;color:#C8E63A;font-weight:600">Te veel keuze?</span>
+        <span style="font-size:15px;font-weight:600">Doe de gratis keuzehulp</span>
+      </a>
+    </aside>
+  </sc-if>
+
+  <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <sc-if value="{{ narrow }}">
+          <button onClick="{{ toggleDrawer }}" style="background:#0B2A17;color:#fff;border:0;font:600 14px 'Outfit',sans-serif;padding:10px 16px;cursor:pointer;display:flex;gap:8px;align-items:center;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M1 3h12M3 7h8M5 11h4" stroke="currentColor" stroke-width="1.6"></path></svg>{{ drawerLabel }}</button>
+        </sc-if>
+        <h2 style="margin:0;font-size:15px;font-weight:400"><strong>{{ total }}</strong> rackets</h2>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <sc-if value="{{ wideView }}" hint-placeholder-val="{{ true }}">
+        <div role="group" aria-label="Weergave" style="display:flex;border:1px solid #DCE6D6">
+          <sc-for list="{{ views }}" as="v" hint-placeholder-count="3">
+            <button onClick="{{ v.select }}" aria-label="{{ v.label }}" title="{{ v.label }}" style="width:40px;height:38px;border:0;background:{{ v.bg }};color:{{ v.fg }};cursor:pointer;display:flex;align-items:center;justify-content:center;gap:2px;transition:background .2s">
+              <sc-for list="{{ v.bars }}" as="b"><span style="width:{{ v.w }};height:14px;background:currentColor;display:block"></span></sc-for>
+            </button>
+          </sc-for>
+        </div>
+      </sc-if>
+      <label style="display:flex;align-items:center;gap:10px;font-size:14px;color:#3C5A47">Sorteer op
+        <select value="{{ sort }}" onChange="{{ onSort }}" style="font:500 14px 'Outfit',sans-serif;color:#0B2A17;border:1px solid #DCE6D6;background:#fff;padding:9px 12px;cursor:pointer">
+          <option value="pop">Populariteit</option>
+          <option value="asc">Prijs laag – hoog</option>
+          <option value="desc">Prijs hoog – laag</option>
+          <option value="disc">Grootste korting</option>
+        </select>
+      </label>
+      </div>
+    </div>
+
+    <sc-if value="{{ anyActive }}">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <sc-for list="{{ chips }}" as="c">
+          <button onClick="{{ c.remove }}" style="background:#F3F7EE;border:0;font:500 13px 'Outfit',sans-serif;color:#0B2A17;padding:8px 12px;cursor:pointer;display:flex;gap:8px;align-items:center" style-hover="background:#E6EFDA">{{ c.label }}<svg width="9" height="9" viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6" stroke="currentColor" stroke-width="1.6"></path></svg></button>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+      <div data-reveal-stagger="" style="display:grid;grid-template-columns:{{ gridCols }};gap:20px">
+        <sc-for list="{{ items }}" as="d" hint-placeholder-count="9">
+          <div style="display:flex;flex-direction:column;border:1px solid #DCE6D6;background:#fff;transition:box-shadow .2s" style-hover="box-shadow:0 14px 30px rgba(4,71,31,.12)">
+            <a href="Product.dc.html" style="position:relative;aspect-ratio:1/1;background:#F4F7F0;display:grid;place-items:center">
+              <img src="assets/racket.png" alt="" style="width:84%;height:84%;object-fit:contain;mix-blend-mode:multiply;opacity:{{ d.imgOp }}">
+              <sc-if value="{{ d.out }}"><span style="position:absolute;top:12px;left:12px;background:#fff;color:#0B2A17;font-size:13px;font-weight:600;padding:5px 10px;box-shadow:0 2px 8px rgba(0,30,10,.12);clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)">Uitverkocht</span></sc-if>
+              <sc-if value="{{ d.dealIn }}"><span style="position:absolute;top:12px;left:12px;background:#033A19;color:#C8E63A;font-size:13px;font-weight:600;padding:5px 10px;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)">-{{ d.pct }}%</span></sc-if>
+            </a>
+            <button onClick="{{ d.toggleFav }}" aria-label="Bewaar {{ d.name }}" aria-pressed="{{ d.favPressed }}" style="position:relative;margin:-52px 6px 8px auto;width:44px;height:44px;border-radius:50%;border:0;background:#fff;display:grid;place-items:center;cursor:pointer">
+              <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z" fill="{{ d.favFill }}" stroke="#033A19" stroke-width="2"></path></svg>
+            </button>
+            <a href="Product.dc.html" style="padding:6px 18px 0;display:flex;flex-direction:column;gap:8px;flex:1;color:#0B2A17">
+              <div style="font-size:13px;color:#3C5A47;font-weight:500;text-transform:uppercase;letter-spacing:.8px">{{ d.brand }} · {{ d.sport }}</div>
+              <h3 style="margin:0;font-size:17px;font-weight:600;line-height:1.25">{{ d.name }}</h3>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <span style="font-size:13px;background:#F3F7EE;padding:3px 8px">{{ d.level }}</span>
+                <span style="font-size:13px;background:#F3F7EE;padding:3px 8px">{{ d.style }}</span>
+                <span style="font-size:13px;background:#F3F7EE;padding:3px 8px">{{ d.weight }}</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:10px;margin-top:auto;padding-top:6px">
+                <span style="font-size:22px;font-weight:700">€{{ d.price }}</span>
+                <sc-if value="{{ d.isDeal }}"><span style="font-size:14px;color:#56695C;text-decoration:line-through">€{{ d.was }}</span></sc-if>
+              </div>
+              <div style="font-size:13px;color:{{ d.metaColor }};font-weight:500">{{ d.meta }}</div>
+            </a>
+            <sc-if value="{{ d.inStock }}" hint-placeholder-val="{{ true }}"><a href="Product.dc.html" style="margin:16px 18px 0;background:#033A19;color:#fff;font-weight:600;font-size:14px;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;transition:background .3s cubic-bezier(.22,1,.36,1);clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="background:#05561F;color:#fff">Bekijk beste prijs<svg data-arrow="" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#C8E63A" stroke-width="1.8"></path></svg></a></sc-if>
+            <sc-if value="{{ d.out }}"><a href="Product.dc.html" style="margin:16px 18px 0;background:#F3F7EE;color:#0B2A17;font-weight:600;font-size:14px;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="background:#E6EFDA">Zet een voorraadalert<svg aria-hidden="true" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#033A19" stroke-width="1.7"><path d="M10 2.5a5 5 0 015 5v3.5l1.5 2.5h-13L5 11V7.5a5 5 0 015-5zM8 16a2 2 0 004 0"></path></svg></a></sc-if>
+            <button onClick="{{ d.toggleCmp }}" aria-pressed="{{ d.cmpPressed }}" aria-label="Vergelijk {{ d.name }}" style="margin:6px 18px 8px;min-height:44px;background:none;border:0;padding:0;display:flex;align-items:center;gap:8px;font:500 13px 'Outfit',sans-serif;color:#0B2A17;cursor:pointer">
+              <span style="width:16px;height:16px;border:1.5px solid {{ d.cmpBorder }};background:{{ d.cmpBg }};display:grid;place-items:center"><svg width="9" height="9" viewBox="0 0 10 10" style="opacity:{{ d.cmpOp }}"><path d="M1.5 5l2.5 2.5 4.5-5" fill="none" stroke="#C8E63A" stroke-width="1.8"></path></svg></span>Vergelijk
+            </button>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+    <sc-if value="{{ noResults }}">
+      <div style="background:#F3F7EE;padding:48px 32px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
+        <span style="font-size:20px;font-weight:600">Geen rackets met deze filters</span>
+        <span style="font-size:15px;color:#3C5A47">Haal een filter weg of probeer de keuzehulp.</span>
+        <button onClick="{{ clearAll }}" style="background:#0B2A17;color:#fff;border:0;font:600 14px 'Outfit',sans-serif;padding:12px 20px;cursor:pointer;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)">Wis alle filters</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ hasMore }}">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:20px">
+        <span style="font-size:14px;color:#3C5A47">{{ shown }} van {{ total }} getoond</span>
+        <div style="width:200px;height:3px;background:#E3EBDD"><div style="height:100%;width:{{ shownPct }};background:#05561F"></div></div>
+        <button onClick="{{ more }}" style="background:#F3F7EE;border:0;font:600 15px 'Outfit',sans-serif;color:#0B2A17;padding:14px 30px;cursor:pointer;margin-top:6px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="background:#E6EFDA">Meer laden</button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ multiPage }}">
+      <nav aria-label="Paginering" style="display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <sc-for list="{{ pageLinks }}" as="p">
+          <a href="{{ p.href }}" onClick="{{ p.go }}" aria-current="{{ p.current }}" style="min-width:44px;height:44px;display:grid;place-items:center;font-size:14px;font-weight:600;background:{{ p.bg }};color:{{ p.fg }}">{{ p.n }}</a>
+        </sc-for>
+      </nav>
+    </sc-if>
+    <sc-if value="{{ hasMoreTail }}">
+      <div>
+      </div>
+    </sc-if>
+  </div>
+</main>
+
+<sc-if value="{{ hasCmp }}">
+  <div style="position:fixed;left:0;right:0;bottom:0;background:#033A19;color:#fff;z-index:20;box-shadow:0 -10px 30px rgba(0,20,8,.25)">
+    <div style="max-width:1440px;margin:0 auto;padding:14px clamp(20px,5.5vw,80px);display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <span style="font-size:14px;font-weight:600;color:#C8E63A">Vergelijken ({{ cmpCount }}/4)</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;flex:1">
+        <sc-for list="{{ cmpList }}" as="c">
+          <button onClick="{{ c.remove }}" style="background:rgba(255,255,255,.1);border:0;color:#fff;font:500 13px 'Outfit',sans-serif;padding:8px 12px;cursor:pointer;display:flex;gap:8px;align-items:center">{{ c.name }}<svg width="9" height="9" viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6" stroke="currentColor" stroke-width="1.6"></path></svg></button>
+        </sc-for>
+      </div>
+      <button onClick="{{ clearCmp }}" style="background:none;border:0;color:#D3E3D7;font:500 14px 'Outfit',sans-serif;cursor:pointer">Wis</button>
+      <button onClick="{{ openCmp }}" disabled="{{ cmpDisabled }}" title="{{ cmpHint }}" style="border:0;background:#C8E63A;color:#033A19;font:600 14px 'Outfit',sans-serif;padding:12px 22px;opacity:{{ cmpBtnOp }};cursor:pointer;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)">Vergelijk nu</button>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ cmpOpen }}">
+  <div data-reveal="" data-trap="" role="dialog" aria-modal="true" aria-label="Vergelijking" style="position:fixed;inset:0;z-index:50;background:#fff;overflow:auto;display:flex;flex-direction:column">
+    <div style="position:sticky;top:0;z-index:3;background:#033A19;color:#fff">
+      <div style="max-width:1440px;margin:0 auto;padding:16px clamp(20px,5.5vw,80px);display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+        <button onClick="{{ closeCmp }}" style="background:none;border:0;color:#fff;font:500 14px 'Outfit',sans-serif;cursor:pointer;display:flex;align-items:center;gap:8px;padding:6px 0"><svg width="8" height="12" viewBox="0 0 8 12"><path d="M6 2L2 6l4 4" fill="none" stroke="currentColor" stroke-width="1.8"></path></svg>Terug naar overzicht</button>
+        <span style="font-size:18px;font-weight:600;flex:1">{{ cmpCount }} rackets vergelijken</span>
+        <button onClick="{{ toggleDiff }}" style="background:none;border:0;color:#fff;font:500 14px 'Outfit',sans-serif;cursor:pointer;display:flex;align-items:center;gap:10px">
+          <span style="width:36px;height:20px;padding:2px;background:{{ diffTrack }};display:flex;justify-content:{{ diffAlign }};transition:background .2s"><span style="width:16px;height:16px;background:#fff;display:block"></span></span>Alleen verschillen
+        </button>
+      </div>
+    </div>
+    <div style="max-width:1440px;width:100%;margin:0 auto;padding:32px clamp(20px,5.5vw,80px) 80px;overflow-x:auto">
+      <div style="min-width:{{ cmpMinW }};display:grid;grid-template-columns:{{ cmpCols }}">
+        <div style="position:sticky;left:0;background:#fff;z-index:1"></div>
+        <sc-for list="{{ cmpHead }}" as="c" hint-placeholder-count="2">
+          <div style="padding:0 12px 24px;display:flex;flex-direction:column;gap:12px;position:relative">
+            <button onClick="{{ c.remove }}" aria-label="Verwijder" style="position:absolute;top:8px;right:20px;width:32px;height:32px;border-radius:50%;border:0;background:#fff;cursor:pointer;display:grid;place-items:center;z-index:1;box-shadow:0 2px 8px rgba(0,30,10,.15)"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6" stroke="#033A19" stroke-width="1.6"></path></svg></button>
+            <div style="aspect-ratio:1/1;background:#F4F7F0;display:grid;place-items:center"><img src="assets/racket.png" alt="" style="width:84%;height:84%;object-fit:contain;mix-blend-mode:multiply"></div>
+            <span style="font-size:13px;color:#3C5A47;font-weight:500;text-transform:uppercase;letter-spacing:.8px">{{ c.brand }}</span>
+            <span style="font-size:18px;font-weight:600;line-height:1.2;min-height:44px">{{ c.name }}</span>
+            <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:24px;font-weight:700">€{{ c.price }}</span><sc-if value="{{ c.isDeal }}"><span style="font-size:14px;color:#56695C;text-decoration:line-through">€{{ c.was }}</span></sc-if></div>
+            <a href="Product.dc.html" style="background:#033A19;color:#fff;font-weight:600;font-size:14px;padding:12px 16px;text-align:center;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="background:#04471F;color:#fff">Bekijk {{ c.shops }} winkels</a>
+          </div>
+        </sc-for>
+        <sc-if value="{{ canAdd }}">
+          <button onClick="{{ closeCmp }}" style="margin:0 12px 24px;border:1.5px dashed #9FB3A5;background:#fff;font:500 14px 'Outfit',sans-serif;color:#3C5A47;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;aspect-ratio:1/1" style-hover="border-color:#033A19;color:#033A19"><span style="font-size:28px;line-height:1">+</span>Racket toevoegen</button>
+        </sc-if>
+        <sc-for list="{{ cmpRows }}" as="row" hint-placeholder-count="7">
+          <div style="display:contents">
+            <div style="position:sticky;left:0;background:{{ row.bg }};z-index:1;padding:16px 16px 16px 0;font-size:14px;font-weight:600;border-top:1px solid #E3EBDD">{{ row.label }}</div>
+            <sc-for list="{{ row.cells }}" as="cell">
+              <div style="padding:16px 12px;font-size:15px;border-top:1px solid #E3EBDD;background:{{ row.bg }};display:flex;align-items:center;gap:8px;font-weight:{{ cell.weight }};color:{{ cell.color }}">{{ cell.v }}<sc-if value="{{ cell.best }}"><span style="font-size:12px;font-weight:600;background:#C8E63A;color:#033A19;padding:3px 7px;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)">Beste</span></sc-if></div>
+            </sc-for>
+            <sc-if value="{{ canAdd }}"><div style="border-top:1px solid #E3EBDD;background:{{ row.bg }}"></div></sc-if>
+          </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ noDiffs }}"><div style="padding:32px 0;font-size:15px;color:#3C5A47">Deze rackets verschillen nergens behalve in prijs.</div></sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<dc-import name="Footer" hint-size="100%,520px" style="margin-top:auto;order:20;display:block"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const OUT = new Set(['NoxML10 Pro Cup', 'WilsonClash 100', 'DunlopBlaze Pro', 'SelkirkAmped Epic', 'YonexArcsaber 11']);
+const R = (sport, brand, name, level, style, price, was, shops, weight, pop) => ({ id: brand + name, sport, brand, name, level, style, price, was, shops, weight, pop, out: OUT.has(brand + name) });
+const ALL = [
+  R('Padel','Head','Delta Pro','Gevorderd','Allround',129,199,10,'Gemiddeld',96), R('Padel','Bullpadel','Vertex 04','Competitie','Power',189,299,14,'Zwaar',99), R('Padel','Nox','AT10 Genius 18K','Competitie','Allround',214,329,11,'Gemiddeld',97), R('Padel','Adidas','Match 3.3','Beginner','Controle',69,0,9,'Licht',80), R('Padel','Babolat','Contact','Beginner','Controle',59,79,8,'Licht',72), R('Padel','Bullpadel','Hack 03','Competitie','Power',229,0,12,'Zwaar',93), R('Padel','Head','Extreme One','Gevorderd','Power',159,219,9,'Gemiddeld',85), R('Padel','Nox','ML10 Pro Cup','Gevorderd','Controle',119,0,13,'Gemiddeld',90), R('Padel','Adidas','Metalbone 3.3','Competitie','Power',249,299,10,'Zwaar',88), R('Padel','Siux','Electra ST3','Gevorderd','Allround',179,0,6,'Gemiddeld',74),
+  R('Tennis','Babolat','Pure Drive','Gevorderd','Allround',169,219,12,'Gemiddeld',98), R('Tennis','Babolat','Pure Aero 98','Gevorderd','Power',179,249,9,'Zwaar',91), R('Tennis','Wilson','Blade 98 v9','Competitie','Controle',189,269,8,'Zwaar',94), R('Tennis','Wilson','Clash 100','Gevorderd','Controle',179,0,10,'Gemiddeld',89), R('Tennis','Head','Speed MP','Competitie','Allround',164,239,12,'Gemiddeld',95), R('Tennis','Head','Ti.S6','Beginner','Power',69,0,7,'Licht',70), R('Tennis','Babolat','Evoke 102','Beginner','Allround',59,0,6,'Licht',66), R('Tennis','Yonex','Ezone 100','Gevorderd','Power',189,0,7,'Gemiddeld',87),
+  R('Badminton','Yonex','Astrox 88D Pro','Competitie','Power',159,229,7,'Zwaar',92), R('Badminton','Yonex','Nanoflare 800','Competitie','Controle',139,199,6,'Licht',90), R('Badminton','Yonex','Arcsaber 11','Gevorderd','Allround',149,0,6,'Gemiddeld',84), R('Badminton','Victor','Thruster K','Gevorderd','Power',119,0,5,'Zwaar',78), R('Badminton','Yonex','Nanoflare 001','Beginner','Controle',49,0,8,'Licht',76), R('Badminton','Li-Ning','Axforce 10','Beginner','Allround',45,59,5,'Licht',64),
+  R('Squash','Dunlop','Hyperfibre XT','Competitie','Controle',149,0,6,'Gemiddeld',82), R('Squash','Dunlop','Sonic Core Pro','Gevorderd','Allround',129,169,7,'Gemiddeld',86), R('Squash','Head','Speed 120','Gevorderd','Power',139,0,6,'Licht',79), R('Squash','Tecnifibre','Carboflex 125','Competitie','Power',169,0,5,'Licht',81), R('Squash','Dunlop','Blaze Pro','Beginner','Allround',39,0,8,'Zwaar',60),
+  R('Pickleball','Joola','Perseus 16','Competitie','Power',229,0,5,'Zwaar',88), R('Pickleball','Selkirk','Vanguard Power Air','Gevorderd','Controle',189,239,4,'Gemiddeld',83), R('Pickleball','Franklin','Signature Pro','Beginner','Allround',79,0,6,'Gemiddeld',71), R('Pickleball','Selkirk','Amped Epic','Gevorderd','Allround',139,0,5,'Gemiddeld',77), R('Pickleball','Head','Radical Tour','Beginner','Power',59,79,5,'Licht',63),
+  R('Tafeltennis','Butterfly','Timo Boll ALC','Competitie','Allround',169,0,6,'Gemiddeld',85), R('Tafeltennis','Stiga','Cybershape Carbon','Competitie','Power',189,229,5,'Gemiddeld',80), R('Tafeltennis','Donic','Waldner Senso','Gevorderd','Controle',89,0,6,'Licht',73), R('Tafeltennis','Stiga','Pro Carbon+','Gevorderd','Power',79,99,7,'Gemiddeld',75), R('Tafeltennis','Butterfly','Timo Boll Platin','Beginner','Allround',39,0,8,'Licht',62)
+];
+const SPORTS = ['Padel','Tennis','Badminton','Squash','Pickleball','Tafeltennis'];
+const BUD = [['Tot €75',0,75],['€75 – €150',75,150],['€150 – €250',150,250],['€250+',250,9999]];
+const FACETS = [
+  { key: 'brand', title: 'Merk', get: r => r.brand },
+  { key: 'price', title: 'Prijs', opts: BUD.map(b => b[0]), get: r => BUD.find(b => r.price >= b[1] && r.price < b[2])[0] },
+  { key: 'level', title: 'Niveau', opts: ['Beginner','Gevorderd','Competitie'], get: r => r.level },
+  { key: 'style', title: 'Speelstijl', opts: ['Controle','Allround','Power'], get: r => r.style },
+  { key: 'weight', title: 'Gewicht', opts: ['Licht','Gemiddeld','Zwaar'], get: r => r.weight }
+];
+const PAGE = 9;
+const PFX = { brand: 'merk', price: 'prijs', level: 'niveau', style: 'stijl', weight: 'gewicht' };
+const slug = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/€/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+class Component extends DCLogic {
+  state = { sport: null, f: {}, onlyDeals: false, sort: 'pop', open: { brand: false, price: true, level: true, style: false, weight: false }, pages: 1, favs: {}, cmp: [], w: 1440, drawer: false, perRow: 3, cmpOpen: false, diffOnly: false };
+  parseHash() {
+    const segs = decodeURIComponent(location.hash.slice(1)).toLowerCase().split('/').filter(Boolean);
+    const o = { sport: null, f: {}, onlyDeals: false, pages: 1, cmpOpen: false, q: '' };
+    segs.forEach(sg => {
+      const sp = SPORTS.find(x => slug(x) === sg);
+      if (sp) { o.sport = sp; return; }
+      if (sg === 'deals') { o.onlyDeals = true; return; }
+      if (sg.startsWith('zoek-')) { o.q = sg.slice(5).replace(/-/g, ' '); return; }
+      let m = sg.match(/^pagina-(\d+)$/); if (m) { o.pages = +m[1]; return; }
+      m = sg.match(/^vergelijk-([\d-]+)$/); if (m) { o.cmp = m[1].split('-').map(Number).filter(i => ALL[i]).map(i => ALL[i].id).slice(0, 4); o.cmpOpen = o.cmp.length >= 2; return; }
+      const fc = FACETS.find(f => sg.startsWith(PFX[f.key] + '-'));
+      if (fc) { const v = sg.slice(PFX[fc.key].length + 1), opts = fc.opts || [...new Set(ALL.map(fc.get))], hit = opts.find(x => slug(x) === v); if (hit) o.f[fc.key] = [...(o.f[fc.key] || []), hit]; }
+    });
+    if (o.cmpOpen) document.body.style.overflow = 'hidden';
+    this.setState(o);
+  }
+  buildHash() {
+    const s = this.state, out = [];
+    if (s.q) out.push('zoek-' + slug(s.q));
+    if (s.sport) out.push(slug(s.sport));
+    FACETS.forEach(f => (s.f[f.key] || []).forEach(v => out.push(PFX[f.key] + '-' + slug(v))));
+    if (s.onlyDeals) out.push('deals');
+    if (s.pages > 1) out.push('pagina-' + s.pages);
+    if (s.cmpOpen && s.cmp.length >= 2) out.push('vergelijk-' + s.cmp.map(id => ALL.findIndex(r => r.id === id)).join('-'));
+    return out.join('/');
+  }
+  componentDidMount() { this.__fv = () => this.forceUpdate(); window.addEventListener('rp-favs', this.__fv);
+    this.onR = () => this.setState({ w: window.innerWidth });
+    this.onHash = () => this.parseHash();
+    this.onKey = e => { if (e.key === 'Escape' && this.state.cmpOpen) { document.body.style.overflow = ''; this.setState({ cmpOpen: false }); } };
+    this.onR(); window.addEventListener('resize', this.onR); window.addEventListener('hashchange', this.onHash); window.addEventListener('keydown', this.onKey);
+    this.parseHash();
+  }
+  componentDidUpdate() {
+    const hs = this.buildHash();
+    if (decodeURIComponent(location.hash.slice(1)) !== hs) history.replaceState(null, '', hs ? '#' + hs : location.pathname + location.search);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onR); window.removeEventListener('hashchange', this.onHash); window.removeEventListener('keydown', this.onKey); document.body.style.overflow = ''; }
+  match(r, skip) {
+    const s = this.state;
+    if (s.sport && r.sport !== s.sport) return false;
+    if (s.onlyDeals && !r.was) return false;
+    if (s.q && !s.q.split(' ').every(w => (r.brand + ' ' + r.name + ' ' + r.sport).toLowerCase().includes(w))) return false;
+    return FACETS.every(f => f.key === skip || !(s.f[f.key] || []).length || s.f[f.key].includes(f.get(r)));
+  }
+  renderVals() {
+    const s = this.state, set = o => this.setState(o);
+    const upd = (key, val) => { const cur = s.f[key] || []; set({ f: { ...s.f, [key]: cur.includes(val) ? cur.filter(v => v !== val) : [...cur, val] }, pages: 1 }); };
+    let list = ALL.filter(r => this.match(r));
+    const sorters = { pop: (a, b) => b.pop - a.pop, asc: (a, b) => a.price - b.price, desc: (a, b) => b.price - a.price, disc: (a, b) => (b.was ? 1 - b.price / b.was : 0) - (a.was ? 1 - a.price / a.was : 0) };
+    if (s.hideOut) list = list.filter(r => !r.out);
+    list = [...list].sort((a, b) => (a.out - b.out) || sorters[s.sort](a, b));
+    const narrowGrid = s.w < 900, per = narrowGrid ? 3 : s.perRow, shown = list.slice(0, s.pages * per * 3);
+    const narrow = s.w < 900;
+    const facets = FACETS.map(f => {
+      const pool = ALL.filter(r => this.match(r, f.key));
+      const opts = f.opts || [...new Set(ALL.filter(r => !s.sport || r.sport === s.sport).map(f.get))].sort();
+      const sel = s.f[f.key] || [];
+      return { title: f.title, open: !!s.open[f.key], rot: s.open[f.key] ? 'rotate(180deg)' : 'none', toggle: () => set({ open: { ...s.open, [f.key]: !s.open[f.key] } }),
+        options: opts.map(label => { const on = sel.includes(label), n = pool.filter(r => f.get(r) === label).length;
+          return { label, count: n, disabled: !on && n === 0, opacity: !on && n === 0 ? .4 : 1, boxBg: on ? '#033A19' : '#fff', boxBorder: on ? '#033A19' : '#56695C', checked: on ? 'true' : 'false', checkOp: on ? 1 : 0, toggle: () => upd(f.key, label) }; }) };
+    });
+    const chips = [];
+    if (s.q) chips.push({ label: 'Zoekterm: ' + s.q, remove: () => set({ q: '' }) });
+    if (s.onlyDeals) chips.push({ label: 'Alleen deals', remove: () => set({ onlyDeals: false }) });
+    FACETS.forEach(f => (s.f[f.key] || []).forEach(v => chips.push({ label: v, remove: () => upd(f.key, v) })));
+    const cmpItems = s.cmp.map(id => ALL.find(r => r.id === id));
+    return {
+      notSubscribed: !this.state.subscribed, subscribed: !!this.state.subscribed,
+      subscribe: e => { e.preventDefault(); this.setState({ subscribed: true }); },
+      footerCols: [
+        { title: 'Vergelijken', links: ['Padelrackets', 'Tennisrackets', 'Badmintonrackets', 'Schoenen', 'Deals'] },
+        { title: 'Hulp', links: ['Keuzehulp', 'Gidsen', 'Prijshistorie', 'Veelgestelde vragen'] },
+        { title: 'Racketpicker', links: ['Over ons', 'Hoe we verdienen', 'Contact', 'Privacy'] }
+      ],
+      ...(() => {
+        const cur = this.state.lang || (typeof localStorage !== 'undefined' && localStorage.getItem('rp-lang')) || 'nl';
+        return {
+          langCode: cur.toUpperCase(), langOpen: !!this.state.langOpen,
+          toggleLang: () => this.setState({ langOpen: !this.state.langOpen }),
+          langs: [['nl', 'Nederlands'], ['en', 'English'], ['es', 'Español']].map(([c, name]) => {
+            const soon = c === 'es';
+            return { name, soon, note: soon ? 'Binnenkort' : c === cur ? '✓' : '', color: soon ? '#9FB3A5' : '#0B2A17',
+              pick: () => { if (soon) return; localStorage.setItem('rp-lang', c); this.setState({ lang: c, langOpen: false }); } };
+          })
+        };
+      })(),
+      nav: ['Rackets','Schoenen','Kleding','Accessoires','Merken'].map(l => ({ label: l, href: l === 'Rackets' ? 'Rackets.dc.html' : 'Homepagina.dc.html', line: l === 'Rackets' ? '#C8E63A' : 'transparent' })),
+      pageTitle: s.q ? `Zoekresultaten voor “${s.q}”` : s.sport ? `${s.sport}rackets vergelijken` : 'Alle rackets vergelijken',
+      hasSportCrumb: !!s.sport, sportCrumb: s.sport,
+      sportTabs: [null, ...SPORTS].map(sp => ({ label: sp || 'Alle sporten', count: ALL.filter(r => !sp || r.sport === sp).length, bg: s.sport === sp ? '#C8E63A' : 'rgba(255,255,255,.1)', fg: s.sport === sp ? '#033A19' : '#fff',
+        pressed: s.sport === sp ? 'true' : 'false', select: () => set({ sport: sp, f: {}, pages: 1 }) })),
+      asidePos: narrow ? 'static' : 'sticky',
+      cols: narrow ? 'minmax(0,1fr)' : '260px minmax(0,1fr)',
+      showFilters: !narrow || s.drawer, narrow,
+      toggleDrawer: () => set({ drawer: !s.drawer }), drawerLabel: s.drawer ? 'Verberg filters' : `Filters${chips.length ? ' (' + chips.length + ')' : ''}`,
+      facets, chips, anyActive: chips.length > 0,
+      clearAll: () => set({ f: {}, onlyDeals: false, pages: 1, q: '' }),
+      onlyDeals: s.onlyDeals, toggleDeals: e => { e.preventDefault(); set({ onlyDeals: !s.onlyDeals, pages: 1 }); },
+      hideOutOn: s.hideOut ? 'true' : 'false', hideOutTrack: s.hideOut ? '#033A19' : '#B9C7BD', hideOutAlign: s.hideOut ? 'flex-end' : 'flex-start',
+      toggleHideOut: e => { e.preventDefault(); set({ hideOut: !s.hideOut, pages: 1 }); },
+      dealsTrack: s.onlyDeals ? '#033A19' : '#C9D6C4', dealsAlign: s.onlyDeals ? 'flex-end' : 'flex-start',
+      sort: s.sort, onSort: e => set({ sort: e.target.value }),
+      total: list.length, shown: shown.length, shownPct: Math.round(shown.length / Math.max(1, list.length) * 100) + '%',
+      hasResults: list.length > 0, noResults: list.length === 0,
+      hasMore: list.length > shown.length, hasMoreTail: false,
+      multiPage: Math.ceil(list.length / (per * 3)) > 1,
+      pageLinks: Array.from({ length: Math.ceil(list.length / (per * 3)) }, (_, i) => { const n = i + 1, on = s.pages === n;
+        const segs = this.buildHash().split('/').filter(x => x && !x.startsWith('pagina-')); if (n > 1) segs.push('pagina-' + n);
+        return { n, href: '#' + segs.join('/'), current: on ? 'page' : 'false', bg: on ? '#0B2A17' : '#F3F7EE', fg: on ? '#fff' : '#0B2A17', go: e => { e.preventDefault(); set({ pages: n }); } }; }), more: () => set({ pages: s.pages + 1 }),
+      items: shown.map(r => { const inCmp = s.cmp.includes(r.id);
+        return { ...r, isDeal: !!r.was, dealIn: !!r.was && !r.out, inStock: !r.out, imgOp: r.out ? .45 : 1, meta: r.out ? 'Bij geen enkele winkel op voorraad' : 'Bij ' + r.shops + ' winkels vergeleken', metaColor: r.out ? '#56695C' : '#05561F', pct: r.was ? Math.round((1 - r.price / r.was) * 100) : 0,
+          favFill: window.rpFavs?.has(r) ? '#C8E63A' : 'none', toggleFav: () => window.rpFavs?.toggle(r),
+          cmpBg: inCmp ? '#033A19' : '#fff', cmpBorder: inCmp ? '#033A19' : '#56695C', cmpOp: inCmp ? 1 : 0, cmpPressed: inCmp ? 'true' : 'false', favPressed: window.rpFavs?.has(r) ? 'true' : 'false',
+          toggleCmp: () => set({ cmp: inCmp ? s.cmp.filter(x => x !== r.id) : s.cmp.length < 4 ? [...s.cmp, r.id] : s.cmp }) }; }),
+      wideView: !narrowGrid,
+      gridCols: narrowGrid ? 'repeat(auto-fill,minmax(230px,1fr))' : 'repeat(' + s.perRow + ',minmax(0,1fr))',
+      views: [2, 3, 4].map(n => ({ label: n + ' per rij', bars: Array.from({ length: n }), w: n === 2 ? '7px' : n === 3 ? '5px' : '4px', bg: s.perRow === n ? '#0B2A17' : '#fff', fg: s.perRow === n ? '#fff' : '#3C5A47', select: () => set({ perRow: n }) })),
+      hasCmp: s.cmp.length > 0 && !s.cmpOpen, cmpCount: s.cmp.length, cmpBtnOp: s.cmp.length >= 2 ? 1 : .5,
+      cmpDisabled: s.cmp.length < 2, cmpHint: s.cmp.length < 2 ? 'Kies minstens 2 rackets' : '',
+      openCmp: () => { if (s.cmp.length >= 2) { set({ cmpOpen: true }); document.body.style.overflow = 'hidden'; } },
+      closeCmp: () => { set({ cmpOpen: false }); document.body.style.overflow = ''; },
+      cmpOpen: s.cmpOpen && s.cmp.length >= 1,
+      toggleDiff: () => set({ diffOnly: !s.diffOnly }), diffTrack: s.diffOnly ? '#C8E63A' : 'rgba(255,255,255,.25)', diffAlign: s.diffOnly ? 'flex-end' : 'flex-start',
+      canAdd: s.cmp.length < 4,
+      cmpCols: '160px repeat(' + (s.cmp.length + (s.cmp.length < 4 ? 1 : 0)) + ', minmax(200px,1fr))',
+      cmpMinW: (160 + 210 * (s.cmp.length + (s.cmp.length < 4 ? 1 : 0))) + 'px',
+      cmpHead: cmpItems.map(r => ({ ...r, isDeal: !!r.was, remove: () => { const n = s.cmp.filter(x => x !== r.id); set({ cmp: n, cmpOpen: n.length >= 2 && s.cmpOpen }); if (n.length < 2) document.body.style.overflow = ''; } })),
+      ...(() => {
+        const defs = [
+          ['Laagste prijs', r => r.price, v => '€' + v, 'min'],
+          ['Korting', r => r.was ? Math.round((1 - r.price / r.was) * 100) : 0, v => v ? v + '%' : 'Geen', 'max'],
+          ['Aantal winkels', r => r.shops, v => v, 'max'],
+          ['Sport', r => r.sport, v => v],
+          ['Niveau', r => r.level, v => v],
+          ['Speelstijl', r => r.style, v => v],
+          ['Gewicht', r => r.weight, v => v],
+          ['Populariteit', r => r.pop, v => v + '/100', 'max']
+        ];
+        let rows = defs.map(([label, get, fmt, best]) => {
+          const vals = cmpItems.map(get), same = vals.every(v => v === vals[0]);
+          const target = best === 'min' ? Math.min(...vals) : best === 'max' ? Math.max(...vals) : null;
+          return { label, same, cells: vals.map(v => { const b = best && !same && v === target; return { v: fmt(v), best: b, weight: b ? 600 : 400, color: b ? '#05561F' : '#0B2A17' }; }) };
+        });
+        if (s.diffOnly) rows = rows.filter(r => !r.same);
+        rows = rows.map((r, i) => ({ ...r, bg: i % 2 ? '#fff' : '#F8FBF5' }));
+        return { cmpRows: rows, noDiffs: s.diffOnly && rows.length === 0 };
+      })(),
+      cmpList: cmpItems.map(r => ({ name: r.name, remove: () => set({ cmp: s.cmp.filter(x => x !== r.id) }) })),
+      clearCmp: () => set({ cmp: [] })
+    };
+  }
+}
+</script>
+</body>
+</html>

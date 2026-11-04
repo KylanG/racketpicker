@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Asics Gel-Padel Pro 5: prijzen per maat vergelijken | Racketpicker</title>
+<meta name="description" content="Vergelijk de prijs van de Asics Gel-Padel Pro 5 per maat bij 6 winkels. Zie direct welke winkel jouw maat op voorraad heeft.">
+<style>
+body{margin:0;background:#fff;font-family:'Outfit',sans-serif;color:#0B2A17;-webkit-font-smoothing:antialiased}
+a{color:#0B2A17;text-decoration:none}a:hover{color:#05561F}
+*{box-sizing:border-box}
+:focus-visible{outline:3px solid #0B2A17;outline-offset:2px;box-shadow:0 0 0 6px #C8E63A}
+[style*="clip-path"]:focus-visible{clip-path:none!important}
+</style>
+<script src="reveal.js"></script>
+<script src="favs.js"></script>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <div style="background:radial-gradient(ellipse 70% 120% at 40% 20%, #07602A 0%, #04471F 60%, #033A19 100%);color:#fff">
+    <dc-import name="Header" active="schoenen" hint-size="100%,88px" style="position:relative;z-index:30;display:block"></dc-import>
+  </div>
+  <section id="main" style="max-width:1440px;width:100%;margin:0 auto;padding:28px clamp(20px,5.5vw,80px) 64px;display:flex;flex-direction:column;gap:28px">
+    <nav aria-label="Kruimelpad" style="display:flex;gap:8px;font-size:13px;color:#3C5A47;flex-wrap:wrap"><a href="Homepagina.dc.html" style="color:#3C5A47">Home</a><span aria-hidden="true">/</span><a href="Categorie.dc.html#schoenen" style="color:#3C5A47">Schoenen</a><span aria-hidden="true">/</span><a href="Categorie.dc.html#schoenen/padelschoenen" style="color:#3C5A47">Padelschoenen</a><span aria-hidden="true">/</span><span>Gel-Padel Pro 5</span></nav>
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(32px,4vw,64px);align-items:flex-start">
+      <div data-reveal="" style="flex:1 1 min(100%,440px);display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+        <div style="grid-column:1/-1;aspect-ratio:1/1;background:#F4F7F0;display:grid;place-items:center;position:relative">
+          <span style="position:absolute;top:16px;left:16px;background:#033A19;color:#C8E63A;font-size:13px;font-weight:600;padding:6px 12px;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)">-22%</span>
+          <span style="font:500 13px ui-monospace,monospace;color:#56695C">productfoto</span>
+        </div>
+        <div style="aspect-ratio:1/1;background:#F4F7F0;border:1.5px solid #033A19"></div><div style="aspect-ratio:1/1;background:#F4F7F0"></div><div style="aspect-ratio:1/1;background:#F4F7F0"></div><div style="aspect-ratio:1/1;background:#F4F7F0"></div>
+      </div>
+
+      <div data-reveal="" style="flex:1 1 min(100%,440px);display:flex;flex-direction:column;gap:22px">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:13px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:#05561F">Asics · Padelschoenen · Heren</span>
+          <h1 style="margin:0;font-weight:600;font-size:clamp(30px,3vw,42px);line-height:1.08;letter-spacing:-.4px"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">Asics </span>Gel-Padel Pro 5</h1>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+            <span style="font-size:15px;font-weight:600">Kies je maat (EU)</span>
+            <a href="#maatadvies" style="font-size:14px;font-weight:500;text-decoration:underline">Maatadvies</a>
+          </div>
+          <div role="radiogroup" aria-label="Maat" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:8px">
+            <sc-for list="{{ sizes }}" as="z" hint-placeholder-count="8">
+              <button role="radio" aria-checked="{{ z.checked }}" onClick="{{ z.pick }}" disabled="{{ z.none }}" title="{{ z.title }}" style="position:relative;min-height:52px;border:1.5px solid {{ z.border }};background:{{ z.bg }};color:{{ z.fg }};font:600 15px 'Outfit',sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;transition:background .3s cubic-bezier(.22,1,.36,1)">{{ z.n }}<span style="font-size:11px;font-weight:500;opacity:.8">{{ z.note }}</span></button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="border:1px solid #DCE6D6;padding:24px;display:flex;flex-direction:column;gap:16px">
+          <sc-if value="{{ noSize }}" hint-placeholder-val="{{ true }}">
+            <span style="font-size:14px;color:#3C5A47">Laagste prijs, alle maten</span>
+            <div style="display:flex;align-items:baseline;gap:12px"><span style="font-size:40px;font-weight:700;letter-spacing:-.5px">vanaf €{{ fromPrice }}</span><span style="font-size:17px;color:#56695C;text-decoration:line-through">€139</span></div>
+            <div style="background:#F3F7EE;padding:14px 16px;font-size:15px;font-weight:500">Kies je maat om te zien welke winkels hem hebben.</div>
+          </sc-if>
+          <sc-if value="{{ hasSize }}">
+            <span style="font-size:14px;color:#3C5A47">Laagste prijs in maat <strong style="color:#0B2A17">{{ size }}</strong> bij <strong style="color:#0B2A17">{{ best.name }}</strong></span>
+            <div style="display:flex;align-items:baseline;gap:12px"><span style="font-size:40px;font-weight:700;letter-spacing:-.5px">€{{ best.price }}</span><span style="font-size:17px;color:#56695C;text-decoration:line-through">€139</span></div>
+            <span style="font-size:14px;color:#05561F;font-weight:500">Maat {{ size }} op voorraad bij {{ availCount }} van {{ shopCount }} winkels · {{ best.delivery }}</span>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <a href="Doorsturen.dc.html#{{ best.name }}" style="flex:1;min-width:200px;background:#C8E63A;color:#033A19;font-weight:600;font-size:16px;padding:17px 22px;display:flex;justify-content:space-between;align-items:center;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="background:#D8F25A;color:#033A19"><span>Bekijk bij {{ best.name }}</span><svg data-arrow="" aria-hidden="true" width="13" height="13" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#033A19" stroke-width="1.8"></path></svg></a>
+              <button onClick="{{ toggleFav }}" aria-label="Bewaar deze schoen" aria-pressed="{{ favPressed }}" style="width:56px;border:1.5px solid #DCE6D6;background:#fff;cursor:pointer;display:grid;place-items:center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z" fill="{{ favFill }}" stroke="#033A19" stroke-width="2"></path></svg></button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ sizeOut }}">
+            <span style="font-size:14px;color:#3C5A47">Maat <strong style="color:#0B2A17">{{ size }}</strong></span>
+            <span style="font-size:30px;font-weight:700;letter-spacing:-.4px">In deze maat uitverkocht</span>
+            <a href="#prijzen" style="align-self:flex-start;background:#033A19;color:#fff;font-weight:600;font-size:15px;padding:14px 22px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="background:#05561F;color:#fff">Zet een voorraadalert voor maat {{ size }}</a>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="prijzen" style="max-width:1440px;width:100%;margin:0 auto;padding:40px clamp(20px,5.5vw,80px);display:flex;flex-direction:column;gap:20px">
+    <h2 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(26px,2.4vw,34px);letter-spacing:-.3px">{{ listTitle }}</h2>
+    <div data-reveal-stagger="" style="display:flex;flex-direction:column;border-top:1px solid #DCE6D6">
+      <sc-for list="{{ shops }}" as="s" hint-placeholder-count="6">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,130px),1fr));gap:12px 16px;align-items:center;padding:16px;border-bottom:1px solid #DCE6D6;background:{{ s.bg }}">
+          <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:16px;font-weight:600">{{ s.name }}</span><span style="font-size:13px;font-weight:600;color:{{ s.noteColor }}">{{ s.note }}</span></div>
+          <div style="display:flex;flex-direction:column;gap:2px;opacity:{{ s.op }}"><span style="font-size:13px;color:#56695C">Prijs</span><span style="font-size:16px;font-weight:600">€{{ s.price }}</span></div>
+          <div style="display:flex;flex-direction:column;gap:2px;opacity:{{ s.op }}"><span style="font-size:13px;color:#56695C">Levertijd</span><span style="font-size:15px">{{ s.delivery }}</span></div>
+          <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#56695C">Maten</span><span style="font-size:14px">{{ s.range }}</span></div>
+          <sc-if value="{{ s.ok }}" hint-placeholder-val="{{ true }}"><a href="Doorsturen.dc.html#{{ s.name }}" style="background:{{ s.btnBg }};color:{{ s.btnFg }};font-weight:600;font-size:14px;padding:12px 18px;white-space:nowrap;display:flex;gap:10px;align-items:center;justify-content:space-between;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="opacity:.9"><span>Bekijk bij winkel</span><svg data-arrow="" aria-hidden="true" width="11" height="11" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="currentColor" stroke-width="1.8"></path></svg></a></sc-if>
+          <sc-if value="{{ s.notOk }}"><span style="background:#EEF1EC;color:#56695C;font-weight:600;font-size:14px;padding:12px 18px;text-align:center;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)">{{ s.missLabel }}</span></sc-if>
+        </div>
+      </sc-for>
+    </div>
+    <p style="margin:0;font-size:13px;color:#56695C">Voorraad per maat voor het laatst gecontroleerd vandaag om 09:00. Koop je via ons, dan krijgt Racketpicker een vergoeding van de winkel. Dat kost jou niets extra.</p>
+  </section>
+
+  <section id="maatadvies" style="max-width:1440px;width:100%;margin:0 auto;padding:56px clamp(20px,5.5vw,80px) 120px;display:flex;flex-wrap:wrap;gap:28px 48px;align-items:flex-start;scroll-margin-top:calc(var(--rp-hdr,0px) + 24px)">
+    <h2 data-reveal="" style="flex:1 1 260px;margin:0;font-weight:600;font-size:clamp(26px,2.4vw,34px);letter-spacing:-.3px">Maatadvies</h2>
+    <div data-reveal="" style="flex:2 1 min(100%,560px);display:flex;flex-direction:column;gap:14px;font-size:17px;line-height:1.65;color:#23402E">
+      <p style="margin:0">De Gel-Padel Pro 5 valt normaal op maat. Twijfel je tussen twee maten, kies dan de grotere: bij padel schuift je voet bij zijdelingse bewegingen naar voren.</p>
+      <p style="margin:0">Heb je een brede voet? Kijk dan of de winkel een wide-versie aanbiedt, of kies een halve maat groter.</p>
+    </div>
+  </section>
+  <dc-import name="Footer" hint-size="100%,520px" style="margin-top:auto;display:block"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SIZES = [39, 40, 41, 42, 43, 44, 45, 46];
+const SHOPS = [
+  ['Padelshop.nl', 109, '1–2 werkdagen', [40, 41, 42, 43, 44]], ['Bol', 114, 'Morgen in huis', [41, 42, 43, 45, 46]], ['Tennis-Point', 112, '2–3 werkdagen', [40, 42, 43, 44, 45, 46]],
+  ['Decathlon', 119, '2–4 werkdagen', [42, 43, 44]], ['Zalando', 124, '1–3 werkdagen', [40, 41, 42, 43, 44, 45]], ['Padel-point', 116, '1–2 werkdagen', [43, 44, 45]]
+].map(([name, price, delivery, sz]) => ({ name, price, delivery, sz }));
+
+class Component extends DCLogic {
+  state = { size: null };
+  componentDidMount() { this.__fv = () => this.forceUpdate(); window.addEventListener('rp-favs', this.__fv); }
+  componentWillUnmount() { window.removeEventListener('rp-favs', this.__fv); }
+  renderVals() {
+    const s = this.state, z = s.size;
+    const has = (sh, n) => sh.sz.includes(n);
+    const shops = [...SHOPS].sort((a, b) => z ? ((has(b, z) - has(a, z)) || a.price - b.price) : a.price - b.price);
+    const avail = z ? shops.filter(x => has(x, z)) : shops;
+    const best = avail[0] || shops[0];
+    const it = { brand: 'Asics', name: 'Gel-Padel Pro 5', sport: 'Padelschoenen', price: best.price, shops: SHOPS.length }, fav = !!(window.rpFavs && window.rpFavs.has(it));
+    return {
+      sizes: SIZES.map(n => { const c = SHOPS.filter(x => has(x, n)).length, on = z === n;
+        return { n, checked: on ? 'true' : 'false', none: false, title: c ? c + ' winkels' : 'Uitverkocht', note: c ? (c <= 1 ? 'laatste' : '') : 'op', border: on ? '#033A19' : c ? '#8FA595' : '#DCE6D6', bg: on ? '#033A19' : '#fff', fg: on ? '#fff' : c ? '#0B2A17' : '#9AAAA0', pick: () => this.setState({ size: on ? null : n }) }; }),
+      size: z, noSize: !z, hasSize: !!z && avail.length > 0, sizeOut: !!z && avail.length === 0,
+      fromPrice: Math.min(...SHOPS.map(x => x.price)), best, availCount: avail.length, shopCount: SHOPS.length,
+      listTitle: z ? `Winkels met maat ${z}` : `Prijzen bij ${SHOPS.length} winkels`,
+      favFill: fav ? '#C8E63A' : 'none', favPressed: fav ? 'true' : 'false', toggleFav: () => window.rpFavs && window.rpFavs.toggle(it),
+      shops: shops.map((x, i) => { const ok = !z || has(x, z), top = z && ok && x === best;
+        return { ...x, ok, notOk: !ok, op: ok ? 1 : .5, bg: top ? '#F8FBF0' : 'transparent', range: x.sz[0] + '–' + x.sz[x.sz.length - 1] + ' (' + x.sz.length + ' maten)',
+          note: top ? 'Beste deal in maat ' + z : !ok ? 'Maat ' + z + ' niet leverbaar' : '', noteColor: ok ? '#05561F' : '#8A4B1F',
+          btnBg: top ? '#C8E63A' : '#033A19', btnFg: top ? '#033A19' : '#fff', missLabel: 'Niet in maat ' + z }; })
+    };
+  }
+}
+</script>
+</body>
+</html>

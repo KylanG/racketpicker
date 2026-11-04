@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Artikel | Racketpicker</title>
+<style>
+body{margin:0;background:#fff;font-family:'Outfit',sans-serif;color:#0B2A17;-webkit-font-smoothing:antialiased}
+a{color:#0B2A17;text-decoration:none}a:hover{color:#05561F}
+*{box-sizing:border-box}
+:focus-visible{outline:3px solid #0B2A17;outline-offset:2px;box-shadow:0 0 0 6px #C8E63A}
+[style*="clip-path"]:focus-visible{clip-path:none!important}
+</style>
+<script src="reveal.js"></script>
+<script src="blog-data.js"></script>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <div style="background:radial-gradient(ellipse 70% 120% at 40% 20%, #07602A 0%, #04471F 60%, #033A19 100%);color:#fff">
+    <dc-import name="Header" active="" hint-size="100%,88px" style="position:relative;z-index:30;display:block"></dc-import>
+    <section id="main" style="max-width:960px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(20px,5.5vw,80px) clamp(120px,14vw,200px);display:flex;flex-direction:column;gap:18px">
+      <nav aria-label="Kruimelpad" style="display:flex;gap:8px;font-size:13px;color:#D3E3D7;flex-wrap:wrap"><a href="Homepagina.dc.html" style="color:#D3E3D7">Home</a><span aria-hidden="true">/</span><a href="Blog.dc.html" style="color:#D3E3D7">Blogs &amp; tips</a><span aria-hidden="true">/</span><span style="color:#fff">{{ a.tag }}</span></nav>
+      <span style="align-self:flex-start;background:#C8E63A;color:#033A19;font-size:13px;font-weight:600;padding:5px 12px;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)">{{ a.tag }}</span>
+      <h1 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(32px,3.6vw,52px);line-height:1.06;letter-spacing:-.5px;text-wrap:balance">{{ a.title }}</h1>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:14px;color:#D3E3D7"><span>Redactie Racketpicker</span><span aria-hidden="true">·</span><span>{{ a.date }}</span><span aria-hidden="true">·</span><span>{{ a.min }} min lezen</span></div>
+    </section>
+  </div>
+  <div style="max-width:960px;width:100%;margin:clamp(-160px,-12vw,-90px) auto 0;padding:0 clamp(20px,5.5vw,80px);position:relative;z-index:1">
+    <div data-reveal="" style="aspect-ratio:16/9;background:#E8EEE2;overflow:hidden;display:grid;place-items:center;box-shadow:0 30px 60px rgba(0,30,10,.2)">
+      <sc-if value="{{ a.hasImg }}" hint-placeholder-val="{{ false }}"><img src="{{ a.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if>
+      <sc-if value="{{ a.noImg }}"><span style="font:500 13px ui-monospace,monospace;color:#56695C">artikelbeeld</span></sc-if>
+    </div>
+  </div>
+  <article style="max-width:760px;width:100%;margin:0 auto;padding:56px clamp(20px,5.5vw,80px) 40px;display:flex;flex-direction:column;gap:32px">
+    <p data-reveal="" style="margin:0;font-size:clamp(19px,1.6vw,22px);line-height:1.55;font-weight:500;text-wrap:pretty">{{ a.intro }}</p>
+    <sc-for list="{{ sections }}" as="s">
+      <div data-reveal="" style="display:flex;flex-direction:column;gap:12px">
+        <h2 style="margin:0;font-size:24px;font-weight:600;letter-spacing:-.2px">{{ s.h }}</h2>
+        <p style="margin:0;font-size:17px;line-height:1.7;color:#23402E;text-wrap:pretty">{{ s.p }}</p>
+      </div>
+    </sc-for>
+    <a href="Keuzehulp.dc.html" data-reveal="" style="display:flex;align-items:center;gap:18px;background:#C8E63A;color:#033A19;padding:24px 28px;margin-top:8px;clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%)" style-hover="background:#D2EC4E;color:#033A19">
+      <span style="display:flex;flex-direction:column;gap:4px;flex:1"><span style="font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase">Gratis keuzehulp</span><span style="font-size:20px;font-weight:600">Welk racket past bij jouw spel?</span></span>
+      <svg data-arrow="" aria-hidden="true" width="16" height="16" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#033A19" stroke-width="1.8"></path></svg>
+    </a>
+  </article>
+  <section style="max-width:1440px;width:100%;margin:0 auto;padding:72px clamp(20px,5.5vw,80px) 120px;display:flex;flex-direction:column;gap:28px">
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap">
+      <h2 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(26px,2.4vw,34px);letter-spacing:-.3px">Lees ook</h2>
+      <a href="Blog.dc.html" style="font-weight:600;font-size:15px;background:linear-gradient(#C8E63A,#C8E63A) left bottom/100% 2px no-repeat;padding-bottom:3px">Alle artikelen</a>
+    </div>
+    <div data-reveal-stagger="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:24px">
+      <sc-for list="{{ related }}" as="g">
+        <a href="{{ g.href }}" style="display:flex;flex-direction:column;gap:12px;color:#0B2A17" style-hover="color:#05561F">
+          <div style="aspect-ratio:16/10;background:#E8EEE2;overflow:hidden;display:grid;place-items:center"><sc-if value="{{ g.hasImg }}" hint-placeholder-val="{{ false }}"><img src="{{ g.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if><sc-if value="{{ g.noImg }}"><span style="font:500 12px ui-monospace,monospace;color:#56695C">artikelbeeld</span></sc-if></div>
+          <span style="font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#05561F">{{ g.tag }} · {{ g.min }} min</span>
+          <h3 style="margin:0;font-size:19px;font-weight:600;line-height:1.25">{{ g.title }}</h3>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+  <dc-import name="Footer" hint-size="100%,520px" style="margin-top:auto;display:block"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { slug: '' };
+  componentDidMount() {
+    this.onA = () => this.forceUpdate(); window.addEventListener('rp-articles', this.onA);
+    this.onH = () => { this.setState({ slug: decodeURIComponent(location.hash.slice(1)) }); window.scrollTo(0, 0); };
+    this.onH(); window.addEventListener('hashchange', this.onH);
+  }
+  componentDidUpdate() { const a = this.cur(); if (!a) return; document.title = a.title + ' | Racketpicker';
+    let m = document.querySelector('meta[name="description"]'); if (!m) { m = document.createElement('meta'); m.name = 'description'; document.head.appendChild(m); } m.content = a.intro;
+    let ld = document.getElementById('ld-article'); if (!ld) { ld = document.createElement('script'); ld.type = 'application/ld+json'; ld.id = 'ld-article'; document.head.appendChild(ld); }
+    ld.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Article', headline: a.title, description: a.intro, inLanguage: 'nl-NL', author: { '@type': 'Organization', name: 'Redactie Racketpicker' }, publisher: { '@type': 'Organization', name: 'Racketpicker' }, image: a.img || undefined, articleSection: a.tag }); }
+  componentWillUnmount() { window.removeEventListener('rp-articles', this.onA); window.removeEventListener('hashchange', this.onH); }
+  cur() { const all = (typeof window !== 'undefined' && window.RP_ARTICLES) || []; return all.find(x => x.slug === this.state.slug) || all[0]; }
+  renderVals() {
+    const all = (typeof window !== 'undefined' && window.RP_ARTICLES) || [];
+    const a = this.cur() || { title: '', sections: [] };
+    const map = x => ({ ...x, href: 'Artikel.dc.html#' + x.slug, hasImg: !!x.img, noImg: !x.img });
+    const others = all.filter(x => x.slug !== a.slug);
+    const related = [...others.filter(x => x.tag === a.tag), ...others.filter(x => x.tag !== a.tag)].slice(0, 3).map(map);
+    return { a: map(a), sections: (a.sections || []).map(([h, p]) => ({ h, p })), related };
+  }
+}
+</script>
+</body>
+</html>

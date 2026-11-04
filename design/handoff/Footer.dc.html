@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<footer data-no-round="" style="background:#033A19;color:#fff;clip-path:polygon(0 24px,100% 0,100% 100%,0 100%)">
+  <div style="max-width:1440px;margin:0 auto;padding:96px clamp(20px,5.5vw,80px) 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:40px;border-bottom:1px solid rgba(255,255,255,.14)">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <h2 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(26px,2.4vw,34px);letter-spacing:-.3px">Prijsdaling? Jij hoort het eerst.</h2>
+      <p style="margin:0;font-size:16px;line-height:1.5;color:#D3E3D7;max-width:440px">Elke week de grootste prijsdalingen in je inbox. Uitschrijven kan altijd.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;justify-content:center;gap:12px">
+      <sc-if value="{{ notSubscribed }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ subscribe }}" style="display:flex;flex-direction:column;gap:14px;max-width:560px">
+          <div style="display:flex;align-items:center;gap:12px;background:#fff;padding:8px 8px 8px 24px;clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%)">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#05561F" stroke-width="1.7" style="flex-shrink:0"><rect x="2.5" y="4.5" width="15" height="11"></rect><path d="M3 5l7 6 7-6"></path></svg>
+            <label for="nb-email" style="position:absolute;left:-9999px">E-mailadres</label>
+            <input id="nb-email" type="email" required="" autocomplete="email" placeholder="jouw@email.nl" style="flex:1;min-width:0;border:0;outline:0;font:500 16px 'Outfit',sans-serif;padding:12px 0;color:#0B2A17;background:transparent">
+            <button style="flex-shrink:0;min-height:48px;background:#C8E63A;color:#033A19;border:0;font:600 15px 'Outfit',sans-serif;padding:0 20px 0 22px;cursor:pointer;display:flex;align-items:center;gap:10px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="background:#D8F25A"><span>Aanmelden</span><svg data-arrow="" aria-hidden="true" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#033A19" stroke-width="1.8"></path></svg></button>
+          </div>
+          <div style="display:flex;gap:18px;flex-wrap:wrap;font-size:14px;color:#fff">
+            <span style="display:flex;align-items:center;gap:8px"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 16 16"><path d="M2.5 8.5l3.5 3.5L13.5 4" fill="none" stroke="#C8E63A" stroke-width="2"></path></svg>Elke vrijdag</span>
+            <span style="display:flex;align-items:center;gap:8px"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 16 16"><path d="M2.5 8.5l3.5 3.5L13.5 4" fill="none" stroke="#C8E63A" stroke-width="2"></path></svg>Alleen echte prijsdalingen</span>
+            <span style="display:flex;align-items:center;gap:8px"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 16 16"><path d="M2.5 8.5l3.5 3.5L13.5 4" fill="none" stroke="#C8E63A" stroke-width="2"></path></svg>Altijd opzegbaar</span>
+          </div>
+          <p style="margin:0;font-size:13px;line-height:1.5;color:#D3E3D7">Je ontvangt eerst een mail om je aanmelding te bevestigen. Lees in onze <a href="Info.dc.html#privacy" style="color:#fff;text-decoration:underline">privacyverklaring</a> wat we met je gegevens doen.</p>
+        </form>
+      </sc-if>
+      <sc-if value="{{ subscribed }}">
+        <div role="status" data-reveal="" style="display:flex;align-items:center;gap:12px;background:rgba(200,230,58,.12);padding:18px 22px;font-size:16px;font-weight:500;color:#fff;clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%)"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16"><path d="M2.5 8.5l3.5 3.5L13.5 4" fill="none" stroke="#C8E63A" stroke-width="2"></path></svg>Bijna klaar. Bevestig je aanmelding via de mail die we je net stuurden.</div>
+      </sc-if>
+    </div>
+  </div>
+  <div style="max-width:1440px;margin:0 auto;padding:56px clamp(20px,5.5vw,80px);display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:36px">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <a href="Homepagina.dc.html" aria-label="Racketpicker, naar de homepagina" style="display:block"><img src="assets/logo.svg" alt="" width="95" height="40" style="display:block;height:40px;width:auto"></a>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#C3D5C8;max-width:220px">Rackets en gear vergelijken voor elke racketsport.</p>
+    </div>
+    <sc-for list="{{ cols }}" as="col" hint-placeholder-count="3">
+      <nav aria-label="{{ col.title }}" style="display:flex;flex-direction:column;gap:0">
+        <div style="font-size:14px;font-weight:600;color:#C8E63A;margin-bottom:8px">{{ col.title }}</div>
+        <sc-for list="{{ col.links }}" as="l">
+          <a href="{{ l.href }}" onClick="{{ l.onClick }}" style="color:#D3E3D7;font-size:14px;padding:10px 0" style-hover="color:#fff">{{ l.label }}</a>
+        </sc-for>
+      </nav>
+    </sc-for>
+  </div>
+  <div style="max-width:1440px;margin:0 auto;padding:20px clamp(20px,5.5vw,80px) 32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px;color:#B7CBBC">
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+      <span>© 2026 Racketpicker.com</span>
+      <div role="group" aria-label="Taal" style="display:flex;align-items:center;gap:4px">
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" style="margin-right:4px"><circle cx="8" cy="8" r="6.5"></circle><path d="M1.5 8h13M8 1.5c2 2 2.8 4.2 2.8 6.5S10 12.5 8 14.5M8 1.5C6 3.5 5.2 5.7 5.2 8S6 12.5 8 14.5"></path></svg>
+        <sc-for list="{{ langs }}" as="l" hint-placeholder-count="3">
+          <button onClick="{{ l.pick }}" disabled="{{ l.soon }}" aria-pressed="{{ l.current }}" title="{{ l.title }}" style="min-width:44px;min-height:44px;border:0;background:{{ l.bg }};color:{{ l.fg }};font:600 13px 'Outfit',sans-serif;cursor:pointer;padding:0 10px;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)">{{ l.short }}</button>
+        </sc-for>
+      </div>
+    </div>
+    
+    <span>Prijzen worden dagelijks bijgewerkt. Koop je via ons, dan krijgen wij een vergoeding van de winkel. Dat kost jou niets extra.</span>
+  </div>
+</footer>
+<sc-if value="{{ cookieOpen }}">
+  <div data-reveal="" role="dialog" aria-modal="false" aria-labelledby="ck-title" style="position:fixed;left:clamp(12px,3vw,32px);bottom:clamp(12px,3vw,32px);z-index:95;width:min(560px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;background:#fff;color:#0B2A17;box-shadow:0 24px 60px rgba(0,20,8,.35);padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="width:40px;height:40px;background:#C8E63A;display:grid;place-items:center;flex-shrink:0;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#033A19" stroke-width="1.6"><path d="M17.5 10.5A7.5 7.5 0 119.5 2.5a3 3 0 003.5 3.5 3 3 0 004.5 4.5z"></path><circle cx="7" cy="8" r=".9" fill="#033A19"></circle><circle cx="11" cy="13" r=".9" fill="#033A19"></circle><circle cx="7" cy="13" r=".9" fill="#033A19"></circle></svg></span>
+      <h2 id="ck-title" style="margin:0;font-size:20px;font-weight:600">Cookies op Racketpicker</h2>
+    </div>
+    <p style="margin:0;font-size:15px;line-height:1.55;color:#3C5A47">We gebruiken noodzakelijke cookies om de site te laten werken. Met jouw toestemming meten we ook hoe de site gebruikt wordt en zien winkels dat je via ons komt. Lees meer in onze <a href="Info.dc.html#privacy" style="color:#0B2A17;text-decoration:underline">privacyverklaring</a>.</p>
+    <sc-if value="{{ ckSettings }}">
+      <div style="display:flex;flex-direction:column;border-top:1px solid #DCE6D6">
+        <sc-for list="{{ ckCats }}" as="c">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid #DCE6D6">
+            <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:15px;font-weight:600">{{ c.title }}</span><span style="font-size:13px;line-height:1.45;color:#3C5A47">{{ c.desc }}</span></div>
+            <button onClick="{{ c.toggle }}" role="switch" aria-checked="{{ c.on }}" aria-label="{{ c.title }}" disabled="{{ c.locked }}" style="width:44px;height:26px;flex-shrink:0;border:0;padding:3px;background:{{ c.track }};cursor:pointer;display:flex;justify-content:{{ c.align }};opacity:{{ c.op }};transition:background .3s"><span style="width:20px;height:20px;background:#fff;display:block"></span></button>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <sc-if value="{{ ckSettings }}">
+        <button onClick="{{ ckSave }}" style="flex:1;min-width:160px;min-height:48px;border:0;background:#033A19;color:#fff;font:600 15px 'Outfit',sans-serif;cursor:pointer;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="background:#05561F">Voorkeuren opslaan</button>
+      </sc-if>
+      <button onClick="{{ ckAll }}" style="flex:1;min-width:160px;min-height:48px;border:0;background:#C8E63A;color:#033A19;font:600 15px 'Outfit',sans-serif;cursor:pointer;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="background:#D8F25A">Alles accepteren</button>
+      <button onClick="{{ ckNeeded }}" style="flex:1;min-width:160px;min-height:48px;border:0;background:#F3F7EE;color:#0B2A17;font:600 15px 'Outfit',sans-serif;cursor:pointer;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="background:#E6EFDA">Alleen noodzakelijk</button>
+    </div>
+    <sc-if value="{{ ckNoSettings }}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{ ckOpenSettings }}" style="align-self:flex-start;background:none;border:0;padding:4px 0;font:500 14px 'Outfit',sans-serif;color:#0B2A17;text-decoration:underline;cursor:pointer">Zelf kiezen</button>
+    </sc-if>
+  </div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;1440px&quot;,&quot;height&quot;:&quot;480px&quot;}}">
+class Component extends DCLogic {
+  state = { subscribed: false, ck: null, ckSettings: false, draft: { analytics: false, marketing: false } };
+  componentDidMount() {
+    try { this.setState({ ck: JSON.parse(localStorage.getItem('rp-cookies')) }); } catch (e) {}
+    this.onCk = () => this.setState({ ck: null, ckSettings: true });
+    window.addEventListener('rp-cookies-open', this.onCk); this.onLang = () => this.forceUpdate(); window.addEventListener('rp-lang', this.onLang); this.forceUpdate(); }
+  componentWillUnmount() { window.removeEventListener('rp-cookies-open', this.onCk); window.removeEventListener('rp-lang', this.onLang); }
+  renderVals() {
+    const L = (label, href) => ({ label, href });
+    return {
+      langs: [['nl', 'NL', 'Nederlands'], ['en', 'EN', 'English'], ['es', 'ES', 'Español, binnenkort']].map(([code, short, title]) => {
+        const cur = (typeof localStorage !== 'undefined' && localStorage.getItem('rp-lang')) || 'nl', on = code === cur, soon = code === 'es';
+        return { short, title, soon, current: on ? 'true' : 'false', bg: on ? '#C8E63A' : 'transparent', fg: on ? '#033A19' : soon ? '#7F9A87' : '#D3E3D7',
+          pick: () => { if (soon) return; localStorage.setItem('rp-lang', code); window.dispatchEvent(new Event('rp-lang')); } };
+      }),
+      ...(() => {
+        const st = this.state, save = v => { const val = { ...v, necessary: true, date: new Date().toISOString() }; localStorage.setItem('rp-cookies', JSON.stringify(val)); this.setState({ ck: val, ckSettings: false }); };
+        const cats = [['necessary', 'Noodzakelijk', 'Nodig om de site te laten werken, zoals je favorieten en taalkeuze.', true], ['analytics', 'Analytisch', 'Helpt ons begrijpen welke pagina’s nuttig zijn. Anoniem.', false], ['marketing', 'Affiliate en marketing', 'Laat winkels zien dat je via Racketpicker komt.', false]];
+        return {
+          cookieOpen: !st.ck, ckSettings: st.ckSettings, ckNoSettings: !st.ckSettings,
+          ckCats: cats.map(([k, title, desc, locked]) => { const on = locked || !!st.draft[k];
+            return { title, desc, locked, on: on ? 'true' : 'false', track: on ? '#033A19' : '#B9C7BD', align: on ? 'flex-end' : 'flex-start', op: locked ? .6 : 1, toggle: () => this.setState({ draft: { ...st.draft, [k]: !st.draft[k] } }) }; }),
+          ckAll: () => save({ analytics: true, marketing: true }),
+          ckNeeded: () => save({ analytics: false, marketing: false }),
+          ckSave: () => save(st.draft),
+          ckOpenSettings: () => this.setState({ ckSettings: true }),
+          ckReopen: () => this.setState({ ck: null, ckSettings: true, draft: { analytics: !!(st.ck && st.ck.analytics), marketing: !!(st.ck && st.ck.marketing) } })
+        };
+      })(),
+      notSubscribed: !this.state.subscribed, subscribed: this.state.subscribed,
+      subscribe: e => { e.preventDefault(); this.setState({ subscribed: true }); },
+      cols: [
+        { title: 'Vergelijken', links: [L('Padelrackets', 'Rackets.dc.html#padel'), L('Tennisrackets', 'Rackets.dc.html#tennis'), L('Badmintonrackets', 'Rackets.dc.html#badminton'), L('Schoenen', 'Categorie.dc.html#schoenen'), L('Deals', 'Homepagina.dc.html#deals')] },
+        { title: 'Hulp', links: [L('Keuzehulp', 'Keuzehulp.dc.html'), L('Blogs & tips', 'Blog.dc.html'), L('Prijshistorie', 'Info.dc.html#prijshistorie'), L('Veelgestelde vragen', 'Info.dc.html#veelgestelde-vragen')] },
+        { title: 'Racketpicker', links: [L('Over ons', 'Info.dc.html#over-ons'), L('Hoe we verdienen', 'Info.dc.html#hoe-we-verdienen'), L('Contact', 'Info.dc.html#contact'), L('Privacy', 'Info.dc.html#privacy'), { label: 'Cookie-instellingen', href: '#cookie-instellingen', onClick: e => { e.preventDefault(); this.setState(st => ({ ck: null, ckSettings: true, draft: { analytics: !!(st.ck && st.ck.analytics), marketing: !!(st.ck && st.ck.marketing) } })); } }] }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

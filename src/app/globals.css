@@ -1,21 +1,254 @@
 @import "tailwindcss";
 
 /*
- * Base tokens from design v1/v2. Full token set, type scale and fonts
- * (Barlow Condensed + Outfit) are added from the design handover in RP-20.
+ * Racketpicker design tokens (design/handoff/README.md, "Design tokens").
+ * Colours, type, shadows and motion are final: use these, not ad-hoc values.
  */
 @theme {
-  --color-lime: #c5f57a;
-  --color-lime-hover: #d6ff92;
-  --color-paper: #fafaf7;
-  --color-ink: #0e0e0e;
-  --color-muted: #6b6b6b;
+  /* Brand greens */
+  --color-green-1000: #02301a;
+  --color-green-950: #033a19;
+  --color-green-900: #04471f;
+  --color-green-800: #05561f;
+  --color-green-700: #07602a;
 
-  --radius-card: 14px;
+  /* Lime accent */
+  --color-lime: #c8e63a;
+  --color-lime-hover: #d8f25a;
+  --color-lime-soft: #d2ec4e;
+
+  /* Text */
+  --color-ink: #0b2a17;
+  --color-ink-2: #23402e;
+  --color-muted: #3c5a47;
+  --color-muted-2: #56695c; /* min. 4.5:1 on white */
+
+  /* Lines & surfaces */
+  --color-border-strong: #8fa595;
+  --color-border: #dce6d6;
+  --color-line: #e3ebdd;
+  --color-line-soft: #eef3ea;
+  --color-surface: #f3f7ee;
+  --color-surface-2: #f4f7f0;
+  --color-surface-hover: #e6efda;
+
+  /* Text on dark green */
+  --color-on-dark: #d3e3d7;
+  --color-on-dark-strong: #e2ede5;
+  --color-on-dark-2: #c3d5c8;
+  --color-on-dark-3: #b7cbbc;
+
+  /* Status */
+  --color-warn: #8a4b1f;
+  --color-trustpilot: #00b67a;
+  --color-overlay: rgb(0 10 4 / 0.9);
+
+  /* Type: one family for the whole site */
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+
+  /* Shadows */
+  --shadow-card-hover: 0 14px 30px rgb(4 71 31 / 0.12);
+  --shadow-menu: 0 30px 60px rgb(0 30 10 / 0.28);
+  --shadow-header: 0 10px 30px rgb(0 20 8 / 0.25);
+  --shadow-cookie: 0 24px 60px rgb(0 20 8 / 0.35);
+
+  /* Motion: one calm movement */
+  --ease-rp: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-rp-line: rp-line 800ms var(--ease-rp);
+
+  /* Layout */
+  --container-page: 1440px;
+  --container-read: 760px;
+  --container-article: 960px;
 }
 
-body {
-  background: var(--color-paper);
-  color: var(--color-ink);
-  font-family: ui-sans-serif, system-ui, sans-serif;
+@keyframes rp-line {
+  0% {
+    background-size: 100% 2px;
+    background-position: right bottom;
+  }
+  45% {
+    background-size: 0% 2px;
+    background-position: right bottom;
+  }
+  46% {
+    background-size: 0% 2px;
+    background-position: left bottom;
+  }
+  100% {
+    background-size: 100% 2px;
+    background-position: left bottom;
+  }
+}
+
+/* Arrow (↗) in buttons/links: shoots out top-right, returns from bottom-left. */
+@keyframes rp-arrow {
+  0% {
+    transform: translate(0, 0);
+  }
+  42% {
+    transform: translate(12px, -12px);
+  }
+  43% {
+    transform: translate(-12px, 12px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* Logo hover pulse. */
+@keyframes rp-pulse {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.1) rotate(-2deg);
+  }
+  70% {
+    transform: scale(0.97);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@layer base {
+  :root {
+    /* Page gutter and visible sticky-header height (set by the header, RP-22). */
+    --rp-gutter: clamp(20px, 5.5vw, 80px);
+    --rp-hdr: 0px;
+    --rp-hero: radial-gradient(ellipse 70% 80% at 45% 45%, #07602a 0%, #04471f 60%, #033a19 100%);
+    --rp-hero-sub: radial-gradient(
+      ellipse 70% 120% at 40% 20%,
+      #07602a 0%,
+      #04471f 60%,
+      #033a19 100%
+    );
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply text-ink bg-white font-sans antialiased;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* WCAG focus ring; slanted shapes drop their clip-path so the ring is not cut off. */
+  :focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 6px var(--color-lime);
+  }
+  :focus-visible[data-slant],
+  [data-slant]:has(:focus-visible) {
+    clip-path: none !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 1ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .rp-container {
+    max-width: var(--container-page);
+    margin-inline: auto;
+    padding-inline: var(--rp-gutter);
+  }
+
+  /* Type scale (design/handoff/README.md, "Typografie") */
+  .rp-h1 {
+    font-size: clamp(32px, 3.2vw, 46px);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.4px;
+  }
+  .rp-h1-home {
+    font-size: clamp(36px, 3.6vw, 52px);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.4px;
+  }
+  .rp-h2 {
+    font-size: clamp(28px, 2.6vw, 38px);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.3px;
+  }
+  .rp-h2-sub {
+    font-size: clamp(26px, 2.4vw, 34px);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.3px;
+  }
+  .rp-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    color: var(--color-green-800);
+  }
+  .rp-on-dark .rp-eyebrow,
+  .rp-eyebrow-dark {
+    color: var(--color-lime);
+  }
+
+  /* Lime 2px underline that sweeps right and redraws from the left on hover. */
+  .rp-underline {
+    background-image: linear-gradient(var(--color-lime), var(--color-lime));
+    background-repeat: no-repeat;
+    background-size: 100% 2px;
+    background-position: left bottom;
+    padding-bottom: 2px;
+  }
+  .rp-underline:hover {
+    animation: var(--animate-rp-line);
+  }
+
+  /* Big flat blocks: 24px slant top and bottom, no rounding (brand block). */
+  .rp-slant-block {
+    clip-path: polygon(0 24px, 100% 0, 100% calc(100% - 24px), 0 100%);
+  }
+  /* Footer: slanted top only. */
+  .rp-slant-top {
+    clip-path: polygon(0 24px, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .rp-hero {
+    background: var(--rp-hero);
+  }
+  .rp-hero-sub {
+    background: var(--rp-hero-sub);
+  }
+
+  .rp-logo:hover {
+    animation: rp-pulse 700ms var(--ease-rp);
+  }
+}
+
+@layer utilities {
+  :is(a, button):is(:hover, :focus-visible) svg[data-arrow] path {
+    animation: rp-arrow 650ms var(--ease-rp);
+  }
 }

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Archivo+Black&display=swap" rel="stylesheet">
+<title>Welk racket past bij mij? Gratis keuzehulp | Racketpicker</title>
+<meta name="description" content="Vind in 5 vragen het racket dat past bij jouw niveau, speelstijl en budget. Voor padel, tennis, badminton, squash, pickleball en tafeltennis.">
+<style>
+body{margin:0;background:#fff;font-family:'Outfit',sans-serif;color:#0B2A17;-webkit-font-smoothing:antialiased}
+a{color:#0B2A17;text-decoration:none}a:hover{color:#05561F}
+*{box-sizing:border-box}
+input::placeholder{color:#3C5A47}
+@keyframes rpLine{0%{background-size:100% 2px;background-position:right bottom}45%{background-size:0% 2px;background-position:right bottom}46%{background-size:0% 2px;background-position:left bottom}100%{background-size:100% 2px;background-position:left bottom}}
+:focus-visible{outline:3px solid #0B2A17;outline-offset:2px;box-shadow:0 0 0 6px #C8E63A}
+[style*="clip-path"]:focus-visible{clip-path:none!important}
+</style>
+<script src="reveal.js"></script>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+<div style="background:radial-gradient(ellipse 70% 80% at 50% 40%, #07602A 0%, #04471F 60%, #033A19 100%);color:#fff">
+  <dc-import name="Header" active="rackets" hint-size="100%,88px" style="position:relative;z-index:30;display:block"></dc-import>
+
+  <section id="main" style="max-width:1040px;margin:0 auto;padding:clamp(32px,5vw,64px) clamp(20px,5.5vw,80px) clamp(56px,7vw,96px);display:flex;flex-direction:column;gap:32px">
+    <nav aria-label="Kruimelpad" style="display:flex;gap:8px;font-size:13px;color:#B7CBBC"><a href="Homepagina.dc.html" style="color:#D3E3D7">Home</a><span>/</span><span style="color:#fff">Keuzehulp</span></nav>
+    <div style="display:flex;flex-direction:column;gap:14px;max-width:720px">
+      <h1 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(34px,3.6vw,52px);line-height:1.04;letter-spacing:-.5px;text-wrap:balance">Welk racket past bij mij?</h1>
+      <p style="margin:0;font-size:18px;line-height:1.5;color:#E2EDE5">Beantwoord vijf korte vragen. We vergelijken meer dan 4.000 rackets en tonen welke het best passen bij jouw niveau, speelstijl en budget.</p>
+    </div>
+
+    <div data-reveal="" style="background:#fff;color:#0B2A17;box-shadow:0 30px 60px rgba(0,20,8,.35);min-height:480px;display:flex;flex-direction:column">
+      <sc-if value="{{ inQuiz }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:22px clamp(20px,3.5vw,40px);border-bottom:1px solid #E3EBDD;display:flex;align-items:center;gap:20px">
+          <button onClick="{{ back }}" disabled="{{ noBack }}" style="background:none;border:0;font:500 14px 'Outfit',sans-serif;color:#0B2A17;cursor:pointer;padding:0;min-height:44px;opacity:{{ backOpacity }};display:flex;align-items:center;gap:6px"><svg width="8" height="12" viewBox="0 0 8 12"><path d="M6 2L2 6l4 4" fill="none" stroke="currentColor" stroke-width="1.8"></path></svg>Vorige</button>
+          <div style="flex:1;display:flex;gap:6px">
+            <sc-for list="{{ progress }}" as="p" hint-placeholder-count="5">
+              <div style="flex:1;height:4px;background:{{ p.bg }};transition:background .3s"></div>
+            </sc-for>
+          </div>
+          <span style="font-size:13px;color:#3C5A47;white-space:nowrap">Stap {{ stepNum }} van 5</span>
+        </div>
+        <div style="padding:clamp(28px,4vw,48px) clamp(20px,3.5vw,40px);display:flex;flex-direction:column;gap:28px;flex:1">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <h2 data-reveal="" style="margin:0;font-size:clamp(24px,2.4vw,32px);font-weight:600;letter-spacing:-.3px">{{ q.title }}</h2>
+            <p style="margin:0;font-size:16px;color:#3C5A47">{{ q.sub }}</p>
+          </div>
+          <div data-reveal-stagger="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px">
+            <sc-for list="{{ q.options }}" as="o" hint-placeholder-count="4">
+              <button onClick="{{ o.pick }}" aria-pressed="{{ o.pressed }}" style="text-align:left;background:{{ o.bg }};border:1.5px solid {{ o.border }};padding:18px 20px;cursor:pointer;font-family:'Outfit',sans-serif;color:#0B2A17;display:flex;flex-direction:column;gap:6px;min-height:96px;transition:border-color .15s,background .15s" style-hover="border-color:#033A19">
+                <span style="font-size:17px;font-weight:600">{{ o.label }}</span>
+                <span style="font-size:14px;color:#3C5A47;line-height:1.4">{{ o.desc }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isResult }}">
+        <div style="padding:24px clamp(20px,3.5vw,40px);border-bottom:1px solid #E3EBDD;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+            <h2 data-reveal="" style="margin:0;font-size:clamp(24px,2.4vw,30px);font-weight:600;letter-spacing:-.3px">{{ matchCount }} rackets passen bij jou</h2>
+            <button onClick="{{ restart }}" style="background:none;border:0;font:600 14px 'Outfit',sans-serif;color:#0B2A17;cursor:pointer;background:linear-gradient(#C8E63A,#C8E63A) left bottom/100% 2px no-repeat;padding-bottom:3px;padding:0" style-hover="animation:rpLine .8s cubic-bezier(.22,1,.36,1)">Opnieuw beginnen</button>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <sc-for list="{{ summary }}" as="c">
+              <button onClick="{{ c.edit }}" title="Wijzig" style="background:#F3F7EE;border:0;font:500 13px 'Outfit',sans-serif;color:#0B2A17;padding:8px 12px;cursor:pointer;display:flex;gap:6px;align-items:center" style-hover="background:#E6EFDA"><span style="color:#3C5A47">{{ c.k }}:</span>{{ c.v }}<svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 10l1-3 6-6 2 2-6 6z" fill="none" stroke="#3C5A47" stroke-width="1.4"></path></svg></button>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#3C5A47;flex-wrap:wrap">
+            <span>Deelbare link:</span>
+            <code style="font:500 13px ui-monospace,monospace;color:#0B2A17;background:#F3F7EE;padding:5px 8px;word-break:break-all">{{ shareUrl }}</code>
+            <button onClick="{{ copy }}" style="background:none;border:0;font:600 13px 'Outfit',sans-serif;color:#05561F;cursor:pointer;padding:0">{{ copyLabel }}</button>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ matches }}" as="m" hint-placeholder-count="5">
+            <a href="Product.dc.html" style="display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center;padding:18px clamp(20px,3.5vw,40px);border-bottom:1px solid #EEF3EA;color:#0B2A17" style-hover="background:#F8FBF5">
+              <span style="font-size:14px;font-weight:600;color:#56695C;width:20px">{{ m.rank }}</span>
+              <div style="width:88px;height:88px;background:#F4F7F0;display:grid;place-items:center"><img src="assets/racket.png" alt="" style="width:84%;height:84%;object-fit:contain;mix-blend-mode:multiply"></div>
+              <div style="display:flex;flex-direction:column;gap:6px;min-width:0;flex:1 1 220px">
+                <span style="font-size:13px;color:#3C5A47;font-weight:500;text-transform:uppercase;letter-spacing:.8px">{{ m.brand }} · {{ m.level }} · {{ m.style }}</span>
+                <h3 style="margin:0;font-size:18px;font-weight:600">{{ m.name }}</h3>
+                <span style="font-size:14px;color:#3C5A47;text-wrap:pretty">{{ m.why }}</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:end;gap:8px;min-width:150px;margin-left:auto">
+                <span style="font-size:20px;font-weight:700;color:#05561F">{{ m.score }}% match</span>
+                <div style="width:120px;height:5px;background:#E3EBDD"><div style="height:100%;width:{{ m.bar }};background:#05561F"></div></div>
+                <span style="font-size:14px;white-space:nowrap">vanaf <strong>€{{ m.price }}</strong> · {{ m.shops }} winkels</span>
+              </div>
+            </a>
+          </sc-for>
+        </div>
+        <div style="padding:24px clamp(20px,3.5vw,40px);background:#F3F7EE;display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:space-between">
+          <div style="display:flex;flex-direction:column;gap:2px">
+            <span style="font-size:16px;font-weight:600">Mail mij dit resultaat</span>
+            <span style="font-size:14px;color:#3C5A47">Optioneel. Je krijgt ook een seintje als een van deze rackets in prijs daalt.</span>
+          </div>
+          <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+            <form onSubmit="{{ send }}" style="display:flex;flex-direction:column;gap:8px;flex:1;max-width:420px;min-width:260px"><div style="display:flex;background:#fff;border:1px solid #8FA595">
+              <input type="email" required="" aria-label="E-mailadres" autocomplete="email" placeholder="jouw@email.nl" style="flex:1;min-width:0;border:0;outline:0;font:400 15px 'Outfit',sans-serif;padding:12px 14px;color:#0B2A17;background:transparent">
+              <button style="background:#033A19;color:#fff;border:0;font:600 14px 'Outfit',sans-serif;padding:12px 18px;cursor:pointer;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)">Versturen</button></div>
+              <p style="margin:0;font-size:13px;line-height:1.5;color:#3C5A47">Je ontvangt eerst een bevestigingsmail. Lees in onze <a href="Info.dc.html#privacy" style="color:#0B2A17;text-decoration:underline">privacyverklaring</a> wat we met je gegevens doen.</p>
+            </form>
+          </sc-if>
+          <sc-if value="{{ sent }}"><span style="font-size:15px;font-weight:600;color:#05561F">Verstuurd. Check je inbox.</span></sc-if>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+</div>
+
+<section style="max-width:1200px;width:100%;margin:0 auto;padding:96px clamp(20px,5.5vw,80px) 48px;display:flex;flex-direction:column;gap:28px">
+  <div style="display:flex;flex-direction:column;gap:10px;max-width:720px">
+    <h2 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(28px,2.6vw,38px);letter-spacing:-.3px">Controle, allround of power: wat is het verschil?</h2>
+    <p style="margin:0;font-size:17px;line-height:1.55;color:#3C5A47">De speelstijl van een racket komt bij elke racketsport neer op dezelfde drie eigenschappen: gewicht, balans en de grootte van de sweetspot.</p>
+  </div>
+  <div data-reveal="" style="overflow-x:auto">
+    <table style="width:100%;min-width:640px;border-collapse:collapse;font-size:15px;text-align:left">
+      <thead>
+        <tr style="background:#033A19;color:#fff">
+          <th style="padding:16px 20px;font-weight:600"></th>
+          <th style="padding:16px 20px;font-weight:600">Controle</th>
+          <th style="padding:16px 20px;font-weight:600">Allround</th>
+          <th style="padding:16px 20px;font-weight:600;color:#C8E63A">Power</th>
+        </tr>
+      </thead>
+      <tbody>
+        <sc-for list="{{ table }}" as="r" hint-placeholder-count="5">
+          <tr style="border-bottom:1px solid #E3EBDD">
+            <th style="padding:16px 20px;font-weight:600;background:#F3F7EE;white-space:nowrap">{{ r.k }}</th>
+            <td style="padding:16px 20px;color:#3C5A47">{{ r.c }}</td>
+            <td style="padding:16px 20px;color:#3C5A47">{{ r.a }}</td>
+            <td style="padding:16px 20px;color:#3C5A47">{{ r.p }}</td>
+          </tr>
+        </sc-for>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section data-reveal-stagger="" style="max-width:1200px;width:100%;margin:0 auto;padding:56px clamp(20px,5.5vw,80px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:48px;align-items:start">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <h2 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(28px,2.6vw,38px);letter-spacing:-.3px">Veelgestelde vragen</h2>
+    <p style="margin:0;font-size:16px;line-height:1.5;color:#3C5A47;max-width:360px">Staat je vraag er niet tussen? Mail ons via hello@racketpicker.com.</p>
+  </div>
+  <div style="display:flex;flex-direction:column;border-top:1px solid #DCE6D6">
+    <sc-for list="{{ faq }}" as="f" hint-placeholder-count="5">
+      <div style="border-bottom:1px solid #DCE6D6">
+        <button onClick="{{ f.toggle }}" aria-expanded="{{ f.open }}" style="width:100%;background:none;border:0;text-align:left;font:600 17px 'Outfit',sans-serif;color:#0B2A17;padding:20px 0;cursor:pointer;display:flex;justify-content:space-between;gap:16px;align-items:center">{{ f.q }}<span style="font-size:22px;font-weight:400;transform:{{ f.rot }};transition:transform .2s;flex-shrink:0">+</span></button>
+        <sc-if value="{{ f.open }}"><p style="margin:0 0 20px;font-size:16px;line-height:1.55;color:#3C5A47;max-width:620px">{{ f.a }}</p></sc-if>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section style="max-width:1200px;width:100%;margin:0 auto;padding:56px clamp(20px,5.5vw,80px) 96px;display:flex;flex-direction:column;gap:28px">
+  <h2 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(28px,2.6vw,38px);letter-spacing:-.3px">Liever zelf vergelijken?</h2>
+  <div data-reveal-stagger="" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px">
+    <sc-for list="{{ catLinks }}" as="c" hint-placeholder-count="6">
+      <div style="background:#F3F7EE;padding:22px;display:flex;flex-direction:column;gap:10px">
+        <h3 style="margin:0"><a href="{{ c.href }}" style="font-size:18px;font-weight:600;display:flex;justify-content:space-between;align-items:center">{{ c.sport }}rackets<svg data-arrow="" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="currentColor" stroke-width="1.8"></path></svg></a></h3>
+        <sc-for list="{{ c.links }}" as="l"><a href="{{ c.href }}" style="font-size:14px;color:#3C5A47" style-hover="color:#033A19">{{ l }}</a></sc-for>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<dc-import name="Footer" hint-size="100%,520px" style="margin-top:auto;order:20;display:block"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const LV = ['Beginner', 'Gevorderd', 'Competitie'];
+const BUD = [[0, 75], [75, 150], [150, 250], [250, 9999]];
+const R = (sport, brand, name, level, style, price, shops) => ({ sport, brand, name, level, style, price, shops });
+const RACKETS = [
+  R('Padel','Head','Delta Pro','Gevorderd','Allround',129,10), R('Padel','Bullpadel','Vertex 04','Competitie','Power',189,14), R('Padel','Nox','AT10 Genius 18K','Competitie','Allround',214,11), R('Padel','Adidas','Match 3.3','Beginner','Controle',69,9), R('Padel','Babolat','Contact','Beginner','Controle',59,8), R('Padel','Bullpadel','Hack 03','Competitie','Power',229,12), R('Padel','Head','Extreme One','Gevorderd','Power',159,9), R('Padel','Nox','ML10 Pro Cup','Gevorderd','Controle',119,13),
+  R('Tennis','Babolat','Pure Drive','Gevorderd','Allround',169,12), R('Tennis','Babolat','Pure Aero 98','Gevorderd','Power',179,9), R('Tennis','Wilson','Blade 98 v9','Competitie','Controle',189,8), R('Tennis','Wilson','Clash 100','Gevorderd','Controle',179,10), R('Tennis','Head','Speed MP','Competitie','Allround',164,12), R('Tennis','Head','Ti.S6','Beginner','Power',69,7), R('Tennis','Babolat','Evoke 102','Beginner','Allround',59,6),
+  R('Badminton','Yonex','Astrox 88D Pro','Competitie','Power',159,7), R('Badminton','Yonex','Nanoflare 800','Competitie','Controle',139,6), R('Badminton','Yonex','Arcsaber 11','Gevorderd','Allround',149,6), R('Badminton','Victor','Thruster K','Gevorderd','Power',119,5), R('Badminton','Yonex','Nanoflare 001','Beginner','Controle',49,8), R('Badminton','Li-Ning','Axforce 10','Beginner','Allround',45,5),
+  R('Squash','Dunlop','Hyperfibre XT','Competitie','Controle',149,6), R('Squash','Dunlop','Sonic Core Pro','Gevorderd','Allround',129,7), R('Squash','Head','Speed 120','Gevorderd','Power',139,6), R('Squash','Tecnifibre','Carboflex 125','Competitie','Power',169,5), R('Squash','Dunlop','Blaze Pro','Beginner','Allround',39,8), R('Squash','Head','Nano Ti 110','Beginner','Power',49,6),
+  R('Pickleball','Joola','Perseus 16','Competitie','Power',229,5), R('Pickleball','Selkirk','Vanguard Power Air','Gevorderd','Controle',189,4), R('Pickleball','Franklin','Signature Pro','Beginner','Allround',79,6), R('Pickleball','Selkirk','Amped Epic','Gevorderd','Allround',139,5), R('Pickleball','Joola','Hyperion CFS','Competitie','Controle',199,4), R('Pickleball','Head','Radical Tour','Beginner','Power',59,5),
+  R('Tafeltennis','Butterfly','Timo Boll ALC','Competitie','Allround',169,6), R('Tafeltennis','Stiga','Cybershape Carbon','Competitie','Power',189,5), R('Tafeltennis','Donic','Waldner Senso','Gevorderd','Controle',89,6), R('Tafeltennis','Stiga','Pro Carbon+','Gevorderd','Power',79,7), R('Tafeltennis','Butterfly','Timo Boll Platin','Beginner','Allround',39,8), R('Tafeltennis','Donic','Persson 600','Beginner','Controle',29,7)
+];
+const STEPS = [
+  { key: 'sport', k: 'Sport', title: 'Welke sport speel je?', sub: 'We tonen alleen rackets voor deze sport.', options: [['Padel','Sweetspot, vorm en balans'],['Tennis','Van starter tot toernooispeler'],['Badminton','Licht, snel en wendbaar'],['Squash','Controle in een kleine ruimte'],['Pickleball','Paddles voor elk niveau'],['Tafeltennis','Batjes en blades']] },
+  { key: 'level', k: 'Niveau', title: 'Wat is je niveau?', sub: 'Wees eerlijk, een te zwaar racket remt je ontwikkeling.', options: [['Beginner','Ik speel net of minder dan een jaar'],['Gevorderd','Ik speel regelmatig en ken de techniek'],['Competitie','Ik speel competitie of toernooien']] },
+  { key: 'style', k: 'Speelstijl', title: 'Hoe speel je het liefst?', sub: 'Twijfel je? Kies allround.', options: [['Controle','Precisie en plaatsing boven snelheid'],['Allround','Een balans tussen controle en kracht'],['Power','Hard slaan en de punt afmaken']] },
+  { key: 'freq', k: 'Frequentie', title: 'Hoe vaak speel je?', sub: 'Wie vaker speelt, haalt meer uit een geavanceerder racket.', options: [['Af en toe','Een paar keer per maand'],['1× per week','Een vaste wekelijkse partij'],['2–3× per week','Training en wedstrijden'],['Bijna dagelijks','Sport is mijn hobby nummer één']] },
+  { key: 'budget', k: 'Budget', title: 'Wat wil je uitgeven?', sub: 'We kijken naar de laagste prijs bij alle winkels.', options: [['Tot €75','Prima voor de start'],['€75 – €150','De beste prijs-kwaliteit'],['€150 – €250','Topmodellen van vorig seizoen'],['€250+','Het nieuwste van het nieuwste']] }
+];
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+class Component extends DCLogic {
+  state = { step: 0, a: {}, faqOpen: 0, copied: false, sent: false };
+  score(r, a) {
+    let s = 30, why = [];
+    const li = LV.indexOf(a.level), rl = LV.indexOf(r.level), d = Math.abs(li - rl);
+    if (d === 0) { s += 30; why.push(`gemaakt voor ${a.level.toLowerCase()}s`); } else if (d === 1) s += 14;
+    if (r.style === a.style) { s += 25; why.push(`${a.style.toLowerCase()}-gericht zoals jij speelt`); } else if (r.style === 'Allround' || a.style === 'Allround') s += 8;
+    const bi = STEPS[4].options.findIndex(o => o[0] === a.budget), [lo, hi] = BUD[bi];
+    if (r.price >= lo && r.price <= hi) { s += 25; why.push('binnen je budget'); } else if (r.price < lo) { s += 12; why.push('onder je budget'); } else if (r.price <= hi * 1.25) s += 8;
+    const fi = STEPS[3].options.findIndex(o => o[0] === a.freq);
+    if ((fi >= 2 && rl >= 1) || (fi <= 1 && rl <= 1)) { s += 8; if (fi >= 2 && rl >= 1) why.push('houdt intensief spelen goed bij'); }
+    return { raw: s, s: Math.round(s / 118 * 98), why };
+  }
+  renderVals() {
+    const st = this.state, set = o => this.setState(o), a = st.a, done = st.step >= 5;
+    const cur = STEPS[Math.min(st.step, 4)];
+    let matches = [];
+    if (done) {
+      matches = RACKETS.filter(r => r.sport === a.sport).map(r => ({ r, ...this.score(r, a) })).sort((x, y) => y.raw - x.raw || x.r.price - y.r.price).map((m, i) => {
+        const w = m.why.length ? m.why.join(', ') : 'goed alternatief als je wilt doorgroeien';
+        return { rank: i + 1, ...m.r, score: m.s, bar: m.s + '%', why: w.charAt(0).toUpperCase() + w.slice(1) + '.' };
+      });
+    }
+    const faq = [
+      ['Is de keuzehulp echt gratis?', 'Ja. Je hoeft geen account aan te maken en een e-mailadres is optioneel. Koop je via ons bij een winkel, dan krijgen wij een vergoeding van die winkel. Jij betaalt niets extra en het heeft geen invloed op de volgorde van de resultaten.'],
+      ['Hoe berekenen jullie het match-percentage?', 'We vergelijken je niveau, speelstijl, speelfrequentie en budget met de eigenschappen van elk racket: gewicht, balans, materiaal en de laagste actuele prijs.'],
+      ['Moet ik als beginner een goedkoop racket kopen?', 'Niet per se, maar een racket voor gevorderden is vaak zwaarder en harder. Dat vergeeft minder fouten. Een allround- of controleracket helpt je sneller vooruit.'],
+      ['Hoe vaak worden de prijzen bijgewerkt?', 'Elke dag. Bij elk racket zie je ook de prijshistorie, zodat je weet of een aanbieding echt voordelig is.'],
+      ['Kan ik mijn resultaat later terugvinden?', 'Ja. Elk resultaat heeft een eigen link die je kunt bewaren of delen. Laat je je e-mailadres achter, dan sturen we het resultaat ook naar je inbox.']
+    ];
+    return {
+      notSubscribed: !this.state.subscribed, subscribed: !!this.state.subscribed,
+      subscribe: e => { e.preventDefault(); this.setState({ subscribed: true }); },
+      footerCols: [
+        { title: 'Vergelijken', links: ['Padelrackets', 'Tennisrackets', 'Badmintonrackets', 'Schoenen', 'Deals'] },
+        { title: 'Hulp', links: ['Keuzehulp', 'Gidsen', 'Prijshistorie', 'Veelgestelde vragen'] },
+        { title: 'Racketpicker', links: ['Over ons', 'Hoe we verdienen', 'Contact', 'Privacy'] }
+      ],
+      ...(() => {
+        const cur = this.state.lang || (typeof localStorage !== 'undefined' && localStorage.getItem('rp-lang')) || 'nl';
+        return {
+          langCode: cur.toUpperCase(), langOpen: !!this.state.langOpen,
+          toggleLang: () => this.setState({ langOpen: !this.state.langOpen }),
+          langs: [['nl', 'Nederlands'], ['en', 'English'], ['es', 'Español']].map(([c, name]) => {
+            const soon = c === 'es';
+            return { name, soon, note: soon ? 'Binnenkort' : c === cur ? '✓' : '', color: soon ? '#9FB3A5' : '#0B2A17',
+              pick: () => { if (soon) return; localStorage.setItem('rp-lang', c); this.setState({ lang: c, langOpen: false }); } };
+          })
+        };
+      })(),
+      nav: ['Rackets', 'Schoenen', 'Kleding', 'Accessoires', 'Merken'],
+      inQuiz: !done, isResult: done,
+      stepNum: st.step + 1,
+      noBack: st.step === 0, backOpacity: st.step === 0 ? .3 : 1,
+      back: () => set({ step: Math.max(0, st.step - 1) }),
+      progress: STEPS.map((_, i) => ({ bg: i <= st.step ? '#05561F' : '#E3EBDD' })),
+      q: { title: cur.title, sub: cur.sub, options: cur.options.map(([label, desc]) => {
+        const on = a[cur.key] === label;
+        return { label, desc, bg: on ? '#F3F7EE' : '#fff', pressed: on ? 'true' : 'false', border: on ? '#033A19' : '#8FA595', pick: () => set({ a: { ...a, [cur.key]: label }, step: st.step + 1, copied: false }) };
+      }) },
+      summary: STEPS.map((s, i) => ({ k: s.k, v: a[s.key], edit: () => set({ step: i }) })),
+      matchCount: matches.length,
+      matches,
+      shareUrl: done ? `racketpicker.com/keuzehulp/${slug(a.sport)}/${slug(a.level)}-${slug(a.style)}` : '',
+      copyLabel: st.copied ? 'Gekopieerd' : 'Kopieer',
+      copy: () => { navigator.clipboard?.writeText('https://' + `racketpicker.com/keuzehulp/${slug(a.sport)}/${slug(a.level)}-${slug(a.style)}`).catch(() => {}); set({ copied: true }); },
+      restart: () => set({ step: 0, a: {}, sent: false, copied: false }),
+      notSent: !st.sent, sent: st.sent,
+      send: e => { e.preventDefault(); set({ sent: true }); },
+      table: [
+        { k: 'Gewicht', c: 'Lichter, wendbaar', a: 'Gemiddeld', p: 'Zwaarder, meer doorslag' },
+        { k: 'Balans', c: 'Laag, richting grip', a: 'Neutraal', p: 'Hoog, richting kop' },
+        { k: 'Sweetspot', c: 'Groot en vergevingsgezind', a: 'Gemiddeld', p: 'Klein, hoog in de kop' },
+        { k: 'Materiaal', c: 'Zachter, meer gevoel', a: 'Gemengd', p: 'Stugger, meer carbon' },
+        { k: 'Geschikt voor', c: 'Beginners en tactische spelers', a: 'De meeste spelers', p: 'Gevorderde, aanvallende spelers' }
+      ],
+      faq: faq.map(([q, ans], i) => ({ q, a: ans, open: st.faqOpen === i, rot: st.faqOpen === i ? 'rotate(45deg)' : 'none', toggle: () => set({ faqOpen: st.faqOpen === i ? null : i }) })),
+      catLinks: [
+        { sport: 'Padel', href: 'Rackets.dc.html#padel', links: ['Beginnersrackets', 'Power-rackets', 'Controle-rackets'] },
+        { sport: 'Tennis', href: 'Rackets.dc.html#tennis', links: ['Beginnersrackets', 'Lichte rackets', 'Toernooirackets'] },
+        { sport: 'Badminton', href: 'Rackets.dc.html#badminton', links: ['Beginnersrackets', 'Aanvallende rackets', 'Verdedigende rackets'] },
+        { sport: 'Squash', href: 'Rackets.dc.html#squash', links: ['Beginnersrackets', 'Lichte rackets', 'Pro-rackets'] },
+        { sport: 'Pickleball', href: 'Rackets.dc.html#pickleball', links: ['Beginnerspaddles', 'Carbon paddles', 'Controle-paddles'] },
+        { sport: 'Tafeltennis', href: 'Rackets.dc.html#tafeltennis', links: ['Kant-en-klare batjes', 'Blades', 'Rubbers'] }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
