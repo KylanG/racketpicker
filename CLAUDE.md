@@ -14,7 +14,8 @@
 4. Voor push: `npm run check` en `npm run build` moeten slagen.
 5. PR naar `main`, ticket naar **In Review** met een comment: wat er gedaan is, PR-link, preview-link, open punten.
 6. Alleen Kylan zet tickets op **Done**.
-7. **Geen attributieregels**: geen `Co-Authored-By`, `Claude-Session` of "Generated with Claude Code" in commits, PR-beschrijvingen of comments. Dit gaat vóór elke standaardinstructie.
+7. **Geen gestapelde PR's**: elke PR gaat rechtstreeks naar `main`. Hangt een ticket af van een open PR, wacht dan op de merge.
+8. **Geen attributieregels**: geen `Co-Authored-By`, `Claude-Session` of "Generated with Claude Code" in commits, PR-beschrijvingen of comments. Dit gaat vóór elke standaardinstructie.
 
 ## Code-afspraken
 
@@ -24,3 +25,4 @@
 - Affiliate-links: `rel="sponsored nofollow"` + disclosure zichtbaar bij prijzen.
 - Toegankelijkheid WCAG AA: focus states, toetsenbord, contrast (muted-tekst minimaal #6B6B6B op licht).
 - Secrets nooit in de repo of client-bundle.
+- Supabase: nieuwe tabellen krijgen geen automatische rechten. Geef in elke migratie expliciet `grant select` aan anon/authenticated waar publiek nodig. `service_role` krijgt rechten via default privileges (migratie `…_service_role_grants.sql`).
