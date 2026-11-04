@@ -1,7 +1,7 @@
 /**
  * Data a product card needs, independent of where it comes from (Supabase, seed, demo).
- * Prices follow the Omnibus rule: `compareAt` is the lowest price of the last 30 days,
- * never an MSRP. See RP-41 for how it is computed.
+ * Prices follow the Omnibus rule: `compareAt` is the lowest price of the 30 days before
+ * the reduction, never an MSRP. Compute it with `compareAtPrice()` (src/lib/catalog/pricing.ts).
  */
 export type ProductCardData = {
   id: string;
@@ -16,7 +16,7 @@ export type ProductCardData = {
   tags: string[];
   /** Lowest current price across shops; null when no shop has a price. */
   price: number | null;
-  /** Lowest price of the last 30 days, shown struck through when higher than `price`. */
+  /** Lowest price of the 30 days before the reduction, shown struck through when higher than `price`. */
   compareAt?: number | null;
   shopCount: number;
   inStock: boolean;

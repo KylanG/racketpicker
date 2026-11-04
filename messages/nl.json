@@ -49,7 +49,7 @@
     "stockAlertFor": "Zet een voorraadalert voor {name}",
     "soldOut": "Uitverkocht",
     "discount": "-{pct}%",
-    "wasPrice": "Laagste prijs afgelopen 30 dagen",
+    "wasPrice": "Laagste prijs 30 dagen vóór de korting",
     "compare": "Vergelijk",
     "compareName": "Vergelijk {name}",
     "save": "Bewaar {name}",

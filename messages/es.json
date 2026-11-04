@@ -49,7 +49,7 @@
     "stockAlertFor": "Avísame cuando haya stock de {name}",
     "soldOut": "Agotado",
     "discount": "-{pct}%",
-    "wasPrice": "Precio más bajo de los últimos 30 días",
+    "wasPrice": "Precio más bajo en los 30 días anteriores a la rebaja",
     "compare": "Comparar",
     "compareName": "Comparar {name}",
     "save": "Guardar {name}",
