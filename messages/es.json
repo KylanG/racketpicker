@@ -56,5 +56,137 @@
     "yourSizes": "Tu talla {sizes} disponible",
     "sizeRange": "Tallas {min}–{max}",
     "noImage": "Sin foto todavía"
+  },
+  "header": {
+    "skipToContent": "Ir al contenido",
+    "home": "Racketpicker, ir a la página de inicio",
+    "mainMenu": "Menú principal",
+    "search": "Buscar",
+    "favorites": "Favoritos, {count, plural, one {# guardado} other {# guardados}}",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "menu": "Menú",
+    "viewAll": "Ver todas las {category}",
+    "ctaDeals": "Ver ofertas",
+    "ctaAdvisor": "Usa el asesor",
+    "ctaAdvisorFree": "Usa el asesor gratuito",
+    "language": "Idioma",
+    "languageSoon": "Próximamente",
+    "categoryLower": {
+      "rackets": "palas y raquetas",
+      "shoes": "zapatillas",
+      "clothing": "prendas",
+      "accessories": "accesorios"
+    },
+    "sub": {
+      "rackets": {
+        "padel": {
+          "name": "Pádel",
+          "description": "Del control a la potencia"
+        },
+        "tennis": {
+          "name": "Tenis",
+          "description": "Para cada nivel y cada golpe"
+        },
+        "badminton": {
+          "name": "Bádminton",
+          "description": "Rápidas, ligeras y manejables"
+        },
+        "squash": {
+          "name": "Squash",
+          "description": "Control en espacios pequeños"
+        },
+        "pickleball": {
+          "name": "Pickleball",
+          "description": "El deporte de raqueta que más crece"
+        },
+        "table-tennis": {
+          "name": "Tenis de mesa",
+          "description": "Palas, gomas y maderas"
+        }
+      },
+      "shoes": {
+        "padel": {
+          "name": "Zapatillas de pádel",
+          "description": "Agarre en tierra y césped artificial"
+        },
+        "tennis": {
+          "name": "Zapatillas de tenis",
+          "description": "Pista dura, tierra y hierba"
+        },
+        "badminton": {
+          "name": "Zapatillas de bádminton",
+          "description": "Agarre y amortiguación indoor"
+        },
+        "squash": {
+          "name": "Zapatillas de squash",
+          "description": "Ágiles sobre parqué"
+        },
+        "pickleball": {
+          "name": "Zapatillas de pickleball",
+          "description": "Estables en sprints cortos"
+        },
+        "table-tennis": {
+          "name": "Zapatillas de tenis de mesa",
+          "description": "Ligeras y rápidas en la mesa"
+        }
+      },
+      "clothing": {
+        "padel": {
+          "name": "Ropa de pádel",
+          "description": "Camisetas, shorts y faldas"
+        },
+        "tennis": {
+          "name": "Ropa de tenis",
+          "description": "Camisetas, shorts y vestidos"
+        },
+        "badminton": {
+          "name": "Ropa de bádminton",
+          "description": "Ligera y transpirable"
+        },
+        "squash": {
+          "name": "Ropa de squash",
+          "description": "Ligera y transpirable"
+        },
+        "pickleball": {
+          "name": "Ropa de pickleball",
+          "description": "Camisetas, shorts y gorras"
+        },
+        "table-tennis": {
+          "name": "Ropa de tenis de mesa",
+          "description": "Camisetas y shorts"
+        }
+      },
+      "accessories": {
+        "padel": {
+          "name": "Accesorios de pádel",
+          "description": "Paleteros, pelotas y grips"
+        },
+        "tennis": {
+          "name": "Accesorios de tenis",
+          "description": "Raqueteros, pelotas y cordajes"
+        },
+        "badminton": {
+          "name": "Accesorios de bádminton",
+          "description": "Volantes, grips y bolsas"
+        },
+        "squash": {
+          "name": "Accesorios de squash",
+          "description": "Pelotas, grips y gafas"
+        },
+        "pickleball": {
+          "name": "Accesorios de pickleball",
+          "description": "Pelotas, bolsas y grips"
+        },
+        "table-tennis": {
+          "name": "Accesorios de tenis de mesa",
+          "description": "Pelotas, gomas y fundas"
+        }
+      }
+    }
+  },
+  "languages": {
+    "nl": "Nederlands",
+    "es": "Español"
   }
 }

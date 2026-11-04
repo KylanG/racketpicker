@@ -739,6 +739,14 @@ export type Database = {
       };
     };
     Views: {
+      catalog_nav: {
+        Row: {
+          category_key: string | null;
+          is_sample: boolean | null;
+          sport_key: string | null;
+        };
+        Relationships: [];
+      };
       product_price_summary: {
         Row: {
           in_stock_count: number | null;

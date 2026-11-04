@@ -6,6 +6,7 @@ import { use } from "react";
 import { getAlternates } from "@/i18n/alternates";
 import { routing, type Locale } from "@/i18n/routing";
 import { SPORTS, sportFromSlug, sportSlug } from "@/lib/catalog/taxonomy";
+import { Header } from "@/components/layout/header";
 
 export function generateStaticParams() {
   return routing.locales.flatMap((locale) =>
@@ -39,9 +40,14 @@ export default function SportRacketsPage({ params }: PageProps<"/[locale]/racket
   const t = useTranslations("rackets");
 
   return (
-    <main className="rp-container flex-1 py-16">
-      <h1 className="rp-h1">{t(`sportTitle.${sport}`)}</h1>
-      <p className="text-muted mt-3">{t("sportIntro")}</p>
-    </main>
+    <>
+      <div className="rp-hero-sub">
+        <Header active="rackets" />
+      </div>
+      <main id="main" tabIndex={-1} className="rp-container flex-1 py-16">
+        <h1 className="rp-h1">{t(`sportTitle.${sport}`)}</h1>
+        <p className="text-muted mt-3">{t("sportIntro")}</p>
+      </main>
+    </>
   );
 }
