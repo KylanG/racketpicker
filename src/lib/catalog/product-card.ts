@@ -20,6 +20,8 @@ export type ProductCardData = {
   compareAt?: number | null;
   shopCount: number;
   inStock: boolean;
+  /** Extra line under the shop count, e.g. "Prijs gecontroleerd op 4 november" (RP-68). */
+  priceNote?: string | null;
   /** Shoes: sizes in stock, for "Jouw maat 42, 43 leverbaar" / "Maten 40–46". */
   sizes?: { available: string[]; selected?: string[] };
 };

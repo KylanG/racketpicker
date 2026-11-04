@@ -5,7 +5,7 @@ import { Header } from "@/components/layout/header";
 import { Reveal } from "@/components/ui/reveal";
 import { Slant } from "@/components/ui/slant";
 import { getPathname, Link } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
+import { intlLocale, type Locale } from "@/i18n/routing";
 import { getShopCount } from "@/lib/catalog/deals";
 import {
   activeFilterCount,
@@ -195,11 +195,12 @@ async function FilteredResults({
   action: string;
   searchParams: SearchParams;
 }) {
-  const [params, t, tf, ts] = await Promise.all([
+  const [params, t, tf, ts, tp] = await Promise.all([
     searchParams,
     getTranslations("rackets"),
     getTranslations("rackets.filters"),
     getTranslations("sports"),
+    getTranslations("productCard"),
   ]);
   const filters = parseFilters(params);
   const results = applyFilters(items, filters);
@@ -286,6 +287,14 @@ async function FilteredResults({
                     compareAt: i.compareAt,
                     shopCount: i.shopCount,
                     inStock: i.inStock,
+                    priceNote: i.checkedOn
+                      ? tp("priceChecked", {
+                          date: new Intl.DateTimeFormat(intlLocale[locale], {
+                            day: "numeric",
+                            month: "long",
+                          }).format(new Date(i.checkedOn)),
+                        })
+                      : null,
                   }}
                 />
               </li>

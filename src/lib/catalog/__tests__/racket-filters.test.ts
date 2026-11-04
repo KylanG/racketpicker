@@ -26,6 +26,7 @@ const item = (over: Partial<RacketItem>): RacketItem => ({
   discount: null,
   shopCount: 2,
   inStock: true,
+  checkedOn: null,
   levels: ["beginner"],
   style: "controle",
   weight: 350,

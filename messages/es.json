@@ -180,7 +180,8 @@
     "save": "Guardar {name}",
     "yourSizes": "Tu talla {sizes} disponible",
     "sizeRange": "Tallas {min}–{max}",
-    "noImage": "Sin foto todavía"
+    "noImage": "Sin foto todavía",
+    "priceChecked": "Precio comprobado el {date}"
   },
   "header": {
     "skipToContent": "Ir al contenido",
