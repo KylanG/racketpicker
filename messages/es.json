@@ -4,10 +4,32 @@
     "description": "Compara palas, zapatillas y accesorios de pádel y otros deportes de raqueta en tiendas españolas."
   },
   "home": {
-    "eyebrow": "Próximamente",
-    "title": "Racketpicker",
-    "intro": "Compara palas de pádel en tiendas españolas.",
-    "cta": "Ver palas de pádel"
+    "season": {
+      "blackFriday": {
+        "title": "Ofertas de pádel del Black Friday, comparadas con honestidad",
+        "imageAlt": "Black Friday: letras hechas de pelotas de tenis con dos palas de pádel",
+        "ctaEyebrow": "Black Friday"
+      },
+      "regular": {
+        "title": "Palas de pádel comparadas con honestidad",
+        "imageAlt": "",
+        "ctaEyebrow": "Ofertas"
+      }
+    },
+    "intro": "Comparamos palas de pádel en <strong>{count}</strong> tiendas. Con el historial de precios ves al instante si de verdad ahorras.",
+    "introNoCount": "Comparamos palas de pádel en tiendas españolas. Con el historial de precios ves al instante si de verdad ahorras.",
+    "searchLabel": "Busca por pala, marca o característica",
+    "searchSubmit": "Buscar",
+    "suggestions": "Sugerencias",
+    "noSuggestions": "Sin resultados. Prueba con una marca.",
+    "suggestionCount": "{count, plural, =0 {Sin sugerencias} one {# sugerencia} other {# sugerencias}}",
+    "advisorDoubt": "¿Dudas?",
+    "advisorLink": "Usa el asesor gratuito",
+    "dealsEyebrow": "Ofertas destacadas",
+    "dealsTitle": "El precio más bajo de los últimos 90 días",
+    "dealsFilter": "Filtrar ofertas por deporte",
+    "dealsAll": "Todo",
+    "dealsEmpty": "Ahora no hay ofertas que sean de verdad el precio más bajo de 90 días. Solo mostramos descuentos frente al precio más bajo de los 30 días anteriores a la rebaja."
   },
   "notFound": {
     "title": "Página no encontrada",

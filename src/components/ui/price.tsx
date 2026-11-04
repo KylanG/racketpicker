@@ -3,19 +3,22 @@ import { formatPrice } from "@/lib/format/price";
 
 /**
  * Price with an optional struck-through comparison price.
- * Per the Omnibus rule the comparison is the lowest price of the last 30 days; an MSRP
- * may only be shown with `compareLabel` (e.g. "adviesprijs"). The caller decides which.
+ * Per the Omnibus rule the comparison is the lowest price of the 30 days before the
+ * reduction; an MSRP may only be shown with `compareLabel` (e.g. "adviesprijs").
+ * `compareSrLabel` names the struck-through price for screen readers.
  */
 export function Price({
   value,
   compareAt,
   compareLabel,
+  compareSrLabel,
   locale = "nl",
   size = "md",
 }: {
   value: number;
   compareAt?: number | null;
   compareLabel?: string;
+  compareSrLabel?: string;
   locale?: Locale;
   size?: "md" | "lg";
 }) {
@@ -30,6 +33,7 @@ export function Price({
       {showCompare && (
         <span className="text-muted-2 text-[14px]">
           {compareLabel && <span className="mr-1">{compareLabel}</span>}
+          {compareSrLabel && <span className="sr-only">{compareSrLabel}: </span>}
           <s>{formatPrice(compareAt, locale)}</s>
         </span>
       )}

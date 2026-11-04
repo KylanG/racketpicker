@@ -89,7 +89,11 @@ export function ProductCard({
         )}
         <div className="mt-auto pt-1.5">
           {product.price != null && (
-            <Price value={product.price} compareAt={pct ? product.compareAt : null} />
+            <Price
+              value={product.price}
+              compareAt={pct ? product.compareAt : null}
+              compareSrLabel={t("wasPrice")}
+            />
           )}
         </div>
         <p

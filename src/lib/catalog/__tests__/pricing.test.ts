@@ -3,6 +3,7 @@ import {
   compareAtPrice,
   discountPercent,
   historyDays,
+  isFeaturedDeal,
   isLowestIn90Days,
   isOnSale,
   priceStatsFromRow,
@@ -92,4 +93,12 @@ describe("priceStatsFromRow", () => {
         msrp: null,
       }),
     ).toMatchObject({ currentPrice: 99.99, priorPrice: 112.11, reducedSince: "2026-11-01" }));
+});
+
+describe("isFeaturedDeal", () => {
+  it("needs a real discount and the 90-day low", () => {
+    expect(isFeaturedDeal(stats(), today)).toBe(true);
+    expect(isFeaturedDeal(stats({ lowest90d: 190 }), today)).toBe(false);
+    expect(isFeaturedDeal(stats({ priorPrice: 200 }), today)).toBe(false);
+  });
 });
