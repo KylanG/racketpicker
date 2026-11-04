@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { use } from "react";
+import type { Locale } from "@/i18n/routing";
 import { Reveal } from "@/components/ui/reveal";
 import { Slant } from "@/components/ui/slant";
 import { showSampleData } from "@/lib/catalog/sample-data";
 import type { SlantSize } from "@/lib/ui/slant";
+import { CardsDemo } from "./cards-demo";
 import { ComponentsDemo } from "./components-demo";
 
 /*
@@ -44,18 +48,25 @@ const Arrow = () => (
   </svg>
 );
 
-export default function StyleguidePage() {
+export default function StyleguidePage({ params }: PageProps<"/[locale]/styleguide">) {
+  const { locale } = use(params);
+  setRequestLocale(locale as Locale);
   if (!showSampleData()) notFound();
 
   return (
     <main className="rp-container flex flex-col gap-16 py-16">
       <header>
-        <p className="rp-eyebrow">Intern · RP-20 / RP-21</p>
+        <p className="rp-eyebrow">Intern · RP-20 / RP-21 / RP-43</p>
         <h1 className="rp-h1 mt-2">Styleguide</h1>
         <p className="text-muted mt-3 max-w-[var(--container-read)]">
           Tokens uit de design-handover. Alleen zichtbaar op Preview.
         </p>
       </header>
+
+      <section>
+        <h2 className="rp-h2-sub mb-6">Productkaart (RP-43)</h2>
+        <CardsDemo />
+      </section>
 
       <section>
         <h2 className="rp-h2-sub mb-6">Componenten (RP-21)</h2>
