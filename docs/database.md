@@ -48,6 +48,15 @@ erDiagram
 - **Voorbeelddata** heeft `is_sample = true`. De app filtert dit in productie weg (RLS kan geen omgeving zien).
 - **`updated_at`** wordt automatisch bijgewerkt via een trigger.
 
+## Voorbeelddata (seed)
+
+`supabase/seed.sql` vult 10 voorbeeldrackets (Adidas 2026-lijn en Kuikma Carbon 26) met specs, scores, NL-teksten, 2–4 winkelaanbiedingen per racket en 90 dagen prijshistorie. Twee rackets zijn Tier A (met FAQ), zes Tier B en twee Tier C, zodat alle varianten van de productpagina te testen zijn.
+
+- **Opnieuw draaien kan altijd**: het script verwijdert eerst alle `is_sample`-producten (inclusief aanbod en prijshistorie) en vult ze dan opnieuw. Merken en winkels worden bijgewerkt, niet gedupliceerd.
+- Draaien: `npm run db:seed` (met `SUPABASE_DB_URL`) of plak het bestand in de SQL-editor van Supabase.
+- Productnamen volgen de echte lijnen, maar **specs, scores, prijzen en teksten zijn voorbeelden**. Scores hebben de notitie "Voorbeeldwaarden voor ontwikkeling, niet gemeten".
+- De app toont voorbeelddata alleen als `NEXT_PUBLIC_SHOW_SAMPLE_DATA=true` (Preview/Development). Elke catalogusquery gebruikt `withoutSamples()` uit `src/lib/catalog/sample-data.ts`.
+
 ## Beveiliging (RLS)
 
 Alle tabellen hebben RLS. Tabellen worden niet automatisch via de API gepubliceerd: `anon` en `authenticated` krijgen alleen expliciet `SELECT`. Schrijven gebeurt server-side met de secret key (feed-import, cron), die RLS omzeilt.
