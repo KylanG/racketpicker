@@ -32,7 +32,7 @@ export async function loadCatalog(): Promise<CatalogProduct[]> {
   const { data, error } = await createAdminClient()
     .from("products")
     .select("id, model, model_year, gtins, brands!inner(name)")
-    .eq("category_key", "padel-rackets")
+    .eq("category_key", "rackets")
     .eq("is_sample", false)
     .neq("status", "archived");
   if (error) throw new Error(`Loading catalog failed: ${error.message}`);

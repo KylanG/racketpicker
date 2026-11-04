@@ -40,27 +40,16 @@ export type Database = {
         Row: {
           key: string;
           sort_order: number;
-          sport_key: string;
         };
         Insert: {
           key: string;
           sort_order?: number;
-          sport_key: string;
         };
         Update: {
           key?: string;
           sort_order?: number;
-          sport_key?: string;
         };
-        Relationships: [
-          {
-            foreignKeyName: "categories_sport_key_fkey";
-            columns: ["sport_key"];
-            isOneToOne: false;
-            referencedRelation: "sports";
-            referencedColumns: ["key"];
-          },
-        ];
+        Relationships: [];
       };
       feed_items: {
         Row: {
@@ -561,6 +550,7 @@ export type Database = {
           is_sample: boolean;
           model: string;
           model_year: number | null;
+          sport_key: string;
           status: Database["public"]["Enums"]["product_status"];
           tier: Database["public"]["Enums"]["content_tier"];
           updated_at: string;
@@ -574,6 +564,7 @@ export type Database = {
           is_sample?: boolean;
           model: string;
           model_year?: number | null;
+          sport_key: string;
           status?: Database["public"]["Enums"]["product_status"];
           tier?: Database["public"]["Enums"]["content_tier"];
           updated_at?: string;
@@ -587,6 +578,7 @@ export type Database = {
           is_sample?: boolean;
           model?: string;
           model_year?: number | null;
+          sport_key?: string;
           status?: Database["public"]["Enums"]["product_status"];
           tier?: Database["public"]["Enums"]["content_tier"];
           updated_at?: string;
@@ -604,6 +596,13 @@ export type Database = {
             columns: ["category_key"];
             isOneToOne: false;
             referencedRelation: "categories";
+            referencedColumns: ["key"];
+          },
+          {
+            foreignKeyName: "products_sport_key_fkey";
+            columns: ["sport_key"];
+            isOneToOne: false;
+            referencedRelation: "sports";
             referencedColumns: ["key"];
           },
         ];

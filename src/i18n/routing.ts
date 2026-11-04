@@ -25,12 +25,22 @@ export const routing = defineRouting({
   // hreflang is set per page via getAlternates() so x-default can point to /nl/.
   alternateLinks: false,
   // Internal route names are English; public slugs are localized per market.
+  // Structure from the design handover: /{category}/{sport}/{product} (decided 4 nov).
+  // Sport segments are localized separately (src/lib/catalog/taxonomy.ts).
   pathnames: {
     "/": "/",
-    "/padel-rackets": {
-      nl: "/padelrackets",
-      es: "/palas-de-padel",
+    "/rackets": { nl: "/rackets", es: "/raquetas" },
+    "/rackets/[sport]": { nl: "/rackets/[sport]", es: "/raquetas/[sport]" },
+    "/rackets/[sport]/[product]": {
+      nl: "/rackets/[sport]/[product]",
+      es: "/raquetas/[sport]/[product]",
     },
+    "/shoes/[sport]": { nl: "/schoenen/[sport]", es: "/zapatillas/[sport]" },
+    "/clothing/[sport]": { nl: "/kleding/[sport]", es: "/ropa/[sport]" },
+    "/accessories/[sport]": { nl: "/accessoires/[sport]", es: "/accesorios/[sport]" },
+    "/advisor": { nl: "/keuzehulp", es: "/asesor" },
+    "/blog": "/blog",
+    "/favorites": { nl: "/favorieten", es: "/favoritos" },
   },
 });
 

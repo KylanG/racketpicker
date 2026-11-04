@@ -80,8 +80,8 @@ insert into seed_products values
     '{beginner,intermediate}', 'control', 62, 80, 84, 82, 88, 79.99, 'kuikma-carbon-26-comfort',
     null, '{}', '{}', null);
 
-insert into public.products (brand_id, category_key, model, model_year, tier, status, is_sample)
-select b.id, 'padel-rackets', s.model, s.model_year, s.tier, 'published', true
+insert into public.products (brand_id, sport_key, category_key, model, model_year, tier, status, is_sample)
+select b.id, 'padel', 'rackets', s.model, s.model_year, s.tier, 'published', true
 from seed_products s join public.brands b on b.slug = s.brand_slug;
 
 insert into public.racket_specs (product_id, shape, weight_min_g, weight_max_g, balance, core_material,
