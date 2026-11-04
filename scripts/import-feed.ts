@@ -2,6 +2,7 @@
  * Import an affiliate feed.
  *
  *   npm run feeds:import -- <shop-slug> [--file feed.csv] [--dry-run] [--force]
+ *   npm run feeds:import -- --all            (same as the daily cron: all active shops + photos)
  *   npm run feeds:import -- --offline --network awin --file feed.csv [--filter all]
  *
  * --offline parses, filters and matches a local file without any database access
@@ -19,6 +20,7 @@ const { values, positionals } = parseArgs({
     "dry-run": { type: "boolean", default: false },
     force: { type: "boolean", default: false },
     offline: { type: "boolean", default: false },
+    all: { type: "boolean", default: false },
     network: { type: "string" },
     filter: { type: "string", default: "padel_rackets" },
     show: { type: "string", default: "10" },
@@ -46,6 +48,12 @@ async function main() {
         gtin: i.gtin ?? "",
       })),
     );
+    return;
+  }
+
+  if (values.all) {
+    const { runDailyImport } = await import("../src/lib/feeds/run-all");
+    console.log(JSON.stringify(await runDailyImport(), null, 2));
     return;
   }
 
