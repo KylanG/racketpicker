@@ -62,6 +62,194 @@ export type Database = {
           },
         ];
       };
+      feed_items: {
+        Row: {
+          affiliate_url: string;
+          brand: string | null;
+          category: string | null;
+          delivery_days_max: number | null;
+          delivery_days_min: number | null;
+          external_id: string;
+          first_seen_at: string;
+          gtin: string | null;
+          id: string;
+          image_url: string | null;
+          is_active: boolean;
+          last_seen_at: string;
+          match_method: Database["public"]["Enums"]["match_method"] | null;
+          match_score: number | null;
+          match_status: Database["public"]["Enums"]["match_status"];
+          matched_product_id: string | null;
+          price: number;
+          product_url: string | null;
+          shipping_cost: number | null;
+          shop_id: string;
+          stock_status: Database["public"]["Enums"]["stock_status"];
+          suggested_product_id: string | null;
+          title: string;
+          updated_at: string;
+        };
+        Insert: {
+          affiliate_url: string;
+          brand?: string | null;
+          category?: string | null;
+          delivery_days_max?: number | null;
+          delivery_days_min?: number | null;
+          external_id: string;
+          first_seen_at?: string;
+          gtin?: string | null;
+          id?: string;
+          image_url?: string | null;
+          is_active?: boolean;
+          last_seen_at?: string;
+          match_method?: Database["public"]["Enums"]["match_method"] | null;
+          match_score?: number | null;
+          match_status?: Database["public"]["Enums"]["match_status"];
+          matched_product_id?: string | null;
+          price: number;
+          product_url?: string | null;
+          shipping_cost?: number | null;
+          shop_id: string;
+          stock_status?: Database["public"]["Enums"]["stock_status"];
+          suggested_product_id?: string | null;
+          title: string;
+          updated_at?: string;
+        };
+        Update: {
+          affiliate_url?: string;
+          brand?: string | null;
+          category?: string | null;
+          delivery_days_max?: number | null;
+          delivery_days_min?: number | null;
+          external_id?: string;
+          first_seen_at?: string;
+          gtin?: string | null;
+          id?: string;
+          image_url?: string | null;
+          is_active?: boolean;
+          last_seen_at?: string;
+          match_method?: Database["public"]["Enums"]["match_method"] | null;
+          match_score?: number | null;
+          match_status?: Database["public"]["Enums"]["match_status"];
+          matched_product_id?: string | null;
+          price?: number;
+          product_url?: string | null;
+          shipping_cost?: number | null;
+          shop_id?: string;
+          stock_status?: Database["public"]["Enums"]["stock_status"];
+          suggested_product_id?: string | null;
+          title?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "feed_items_matched_product_id_fkey";
+            columns: ["matched_product_id"];
+            isOneToOne: false;
+            referencedRelation: "products";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "feed_items_shop_id_fkey";
+            columns: ["shop_id"];
+            isOneToOne: false;
+            referencedRelation: "shops";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "feed_items_suggested_product_id_fkey";
+            columns: ["suggested_product_id"];
+            isOneToOne: false;
+            referencedRelation: "products";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      feed_sources: {
+        Row: {
+          created_at: string;
+          feed_key: string;
+          filter: Database["public"]["Enums"]["feed_filter"];
+          format: Database["public"]["Enums"]["feed_format"];
+          id: string;
+          is_active: boolean;
+          last_run_at: string | null;
+          network: Database["public"]["Enums"]["affiliate_network"];
+          shop_id: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          feed_key: string;
+          filter?: Database["public"]["Enums"]["feed_filter"];
+          format?: Database["public"]["Enums"]["feed_format"];
+          id?: string;
+          is_active?: boolean;
+          last_run_at?: string | null;
+          network: Database["public"]["Enums"]["affiliate_network"];
+          shop_id: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          feed_key?: string;
+          filter?: Database["public"]["Enums"]["feed_filter"];
+          format?: Database["public"]["Enums"]["feed_format"];
+          id?: string;
+          is_active?: boolean;
+          last_run_at?: string | null;
+          network?: Database["public"]["Enums"]["affiliate_network"];
+          shop_id?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "feed_sources_shop_id_fkey";
+            columns: ["shop_id"];
+            isOneToOne: true;
+            referencedRelation: "shops";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      import_runs: {
+        Row: {
+          error: string | null;
+          finished_at: string | null;
+          id: string;
+          shop_id: string;
+          started_at: string;
+          stats: Json;
+          status: Database["public"]["Enums"]["import_status"];
+        };
+        Insert: {
+          error?: string | null;
+          finished_at?: string | null;
+          id?: string;
+          shop_id: string;
+          started_at?: string;
+          stats?: Json;
+          status?: Database["public"]["Enums"]["import_status"];
+        };
+        Update: {
+          error?: string | null;
+          finished_at?: string | null;
+          id?: string;
+          shop_id?: string;
+          started_at?: string;
+          stats?: Json;
+          status?: Database["public"]["Enums"]["import_status"];
+        };
+        Relationships: [
+          {
+            foreignKeyName: "import_runs_shop_id_fkey";
+            columns: ["shop_id"];
+            isOneToOne: false;
+            referencedRelation: "shops";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       markets: {
         Row: {
           code: string;
@@ -581,11 +769,19 @@ export type Database = {
       };
     };
     Functions: {
-      [_ in never]: never;
+      ingest_feed_items: {
+        Args: { p_items: Json; p_shop_id: string };
+        Returns: Json;
+      };
     };
     Enums: {
       affiliate_network: "daisycon" | "awin" | "direct" | "other";
       content_tier: "A" | "B" | "C";
+      feed_filter: "all" | "padel_rackets";
+      feed_format: "csv" | "csv_gz";
+      import_status: "running" | "succeeded" | "failed";
+      match_method: "gtin" | "name" | "manual";
+      match_status: "matched" | "pending" | "rejected";
       play_level: "beginner" | "intermediate" | "advanced" | "pro";
       play_style: "control" | "all_round" | "power";
       product_status: "draft" | "published" | "archived";
@@ -716,6 +912,11 @@ export const Constants = {
     Enums: {
       affiliate_network: ["daisycon", "awin", "direct", "other"],
       content_tier: ["A", "B", "C"],
+      feed_filter: ["all", "padel_rackets"],
+      feed_format: ["csv", "csv_gz"],
+      import_status: ["running", "succeeded", "failed"],
+      match_method: ["gtin", "name", "manual"],
+      match_status: ["matched", "pending", "rejected"],
       play_level: ["beginner", "intermediate", "advanced", "pro"],
       play_style: ["control", "all_round", "power"],
       product_status: ["draft", "published", "archived"],

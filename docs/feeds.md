@@ -1,0 +1,82 @@
+# Feed-import (Daisycon & Awin)
+
+Productfeeds van affiliatewinkels worden ingelezen, gefilterd, gekoppeld aan producten in onze catalogus en omgezet in `offers` met dagelijkse prijshistorie.
+
+```mermaid
+flowchart LR
+  A[Feed-URL<br/>CSV of CSV.gz] --> B[Parser<br/>scheidingsteken automatisch]
+  B --> C[Adapter<br/>Daisycon / Awin]
+  C --> D{Padelracket?}
+  D -- nee --> X[overgeslagen]
+  D -- ja --> E{Match}
+  E -- GTIN gelijk --> M[matched]
+  E -- naam ≥ 0,9 en uniek --> M
+  E -- anders --> P[pending<br/>met suggestie]
+  M --> F[(ingest_feed_items)]
+  P --> F
+  F --> O[offers + price_history]
+```
+
+## Onderdelen
+
+| Bestand                                 | Wat                                                                               |
+| --------------------------------------- | --------------------------------------------------------------------------------- |
+| `src/lib/feeds/csv.ts`                  | Leest CSV (ook gzip), herkent `,` `;` tab en `\|` automatisch                     |
+| `src/lib/feeds/adapters.ts`             | Kolomnamen per netwerk → één genormaliseerd formaat                               |
+| `src/lib/feeds/normalize.ts`            | Prijzen (`96,74` / `1.299,00`), GTIN, voorraad, levertijd                         |
+| `src/lib/feeds/filter.ts`               | Houdt alleen padelrackets over (geen grips, tassen, schoenen, ballen)             |
+| `src/lib/feeds/match.ts`                | Koppelt aan een product: eerst GTIN, dan naam (merk + model + jaar)               |
+| `src/lib/feeds/pipeline.ts`             | Pure stap: bytes → items met match. Geen netwerk of database                      |
+| `src/lib/feeds/run-import.ts`           | Download, catalogus laden, veiligheidscheck, `ingest_feed_items()`, `import_runs` |
+| `scripts/import-feed.ts`                | CLI: `npm run feeds:import`                                                       |
+| `supabase/migrations/…_feed_import.sql` | `feed_sources`, `feed_items`, `import_runs` en de functie `ingest_feed_items()`   |
+
+## Matching
+
+1. **GTIN/EAN** gelijk aan een GTIN van het product → direct gekoppeld.
+2. **Naam**: merk moet gelijk zijn; daarna overlap van modelwoorden (zonder ruis als "padelracket").
+   - Alle modelwoorden moeten in de titel staan: _Metalbone_ ≠ _Metalbone HRD+_.
+   - Ander modeljaar halveert de score; geen jaar in de titel → altijd eerst review.
+   - Automatisch koppelen vanaf score **0,9** én minstens 0,1 beter dan de tweede kandidaat.
+3. Anders: **pending**, met de beste kandidaat als suggestie (vanaf 0,5). Deze lijst controleren we handmatig.
+
+**Handmatige beslissingen blijven staan**: een item dat met de hand is gekoppeld (`match_method = 'manual'`) of afgewezen (`rejected`) wordt bij een volgende import niet overschreven.
+
+## Wat `ingest_feed_items()` doet (één transactie)
+
+1. Feed-items upserten; handmatige beslissingen blijven staan.
+2. Items die niet meer in de feed staan → inactief.
+3. Gekoppelde, actieve items → `offers` (aanmaken of bijwerken).
+4. Offers van deze winkel die niet meer gekoppeld/aanwezig zijn → inactief (voorbeelddata blijft ongemoeid).
+5. Eén prijssnapshot per offer per dag in `price_history`.
+
+**Veiligheid:** krimpt een feed in één keer tot minder dan de helft (bij ≥ 20 items), dan stopt de import zonder iets te deactiveren. Met `--force` kan het toch.
+
+## Configuratie
+
+- Per winkel een rij in `feed_sources` (netwerk, `feed_key`, filter, actief). Nu ingericht, **allemaal inactief**: Padeldiscount, Daka (Daisycon), Padel-Point, Smash-Expert (Awin). Eerste versie: filter `padel_rackets` voor iedereen.
+- Feed-URL's bevatten inloggegevens en staan daarom **niet** in de database maar in Vercel (Secret):
+  ```
+  DAISYCON_FEED_URLS={"padeldiscount":"https://…","daka":"https://…"}
+  AWIN_FEED_URLS={"padel-point":"https://…","smash-expert":"https://…"}
+  ```
+- Winkel aanzetten: `update feed_sources set is_active = true where shop_id = (select id from shops where slug = '…');` en de winkel zelf (`shops.is_active`) aanzetten zodra er gekoppelde offers zijn.
+
+## Gebruik
+
+```bash
+# Nieuwe feed controleren zonder database (lege catalogus)
+npm run feeds:import -- --offline --network awin --file feed.csv
+
+# Proefdraaien tegen de echte catalogus, niets wegschrijven
+npm run feeds:import -- padel-point --dry-run
+
+# Echt importeren (vereist SUPABASE_SECRET_KEY en de feed-URL's)
+npm run feeds:import -- padel-point
+```
+
+Dagelijks automatisch draaien volgt in RP-19 (Vercel Cron).
+
+## Nog te verifiëren met de eerste echte feed
+
+De kolomnamen in `adapters.ts` volgen het standaardformaat van beide netwerken, met aliassen. Feeds verschillen per adverteerder: draai eerst `--offline` op een echte feed en vul zo nodig aliassen aan.
