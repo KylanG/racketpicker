@@ -1,0 +1,22 @@
+{
+  "metadata": {
+    "title": "Racketpicker",
+    "description": "Vergelijk padelrackets, schoenen en gear bij Nederlandse winkels."
+  },
+  "home": {
+    "eyebrow": "Binnenkort",
+    "title": "Racketpicker",
+    "intro": "Vergelijk padelrackets bij Nederlandse winkels.",
+    "cta": "Bekijk padelrackets"
+  },
+  "padelRackets": {
+    "title": "Padelrackets",
+    "intro": "Hier komt het overzicht van alle padelrackets met prijzen per winkel.",
+    "examplePrice": "Voorbeeldprijs: {price}",
+    "updated": "Laatst bijgewerkt: {date}"
+  },
+  "notFound": {
+    "title": "Pagina niet gevonden",
+    "back": "Terug naar de homepagina"
+  }
+}
