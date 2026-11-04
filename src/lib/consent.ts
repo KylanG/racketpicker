@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { analyticsCookieNames } from "./analytics/events";
 import {
   CONSENT_COOKIE,
   CONSENT_MAX_AGE_S,
@@ -33,6 +34,21 @@ export function saveConsent(choice: Pick<Consent, ConsentCategory>): Consent {
   document.cookie = `${CONSENT_COOKIE}=${serializeConsent(consent)}; Max-Age=${CONSENT_MAX_AGE_S}; Path=/; SameSite=Lax${secure}`;
   window.dispatchEvent(new Event(CONSENT_CHANGE_EVENT));
   return consent;
+}
+
+/**
+ * Removes the GA4 cookies (_ga, _ga_<id>, _gid) after analytics consent is withdrawn.
+ * GA sets them on the registrable domain (.racketpicker.com), so try each variant.
+ */
+export function clearAnalyticsCookies(): void {
+  const host = location.hostname;
+  const base = host.replace(/^www\./, "");
+  const domains = ["", `; Domain=${host}`, `; Domain=.${base}`];
+  for (const name of analyticsCookieNames(document.cookie)) {
+    for (const domain of domains) {
+      document.cookie = `${name}=; Max-Age=0; Path=/${domain}`;
+    }
+  }
 }
 
 function subscribe(onChange: () => void) {

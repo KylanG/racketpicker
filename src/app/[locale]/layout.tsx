@@ -3,6 +3,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import localFont from "next/font/local";
 import { notFound } from "next/navigation";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { CookieBanner } from "@/components/layout/cookie-banner";
 import { Footer } from "@/components/layout/footer";
 import { SlantRounder } from "@/components/ui/slant-rounder";
@@ -52,6 +53,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
           <CookieBanner />
           {children}
           <Footer />
+          <GoogleAnalytics />
         </NextIntlClientProvider>
         <SlantRounder />
       </body>

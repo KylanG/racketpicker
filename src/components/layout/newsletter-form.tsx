@@ -5,6 +5,7 @@ import { useId, useRef, useState, useTransition, type FormEvent } from "react";
 import { ArrowIcon } from "@/components/ui/icons";
 import { Slant } from "@/components/ui/slant";
 import { Link } from "@/i18n/navigation";
+import { trackEvent } from "@/lib/analytics/events";
 import { subscribeToNewsletter } from "@/lib/newsletter/actions";
 import { isValidEmail } from "@/lib/newsletter/email";
 
@@ -40,8 +41,10 @@ export function NewsletterForm() {
     setError(null);
     startTransition(async () => {
       const result = await subscribeToNewsletter(email.trim()).catch(() => null);
-      if (result?.status === "success") setDone(true);
-      else setError(result?.status === "invalid" ? "errorInvalid" : "errorUnavailable");
+      if (result?.status === "success") {
+        setDone(true);
+        trackEvent({ name: "sign_up", params: { method: "newsletter" } });
+      } else setError(result?.status === "invalid" ? "errorInvalid" : "errorUnavailable");
     });
   };
 

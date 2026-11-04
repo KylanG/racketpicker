@@ -5,7 +5,13 @@ import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react"
 import { Slant } from "@/components/ui/slant";
 import { Switch } from "@/components/ui/switch";
 import { Link } from "@/i18n/navigation";
-import { readConsent, saveConsent, useConsentChoice, type ConsentCategory } from "@/lib/consent";
+import {
+  clearAnalyticsCookies,
+  readConsent,
+  saveConsent,
+  useConsentChoice,
+  type ConsentCategory,
+} from "@/lib/consent";
 import { OPEN_COOKIE_SETTINGS_EVENT } from "./cookie-settings-button";
 
 type Draft = Record<ConsentCategory, boolean>;
@@ -28,7 +34,8 @@ const BUTTON =
  * - "Alles accepteren" and "Alleen noodzakelijk" are equally large and both solid.
  * - "Cookie-instellingen" in the footer reopens it modally with the switches; Escape
  *   closes it without changing anything and focus returns to the footer button.
- * - Withdrawing a consent reloads the page, so scripts that were loaded are gone.
+ * - Withdrawing a consent reloads the page, so scripts that were loaded are gone; the
+ *   GA4 cookies are removed as well.
  */
 export function CookieBanner() {
   const t = useTranslations("cookies");
@@ -78,6 +85,7 @@ export function CookieBanner() {
     setSettings(false);
     const withdrawn =
       (before?.analytics && !choice.analytics) || (before?.marketing && !choice.marketing);
+    if (before?.analytics && !choice.analytics) clearAnalyticsCookies();
     if (withdrawn) window.location.reload();
   };
 
