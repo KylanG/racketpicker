@@ -7,7 +7,7 @@ import { supabaseUrl } from "@/lib/supabase/env";
 import { PRODUCT_IMAGES_BUCKET } from "@/lib/feeds/images";
 import { CATALOG_TAG } from "./cache-tags";
 import { compareAtPrice, discountPercent, isFeaturedDeal, priceStatsFromRow } from "./pricing";
-import { withoutSamples } from "./sample-data";
+import { showSampleData, withoutSamples } from "./sample-data";
 import { isCategory, sportSlug, type CategoryKey, type SportKey } from "./taxonomy";
 
 /** A featured deal, before localizing labels (sport) in the component. */
@@ -128,20 +128,25 @@ export async function getFeaturedDeals(locale: Locale, limit = 8): Promise<Deal[
     .slice(0, limit);
 }
 
-/** Number of active shops in a market, for "bij {count} winkels". */
+/**
+ * Number of shops that currently show a price in a market, for "bij {count} winkels".
+ * Shops without an active offer (e.g. a feed that is not approved yet) are not counted.
+ */
 export async function getShopCount(locale: Locale): Promise<number> {
   "use cache";
   cacheTag(CATALOG_TAG);
 
-  const { count, error } = await createPublicClient()
-    .from("shops")
-    .select("id", { count: "exact", head: true })
-    .eq("market_code", locale);
+  const { data, error } = await createPublicClient()
+    .from("offers")
+    .select("shop_id, products!inner(is_sample)")
+    .eq("market_code", locale)
+    .eq("is_active", true);
   if (error) {
     console.error("[shops] could not count shops", error.message);
     cacheLife("minutes");
     return 0;
   }
   cacheLife("days");
-  return count ?? 0;
+  const visible = showSampleData() ? data : data.filter((o) => !o.products.is_sample);
+  return new Set(visible.map((o) => o.shop_id)).size;
 }
