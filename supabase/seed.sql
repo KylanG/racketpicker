@@ -137,18 +137,31 @@ join (
   from public.shops where slug in ('padelparade', 'padeldiscount', 'padel-point', 'smash-expert')
 ) sh on sh.n <= 2 + (abs(hashtext(s.slug)) % 3);
 
--- Price history: 90 days per offer, slowly drifting down to today's price ----
+-- Price history: 90 days per offer, one scenario per product (RP-41) -------------
+-- Exercises the Omnibus rules: a discount counts only against the lowest price of the
+-- 30 days before the reduction, and only when the history covers those 30 days.
+--   deal    reduced 3 days ago from 12–20% higher: shows "-X%"
+--   stable  hovers just above today's price: no discount
+--   raised  was lower 11–28 days ago, then raised, now back: no discount (looks like one vs. last week)
+--   new     only 20 days of history: no discount, however large the drop
 insert into public.price_history (offer_id, recorded_on, price, shipping_cost, stock_status)
 select
   o.id,
   current_date - d,
-  -- Today (d = 0) equals the current offer price; older days are slightly higher with a weekly wave.
-  round(o.price * (1 + 0.12 * d / 90.0
-    + case when d = 0 then 0 else 0.03 * sin(d / 7.0 + abs(hashtext(o.id::text)) % 10)::numeric end), 2),
+  round(o.price * (case sc.scenario
+    when 'deal' then case when d <= 3 then 1 else 1.12 + 0.04 * (sc.n % 3) + 0.02 * abs(sin(d / 5.0)) end
+    when 'stable' then case when d = 0 then 1 else 1 + 0.02 * abs(sin(d / 6.0 + sc.n)) end
+    when 'raised' then case when d = 0 then 1 when d <= 10 then 1.30 when d <= 28 then 0.95 else 1.05 end
+    else case when d <= 2 then 1 else 1.20 end
+  end)::numeric, 2),
   o.shipping_cost,
   o.stock_status
 from public.offers o
-join public.products p on p.id = o.product_id and p.is_sample
-cross join generate_series(0, 89) as d;
+join (
+  select id, n, (array['deal', 'stable', 'deal', 'raised', 'new'])[1 + (n - 1) % 5] as scenario
+  from (select id, row_number() over (order by model)::int as n from public.products where is_sample) ranked
+) sc on sc.id = o.product_id
+cross join generate_series(0, 89) as d
+where sc.scenario <> 'new' or d < 20;
 
 commit;

@@ -550,6 +550,7 @@ export type Database = {
           is_sample: boolean;
           model: string;
           model_year: number | null;
+          msrp: number | null;
           sport_key: string;
           status: Database["public"]["Enums"]["product_status"];
           tier: Database["public"]["Enums"]["content_tier"];
@@ -564,6 +565,7 @@ export type Database = {
           is_sample?: boolean;
           model: string;
           model_year?: number | null;
+          msrp?: number | null;
           sport_key: string;
           status?: Database["public"]["Enums"]["product_status"];
           tier?: Database["public"]["Enums"]["content_tier"];
@@ -578,6 +580,7 @@ export type Database = {
           is_sample?: boolean;
           model?: string;
           model_year?: number | null;
+          msrp?: number | null;
           sport_key?: string;
           status?: Database["public"]["Enums"]["product_status"];
           tier?: Database["public"]["Enums"]["content_tier"];
@@ -776,6 +779,21 @@ export type Database = {
       };
     };
     Functions: {
+      product_price_stats: {
+        Args: { p_market_code: string };
+        Returns: {
+          avg_90d: number | null;
+          current_price: number | null;
+          first_recorded_on: string | null;
+          highest_90d: number | null;
+          lowest_90d: number | null;
+          market_code: string;
+          msrp: number | null;
+          prior_price: number | null;
+          product_id: string;
+          reduced_since: string | null;
+        }[];
+      };
       ingest_feed_items: {
         Args: { p_items: Json; p_shop_id: string };
         Returns: Json;
