@@ -101,7 +101,69 @@
       "pickleball": "Pickleball-paddles",
       "table-tennis": "Tafeltennisbatjes"
     },
-    "sportIntro": "Het overzicht met filters en prijzen per winkel volgt binnenkort."
+    "sportIntro": "Het overzicht met filters en prijzen per winkel volgt binnenkort.",
+    "allTitle": "Alle rackets vergelijken",
+    "pageTitle": "{name} vergelijken",
+    "heroIntro": "Vergelijk prijzen bij {count} winkels. Filter op merk, niveau, speelstijl en prijs, of laat de keuzehulp het werk doen.",
+    "heroIntroNoCount": "Vergelijk prijzen bij Nederlandse winkels. Filter op merk, niveau, speelstijl en prijs, of laat de keuzehulp het werk doen.",
+    "breadcrumb": "Kruimelpad",
+    "home": "Home",
+    "allSports": "Alle sporten",
+    "sportTabs": "Kies een sport",
+    "filters": {
+      "title": "Filters",
+      "clearAll": "Wis alles",
+      "onlyDeals": "Alleen deals",
+      "hideSoldOut": "Verberg uitverkocht",
+      "facet": {
+        "merk": "Merk",
+        "prijs": "Prijs",
+        "niveau": "Niveau",
+        "stijl": "Speelstijl",
+        "gewicht": "Gewicht"
+      },
+      "level": {
+        "beginner": "Beginner",
+        "gemiddeld": "Gemiddeld",
+        "gevorderd": "Gevorderd",
+        "competitie": "Competitie"
+      },
+      "style": {
+        "controle": "Controle",
+        "allround": "Allround",
+        "power": "Power"
+      },
+      "weight": {
+        "licht": "Licht",
+        "gemiddeld": "Gemiddeld",
+        "zwaar": "Zwaar"
+      },
+      "priceUnder": "Tot {max}",
+      "priceRange": "{min} – {max}",
+      "priceOver": "{min}+",
+      "optionCount": "{count, plural, one {# resultaat} other {# resultaten}}",
+      "apply": "Toon resultaten",
+      "open": "Filters",
+      "openCount": "Filters ({count})",
+      "close": "Filters sluiten",
+      "showResults": "{count, plural, =0 {Geen rackets} one {Toon # racket} other {Toon # rackets}}",
+      "advisorDoubt": "Te veel keuze?",
+      "advisorLink": "Doe de gratis keuzehulp",
+      "updating": "Resultaten worden bijgewerkt",
+      "weightTag": {
+        "licht": "Licht",
+        "gemiddeld": "Middengewicht",
+        "zwaar": "Zwaar"
+      }
+    },
+    "results": {
+      "total": "{count, plural, one {<b>#</b> racket} other {<b>#</b> rackets}}",
+      "emptyTitle": "Geen rackets met deze filters",
+      "emptyText": "Haal een filter weg of probeer de keuzehulp.",
+      "clearAll": "Wis alle filters",
+      "noneYetTitle": "Nog geen rackets",
+      "noneYetText": "Voor deze sport hebben we nog geen rackets. Bekijk de andere sporten of kom binnenkort terug."
+    }
   },
   "productCard": {
     "shopsCompared": "Bij {count, plural, one {# winkel} other {# winkels}} vergeleken",
