@@ -282,7 +282,8 @@
       "howWeEarn": "Cómo ganamos dinero",
       "contact": "Contacto",
       "privacy": "Privacidad",
-      "cookieSettings": "Configuración de cookies"
+      "cookieSettings": "Configuración de cookies",
+      "cookiePolicy": "Política de cookies"
     },
     "copyright": "© {year} Racketpicker.com",
     "pricesUpdated": "Los precios se actualizan a diario."
@@ -310,6 +311,121 @@
       "marketing": {
         "title": "Afiliación y marketing",
         "description": "Permiten que las tiendas vean que llegas a través de Racketpicker y muestran opiniones de Trustpilot."
+      }
+    }
+  },
+  "info": {
+    "onThisPage": "En esta página",
+    "updated": "Última actualización: {date}",
+    "breadcrumb": "Ruta de navegación",
+    "home": "Inicio",
+    "company": {
+      "title": "Datos de la empresa",
+      "tradeName": "Nombre comercial",
+      "legalName": "Razón social",
+      "kvk": "Número KvK",
+      "vat": "NIF/IVA",
+      "address": "Dirección",
+      "email": "Correo"
+    },
+    "pages": {
+      "about": {
+        "title": "Sobre nosotros",
+        "intro": "Racketpicker te ayuda a encontrar la pala adecuada al mejor precio.",
+        "sections": [
+          {
+            "id": "pronto",
+            "title": "Próximamente",
+            "paragraphs": ["Esta página se publicará con el lanzamiento de Racketpicker en España."]
+          }
+        ]
+      },
+      "howWeEarn": {
+        "title": "Cómo ganamos dinero",
+        "intro": "Racketpicker es gratis. Ganamos una comisión de la tienda, no de ti.",
+        "sections": [
+          {
+            "id": "pronto",
+            "title": "Próximamente",
+            "paragraphs": ["Esta página se publicará con el lanzamiento de Racketpicker en España."]
+          }
+        ]
+      },
+      "contact": {
+        "title": "Contacto",
+        "intro": "¿Una pregunta o un error en un precio? Escríbenos.",
+        "sections": [
+          {
+            "id": "pronto",
+            "title": "Próximamente",
+            "paragraphs": ["Esta página se publicará con el lanzamiento de Racketpicker en España."]
+          }
+        ],
+        "mailDirect": "Escríbenos directamente",
+        "mailNote": "Solemos responder en dos días laborables.",
+        "form": {
+          "name": "Nombre",
+          "email": "Correo electrónico",
+          "subject": "Asunto",
+          "message": "Mensaje",
+          "subjects": {
+            "product": "Pregunta sobre un producto",
+            "price": "Error en un precio",
+            "shop": "Colaborar como tienda",
+            "other": "Otra cosa"
+          },
+          "privacy": "Solo usamos tus datos para responder a tu mensaje. Consulta nuestra <link>política de privacidad</link>.",
+          "send": "Enviar mensaje",
+          "sending": "Enviando…",
+          "sent": "Gracias por tu mensaje. Solemos responder en dos días laborables.",
+          "errorInvalid": "Introduce tu nombre, un correo válido y un mensaje.",
+          "errorUnavailable": "Ahora no es posible enviar. Escríbenos a hello@racketpicker.com.",
+          "honeypot": "Deja este campo vacío"
+        }
+      },
+      "privacy": {
+        "title": "Política de privacidad",
+        "intro": "Qué hacemos con tus datos y qué derechos tienes.",
+        "sections": [
+          {
+            "id": "pronto",
+            "title": "Próximamente",
+            "paragraphs": ["Esta página se publicará con el lanzamiento de Racketpicker en España."]
+          }
+        ]
+      },
+      "cookies": {
+        "title": "Política de cookies",
+        "intro": "Qué cookies usamos y cómo cambiar tu elección.",
+        "sections": [
+          {
+            "id": "pronto",
+            "title": "Próximamente",
+            "paragraphs": ["Esta página se publicará con el lanzamiento de Racketpicker en España."]
+          }
+        ]
+      },
+      "priceHistory": {
+        "title": "Así funciona el historial de precios",
+        "intro": "Seguimos los precios para que veas si una oferta es real.",
+        "sections": [
+          {
+            "id": "pronto",
+            "title": "Próximamente",
+            "paragraphs": ["Esta página se publicará con el lanzamiento de Racketpicker en España."]
+          }
+        ]
+      },
+      "faq": {
+        "title": "Preguntas frecuentes",
+        "intro": "Respuestas a las preguntas más habituales.",
+        "sections": [],
+        "items": [
+          {
+            "q": "¿Puedo comprar a través de Racketpicker?",
+            "a": "No, siempre compras en la propia tienda."
+          }
+        ]
       }
     }
   }

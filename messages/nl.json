@@ -282,7 +282,8 @@
       "howWeEarn": "Hoe we verdienen",
       "contact": "Contact",
       "privacy": "Privacy",
-      "cookieSettings": "Cookie-instellingen"
+      "cookieSettings": "Cookie-instellingen",
+      "cookiePolicy": "Cookiebeleid"
     },
     "copyright": "© {year} Racketpicker.com",
     "pricesUpdated": "Prijzen worden dagelijks bijgewerkt."
@@ -310,6 +311,328 @@
       "marketing": {
         "title": "Affiliate en marketing",
         "description": "Laat winkels zien dat je via Racketpicker komt, en toont reviews van Trustpilot."
+      }
+    }
+  },
+  "info": {
+    "onThisPage": "Op deze pagina",
+    "updated": "Laatst bijgewerkt: {date}",
+    "breadcrumb": "Kruimelpad",
+    "home": "Home",
+    "company": {
+      "title": "Bedrijfsgegevens",
+      "tradeName": "Handelsnaam",
+      "legalName": "Bedrijfsnaam",
+      "kvk": "KvK-nummer",
+      "vat": "Btw-nummer",
+      "address": "Adres",
+      "email": "E-mail"
+    },
+    "pages": {
+      "about": {
+        "title": "Over ons",
+        "intro": "Racketpicker helpt je het juiste racket voor de beste prijs te vinden. We beginnen met padel; tennis, badminton, squash, pickleball en tafeltennis volgen.",
+        "sections": [
+          {
+            "id": "waarom",
+            "title": "Waarom Racketpicker",
+            "paragraphs": [
+              "Een racket kopen is lastig. Er zijn honderden modellen, de prijzen verschillen per winkel en aanbiedingen zijn niet altijd wat ze lijken. Wij zetten de prijzen van Nederlandse winkels naast elkaar, zodat je snel en eerlijk kunt kiezen."
+            ]
+          },
+          {
+            "id": "wat-we-doen",
+            "title": "Wat we doen",
+            "paragraphs": [
+              "We vergelijken prijzen, verzendkosten en voorraad bij Nederlandse winkels en houden bij hoe prijzen zich ontwikkelen. Zo zie je of een korting echt is. Bij elk racket zetten we de belangrijkste specificaties op een rij: vorm, gewicht, balans, materialen, niveau en speelstijl."
+            ]
+          },
+          {
+            "id": "onafhankelijk",
+            "title": "Onafhankelijk",
+            "paragraphs": [
+              "Winkels kunnen niet betalen voor een hogere plek. De volgorde van de prijzen wordt alleen bepaald door prijs, beschikbaarheid en de filters en sortering die jij kiest. Specificaties nemen we over van de fabrikant; waar we iets zelf beoordelen, zeggen we dat erbij."
+            ]
+          },
+          {
+            "id": "contact",
+            "title": "Contact",
+            "paragraphs": [
+              "Een vraag, een fout gezien of wil je samenwerken? Mail ons via hello@racketpicker.com of gebruik de contactpagina."
+            ]
+          }
+        ]
+      },
+      "howWeEarn": {
+        "title": "Hoe we verdienen",
+        "intro": "Racketpicker is gratis. We verdienen aan een vergoeding van de winkel, niet aan jou.",
+        "sections": [
+          {
+            "id": "vergoeding",
+            "title": "De vergoeding",
+            "paragraphs": [
+              "Met een deel van de winkels werken we samen via affiliateprogramma's (zoals Daisycon en Awin). Koop je via een link op Racketpicker, dan krijgen wij van die winkel een vergoeding. Jij betaalt daar niets extra voor: de prijs is hetzelfde als wanneer je direct naar de winkel gaat."
+            ]
+          },
+          {
+            "id": "volgorde",
+            "title": "Geen invloed op de volgorde",
+            "paragraphs": [
+              "De hoogte van de vergoeding verschilt per winkel, maar heeft nooit invloed op de volgorde van de prijzen of op de aanbevelingen van de keuzehulp. Winkels waar we niet mee samenwerken tonen we ook, als hun prijs klopt."
+            ]
+          },
+          {
+            "id": "kortingen",
+            "title": "Eerlijke kortingen",
+            "paragraphs": [
+              "Een korting tonen we alleen als de prijs echt lager is dan de laagste prijs in de 30 dagen vóór de prijsverlaging, zoals de wet voorschrijft. Een adviesprijs is nooit de basis voor een korting en staat er alleen bij met het label \"adviesprijs\"."
+            ]
+          },
+          {
+            "id": "herkennen",
+            "title": "Zo herken je een vergoeding",
+            "paragraphs": [
+              "Links naar winkels waar we een vergoeding van kunnen krijgen, zijn gemarkeerd als gesponsorde link. Bij de prijzen staat altijd dezelfde uitleg: koop je via ons, dan krijgen wij een vergoeding van de winkel. Dat kost jou niets extra en verandert nooit de volgorde van de prijzen."
+            ]
+          }
+        ]
+      },
+      "contact": {
+        "title": "Contact",
+        "intro": "Een vraag, een fout in een prijs gezien of wil je als winkel samenwerken? Laat het ons weten.",
+        "sections": [
+          {
+            "id": "antwoord",
+            "title": "Snel antwoord",
+            "paragraphs": [
+              "We reageren meestal binnen twee werkdagen. Voor vragen over een bestelling, levering of retour neem je het beste direct contact op met de winkel waar je hebt gekocht: wij verkopen zelf niets."
+            ]
+          }
+        ],
+        "mailDirect": "Mail ons direct",
+        "mailNote": "We reageren meestal binnen twee werkdagen.",
+        "form": {
+          "name": "Naam",
+          "email": "E-mailadres",
+          "subject": "Onderwerp",
+          "message": "Bericht",
+          "subjects": {
+            "product": "Vraag over een product",
+            "price": "Fout in een prijs",
+            "shop": "Samenwerken als winkel",
+            "other": "Iets anders"
+          },
+          "privacy": "We gebruiken je gegevens alleen om je bericht te beantwoorden. Zie onze <link>privacyverklaring</link>.",
+          "send": "Verstuur bericht",
+          "sending": "Bezig met versturen…",
+          "sent": "Bedankt voor je bericht. We reageren meestal binnen twee werkdagen.",
+          "errorInvalid": "Vul je naam, een geldig e-mailadres en een bericht in.",
+          "errorUnavailable": "Versturen lukt nu niet. Mail ons direct via hello@racketpicker.com.",
+          "honeypot": "Laat dit veld leeg"
+        }
+      },
+      "privacy": {
+        "title": "Privacyverklaring",
+        "intro": "Wat we met je gegevens doen, waarom, hoe lang we ze bewaren en welke rechten je hebt.",
+        "sections": [
+          {
+            "id": "wie",
+            "title": "Wie we zijn",
+            "paragraphs": [
+              "Racketpicker (racketpicker.com) is verantwoordelijk voor de verwerking van persoonsgegevens zoals beschreven in deze verklaring. Je bereikt ons via hello@racketpicker.com. Onze bedrijfsgegevens staan onderaan deze pagina."
+            ]
+          },
+          {
+            "id": "gegevens",
+            "title": "Welke gegevens we verwerken",
+            "paragraphs": ["We verwerken alleen wat nodig is:"],
+            "items": [
+              "Contactformulier of e-mail: je naam, e-mailadres en je bericht.",
+              "Nieuwsbrief en prijsalerts (zodra beschikbaar): je e-mailadres, je voorkeuren en het moment van aanmelden en bevestigen.",
+              "Cookiekeuze: je keuze voor analytische en marketingcookies, in de cookie rp-consent.",
+              "Gebruiksgegevens, alleen met je toestemming: via Google Analytics 4 zien we welke pagina's bezocht worden, zonder advertentiefuncties.",
+              "Technische gegevens: onze hostingpartij verwerkt IP-adressen en serverlogs om de site veilig en bereikbaar te houden."
+            ]
+          },
+          {
+            "id": "doelen",
+            "title": "Waarvoor en op welke grondslag",
+            "paragraphs": [
+              "Om je vraag te beantwoorden (je verzoek), om je de nieuwsbrief of alerts te sturen (je toestemming, die je altijd kunt intrekken), om te meten hoe de site gebruikt wordt (je toestemming) en om de site veilig te laten werken (ons gerechtvaardigd belang). We verkopen je gegevens nooit en gebruiken ze niet voor profilering."
+            ]
+          },
+          {
+            "id": "delen",
+            "title": "Met wie we gegevens delen",
+            "paragraphs": [
+              "We werken met dienstverleners die gegevens alleen in onze opdracht verwerken:"
+            ],
+            "items": [
+              "Vercel: hosting van de website.",
+              "Supabase: database, opgeslagen in de EU (Frankfurt).",
+              "Resend: versturen van e-mail (contact, nieuwsbrief, alerts).",
+              "Google (Google Analytics 4): alleen na toestemming voor analytische cookies; Google-signalen en advertentiepersonalisatie staan uit.",
+              "Trustpilot: de reviewwidget, alleen na toestemming voor marketingcookies."
+            ],
+            "after": [
+              "Sommige van deze partijen zijn gevestigd in de Verenigde Staten. Doorgifte gebeurt op basis van het EU-VS-gegevensprivacykader of standaardcontractbepalingen van de Europese Commissie."
+            ]
+          },
+          {
+            "id": "winkels",
+            "title": "Doorklikken naar een winkel",
+            "paragraphs": [
+              "Klik je door naar een winkel, dan gelden vanaf dat moment de privacyverklaring en cookies van die winkel. Bij winkels waarmee we via een affiliatenetwerk samenwerken (zoals Daisycon of Awin), registreert dat netwerk de doorklik om de vergoeding toe te kennen. Daarvoor geldt de privacyverklaring van het netwerk."
+            ]
+          },
+          {
+            "id": "cookies",
+            "title": "Cookies",
+            "paragraphs": [
+              "Noodzakelijke cookies zijn nodig om de site te laten werken. Analytische en marketingcookies plaatsen we alleen met je toestemming. Je past je keuze altijd aan via Cookie-instellingen onderaan elke pagina. Meer in ons cookiebeleid."
+            ]
+          },
+          {
+            "id": "bewaren",
+            "title": "Hoe lang we gegevens bewaren",
+            "paragraphs": [
+              "Berichten via contact bewaren we zolang nodig om je vraag af te handelen en uiterlijk 12 maanden. Je e-mailadres voor de nieuwsbrief of alerts bewaren we tot je je afmeldt; daarna verwijderen we het binnen 30 dagen. Je cookiekeuze geldt 12 maanden. Google Analytics bewaart gegevens 14 maanden."
+            ]
+          },
+          {
+            "id": "rechten",
+            "title": "Jouw rechten",
+            "paragraphs": [
+              "Je hebt het recht om je gegevens in te zien, te laten corrigeren of verwijderen, de verwerking te beperken, bezwaar te maken en je gegevens over te dragen. Toestemming kun je altijd intrekken. Mail ons via hello@racketpicker.com; we reageren binnen een maand. Ben je het niet eens met hoe we met je gegevens omgaan, dan kun je een klacht indienen bij de Autoriteit Persoonsgegevens."
+            ]
+          },
+          {
+            "id": "beveiliging",
+            "title": "Beveiliging",
+            "paragraphs": [
+              "We nemen passende maatregelen om je gegevens te beschermen, zoals versleutelde verbindingen (https), beperkte toegang en dataopslag in de EU waar mogelijk."
+            ]
+          },
+          {
+            "id": "wijzigingen",
+            "title": "Wijzigingen",
+            "paragraphs": [
+              "We passen deze verklaring aan als onze werkwijze verandert. De datum bovenaan laat zien wanneer dat voor het laatst gebeurde."
+            ]
+          }
+        ]
+      },
+      "cookies": {
+        "title": "Cookiebeleid",
+        "intro": "Welke cookies we gebruiken, waarvoor, en hoe je je keuze aanpast.",
+        "sections": [
+          {
+            "id": "wat",
+            "title": "Wat zijn cookies",
+            "paragraphs": [
+              "Cookies zijn kleine bestanden die een website op je apparaat opslaat. Sommige zijn nodig om de site te laten werken, andere helpen ons de site te verbeteren of laten winkels zien dat je via ons kwam."
+            ]
+          },
+          {
+            "id": "noodzakelijk",
+            "title": "Noodzakelijke cookies",
+            "paragraphs": [
+              "Deze plaatsen we altijd, omdat de site anders niet goed werkt. Ze bevatten geen gegevens om je te volgen."
+            ],
+            "items": ["rp-consent: onthoudt je cookiekeuze, 12 maanden."]
+          },
+          {
+            "id": "analytisch",
+            "title": "Analytische cookies (met toestemming)",
+            "paragraphs": [
+              "Met Google Analytics 4 meten we welke pagina's bezocht worden en hoe de site gebruikt wordt. Google-signalen en advertentiepersonalisatie staan uit. Zonder toestemming laden we Google Analytics helemaal niet."
+            ],
+            "items": ["_ga en _ga_<id>: Google Analytics, 14 maanden."]
+          },
+          {
+            "id": "marketing",
+            "title": "Affiliate en marketing (met toestemming)",
+            "paragraphs": [
+              "Met deze toestemming tonen we de reviewwidget van Trustpilot. Klik je door naar een winkel, dan kan het affiliatenetwerk (zoals Daisycon of Awin) op zijn eigen domein een cookie plaatsen om de doorklik toe te kennen; daarvoor geldt het beleid van dat netwerk en de winkel."
+            ]
+          },
+          {
+            "id": "aanpassen",
+            "title": "Je keuze aanpassen",
+            "paragraphs": [
+              "Klik onderaan elke pagina op Cookie-instellingen om je keuze te bekijken of te wijzigen. Trek je toestemming in, dan verwijderen we de cookies van Google Analytics en laden we die scripts niet meer."
+            ]
+          }
+        ]
+      },
+      "priceHistory": {
+        "title": "Zo werkt de prijshistorie",
+        "intro": "We houden de prijzen bij, zodat je ziet of een aanbieding echt voordelig is.",
+        "sections": [
+          {
+            "id": "elke-dag",
+            "title": "Elke dag bijgewerkt",
+            "paragraphs": [
+              "Bij winkels die we via een productfeed volgen, halen we elke nacht de actuele prijs, verzendkosten en voorraad op en slaan we de laagste prijs per dag op. Prijzen die we handmatig controleren, krijgen een datum zodat je ziet hoe recent ze zijn."
+            ]
+          },
+          {
+            "id": "echte-korting",
+            "title": "Echte en nep-kortingen",
+            "paragraphs": [
+              "Rond acties als Black Friday verhogen sommige winkels eerst hun prijs om daarna een grote korting te tonen. Wij meten een korting daarom altijd tegen de laagste prijs in de 30 dagen vóór de prijsverlaging. Is de prijs eerder verhoogd en daarna weer verlaagd, dan tonen we geen korting."
+            ]
+          },
+          {
+            "id": "genoeg-historie",
+            "title": "Pas met genoeg historie",
+            "paragraphs": [
+              "Hebben we van een product nog geen 30 dagen prijzen, dan tonen we geen korting, hoe groot de daling ook lijkt. \"Laagste prijs in 90 dagen\" zeggen we alleen als we 90 dagen aan prijzen hebben."
+            ]
+          },
+          {
+            "id": "adviesprijs",
+            "title": "Adviesprijs",
+            "paragraphs": [
+              "De adviesprijs van de fabrikant is geen basis voor een korting. Staat hij erbij, dan altijd met het label \"adviesprijs\"."
+            ]
+          }
+        ]
+      },
+      "faq": {
+        "title": "Veelgestelde vragen",
+        "intro": "Antwoorden op de meest gestelde vragen over Racketpicker.",
+        "sections": [],
+        "items": [
+          {
+            "q": "Kan ik via Racketpicker een racket kopen?",
+            "a": "Nee, je koopt altijd bij de winkel zelf. Wij vergelijken de prijzen en sturen je door naar de winkel van jouw keuze."
+          },
+          {
+            "q": "Betaal ik meer als ik via jullie koop?",
+            "a": "Nee. Bij winkels waarmee we samenwerken betaalt de winkel ons een vergoeding; jij betaalt dezelfde prijs als wanneer je direct naar de winkel gaat. De vergoeding verandert nooit de volgorde van de prijzen."
+          },
+          {
+            "q": "Hoe actueel zijn de prijzen?",
+            "a": "Prijzen uit productfeeds werken we elke nacht bij. Prijzen die we handmatig controleren, krijgen een datum. Controleer de definitieve prijs altijd bij de winkel."
+          },
+          {
+            "q": "Hoe weten jullie of een korting echt is?",
+            "a": "We vergelijken de prijs met de laagste prijs in de 30 dagen vóór de prijsverlaging. Zonder 30 dagen prijshistorie tonen we geen korting."
+          },
+          {
+            "q": "Waarom staat een racket als uitverkocht?",
+            "a": "Geen enkele winkel die we volgen heeft het nu op voorraad. Uitverkochte rackets staan altijd onderaan de lijst; met Verberg uitverkocht laat je ze weg."
+          },
+          {
+            "q": "Moet ik een account aanmaken?",
+            "a": "Nee. Je kunt alles gebruiken zonder account."
+          },
+          {
+            "q": "Ik zie een fout in een prijs of specificatie. Wat nu?",
+            "a": "Laat het ons weten via de contactpagina of hello@racketpicker.com. We passen het zo snel mogelijk aan."
+          }
+        ]
       }
     }
   }

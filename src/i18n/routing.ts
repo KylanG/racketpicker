@@ -46,6 +46,7 @@ export const routing = defineRouting({
     "/how-we-earn": { nl: "/hoe-we-verdienen", es: "/como-ganamos" },
     "/contact": { nl: "/contact", es: "/contacto" },
     "/privacy": { nl: "/privacy", es: "/privacidad" },
+    "/cookies": { nl: "/cookiebeleid", es: "/politica-de-cookies" },
     "/faq": { nl: "/veelgestelde-vragen", es: "/preguntas-frecuentes" },
     "/price-history": { nl: "/prijshistorie", es: "/historial-de-precios" },
   },
