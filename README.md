@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Racketpicker
 
-## Getting Started
+Vergelijkingssite voor padelrackets en -gear (later tennis en andere racketsporten). Start met de Nederlandse markt op `racketpicker.com/nl/`, Spanje (`/es/`) volgt.
 
-First, run the development server:
+## Stack
+
+- **Next.js** (App Router, TypeScript strict) + **React**
+- **Tailwind CSS** v4
+- **Supabase** (database, EU-regio)
+- **Resend** (prijsalarm, nieuwsbrief)
+- **Vercel** (hosting, previews per branch)
+
+## Lokaal starten
+
+Vereist Node 22 (`nvm use`).
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # vul de waarden in
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Script              | Wat het doet                               |
+| ------------------- | ------------------------------------------ |
+| `npm run dev`       | Ontwikkelserver                            |
+| `npm run build`     | Productiebuild                             |
+| `npm run lint`      | ESLint                                     |
+| `npm run typecheck` | TypeScript-controle                        |
+| `npm run format`    | Prettier (incl. Tailwind-klassensortering) |
+| `npm run check`     | Lint + typecheck + formatcontrole          |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Mappenstructuur
 
-## Learn More
+```
+src/
+  app/          Routes (App Router)
+  components/   React-componenten (design system)
+  lib/          Helpers, Supabase-clients, data-access
+  i18n/         next-intl configuratie
+messages/       Vertalingen per taal (nl.json, es.json)
+supabase/       Migraties en seeds (vanaf RP-13)
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Omgevingsvariabelen
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Zie `.env.example`. Secrets staan nooit in de repo; in Vercel per omgeving (Production / Preview / Development). `SUPABASE_SERVICE_ROLE_KEY` alleen server-side.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Werkwijze
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Werk gaat via Jira-project **RP** (ssupply.atlassian.net). Eén branch per ticket (`RP-12-korte-naam`), PR naar `main`, ticket naar _In Review_ met PR- en preview-link.
