@@ -68,7 +68,7 @@ export async function Footer() {
       title: t("columns.help"),
       links: [
         { label: t("links.advisor"), href: "/advisor", ...later },
-        { label: t("links.blog"), href: "/blog", ...later },
+        { label: t("links.blog"), href: "/blog" },
         { label: t("links.priceHistory"), href: "/price-history" },
         { label: t("links.faq"), href: "/faq" },
       ],

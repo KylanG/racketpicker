@@ -6,3 +6,6 @@
 export const CATALOG_TAG = "catalog";
 
 export const productTag = (productId: string) => `product:${productId}`;
+
+/** Blog articles (RP-51). Cached for hours, so a new article appears without a deploy. */
+export const BLOG_TAG = "blog";

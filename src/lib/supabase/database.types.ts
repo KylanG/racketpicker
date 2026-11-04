@@ -9,6 +9,91 @@ export type Database = {
   };
   public: {
     Tables: {
+      articles: {
+        Row: {
+          author: string;
+          body: string;
+          created_at: string;
+          hero_image: string | null;
+          hero_image_alt: string | null;
+          id: string;
+          intro: string;
+          is_published: boolean;
+          market_code: string;
+          meta_description: string | null;
+          published_on: string | null;
+          reading_minutes: number;
+          related_category: string | null;
+          slug: string;
+          sport_key: string | null;
+          title: string;
+          updated_at: string;
+          updated_on: string | null;
+        };
+        Insert: {
+          author?: string;
+          body?: string;
+          created_at?: string;
+          hero_image?: string | null;
+          hero_image_alt?: string | null;
+          id?: string;
+          intro: string;
+          is_published?: boolean;
+          market_code: string;
+          meta_description?: string | null;
+          published_on?: string | null;
+          reading_minutes?: number;
+          related_category?: string | null;
+          slug: string;
+          sport_key?: string | null;
+          title: string;
+          updated_at?: string;
+          updated_on?: string | null;
+        };
+        Update: {
+          author?: string;
+          body?: string;
+          created_at?: string;
+          hero_image?: string | null;
+          hero_image_alt?: string | null;
+          id?: string;
+          intro?: string;
+          is_published?: boolean;
+          market_code?: string;
+          meta_description?: string | null;
+          published_on?: string | null;
+          reading_minutes?: number;
+          related_category?: string | null;
+          slug?: string;
+          sport_key?: string | null;
+          title?: string;
+          updated_at?: string;
+          updated_on?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "articles_market_code_fkey";
+            columns: ["market_code"];
+            isOneToOne: false;
+            referencedRelation: "markets";
+            referencedColumns: ["code"];
+          },
+          {
+            foreignKeyName: "articles_related_category_fkey";
+            columns: ["related_category"];
+            isOneToOne: false;
+            referencedRelation: "categories";
+            referencedColumns: ["key"];
+          },
+          {
+            foreignKeyName: "articles_sport_key_fkey";
+            columns: ["sport_key"];
+            isOneToOne: false;
+            referencedRelation: "sports";
+            referencedColumns: ["key"];
+          },
+        ];
+      };
       brands: {
         Row: {
           created_at: string;

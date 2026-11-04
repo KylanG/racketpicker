@@ -6,6 +6,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { Slant } from "@/components/ui/slant";
 import { Link } from "@/i18n/navigation";
 import { intlLocale, type Locale } from "@/i18n/routing";
+import { ArticleCard } from "@/components/blog/article-card";
 import { getLatestArticles } from "@/lib/blog/articles";
 import { getCatalogOverview } from "@/lib/catalog/overview";
 import { sportSlug, type CategoryKey, type SportKey } from "@/lib/catalog/taxonomy";
@@ -344,7 +345,12 @@ export async function PriceAlertPromo() {
 /** "Blogs & tips": three article cards; hidden until there are published articles. */
 export async function LatestArticles() {
   const locale = (await getLocale()) as Locale;
-  const [articles, t] = await Promise.all([getLatestArticles(locale), getTranslations("home")]);
+  const [t, tb, ts] = await Promise.all([
+    getTranslations("home"),
+    getTranslations("blog"),
+    getTranslations("sports"),
+  ]);
+  const articles = await getLatestArticles(locale, (sport) => (sport ? ts(sport) : tb("general")));
   if (articles.length === 0) return null;
 
   return (
@@ -353,33 +359,18 @@ export async function LatestArticles() {
         <Reveal>
           <h2 className="rp-h2">{t("blogTitle")}</h2>
         </Reveal>
-        <Link href="/blog" prefetch={false} className="rp-underline text-[15px] font-semibold">
+        <Link href="/blog" className="rp-underline text-[15px] font-semibold">
           {t("blogAll")}
         </Link>
       </div>
       <ul className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] gap-6">
         {articles.map((a) => (
           <li key={a.slug}>
-            <a
-              href={`/${locale}/blog/${a.slug}`}
-              className="group text-ink flex flex-col gap-3.5 hover:text-green-800"
-            >
-              <div className="relative aspect-[16/10] overflow-hidden bg-[#e8eee2]">
-                {a.image && (
-                  <Image
-                    src={a.image.src}
-                    alt={a.image.alt}
-                    fill
-                    sizes="(min-width: 1040px) 33vw, 100vw"
-                    className="ease-rp object-cover transition-transform duration-[800ms] group-hover:scale-[1.03]"
-                  />
-                )}
-              </div>
-              <p className="text-[13px] font-semibold tracking-[1px] text-green-800 uppercase">
-                {a.tag} · {t("blogMinutes", { minutes: a.readingMinutes })}
-              </p>
-              <h3 className="text-[20px] leading-[1.25] font-semibold">{a.title}</h3>
-            </a>
+            <ArticleCard
+              article={a}
+              headingLevel="h3"
+              minutesLabel={t("blogMinutes", { minutes: a.readingMinutes })}
+            />
           </li>
         ))}
       </ul>
