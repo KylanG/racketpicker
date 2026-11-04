@@ -39,5 +39,22 @@
       "table-tennis": "Tafeltennisbatjes"
     },
     "sportIntro": "Het overzicht met filters en prijzen per winkel volgt binnenkort."
+  },
+  "productCard": {
+    "shopsCompared": "Bij {count, plural, one {# winkel} other {# winkels}} vergeleken",
+    "notInStock": "Bij geen enkele winkel op voorraad",
+    "viewBestPrice": "Bekijk beste prijs",
+    "viewBestPriceFor": "Bekijk beste prijs voor {name}",
+    "stockAlert": "Zet een voorraadalert",
+    "stockAlertFor": "Zet een voorraadalert voor {name}",
+    "soldOut": "Uitverkocht",
+    "discount": "-{pct}%",
+    "wasPrice": "Laagste prijs afgelopen 30 dagen",
+    "compare": "Vergelijk",
+    "compareName": "Vergelijk {name}",
+    "save": "Bewaar {name}",
+    "yourSizes": "Jouw maat {sizes} leverbaar",
+    "sizeRange": "Maten {min}–{max}",
+    "noImage": "Nog geen foto"
   }
 }

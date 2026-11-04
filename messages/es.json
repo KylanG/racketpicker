@@ -39,5 +39,22 @@
       "table-tennis": "Palas de tenis de mesa"
     },
     "sportIntro": "El listado con filtros y precios por tienda llegará pronto."
+  },
+  "productCard": {
+    "shopsCompared": "Comparado en {count, plural, one {# tienda} other {# tiendas}}",
+    "notInStock": "Sin stock en ninguna tienda",
+    "viewBestPrice": "Ver mejor precio",
+    "viewBestPriceFor": "Ver mejor precio de {name}",
+    "stockAlert": "Avísame cuando haya stock",
+    "stockAlertFor": "Avísame cuando haya stock de {name}",
+    "soldOut": "Agotado",
+    "discount": "-{pct}%",
+    "wasPrice": "Precio más bajo de los últimos 30 días",
+    "compare": "Comparar",
+    "compareName": "Comparar {name}",
+    "save": "Guardar {name}",
+    "yourSizes": "Tu talla {sizes} disponible",
+    "sizeRange": "Tallas {min}–{max}",
+    "noImage": "Sin foto todavía"
   }
 }
