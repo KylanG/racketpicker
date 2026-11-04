@@ -204,11 +204,7 @@ export async function HowItWorks({ shopCount }: { shopCount: number }) {
             <h2 className="rp-h2">{t("howTitle")}</h2>
           </Reveal>
         </div>
-        <Link
-          href="/how-we-earn"
-          prefetch={false}
-          className="rp-underline text-[15px] font-semibold"
-        >
+        <Link href="/how-we-earn" className="rp-underline text-[15px] font-semibold">
           {t("howEarn")}
         </Link>
       </div>

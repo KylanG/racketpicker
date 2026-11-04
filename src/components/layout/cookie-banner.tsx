@@ -134,7 +134,7 @@ export function CookieBanner() {
       <p className="text-muted text-[15px] leading-[1.55]">
         {t.rich("text", {
           link: (chunks) => (
-            <Link href="/privacy" prefetch={false} className="text-ink underline">
+            <Link href="/privacy" className="text-ink underline">
               {chunks}
             </Link>
           ),

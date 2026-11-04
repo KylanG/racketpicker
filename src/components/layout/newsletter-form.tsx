@@ -126,11 +126,7 @@ export function NewsletterForm() {
       <p className="text-on-dark text-[13px] leading-normal">
         {t.rich("confirmNote", {
           link: (chunks) => (
-            <Link
-              href="/privacy"
-              prefetch={false}
-              className="text-white underline hover:text-white"
-            >
+            <Link href="/privacy" className="text-white underline hover:text-white">
               {chunks}
             </Link>
           ),

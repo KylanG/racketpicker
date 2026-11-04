@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Reveal } from "@/components/ui/reveal";
 import { Link } from "@/i18n/navigation";
+import { companyDetails } from "@/lib/company";
 import type { Locale } from "@/i18n/routing";
 import { getCatalogAvailability } from "@/lib/catalog/nav";
 import { CATEGORIES, sportSlug } from "@/lib/catalog/taxonomy";
@@ -39,6 +40,12 @@ export async function Footer() {
     getTranslations("affiliate"),
   ]);
 
+  const company = companyDetails();
+  // Shown once set in Vercel (COMPANY_LEGAL_NAME, COMPANY_KVK, COMPANY_ADDRESS).
+  const companyLine = [company.legalName, company.kvk && `KvK ${company.kvk}`, company.address]
+    .filter(Boolean)
+    .join(" · ");
+
   const compare: FooterLink[] = CATEGORIES.flatMap((category) =>
     (availability[category] ?? []).map((sport) => ({
       label:
@@ -62,17 +69,18 @@ export async function Footer() {
       links: [
         { label: t("links.advisor"), href: "/advisor", ...later },
         { label: t("links.blog"), href: "/blog", ...later },
-        { label: t("links.priceHistory"), href: "/price-history", ...later },
-        { label: t("links.faq"), href: "/faq", ...later },
+        { label: t("links.priceHistory"), href: "/price-history" },
+        { label: t("links.faq"), href: "/faq" },
       ],
     },
     {
       title: t("columns.company"),
       links: [
-        { label: t("links.about"), href: "/about", ...later },
-        { label: t("links.howWeEarn"), href: "/how-we-earn", ...later },
-        { label: t("links.contact"), href: "/contact", ...later },
-        { label: t("links.privacy"), href: "/privacy", ...later },
+        { label: t("links.about"), href: "/about" },
+        { label: t("links.howWeEarn"), href: "/how-we-earn" },
+        { label: t("links.contact"), href: "/contact" },
+        { label: t("links.privacy"), href: "/privacy" },
+        { label: t("links.cookiePolicy"), href: "/cookies" },
       ],
       cookies: true,
     },
@@ -128,7 +136,7 @@ export async function Footer() {
         <div className="flex flex-wrap items-center gap-5">
           <span>{t("copyright", { year })}</span>
           <LanguageSwitcher variant="footer" />
-          {/* KvK number and address go here (RP-36). */}
+          {companyLine && <span>{companyLine}</span>}
         </div>
         <p>
           {t("pricesUpdated")} {ta("disclosure")}
