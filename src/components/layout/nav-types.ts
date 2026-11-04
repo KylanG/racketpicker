@@ -21,3 +21,11 @@ export type NavItem = {
 
 export type HeaderActive = CategoryKey | "home" | null;
 export type HeaderCta = "deals" | "advisor";
+
+/** Overview route per category; the sport is the dynamic segment. */
+export const SPORT_ROUTE = {
+  rackets: "/rackets/[sport]",
+  shoes: "/shoes/[sport]",
+  clothing: "/clothing/[sport]",
+  accessories: "/accessories/[sport]",
+} as const satisfies Record<CategoryKey, string>;
