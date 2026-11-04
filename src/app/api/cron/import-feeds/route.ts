@@ -19,6 +19,10 @@ export async function GET(request: Request) {
     if (result.changed) revalidateTag(CATALOG_TAG, "max");
 
     const failed = result.shops.filter((s) => !s.ok).length;
+    const stored = "stored" in result.images ? result.images.stored : 0;
+    console.log(
+      `[feeds] daily import: ${result.shops.length} shops (${failed} failed), ${stored} photos stored`,
+    );
     // Non-2xx makes the run show as failed in the Vercel Cron overview.
     return NextResponse.json({ ok: failed === 0, ...result }, { status: failed ? 500 : 200 });
   } catch (error) {
