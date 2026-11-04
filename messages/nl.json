@@ -289,5 +289,28 @@
   },
   "affiliate": {
     "disclosure": "Koop je via ons, dan krijgen wij een vergoeding van de winkel. Dat kost jou niets extra en verandert nooit de volgorde van de prijzen."
+  },
+  "cookies": {
+    "title": "Cookies op Racketpicker",
+    "text": "We gebruiken noodzakelijke cookies om de site te laten werken. Met jouw toestemming meten we ook hoe de site gebruikt wordt en zien winkels dat je via ons komt. Lees meer in onze <link>privacyverklaring</link>.",
+    "acceptAll": "Alles accepteren",
+    "necessaryOnly": "Alleen noodzakelijk",
+    "customize": "Zelf kiezen",
+    "save": "Voorkeuren opslaan",
+    "close": "Sluiten zonder te wijzigen",
+    "categories": {
+      "necessary": {
+        "title": "Noodzakelijk",
+        "description": "Nodig om de site te laten werken, zoals je cookiekeuze, favorieten en taalkeuze. Altijd aan."
+      },
+      "analytics": {
+        "title": "Analytisch",
+        "description": "Helpt ons begrijpen welke pagina’s nuttig zijn. Anoniem."
+      },
+      "marketing": {
+        "title": "Affiliate en marketing",
+        "description": "Laat winkels zien dat je via Racketpicker komt, en toont reviews van Trustpilot."
+      }
+    }
   }
 }

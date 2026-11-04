@@ -289,5 +289,28 @@
   },
   "affiliate": {
     "disclosure": "Si compras a través de nosotros, la tienda nos paga una comisión. A ti no te cuesta nada más y nunca cambia el orden de los precios."
+  },
+  "cookies": {
+    "title": "Cookies en Racketpicker",
+    "text": "Usamos cookies necesarias para que el sitio funcione. Con tu permiso también medimos cómo se usa el sitio y las tiendas ven que llegas a través de nosotros. Más información en nuestra <link>política de privacidad</link>.",
+    "acceptAll": "Aceptar todo",
+    "necessaryOnly": "Solo necesarias",
+    "customize": "Elegir yo",
+    "save": "Guardar preferencias",
+    "close": "Cerrar sin cambiar",
+    "categories": {
+      "necessary": {
+        "title": "Necesarias",
+        "description": "Necesarias para que el sitio funcione, como tu elección de cookies, favoritos e idioma. Siempre activas."
+      },
+      "analytics": {
+        "title": "Analíticas",
+        "description": "Nos ayudan a entender qué páginas son útiles. Anónimas."
+      },
+      "marketing": {
+        "title": "Afiliación y marketing",
+        "description": "Permiten que las tiendas vean que llegas a través de Racketpicker y muestran opiniones de Trustpilot."
+      }
+    }
   }
 }
