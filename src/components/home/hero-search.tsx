@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useId, useMemo, useState, type FormEvent, type KeyboardEvent } from "react";
+import { trackEvent } from "@/lib/analytics/events";
 import { matchSuggestions, type SearchEntry } from "@/lib/catalog/search-match";
 
 /**
@@ -24,6 +25,7 @@ export function HeroSearch({ index }: { index: SearchEntry[] }) {
 
   const go = (entry: SearchEntry) => {
     setFocused(false);
+    trackEvent({ name: "search", params: { search_term: query.trim() } });
     router.push(entry.href);
   };
 
