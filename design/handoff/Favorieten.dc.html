@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Mijn favorieten | Racketpicker</title>
+<meta name="robots" content="noindex">
+<style>
+body{margin:0;background:#fff;font-family:'Outfit',sans-serif;color:#0B2A17;-webkit-font-smoothing:antialiased}
+a{color:#0B2A17;text-decoration:none}a:hover{color:#05561F}
+*{box-sizing:border-box}
+:focus-visible{outline:3px solid #0B2A17;outline-offset:2px;box-shadow:0 0 0 6px #C8E63A}
+[style*="clip-path"]:focus-visible{clip-path:none!important}
+</style>
+<script src="reveal.js"></script>
+<script src="favs.js"></script>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <div style="background:radial-gradient(ellipse 70% 120% at 40% 20%, #07602A 0%, #04471F 60%, #033A19 100%);color:#fff">
+    <dc-import name="Header" active="" hint-size="100%,88px" style="position:relative;z-index:30;display:block"></dc-import>
+    <section id="main" style="max-width:1440px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(20px,5.5vw,80px) clamp(48px,6vw,88px);display:flex;flex-direction:column;gap:18px">
+      <nav aria-label="Kruimelpad" style="display:flex;gap:8px;font-size:13px;color:#D3E3D7"><a href="Homepagina.dc.html" style="color:#D3E3D7">Home</a><span aria-hidden="true">/</span><span style="color:#fff">Favorieten</span></nav>
+      <h1 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(32px,3.2vw,46px);line-height:1.05;letter-spacing:-.4px">Mijn favorieten</h1>
+      <p style="margin:0;font-size:17px;line-height:1.5;color:#E2EDE5;max-width:640px">Je bewaarde rackets, met de laagste prijs van dit moment. Je favorieten worden op dit apparaat bewaard.</p>
+    </section>
+  </div>
+
+  <section style="max-width:1440px;width:100%;margin:0 auto;padding:48px clamp(20px,5.5vw,80px) 96px;display:flex;flex-direction:column;gap:24px">
+    <sc-if value="{{ hasItems }}">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+        <span style="font-size:15px"><strong>{{ count }}</strong> {{ countLabel }} bewaard</span>
+        <button onClick="{{ clear }}" style="background:none;border:0;font:500 14px 'Outfit',sans-serif;color:#0B2A17;cursor:pointer;text-decoration:underline;padding:10px 0">Alles verwijderen</button>
+      </div>
+      <div data-reveal-stagger="" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:20px">
+        <sc-for list="{{ items }}" as="d">
+          <div style="display:flex;flex-direction:column;border:1px solid #DCE6D6;background:#fff">
+            <a href="Product.dc.html" style="position:relative;aspect-ratio:1/1;background:#F4F7F0;display:grid;place-items:center"><img src="assets/racket.png" alt="" style="width:84%;height:84%;object-fit:contain;mix-blend-mode:multiply"></a>
+            <button onClick="{{ d.remove }}" aria-label="Verwijder {{ d.name }} uit favorieten" style="position:relative;margin:-52px 6px 8px auto;width:44px;height:44px;border-radius:50%;border:0;background:#fff;display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z" fill="#C8E63A" stroke="#033A19" stroke-width="2"></path></svg></button>
+            <div style="padding:6px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1">
+              <div style="font-size:13px;color:#3C5A47;font-weight:500;text-transform:uppercase;letter-spacing:.8px">{{ d.brand }} · {{ d.sport }}</div>
+              <h2 style="margin:0;font-size:17px;font-weight:600;line-height:1.25"><a href="Product.dc.html">{{ d.name }}</a></h2>
+              <div style="display:flex;align-items:baseline;gap:10px;margin-top:auto;padding-top:6px"><span style="font-size:22px;font-weight:700">€{{ d.price }}</span><span style="font-size:13px;color:#05561F;font-weight:500">{{ d.shops }} winkels</span></div>
+              <a href="Product.dc.html" style="margin-top:8px;background:#033A19;color:#fff;font-weight:600;font-size:14px;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="background:#05561F;color:#fff">Bekijk beste prijs<svg data-arrow="" aria-hidden="true" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="#C8E63A" stroke-width="1.8"></path></svg></a>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+    <sc-if value="{{ empty }}" hint-placeholder-val="{{ true }}">
+      <div data-reveal="" style="background:#F3F7EE;padding:56px 32px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">
+        <svg aria-hidden="true" width="36" height="36" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z" fill="none" stroke="#05561F" stroke-width="1.6"></path></svg>
+        <h2 style="margin:0;font-size:22px;font-weight:600">Nog geen favorieten</h2>
+        <p style="margin:0;font-size:16px;color:#3C5A47;max-width:420px;line-height:1.5">Tik op het hartje bij een racket om het hier te bewaren. Zo vergelijk je later snel de prijzen.</p>
+        <a href="Rackets.dc.html" style="margin-top:6px;background:#C8E63A;color:#033A19;font-weight:600;font-size:15px;padding:14px 24px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)">Rackets bekijken</a>
+      </div>
+    </sc-if>
+  </section>
+  <dc-import name="Footer" hint-size="100%,520px" style="margin-top:auto;display:block"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() { this.__fv = () => this.forceUpdate(); window.addEventListener('rp-favs', this.__fv); this.forceUpdate(); }
+  componentWillUnmount() { window.removeEventListener('rp-favs', this.__fv); }
+  renderVals() {
+    const F = typeof window !== 'undefined' ? window.rpFavs : null;
+    const list = F ? F.all() : [];
+    return {
+      hasItems: list.length > 0, empty: list.length === 0,
+      count: list.length, countLabel: list.length === 1 ? 'racket' : 'rackets',
+      clear: () => F && F.clear(),
+      items: list.map(x => ({ ...x, remove: () => F.remove(x.id) }))
+    };
+  }
+}
+</script>
+</body>
+</html>

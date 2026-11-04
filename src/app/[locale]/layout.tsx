@@ -1,8 +1,25 @@
 import type { Metadata } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import localFont from "next/font/local";
 import { notFound } from "next/navigation";
+import { SlantRounder } from "@/components/ui/slant-rounder";
 import { routing } from "@/i18n/routing";
+
+// One family for the whole site (design/handoff/README.md, "Typografie").
+// Self-hosted variable font (OFL, @fontsource-variable/outfit): no request to Google.
+const outfit = localFont({
+  src: [
+    {
+      path: "../../../node_modules/@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2",
+      weight: "400 700",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+  variable: "--font-outfit",
+  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
+});
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -26,9 +43,10 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} className="h-full antialiased">
+    <html lang={locale} className={`${outfit.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <SlantRounder />
       </body>
     </html>
   );

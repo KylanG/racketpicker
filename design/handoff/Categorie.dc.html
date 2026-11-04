@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Vergelijken | Racketpicker</title>
+<style>
+body{margin:0;background:#fff;font-family:'Outfit',sans-serif;color:#0B2A17;-webkit-font-smoothing:antialiased}
+a{color:#0B2A17;text-decoration:none}a:hover{color:#05561F}
+*{box-sizing:border-box}
+:focus-visible{outline:3px solid #0B2A17;outline-offset:2px;box-shadow:0 0 0 6px #C8E63A}
+[style*="clip-path"]:focus-visible{clip-path:none!important}
+</style>
+<script src="reveal.js"></script>
+<script src="favs.js"></script>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <div style="background:radial-gradient(ellipse 70% 120% at 40% 20%, #07602A 0%, #04471F 60%, #033A19 100%);color:#fff">
+    <dc-import name="Header" active="{{ cat }}" hint-size="100%,88px" style="position:relative;z-index:30;display:block"></dc-import>
+    <section style="max-width:1440px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(20px,5.5vw,80px) clamp(48px,6vw,88px);display:flex;flex-direction:column;gap:20px">
+      <nav aria-label="Kruimelpad" style="display:flex;gap:8px;font-size:13px;color:#D3E3D7"><a href="Homepagina.dc.html" style="color:#D3E3D7">Home</a><span aria-hidden="true">/</span><span style="color:#fff">{{ catLabel }}</span></nav>
+      <h1 data-reveal="" style="margin:0;font-weight:600;font-size:clamp(32px,3.2vw,46px);line-height:1.05;letter-spacing:-.4px">{{ pageTitle }}</h1>
+      <p style="margin:0;font-size:16px;line-height:1.5;color:#E2EDE5;max-width:640px">{{ intro }}</p>
+      <div role="group" aria-label="Type" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+        <sc-for list="{{ typeTabs }}" as="t" hint-placeholder-count="4">
+          <button onClick="{{ t.select }}" aria-pressed="{{ t.pressed }}" style="min-height:44px;border:0;background:{{ t.bg }};color:{{ t.fg }};font:500 14px 'Outfit',sans-serif;padding:0 18px;cursor:pointer;display:flex;gap:8px;align-items:center;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)">{{ t.label }}<span style="font-size:13px;opacity:.75">{{ t.count }}</span></button>
+        </sc-for>
+      </div>
+    </section>
+  </div>
+
+  <main id="main" style="max-width:1440px;width:100%;margin:0 auto;padding:32px clamp(20px,5.5vw,80px) 120px;display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start">
+    <sc-if value="{{ narrow }}"><button onClick="{{ toggleDrawer }}" aria-expanded="{{ drawerOpen }}" style="flex:1 1 100%;min-height:48px;border:0;background:#0B2A17;color:#fff;font:600 15px 'Outfit',sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14"><path d="M1 3h12M3 7h8M5 11h4" stroke="currentColor" stroke-width="1.6"></path></svg>{{ drawerLabel }}</button></sc-if>
+    <sc-if value="{{ showFilters }}" hint-placeholder-val="{{ true }}"><aside style="flex:1 1 240px;max-width:{{ asideMax }};display:flex;flex-direction:column;position:{{ asidePos }};top:calc(var(--rp-hdr,0px) + 16px);transition:top .5s cubic-bezier(.22,1,.36,1)">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid #DCE6D6">
+        <h2 style="margin:0;font-size:17px;font-weight:600">Filters</h2>
+        <sc-if value="{{ anyActive }}"><button onClick="{{ clearAll }}" style="background:none;border:0;font:500 13px 'Outfit',sans-serif;color:#05561F;cursor:pointer;padding:10px 0;text-decoration:underline">Wis alles</button></sc-if>
+      </div>
+      <sc-if value="{{ hasSizes }}">
+        <div style="padding:16px 0;border-bottom:1px solid #DCE6D6;display:flex;flex-direction:column;gap:12px">
+          <span style="font-size:15px;font-weight:600">Maat (EU)</span>
+          <div role="group" aria-label="Maat" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+            <sc-for list="{{ sizes }}" as="z">
+              <button onClick="{{ z.toggle }}" aria-pressed="{{ z.pressed }}" style="min-height:44px;border:1.5px solid {{ z.border }};background:{{ z.bg }};color:{{ z.fg }};font:600 14px 'Outfit',sans-serif;cursor:pointer;transition:background .3s cubic-bezier(.22,1,.36,1)">{{ z.n }}</button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <sc-for list="{{ facets }}" as="f">
+        <div style="padding:16px 0;border-bottom:1px solid #DCE6D6;display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:15px;font-weight:600;margin-bottom:6px">{{ f.title }}</span>
+          <sc-for list="{{ f.options }}" as="o">
+            <button role="checkbox" aria-checked="{{ o.checked }}" onClick="{{ o.toggle }}" style="background:none;border:0;display:flex;align-items:center;gap:10px;min-height:40px;font:400 14px 'Outfit',sans-serif;color:#0B2A17;cursor:pointer;text-align:left">
+              <span style="width:18px;height:18px;border:1.5px solid {{ o.boxBorder }};background:{{ o.boxBg }};display:grid;place-items:center;flex-shrink:0"><svg aria-hidden="true" width="10" height="10" viewBox="0 0 10 10" style="opacity:{{ o.checkOp }}"><path d="M1.5 5l2.5 2.5 4.5-5" fill="none" stroke="#C8E63A" stroke-width="1.8"></path></svg></span>
+              <span style="flex:1">{{ o.label }}</span><span style="font-size:13px;color:#56695C">{{ o.count }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </sc-for>
+      <label style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 0;border-bottom:1px solid #DCE6D6">
+        <span style="font-size:15px;font-weight:600">Verberg uitverkocht</span>
+        <button onClick="{{ toggleHide }}" role="switch" aria-checked="{{ hideOn }}" style="width:42px;height:24px;border:0;padding:3px;background:{{ hideTrack }};cursor:pointer;display:flex;justify-content:{{ hideAlign }};transition:background .3s"><span style="width:18px;height:18px;background:#fff;display:block"></span></button>
+      </label>
+    </aside></sc-if>
+
+    <div style="flex:4 1 min(100%,480px);min-width:0;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+        <h2 style="margin:0;font-size:15px;font-weight:400"><strong>{{ total }}</strong> producten</h2>
+        <label style="display:flex;align-items:center;gap:10px;font-size:14px;color:#3C5A47">Sorteer op
+          <select value="{{ sort }}" onChange="{{ onSort }}" style="font:500 14px 'Outfit',sans-serif;color:#0B2A17;border:1px solid #8FA595;background:#fff;padding:10px 12px;cursor:pointer"><option value="pop">Populariteit</option><option value="asc">Prijs laag – hoog</option><option value="desc">Prijs hoog – laag</option></select>
+        </label>
+      </div>
+      <sc-if value="{{ anyActive }}">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <sc-for list="{{ chips }}" as="c"><button onClick="{{ c.remove }}" style="min-height:36px;background:#F3F7EE;border:0;font:500 13px 'Outfit',sans-serif;color:#0B2A17;padding:0 12px;cursor:pointer;display:flex;gap:8px;align-items:center;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)">{{ c.label }}<svg aria-hidden="true" width="9" height="9" viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6" stroke="currentColor" stroke-width="1.6"></path></svg></button></sc-for>
+        </div>
+      </sc-if>
+      <div data-reveal-stagger="" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:20px">
+        <sc-for list="{{ items }}" as="d">
+          <div style="display:flex;flex-direction:column;border:1px solid #DCE6D6;background:#fff;transition:box-shadow .3s cubic-bezier(.22,1,.36,1)" style-hover="box-shadow:0 14px 30px rgba(4,71,31,.12)">
+            <a href="{{ d.href }}" style="position:relative;aspect-ratio:1/1;background:#F4F7F0;display:grid;place-items:center">
+              <span style="font:500 12px ui-monospace,monospace;color:#56695C;opacity:{{ d.imgOp }}">productfoto</span>
+              <sc-if value="{{ d.out }}"><span style="position:absolute;top:12px;left:12px;background:#fff;color:#0B2A17;font-size:13px;font-weight:600;padding:5px 10px;box-shadow:0 2px 8px rgba(0,30,10,.12);clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)">Uitverkocht</span></sc-if>
+              <sc-if value="{{ d.deal }}"><span style="position:absolute;top:12px;left:12px;background:#033A19;color:#C8E63A;font-size:13px;font-weight:600;padding:5px 10px;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)">-{{ d.pct }}%</span></sc-if>
+            </a>
+            <button onClick="{{ d.toggleFav }}" aria-label="Bewaar {{ d.name }}" aria-pressed="{{ d.favPressed }}" style="position:relative;margin:-52px 6px 8px auto;width:44px;height:44px;border-radius:50%;border:0;background:#fff;display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z" fill="{{ d.favFill }}" stroke="#033A19" stroke-width="2"></path></svg></button>
+            <div style="padding:6px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1">
+              <span style="font-size:13px;color:#3C5A47;font-weight:500;text-transform:uppercase;letter-spacing:.8px">{{ d.brand }} · {{ d.type }}</span>
+              <h3 style="margin:0;font-size:17px;font-weight:600;line-height:1.25"><a href="{{ d.href }}">{{ d.name }}</a></h3>
+              <span style="font-size:13px;color:#3C5A47">{{ d.sub }}</span>
+              <div style="display:flex;align-items:baseline;gap:10px;margin-top:auto;padding-top:6px"><span style="font-size:22px;font-weight:700">€{{ d.price }}</span><sc-if value="{{ d.deal }}"><span style="font-size:14px;color:#56695C;text-decoration:line-through">€{{ d.was }}</span></sc-if></div>
+              <span style="font-size:13px;color:{{ d.metaColor }};font-weight:500">{{ d.meta }}</span>
+              <a href="{{ d.href }}" style="margin-top:8px;background:{{ d.btnBg }};color:{{ d.btnFg }};font-weight:600;font-size:14px;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" style-hover="opacity:.9"><span>{{ d.btn }}</span><svg data-arrow="" aria-hidden="true" width="12" height="12" viewBox="0 0 14 14"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="{{ d.arrow }}" stroke-width="1.8"></path></svg></a>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ noResults }}">
+        <div style="background:#F3F7EE;padding:48px 32px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
+          <span style="font-size:20px;font-weight:600">Geen producten met deze filters</span>
+          <button onClick="{{ clearAll }}" style="min-height:48px;background:#033A19;color:#fff;border:0;font:600 14px 'Outfit',sans-serif;padding:0 22px;cursor:pointer;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)">Wis alle filters</button>
+        </div>
+      </sc-if>
+    </div>
+  </main>
+  <dc-import name="Footer" hint-size="100%,520px" style="margin-top:auto;display:block"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SIZES = [38, 39, 40, 41, 42, 43, 44, 45, 46, 47];
+const CATS = {
+  schoenen: { label: 'Schoenen', intro: 'Vergelijk padel-, tennis- en indoorschoenen bij 24+ winkels. Filter op maat en zie direct welke winkel jouw maat heeft.', types: ['Padelschoenen', 'Tennisschoenen', 'Indoorschoenen'], sizes: true, gender: true },
+  kleding: { label: 'Kleding', intro: 'Sportkleding voor heren, dames en kids van de grote racketmerken.', types: ['Heren', 'Dames', 'Kids'], sizes: false, gender: false },
+  accessoires: { label: 'Accessoires', intro: 'Tassen, ballen, grips, snaren en protectors vergelijken.', types: ['Tassen', 'Ballen', 'Grips & snaren', 'Protectors'], sizes: false, gender: false }
+};
+const S = (cat, type, brand, name, price, was, shops, pop, extra = {}) => ({ id: brand + name, cat, type, brand, name, price, was, shops, pop, ...extra });
+const ALL = [
+  S('schoenen', 'Padelschoenen', 'Asics', 'Gel-Padel Pro 5', 109, 139, 12, 98, { g: 'Heren', sz: [40, 41, 42, 43, 44, 45, 46] }),
+  S('schoenen', 'Padelschoenen', 'Bullpadel', 'Hack Vibram 24', 119, 0, 9, 90, { g: 'Heren', sz: [41, 42, 43, 44] }),
+  S('schoenen', 'Padelschoenen', 'Adidas', 'Crazyquick Boost', 99, 129, 10, 88, { g: 'Dames', sz: [38, 39, 40, 41] }),
+  S('schoenen', 'Padelschoenen', 'Babolat', 'Movea', 89, 0, 7, 80, { g: 'Dames', sz: [38, 39, 40], out: true }),
+  S('schoenen', 'Tennisschoenen', 'Asics', 'Gel-Resolution 9', 129, 159, 14, 96, { g: 'Heren', sz: [40, 41, 42, 43, 44, 45, 46, 47] }),
+  S('schoenen', 'Tennisschoenen', 'Nike', 'Vapor Pro 2', 99, 0, 11, 92, { g: 'Heren', sz: [41, 42, 43, 44, 45] }),
+  S('schoenen', 'Tennisschoenen', 'K-Swiss', 'Hypercourt Express 2', 79, 99, 6, 70, { g: 'Dames', sz: [38, 39, 40, 41] }),
+  S('schoenen', 'Indoorschoenen', 'Yonex', 'Power Cushion 65 Z3', 119, 0, 8, 89, { g: 'Heren', sz: [40, 41, 42, 43, 44, 45] }),
+  S('schoenen', 'Indoorschoenen', 'Asics', 'Gel-Rocket 11', 59, 75, 9, 78, { g: 'Dames', sz: [38, 39, 40, 41, 42] }),
+  S('schoenen', 'Indoorschoenen', 'Mizuno', 'Wave Fang Pro', 139, 0, 5, 72, { g: 'Heren', sz: [42, 43, 44], out: true }),
+  S('kleding', 'Heren', 'Adidas', 'Club Tennis Polo', 35, 45, 9, 90), S('kleding', 'Heren', 'Bullpadel', 'Padel T-shirt Tech', 29, 0, 6, 82), S('kleding', 'Dames', 'Nike', 'Court Victory Rok', 39, 0, 8, 88), S('kleding', 'Dames', 'Babolat', 'Play Tanktop', 25, 32, 7, 76), S('kleding', 'Kids', 'Head', 'Club Junior Set', 34, 0, 5, 70, { out: true }),
+  S('accessoires', 'Tassen', 'Bullpadel', 'Vertex Racketbag', 69, 89, 11, 92), S('accessoires', 'Tassen', 'Wilson', 'Super Tour 9 Pack', 99, 0, 8, 85), S('accessoires', 'Ballen', 'Head', 'Padel Pro S (3x)', 6, 0, 14, 95), S('accessoires', 'Ballen', 'Dunlop', 'Fort All Court (4x)', 8, 10, 12, 89), S('accessoires', 'Grips & snaren', 'Tourna', 'Grip XL (10x)', 15, 0, 9, 84), S('accessoires', 'Protectors', 'Nox', 'Frame Protector', 9, 0, 6, 66, { out: true })
+];
+const slug = s => s.toLowerCase().normalize('NFD').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+class Component extends DCLogic {
+  state = { w: 1440, drawer: false, cat: 'schoenen', type: null, f: {}, sz: [], sort: 'pop', hide: false };
+  componentDidMount() {
+    this.onH = () => { const [c, t] = decodeURIComponent(location.hash.slice(1)).split('/'); const cat = CATS[c] ? c : 'schoenen'; const type = CATS[cat].types.find(x => slug(x) === t) || null; this.setState({ cat, type, f: {}, sz: [] }); };
+    this.onH(); window.addEventListener('hashchange', this.onH);
+    this.onR = () => this.setState({ w: window.innerWidth }); this.onR(); window.addEventListener('resize', this.onR);
+    this.__fv = () => this.forceUpdate(); window.addEventListener('rp-favs', this.__fv);
+  }
+  componentDidUpdate() { document.title = (this.state.type || CATS[this.state.cat].label) + ' vergelijken | Racketpicker';
+    let m = document.querySelector('meta[name="description"]'); if (!m) { m = document.createElement('meta'); m.name = 'description'; document.head.appendChild(m); } m.content = CATS[this.state.cat].intro; }
+  componentWillUnmount() { window.removeEventListener('resize', this.onR); window.removeEventListener('hashchange', this.onH); window.removeEventListener('rp-favs', this.__fv); }
+  renderVals() {
+    const s = this.state, set = o => this.setState(o), C = CATS[s.cat];
+    const FAC = [{ key: 'brand', title: 'Merk', get: r => r.brand }];
+    if (C.gender) FAC.push({ key: 'g', title: 'Voor', get: r => r.g });
+    const base = ALL.filter(r => r.cat === s.cat);
+    const match = (r, skip) => (!s.type || r.type === s.type) && (!s.sz.length || (r.sz || []).some(z => s.sz.includes(z))) && FAC.every(f => f.key === skip || !(s.f[f.key] || []).length || s.f[f.key].includes(f.get(r)));
+    const upd = (k, v) => { const c = s.f[k] || []; set({ f: { ...s.f, [k]: c.includes(v) ? c.filter(x => x !== v) : [...c, v] } }); };
+    const sorters = { pop: (a, b) => b.pop - a.pop, asc: (a, b) => a.price - b.price, desc: (a, b) => b.price - a.price };
+    let list = base.filter(r => match(r)); if (s.hide) list = list.filter(r => !r.out);
+    list.sort((a, b) => (!!a.out - !!b.out) || sorters[s.sort](a, b));
+    const chips = [];
+    if (s.sz.length) chips.push({ label: 'Maat ' + s.sz.sort((a, b) => a - b).join(', '), remove: () => set({ sz: [] }) });
+    FAC.forEach(f => (s.f[f.key] || []).forEach(v => chips.push({ label: v, remove: () => upd(f.key, v) })));
+    return {
+      narrow: s.w < 860, showFilters: s.w >= 860 || s.drawer, drawerOpen: s.drawer ? 'true' : 'false',
+      asidePos: s.w >= 860 ? 'sticky' : 'static', asideMax: s.w >= 860 ? '300px' : '100%',
+      toggleDrawer: () => set({ drawer: !s.drawer }),
+      cat: s.cat, catLabel: C.label, pageTitle: (s.type || C.label) + ' vergelijken', intro: C.intro,
+      typeTabs: [null, ...C.types].map(t => { const on = s.type === t; return { label: t || 'Alle ' + C.label.toLowerCase(), count: base.filter(r => !t || r.type === t).length, pressed: on ? 'true' : 'false', bg: on ? '#C8E63A' : 'rgba(255,255,255,.1)', fg: on ? '#033A19' : '#fff', select: () => { history.replaceState(null, '', '#' + s.cat + (t ? '/' + slug(t) : '')); set({ type: t }); } }; }),
+      hasSizes: C.sizes,
+      sizes: SIZES.map(n => { const on = s.sz.includes(n); return { n, pressed: on ? 'true' : 'false', bg: on ? '#033A19' : '#fff', fg: on ? '#fff' : '#0B2A17', border: on ? '#033A19' : '#8FA595', toggle: () => set({ sz: on ? s.sz.filter(x => x !== n) : [...s.sz, n] }) }; }),
+      facets: FAC.map(f => { const pool = base.filter(r => match(r, f.key)), opts = [...new Set(base.map(f.get))].sort(), sel = s.f[f.key] || [];
+        return { title: f.title, options: opts.map(label => { const on = sel.includes(label); return { label, count: pool.filter(r => f.get(r) === label).length, checked: on ? 'true' : 'false', boxBg: on ? '#033A19' : '#fff', boxBorder: on ? '#033A19' : '#56695C', checkOp: on ? 1 : 0, toggle: () => upd(f.key, label) }; }) }; }),
+      hideOn: s.hide ? 'true' : 'false', hideTrack: s.hide ? '#033A19' : '#B9C7BD', hideAlign: s.hide ? 'flex-end' : 'flex-start', toggleHide: e => { e.preventDefault(); set({ hide: !s.hide }); },
+      drawerLabel: s.drawer ? 'Verberg filters' : 'Filters' + (chips.length ? ' (' + chips.length + ')' : ''),
+      chips, anyActive: chips.length > 0, clearAll: () => set({ f: {}, sz: [], hide: false }),
+      sort: s.sort, onSort: e => set({ sort: e.target.value }),
+      total: list.length, noResults: list.length === 0,
+      items: list.map(r => { const fav = !!(window.rpFavs && window.rpFavs.has(r)), shoe = !!r.sz;
+        const fit = shoe && s.sz.length ? r.sz.filter(z => s.sz.includes(z)) : null;
+        return { ...r, href: shoe ? 'Schoen.dc.html' : 'Product.dc.html', deal: !!r.was && !r.out, pct: r.was ? Math.round((1 - r.price / r.was) * 100) : 0, imgOp: r.out ? .45 : 1,
+          sub: shoe ? (fit ? 'Jouw maat ' + fit.join(', ') + ' leverbaar' : 'Maten ' + r.sz[0] + '–' + r.sz[r.sz.length - 1] + (r.g ? ' · ' + r.g : '')) : r.type,
+          meta: r.out ? 'Bij geen enkele winkel op voorraad' : 'Bij ' + r.shops + ' winkels vergeleken', metaColor: r.out ? '#56695C' : '#05561F',
+          btn: r.out ? 'Zet een voorraadalert' : 'Bekijk beste prijs', btnBg: r.out ? '#F3F7EE' : '#033A19', btnFg: r.out ? '#0B2A17' : '#fff', arrow: r.out ? '#033A19' : '#C8E63A',
+          favFill: fav ? '#C8E63A' : 'none', favPressed: fav ? 'true' : 'false', toggleFav: () => window.rpFavs && window.rpFavs.toggle(r) }; })
+    };
+  }
+}
+</script>
+</body>
+</html>
