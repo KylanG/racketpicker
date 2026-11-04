@@ -7,6 +7,7 @@ import { Slant } from "@/components/ui/slant";
 import { getAlternates } from "@/i18n/alternates";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
+import { sportSlug } from "@/lib/catalog/taxonomy";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
@@ -35,7 +36,10 @@ export default function HomePage({ params }: PageProps<"/[locale]">) {
         <p className="text-on-dark mt-4 text-[17px]">{t("intro")}</p>
         <Slant
           as={Link}
-          href="/padel-rackets"
+          href={{
+            pathname: "/rackets/[sport]",
+            params: { sport: sportSlug("padel", locale as Locale) },
+          }}
           size={8}
           className="bg-lime hover:bg-lime-hover mt-8 inline-flex min-h-11 items-center gap-2 px-6 py-3 font-semibold text-green-950 transition-colors"
         >

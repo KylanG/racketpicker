@@ -6,8 +6,8 @@ Supabase-project `racketpicker` (Frankfurt). Migraties staan in `supabase/migrat
 
 ```mermaid
 erDiagram
-  sports ||--o{ categories : heeft
-  categories ||--o{ products : bevat
+  sports ||--o{ products : sport
+  categories ||--o{ products : categorie
   brands ||--o{ products : maakt
   products ||--o| racket_specs : "specs (gedeeld)"
   products ||--o| product_scores : "scores (gedeeld)"
@@ -23,20 +23,20 @@ erDiagram
 
 ## Tabellen
 
-| Tabel             | Wat                                                                                          | Gedeeld of per markt |
-| ----------------- | -------------------------------------------------------------------------------------------- | -------------------- |
-| `markets`         | nl, es (`is_active` volgt `NEXT_PUBLIC_ACTIVE_LOCALES`)                                      | n.v.t.               |
-| `sports`          | padel, tennis                                                                                | gedeeld              |
-| `categories`      | padel-rackets, -shoes, -bags, -balls. Publieke slugs per taal staan in `src/i18n/routing.ts` | gedeeld              |
-| `brands`          | merken met slug en logo                                                                      | gedeeld              |
-| `products`        | merk, model, jaar, GTIN's, tier (A/B/C), status, `is_sample`                                 | gedeeld              |
-| `racket_specs`    | vorm, gewicht (min/max), balans, kern, slagvlak, frame, ruwheid, dikte, niveaus, speelstijl  | gedeeld              |
-| `product_scores`  | power, controle, sweetspot, wendbaarheid, comfort (0–100) + **bron** (specs/test/redactie)   | gedeeld              |
-| `product_content` | slug, titel, SEO, intro, sterk in / let op / ideaal voor, FAQ                                | per markt            |
-| `product_images`  | pad in Supabase Storage, alt, volgorde                                                       | gedeeld              |
-| `shops`           | winkel, land, affiliate-netwerk (Daisycon/Awin), verzendinfo                                 | per markt            |
-| `offers`          | product × winkel: prijs incl. btw, verzendkosten, voorraad, levertijd, affiliate-link        | per markt            |
-| `price_history`   | één snapshot per offer per dag                                                               | per markt            |
+| Tabel             | Wat                                                                                               | Gedeeld of per markt |
+| ----------------- | ------------------------------------------------------------------------------------------------- | -------------------- |
+| `markets`         | nl, es (`is_active` volgt `NEXT_PUBLIC_ACTIVE_LOCALES`)                                           | n.v.t.               |
+| `sports`          | padel, tennis, badminton, squash, pickleball, table-tennis                                        | gedeeld              |
+| `categories`      | rackets, shoes, clothing, accessories (los van de sport; publieke slugs in `src/i18n/routing.ts`) | gedeeld              |
+| `brands`          | merken met slug en logo                                                                           | gedeeld              |
+| `products`        | merk, model, jaar, GTIN's, tier (A/B/C), status, `is_sample`                                      | gedeeld              |
+| `racket_specs`    | vorm, gewicht (min/max), balans, kern, slagvlak, frame, ruwheid, dikte, niveaus, speelstijl       | gedeeld              |
+| `product_scores`  | power, controle, sweetspot, wendbaarheid, comfort (0–100) + **bron** (specs/test/redactie)        | gedeeld              |
+| `product_content` | slug, titel, SEO, intro, sterk in / let op / ideaal voor, FAQ                                     | per markt            |
+| `product_images`  | pad in Supabase Storage, alt, volgorde                                                            | gedeeld              |
+| `shops`           | winkel, land, affiliate-netwerk (Daisycon/Awin), verzendinfo                                      | per markt            |
+| `offers`          | product × winkel: prijs incl. btw, verzendkosten, voorraad, levertijd, affiliate-link             | per markt            |
+| `price_history`   | één snapshot per offer per dag                                                                    | per markt            |
 
 **View** `product_price_summary`: laagste prijs, laagste totaalprijs (incl. verzending), aantal winkels en aantal op voorraad per product per markt. Draait met `security_invoker`, dus alleen zichtbare offers tellen mee.
 

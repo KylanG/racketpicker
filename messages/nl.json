@@ -1,7 +1,7 @@
 {
   "metadata": {
     "title": "Racketpicker",
-    "description": "Vergelijk padelrackets, schoenen en gear bij Nederlandse winkels."
+    "description": "Vergelijk rackets, schoenen en accessoires voor padel en andere racketsporten bij Nederlandse winkels."
   },
   "home": {
     "eyebrow": "Binnenkort",
@@ -9,14 +9,35 @@
     "intro": "Vergelijk padelrackets bij Nederlandse winkels.",
     "cta": "Bekijk padelrackets"
   },
-  "padelRackets": {
-    "title": "Padelrackets",
-    "intro": "Hier komt het overzicht van alle padelrackets met prijzen per winkel.",
-    "examplePrice": "Voorbeeldprijs: {price}",
-    "updated": "Laatst bijgewerkt: {date}"
-  },
   "notFound": {
     "title": "Pagina niet gevonden",
     "back": "Terug naar de homepagina"
+  },
+  "sports": {
+    "padel": "Padel",
+    "tennis": "Tennis",
+    "badminton": "Badminton",
+    "squash": "Squash",
+    "pickleball": "Pickleball",
+    "table-tennis": "Tafeltennis"
+  },
+  "categories": {
+    "rackets": "Rackets",
+    "shoes": "Schoenen",
+    "clothing": "Kleding",
+    "accessories": "Accessoires"
+  },
+  "rackets": {
+    "title": "Rackets vergelijken",
+    "intro": "Kies een sport om rackets te vergelijken op prijs, specificaties en winkels.",
+    "sportTitle": {
+      "padel": "Padelrackets",
+      "tennis": "Tennisrackets",
+      "badminton": "Badmintonrackets",
+      "squash": "Squashrackets",
+      "pickleball": "Pickleball-paddles",
+      "table-tennis": "Tafeltennisbatjes"
+    },
+    "sportIntro": "Het overzicht met filters en prijzen per winkel volgt binnenkort."
   }
 }

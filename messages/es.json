@@ -1,7 +1,7 @@
 {
   "metadata": {
     "title": "Racketpicker",
-    "description": "Compara palas de pádel, zapatillas y material en tiendas españolas."
+    "description": "Compara palas, zapatillas y accesorios de pádel y otros deportes de raqueta en tiendas españolas."
   },
   "home": {
     "eyebrow": "Próximamente",
@@ -9,14 +9,35 @@
     "intro": "Compara palas de pádel en tiendas españolas.",
     "cta": "Ver palas de pádel"
   },
-  "padelRackets": {
-    "title": "Palas de pádel",
-    "intro": "Aquí aparecerá el listado de todas las palas de pádel con precios por tienda.",
-    "examplePrice": "Precio de ejemplo: {price}",
-    "updated": "Última actualización: {date}"
-  },
   "notFound": {
     "title": "Página no encontrada",
     "back": "Volver a la página de inicio"
+  },
+  "sports": {
+    "padel": "Pádel",
+    "tennis": "Tenis",
+    "badminton": "Bádminton",
+    "squash": "Squash",
+    "pickleball": "Pickleball",
+    "table-tennis": "Tenis de mesa"
+  },
+  "categories": {
+    "rackets": "Raquetas",
+    "shoes": "Zapatillas",
+    "clothing": "Ropa",
+    "accessories": "Accesorios"
+  },
+  "rackets": {
+    "title": "Comparar raquetas",
+    "intro": "Elige un deporte para comparar raquetas por precio, características y tiendas.",
+    "sportTitle": {
+      "padel": "Palas de pádel",
+      "tennis": "Raquetas de tenis",
+      "badminton": "Raquetas de bádminton",
+      "squash": "Raquetas de squash",
+      "pickleball": "Palas de pickleball",
+      "table-tennis": "Palas de tenis de mesa"
+    },
+    "sportIntro": "El listado con filtros y precios por tienda llegará pronto."
   }
 }
