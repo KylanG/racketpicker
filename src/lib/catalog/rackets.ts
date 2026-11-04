@@ -23,7 +23,7 @@ export async function getRacketListing(locale: Locale): Promise<RacketItem[]> {
   cacheTag(CATALOG_TAG);
 
   const supabase = createPublicClient();
-  const [products, stats, summaries] = await Promise.all([
+  const [products, stats, summaries, offers] = await Promise.all([
     withoutSamples(
       supabase
         .from("products")
@@ -38,8 +38,13 @@ export async function getRacketListing(locale: Locale): Promise<RacketItem[]> {
       .from("product_price_summary")
       .select("product_id, offer_count, in_stock_count")
       .eq("market_code", locale),
+    supabase
+      .from("offers")
+      .select("product_id, price, source, checked_at")
+      .eq("market_code", locale)
+      .eq("is_active", true),
   ]);
-  if (products.error || stats.error || summaries.error || !products.data) {
+  if (products.error || stats.error || summaries.error || offers.error || !products.data) {
     console.error(
       "[rackets] could not load listing",
       products.error?.message ?? stats.error?.message ?? summaries.error?.message,
@@ -51,6 +56,12 @@ export async function getRacketListing(locale: Locale): Promise<RacketItem[]> {
 
   const priceStats = new Map((stats.data ?? []).map((r) => [r.product_id, priceStatsFromRow(r)]));
   const summary = new Map(summaries.data.map((s) => [s.product_id, s]));
+  // Lowest active offer per product, to label hand-checked prices with their date.
+  const lowest = new Map<string, { price: number; source: string; checked_at: string | null }>();
+  for (const o of offers.data ?? []) {
+    const current = lowest.get(o.product_id);
+    if (!current || o.price < current.price) lowest.set(o.product_id, o);
+  }
 
   return products.data.flatMap((p): RacketItem[] => {
     const content = p.product_content.find((c) => c.market_code === locale && c.is_published);
@@ -91,6 +102,10 @@ export async function getRacketListing(locale: Locale): Promise<RacketItem[]> {
         discount: s ? discountPercent(s) : null,
         shopCount: summary.get(p.id)?.offer_count ?? 0,
         inStock: (summary.get(p.id)?.in_stock_count ?? 0) > 0,
+        checkedOn:
+          lowest.get(p.id)?.source === "manual"
+            ? (lowest.get(p.id)?.checked_at?.slice(0, 10) ?? null)
+            : null,
         levels: (specs?.levels ?? [])
           .map((l) => LEVEL_FROM_DB[l])
           .filter((l): l is Level => Boolean(l)),

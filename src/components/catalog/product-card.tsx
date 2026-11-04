@@ -101,6 +101,7 @@ export function ProductCard({
         >
           {product.inStock ? t("shopsCompared", { count: product.shopCount }) : t("notInStock")}
         </p>
+        {product.priceNote && <p className="text-muted-2 text-[12px]">{product.priceNote}</p>}
       </div>
 
       <Slant

@@ -1,6 +1,8 @@
 import "server-only";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { MANUAL_OFFERS } from "@/data/manual-offers";
 import { syncProductImages, type ImageSyncResult } from "./images";
+import { toRpcItems, validateManualOffers } from "./manual-offers";
 import { runImport, type ImportResult } from "./run-import";
 
 export type ShopOutcome =
@@ -11,6 +13,8 @@ export type DailyImportResult = {
   finishedAt: string;
   shops: ShopOutcome[];
   images: ImageSyncResult | { error: string };
+  /** Hand-checked prices (RP-68): counts from upsert_manual_offers, or the error. */
+  manual: Record<string, number> | { error: string };
   /** True when at least one shop changed data and pages should be revalidated. */
   changed: boolean;
 };
@@ -38,6 +42,8 @@ export async function runDailyImport(): Promise<DailyImportResult> {
     }
   }
 
+  const manual = await importManualOffers();
+
   let images: DailyImportResult["images"];
   try {
     images = await syncProductImages();
@@ -51,6 +57,29 @@ export async function runDailyImport(): Promise<DailyImportResult> {
     finishedAt: new Date().toISOString(),
     shops,
     images,
-    changed: shops.some((s) => s.ok) || ("stored" in images && images.stored > 0),
+    manual,
+    changed:
+      shops.some((s) => s.ok) || ("stored" in images && images.stored > 0) || !("error" in manual),
   };
+}
+
+/**
+ * Sends the hand-checked prices (src/data/manual-offers.ts) to Supabase. Runs every day,
+ * also when the list did not change, so prices older than 7 days are turned off.
+ */
+async function importManualOffers(): Promise<DailyImportResult["manual"]> {
+  const errors = validateManualOffers(MANUAL_OFFERS);
+  if (errors.length) {
+    console.error(`[feeds] manual offers invalid: ${errors.join("; ")}`);
+    return { error: errors.join("; ") };
+  }
+  const { data, error } = await createAdminClient().rpc("upsert_manual_offers", {
+    p_market_code: "nl",
+    p_items: toRpcItems(MANUAL_OFFERS),
+  });
+  if (error) {
+    console.error(`[feeds] manual offers: ${error.message}`);
+    return { error: error.message };
+  }
+  return data as Record<string, number>;
 }

@@ -269,6 +269,7 @@ export type Database = {
       offers: {
         Row: {
           affiliate_url: string;
+          checked_at: string | null;
           created_at: string;
           currency: string;
           delivery_days_max: number | null;
@@ -285,11 +286,13 @@ export type Database = {
           product_url: string | null;
           shipping_cost: number | null;
           shop_id: string;
+          source: string;
           stock_status: Database["public"]["Enums"]["stock_status"];
           updated_at: string;
         };
         Insert: {
           affiliate_url: string;
+          checked_at?: string | null;
           created_at?: string;
           currency?: string;
           delivery_days_max?: number | null;
@@ -306,11 +309,13 @@ export type Database = {
           product_url?: string | null;
           shipping_cost?: number | null;
           shop_id: string;
+          source?: string;
           stock_status?: Database["public"]["Enums"]["stock_status"];
           updated_at?: string;
         };
         Update: {
           affiliate_url?: string;
+          checked_at?: string | null;
           created_at?: string;
           currency?: string;
           delivery_days_max?: number | null;
@@ -327,6 +332,7 @@ export type Database = {
           product_url?: string | null;
           shipping_cost?: number | null;
           shop_id?: string;
+          source?: string;
           stock_status?: Database["public"]["Enums"]["stock_status"];
           updated_at?: string;
         };
@@ -779,6 +785,10 @@ export type Database = {
       };
     };
     Functions: {
+      upsert_manual_offers: {
+        Args: { p_items: Json; p_market_code: string };
+        Returns: Json;
+      };
       product_price_stats: {
         Args: { p_market_code: string };
         Returns: {

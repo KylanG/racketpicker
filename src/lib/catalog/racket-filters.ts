@@ -17,6 +17,8 @@ export type RacketItem = {
   discount: number | null;
   shopCount: number;
   inStock: boolean;
+  /** Set when the lowest price is a hand-checked one (RP-68): the day it was checked. */
+  checkedOn: string | null;
   levels: Level[];
   style: Style | null;
   /** Midpoint of the weight range in grams. */

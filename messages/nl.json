@@ -180,7 +180,8 @@
     "save": "Bewaar {name}",
     "yourSizes": "Jouw maat {sizes} leverbaar",
     "sizeRange": "Maten {min}–{max}",
-    "noImage": "Nog geen foto"
+    "noImage": "Nog geen foto",
+    "priceChecked": "Prijs gecontroleerd op {date}"
   },
   "header": {
     "skipToContent": "Naar de inhoud",
