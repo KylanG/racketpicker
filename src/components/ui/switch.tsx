@@ -11,11 +11,17 @@ export function Switch({
   onChange,
   children,
   tone = "light",
+  disabled = false,
+  describedBy,
 }: {
   checked: boolean;
   onChange: (checked: boolean) => void;
   children: ReactNode;
   tone?: "light" | "dark";
+  /** Locked, e.g. "Noodzakelijk" in the cookie settings. */
+  disabled?: boolean;
+  /** Id of an element with a longer description. */
+  describedBy?: string;
 }) {
   const id = useId();
   const track =
@@ -32,13 +38,15 @@ export function Switch({
         type="button"
         role="switch"
         aria-checked={checked}
+        aria-describedby={describedBy}
         id={id}
+        disabled={disabled}
         onClick={() => onChange(!checked)}
-        className={`flex h-6 w-[42px] shrink-0 cursor-pointer p-[3px] transition-colors duration-200 ${track} ${checked ? "justify-end" : "justify-start"}`}
+        className={`flex h-6 w-[42px] shrink-0 cursor-pointer p-[3px] transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-60 ${track} ${checked ? "justify-end" : "justify-start"}`}
       >
         <span className="block size-[18px] bg-white" />
       </button>
-      <label htmlFor={id} className="cursor-pointer text-[14px]">
+      <label htmlFor={id} className={`text-[14px] ${disabled ? "" : "cursor-pointer"}`}>
         {children}
       </label>
     </span>
