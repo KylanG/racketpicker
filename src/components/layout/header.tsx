@@ -1,16 +1,15 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { getCatalogAvailability } from "@/lib/catalog/nav";
-import { CATEGORIES, sportSlug, type CategoryKey } from "@/lib/catalog/taxonomy";
+import { CATEGORIES, sportSlug } from "@/lib/catalog/taxonomy";
 import { HeaderBar } from "./header-bar";
-import type { HeaderActive, HeaderCta, NavHref, NavItem } from "./nav-types";
-
-const SPORT_ROUTE = {
-  rackets: "/rackets/[sport]",
-  shoes: "/shoes/[sport]",
-  clothing: "/clothing/[sport]",
-  accessories: "/accessories/[sport]",
-} as const satisfies Record<CategoryKey, string>;
+import {
+  SPORT_ROUTE,
+  type HeaderActive,
+  type HeaderCta,
+  type NavHref,
+  type NavItem,
+} from "./nav-types";
 
 type HeaderProps = {
   /** Section the page belongs to: gets the lime underline. */

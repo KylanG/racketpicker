@@ -41,6 +41,13 @@ export const routing = defineRouting({
     "/advisor": { nl: "/keuzehulp", es: "/asesor" },
     "/blog": "/blog",
     "/favorites": { nl: "/favorieten", es: "/favoritos" },
+    // Info pages from the footer; content follows in RP-36 (legal, KvK) and later tickets.
+    "/about": { nl: "/over-ons", es: "/sobre-nosotros" },
+    "/how-we-earn": { nl: "/hoe-we-verdienen", es: "/como-ganamos" },
+    "/contact": { nl: "/contact", es: "/contacto" },
+    "/privacy": { nl: "/privacy", es: "/privacidad" },
+    "/faq": { nl: "/veelgestelde-vragen", es: "/preguntas-frecuentes" },
+    "/price-history": { nl: "/prijshistorie", es: "/historial-de-precios" },
   },
 });
 

@@ -188,5 +188,43 @@
   "languages": {
     "nl": "Nederlands",
     "es": "Español"
+  },
+  "footer": {
+    "newsletterTitle": "¿Baja de precio? Tú te enteras primero.",
+    "newsletterIntro": "Cada semana las mayores bajadas de precio en tu bandeja de entrada. Puedes darte de baja cuando quieras.",
+    "emailLabel": "Correo electrónico",
+    "emailPlaceholder": "tu@correo.es",
+    "subscribe": "Suscribirme",
+    "subscribing": "Suscribiendo…",
+    "perkWeekly": "Cada viernes",
+    "perkReal": "Solo bajadas reales",
+    "perkCancel": "Baja en cualquier momento",
+    "confirmNote": "Primero recibirás un correo para confirmar tu suscripción. Lee en nuestra <link>política de privacidad</link> qué hacemos con tus datos.",
+    "success": "Casi listo. Confirma tu suscripción con el correo que te acabamos de enviar.",
+    "errorInvalid": "Introduce un correo válido, por ejemplo nombre@ejemplo.es.",
+    "errorUnavailable": "Ahora mismo no es posible suscribirse. Inténtalo más tarde.",
+    "tagline": "Compara raquetas y equipamiento para cada deporte de raqueta.",
+    "columns": {
+      "compare": "Comparar",
+      "help": "Ayuda",
+      "company": "Racketpicker"
+    },
+    "links": {
+      "deals": "Ofertas",
+      "advisor": "Asesor",
+      "blog": "Blog y consejos",
+      "priceHistory": "Historial de precios",
+      "faq": "Preguntas frecuentes",
+      "about": "Sobre nosotros",
+      "howWeEarn": "Cómo ganamos dinero",
+      "contact": "Contacto",
+      "privacy": "Privacidad",
+      "cookieSettings": "Configuración de cookies"
+    },
+    "copyright": "© {year} Racketpicker.com",
+    "pricesUpdated": "Los precios se actualizan a diario."
+  },
+  "affiliate": {
+    "disclosure": "Si compras a través de nosotros, la tienda nos paga una comisión. A ti no te cuesta nada más y nunca cambia el orden de los precios."
   }
 }

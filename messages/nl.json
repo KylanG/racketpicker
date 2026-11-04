@@ -188,5 +188,43 @@
   "languages": {
     "nl": "Nederlands",
     "es": "Español"
+  },
+  "footer": {
+    "newsletterTitle": "Prijsdaling? Jij hoort het eerst.",
+    "newsletterIntro": "Elke week de grootste prijsdalingen in je inbox. Uitschrijven kan altijd.",
+    "emailLabel": "E-mailadres",
+    "emailPlaceholder": "jouw@email.nl",
+    "subscribe": "Aanmelden",
+    "subscribing": "Bezig met aanmelden…",
+    "perkWeekly": "Elke vrijdag",
+    "perkReal": "Alleen echte prijsdalingen",
+    "perkCancel": "Altijd opzegbaar",
+    "confirmNote": "Je ontvangt eerst een mail om je aanmelding te bevestigen. Lees in onze <link>privacyverklaring</link> wat we met je gegevens doen.",
+    "success": "Bijna klaar. Bevestig je aanmelding via de mail die we je net stuurden.",
+    "errorInvalid": "Vul een geldig e-mailadres in, bijvoorbeeld naam@voorbeeld.nl.",
+    "errorUnavailable": "Aanmelden lukt nu nog niet. Probeer het later opnieuw.",
+    "tagline": "Rackets en gear vergelijken voor elke racketsport.",
+    "columns": {
+      "compare": "Vergelijken",
+      "help": "Hulp",
+      "company": "Racketpicker"
+    },
+    "links": {
+      "deals": "Deals",
+      "advisor": "Keuzehulp",
+      "blog": "Blogs & tips",
+      "priceHistory": "Prijshistorie",
+      "faq": "Veelgestelde vragen",
+      "about": "Over ons",
+      "howWeEarn": "Hoe we verdienen",
+      "contact": "Contact",
+      "privacy": "Privacy",
+      "cookieSettings": "Cookie-instellingen"
+    },
+    "copyright": "© {year} Racketpicker.com",
+    "pricesUpdated": "Prijzen worden dagelijks bijgewerkt."
+  },
+  "affiliate": {
+    "disclosure": "Koop je via ons, dan krijgen wij een vergoeding van de winkel. Dat kost jou niets extra en verandert nooit de volgorde van de prijzen."
   }
 }
