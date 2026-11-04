@@ -75,7 +75,18 @@ npm run feeds:import -- padel-point --dry-run
 npm run feeds:import -- padel-point
 ```
 
-Dagelijks automatisch draaien volgt in RP-19 (Vercel Cron).
+## Dagelijkse import (Vercel Cron)
+
+- **Wanneer:** elke dag om 04:00 UTC (05:00 of 06:00 in Nederland), ingesteld in `vercel.json`. Cron draait alleen op Production.
+- **Route:** `GET /api/cron/import-feeds`, beveiligd met `CRON_SECRET`. Vercel stuurt die automatisch mee als `Authorization: Bearer …`. Zonder geldig token krijg je een 401.
+- **Wat er gebeurt:**
+  1. alle actieve feedbronnen worden geïmporteerd, één winkel tegelijk
+  2. van producten zonder foto worden maximaal 25 foto's gekopieerd naar Supabase Storage (bucket `product-images`, max 5 MB, jpg/png/webp/avif), zodat we geen afbeeldingen van winkels hotlinken
+  3. de cache-tag `catalog` wordt ververst (`revalidateTag(…, "max")`), zodat pagina's de nieuwe prijzen tonen bij het volgende bezoek
+- **Fouten:** een winkel die faalt, houdt de andere niet tegen. De fout staat in `import_runs` en in de Vercel-logs. De route geeft dan een 500 terug, zodat de run in het Cron-overzicht van Vercel als mislukt zichtbaar is.
+- **"Laatst bijgewerkt"** op de site komt uit `product_price_summary.last_updated_at`. Elke import werkt dat bij, ook als de prijs gelijk blijft. Het betekent dus "prijs gecontroleerd op".
+- **Handmatig draaien** (dezelfde stappen als de cron): `npm run feeds:import -- --all`
+- **Nodig in Vercel:** `CRON_SECRET` (Secret, Production), `SUPABASE_SECRET_KEY`, `DAISYCON_FEED_URLS` en `AWIN_FEED_URLS`.
 
 ## Nog te verifiëren met de eerste echte feed
 
