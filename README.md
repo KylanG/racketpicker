@@ -43,6 +43,15 @@ messages/       Vertalingen per taal (nl.json, es.json)
 supabase/       Migraties en seeds (vanaf RP-13)
 ```
 
+## Talen en routes
+
+- next-intl, configuratie in `src/i18n/`. Routes leven onder `src/app/[locale]/`.
+- Actieve markten via `NEXT_PUBLIC_ACTIVE_LOCALES` (standaard `nl`). `/es/` geeft 404 tot `nl,es`.
+- `/` stuurt door op browsertaal naar een actieve markt (anders `/nl/`).
+- Interne routenamen zijn Engels, publieke slugs per taal in `routing.ts` (`/padel-rackets` → `/nl/padelrackets`, `/es/palas-de-padel`).
+- Canonical + hreflang per pagina via `getAlternates()`; `x-default` wijst naar `/nl/`.
+- Prijzen/datums via `useFormatter()`: `format.number(96.74, "price")` → € 96,74.
+
 ## Omgevingsvariabelen
 
 Zie `.env.example`. Secrets staan nooit in de repo; in Vercel per omgeving (Production / Preview / Development). `SUPABASE_SERVICE_ROLE_KEY` alleen server-side.
