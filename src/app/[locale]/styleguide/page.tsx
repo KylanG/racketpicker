@@ -4,6 +4,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { Slant } from "@/components/ui/slant";
 import { showSampleData } from "@/lib/catalog/sample-data";
 import type { SlantSize } from "@/lib/ui/slant";
+import { ComponentsDemo } from "./components-demo";
 
 /*
  * Internal styleguide for checking design tokens on Preview deployments.
@@ -49,12 +50,17 @@ export default function StyleguidePage() {
   return (
     <main className="rp-container flex flex-col gap-16 py-16">
       <header>
-        <p className="rp-eyebrow">Intern · RP-20</p>
+        <p className="rp-eyebrow">Intern · RP-20 / RP-21</p>
         <h1 className="rp-h1 mt-2">Styleguide</h1>
         <p className="text-muted mt-3 max-w-[var(--container-read)]">
           Tokens uit de design-handover. Alleen zichtbaar op Preview.
         </p>
       </header>
+
+      <section>
+        <h2 className="rp-h2-sub mb-6">Componenten (RP-21)</h2>
+        <ComponentsDemo />
+      </section>
 
       <section>
         <h2 className="rp-h2-sub mb-6">Kleuren</h2>
