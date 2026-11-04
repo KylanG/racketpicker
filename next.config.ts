@@ -12,6 +12,8 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   images: {
+    // AVIF first, WebP as fallback (hero season image, product photos).
+    formats: ["image/avif", "image/webp"],
     remotePatterns: supabaseHost
       ? [
           {

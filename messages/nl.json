@@ -4,10 +4,32 @@
     "description": "Vergelijk rackets, schoenen en accessoires voor padel en andere racketsporten bij Nederlandse winkels."
   },
   "home": {
-    "eyebrow": "Binnenkort",
-    "title": "Racketpicker",
-    "intro": "Vergelijk padelrackets bij Nederlandse winkels.",
-    "cta": "Bekijk padelrackets"
+    "season": {
+      "blackFriday": {
+        "title": "Black friday padel deals, eerlijk vergeleken",
+        "imageAlt": "Black Friday: letters gemaakt van tennisballen met twee padelrackets",
+        "ctaEyebrow": "Black Friday"
+      },
+      "regular": {
+        "title": "Padelrackets eerlijk vergeleken",
+        "imageAlt": "",
+        "ctaEyebrow": "Deals"
+      }
+    },
+    "intro": "We vergelijken padelrackets bij <strong>{count}</strong> winkels. Met de prijshistorie zie je meteen of je echt voordeel hebt.",
+    "introNoCount": "We vergelijken padelrackets bij Nederlandse winkels. Met de prijshistorie zie je meteen of je echt voordeel hebt.",
+    "searchLabel": "Zoek op racket, merk of kenmerk",
+    "searchSubmit": "Zoeken",
+    "suggestions": "Suggesties",
+    "noSuggestions": "Geen resultaten. Probeer een merk.",
+    "suggestionCount": "{count, plural, =0 {Geen suggesties} one {# suggestie} other {# suggesties}}",
+    "advisorDoubt": "Twijfel je?",
+    "advisorLink": "Doe de gratis keuzehulp",
+    "dealsEyebrow": "Uitgelichte deals",
+    "dealsTitle": "Laagste prijs van de afgelopen 90 dagen",
+    "dealsFilter": "Filter deals op sport",
+    "dealsAll": "Alles",
+    "dealsEmpty": "Er zijn nu geen deals die echt de laagste prijs van 90 dagen zijn. We tonen alleen kortingen ten opzichte van de laagste prijs in de 30 dagen vóór de verlaging."
   },
   "notFound": {
     "title": "Pagina niet gevonden",

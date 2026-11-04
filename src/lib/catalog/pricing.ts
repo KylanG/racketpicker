@@ -75,6 +75,15 @@ export function isLowestIn90Days(stats: PriceStats, today?: Date): boolean {
   );
 }
 
+/**
+ * A featured deal must be a real Omnibus discount (lower than the lowest price of the
+ * 30 days before the reduction) and today's price must be the lowest of 90 days, as the
+ * section title promises ("Laagste prijs van de afgelopen 90 dagen").
+ */
+export function isFeaturedDeal(stats: PriceStats, today?: Date): boolean {
+  return discountPercent(stats) !== null && isLowestIn90Days(stats, today);
+}
+
 type PriceStatsRow = {
   current_price: number | null;
   reduced_since: string | null;
