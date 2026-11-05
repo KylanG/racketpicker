@@ -40,6 +40,7 @@ export const routing = defineRouting({
     "/accessories/[sport]": { nl: "/accessoires/[sport]", es: "/accesorios/[sport]" },
     "/advisor": { nl: "/keuzehulp", es: "/asesor" },
     "/blog": "/blog",
+    "/blog/[slug]": "/blog/[slug]",
     "/favorites": { nl: "/favorieten", es: "/favoritos" },
     // Info pages from the footer; content follows in RP-36 (legal, KvK) and later tickets.
     "/about": { nl: "/over-ons", es: "/sobre-nosotros" },

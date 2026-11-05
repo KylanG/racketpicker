@@ -698,5 +698,29 @@
         ]
       }
     }
+  },
+  "blog": {
+    "metaTitle": "Blogs & tips over rackets en racketsporten",
+    "metaDescription": "Koopgidsen, uitleg en tips over padel-, tennis-, badminton-, squash-, pickleball- en tafeltennisrackets.",
+    "title": "Blogs & tips",
+    "intro": "Koopgidsen, uitleg en tips om het juiste racket te kiezen en slim te kopen.",
+    "breadcrumb": "Kruimelpad",
+    "home": "Home",
+    "filterLabel": "Filter op onderwerp",
+    "all": "Alles",
+    "general": "Algemeen",
+    "featured": "Uitgelicht",
+    "minutes": "{minutes} min",
+    "readArticle": "Lees artikel",
+    "emptyTag": "Nog geen artikelen over dit onderwerp.",
+    "noArticles": "Hier verschijnen binnenkort onze eerste koopgidsen. Tot die tijd helpt de keuzehulp je op weg.",
+    "noArticlesCta": "Naar de keuzehulp",
+    "readingTime": "{minutes} min lezen",
+    "updated": "Bijgewerkt op {date}",
+    "advisorEyebrow": "Gratis keuzehulp",
+    "advisorTitle": "Welk racket past bij jouw spel?",
+    "readAlso": "Lees ook",
+    "allArticles": "Alle artikelen",
+    "notFoundTitle": "Artikel niet gevonden"
   }
 }

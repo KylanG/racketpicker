@@ -32,3 +32,7 @@ export function sportFromSlug(slug: string, locale: Locale): SportKey | null {
 export function isCategory(value: string): value is CategoryKey {
   return (CATEGORIES as readonly string[]).includes(value);
 }
+
+export function isSportKey(value: string): value is SportKey {
+  return SPORTS.some((s) => s.key === value);
+}

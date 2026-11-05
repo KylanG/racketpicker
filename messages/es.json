@@ -491,5 +491,29 @@
         ]
       }
     }
+  },
+  "blog": {
+    "metaTitle": "Blog y consejos sobre raquetas y deportes de raqueta",
+    "metaDescription": "Guías de compra, explicaciones y consejos sobre raquetas de pádel, tenis, bádminton, squash, pickleball y tenis de mesa.",
+    "title": "Blog y consejos",
+    "intro": "Guías de compra, explicaciones y consejos para elegir la raqueta adecuada y comprar con cabeza.",
+    "breadcrumb": "Ruta de navegación",
+    "home": "Inicio",
+    "filterLabel": "Filtrar por tema",
+    "all": "Todo",
+    "general": "General",
+    "featured": "Destacado",
+    "minutes": "{minutes} min",
+    "readArticle": "Leer artículo",
+    "emptyTag": "Todavía no hay artículos sobre este tema.",
+    "noArticles": "Pronto publicaremos aquí nuestras primeras guías de compra. Mientras tanto, el asesor te ayuda a empezar.",
+    "noArticlesCta": "Ir al asesor",
+    "readingTime": "{minutes} min de lectura",
+    "updated": "Actualizado el {date}",
+    "advisorEyebrow": "Asesor gratuito",
+    "advisorTitle": "¿Qué raqueta encaja con tu juego?",
+    "readAlso": "Lee también",
+    "allArticles": "Todos los artículos",
+    "notFoundTitle": "Artículo no encontrado"
   }
 }
