@@ -1,4 +1,5 @@
 import { routing, type Locale } from "@/i18n/routing";
+import { clearExistsCache, restRowExists, SLUG } from "@/lib/routing/exists";
 
 /** Public blog segment per market, e.g. nl: "blog". */
 function blogSegment(locale: Locale): string {
@@ -16,43 +17,20 @@ export function articleFromPath(pathname: string): { locale: Locale; slug: strin
   return { locale: locale as Locale, slug: decodeURIComponent(slug) };
 }
 
-const TTL_MS = 5 * 60 * 1000;
-const cache = new Map<string, { exists: boolean; at: number }>();
-
-/**
- * Whether a published article exists. Used by the proxy to answer unknown slugs with a
- * real 404: with Cache Components a notFound() during streaming would answer 200.
- * Fails open (true) when Supabase cannot be reached, so the page itself decides.
- */
+/** Whether a published article exists (RLS hides drafts and future dates). */
 export async function articleExists(
   locale: Locale,
   slug: string,
   fetcher: typeof fetch = fetch,
   now = Date.now(),
 ): Promise<boolean> {
-  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) return false;
-  const key = `${locale}/${slug}`;
-  const hit = cache.get(key);
-  if (hit && now - hit.at < TTL_MS) return hit.exists;
-
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const apiKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-  if (!url || !apiKey) return true;
-  try {
-    const res = await fetcher(
-      `${url}/rest/v1/articles?select=slug&market_code=eq.${locale}&slug=eq.${slug}&limit=1`,
-      { headers: { apikey: apiKey, Authorization: `Bearer ${apiKey}` } },
-    );
-    if (!res.ok) return true;
-    const exists = ((await res.json()) as unknown[]).length > 0;
-    cache.set(key, { exists, at: now });
-    return exists;
-  } catch {
-    return true;
-  }
+  if (!SLUG.test(slug)) return false;
+  return restRowExists(
+    `articles?select=slug&market_code=eq.${locale}&slug=eq.${slug}&limit=1`,
+    fetcher,
+    now,
+  );
 }
 
 /** For tests. */
-export function clearArticleCache() {
-  cache.clear();
-}
+export const clearArticleCache = clearExistsCache;
