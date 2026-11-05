@@ -895,7 +895,7 @@ export type Database = {
       };
     };
     Enums: {
-      affiliate_network: "daisycon" | "awin" | "direct" | "other";
+      affiliate_network: "daisycon" | "awin" | "direct" | "other" | "bol";
       content_tier: "A" | "B" | "C";
       feed_filter: "all" | "padel_rackets";
       feed_format: "csv" | "csv_gz";
@@ -1030,7 +1030,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      affiliate_network: ["daisycon", "awin", "direct", "other"],
+      affiliate_network: ["daisycon", "awin", "direct", "other", "bol"],
       content_tier: ["A", "B", "C"],
       feed_filter: ["all", "padel_rackets"],
       feed_format: ["csv", "csv_gz"],
