@@ -766,6 +766,48 @@
     "emailPlaceholder": "jouw@email.nl",
     "alertSubmit": "Alert instellen",
     "alertConsent": "Je ontvangt eerst een mail om de alert te bevestigen. Lees in onze <link>privacyverklaring</link> wat we met je gegevens doen.",
-    "alertSoon": "Prijsalerts komen binnenkort. We hebben je gegevens niet opgeslagen."
+    "alertSoon": "Prijsalerts komen binnenkort. We hebben je gegevens niet opgeslagen.",
+    "allShops": "Bekijk alle {count} winkels",
+    "shops": {
+      "title": "Prijzen bij {count, plural, one {# winkel} other {# winkels}}",
+      "spread": "Vergelijken scheelt hier <strong>{amount}</strong> tussen de goedkoopste en duurste winkel.",
+      "withShipping": "Inclusief verzendkosten",
+      "best": "Beste deal",
+      "dearer": "{amount} duurder",
+      "samePrice": "Zelfde prijs",
+      "outOfStock": "Niet op voorraad",
+      "price": "Prijs",
+      "priceInclShipping": "Prijs incl. verzending",
+      "lastPrice": "Laatste prijs",
+      "shipping": "Verzending",
+      "free": "Gratis",
+      "freeFrom": "Gratis vanaf {amount}",
+      "unknown": "Zie winkel",
+      "delivery": "Levertijd",
+      "cta": "Bekijk bij winkel",
+      "soldOut": "Uitverkocht",
+      "updated": "Prijzen worden elke dag bijgewerkt."
+    },
+    "history": {
+      "title": "Prijshistorie",
+      "rangeLabel": "Periode",
+      "range": {
+        "90d": "90 dagen",
+        "6m": "6 maanden",
+        "1y": "1 jaar"
+      },
+      "stats": {
+        "now": "Nu",
+        "lowest": "Laagste in periode",
+        "average": "Gemiddeld",
+        "highest": "Hoogste in periode"
+      },
+      "today": "Vandaag",
+      "summary": "Laagste prijs per dag sinds {from}: laagste {lowest}, hoogste {highest}, nu {now}.",
+      "emptyTitle": "Nog geen prijshistorie",
+      "emptyText": "We volgen de prijs van dit racket sinds {days, plural, one {# dag} other {# dagen}}. Over een paar weken zie je hier hoe de prijs zich ontwikkelt. Stel alvast een prijsalert in, dan hoor je het als hij daalt.",
+      "emptyTextNew": "We volgen de prijs van dit racket vanaf nu. Over een paar weken zie je hier hoe de prijs zich ontwikkelt. Stel alvast een prijsalert in, dan hoor je het als hij daalt.",
+      "emptyCta": "Stel een prijsalert in"
+    }
   }
 }

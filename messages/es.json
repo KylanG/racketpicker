@@ -559,6 +559,48 @@
     "emailPlaceholder": "tu@correo.es",
     "alertSubmit": "Crear alerta",
     "alertConsent": "Primero recibirás un correo para confirmar la alerta. Lee en nuestra <link>política de privacidad</link> qué hacemos con tus datos.",
-    "alertSoon": "Las alertas de precio llegarán pronto. No hemos guardado tus datos."
+    "alertSoon": "Las alertas de precio llegarán pronto. No hemos guardado tus datos.",
+    "allShops": "Ver las {count} tiendas",
+    "shops": {
+      "title": "Precios en {count, plural, one {# tienda} other {# tiendas}}",
+      "spread": "Comparar te ahorra <strong>{amount}</strong> entre la tienda más barata y la más cara.",
+      "withShipping": "Gastos de envío incluidos",
+      "best": "Mejor oferta",
+      "dearer": "{amount} más caro",
+      "samePrice": "Mismo precio",
+      "outOfStock": "Sin stock",
+      "price": "Precio",
+      "priceInclShipping": "Precio con envío",
+      "lastPrice": "Último precio",
+      "shipping": "Envío",
+      "free": "Gratis",
+      "freeFrom": "Gratis desde {amount}",
+      "unknown": "Ver tienda",
+      "delivery": "Entrega",
+      "cta": "Ver en la tienda",
+      "soldOut": "Agotado",
+      "updated": "Los precios se actualizan cada día."
+    },
+    "history": {
+      "title": "Historial de precios",
+      "rangeLabel": "Periodo",
+      "range": {
+        "90d": "90 días",
+        "6m": "6 meses",
+        "1y": "1 año"
+      },
+      "stats": {
+        "now": "Ahora",
+        "lowest": "Más bajo del periodo",
+        "average": "Media",
+        "highest": "Más alto del periodo"
+      },
+      "today": "Hoy",
+      "summary": "Precio más bajo por día desde el {from}: mínimo {lowest}, máximo {highest}, ahora {now}.",
+      "emptyTitle": "Aún no hay historial de precios",
+      "emptyText": "Seguimos el precio de esta pala desde hace {days, plural, one {# día} other {# días}}. En unas semanas verás aquí cómo evoluciona. Crea ya una alerta de precio y te avisamos cuando baje.",
+      "emptyTextNew": "Empezamos a seguir el precio de esta pala ahora. En unas semanas verás aquí cómo evoluciona. Crea ya una alerta de precio y te avisamos cuando baje.",
+      "emptyCta": "Crear una alerta de precio"
+    }
   }
 }

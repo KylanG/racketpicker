@@ -3,14 +3,16 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/layout/header";
 import { ProductGallery } from "@/components/product/gallery";
+import { PriceHistory } from "@/components/product/price-history";
 import { AlertForm, ProductFavToggle } from "@/components/product/product-actions";
+import { ShopPrices } from "@/components/product/shop-prices";
 import { CheckIcon } from "@/components/ui/icons";
 import { Reveal } from "@/components/ui/reveal";
 import { getAlternates } from "@/i18n/alternates";
 import { Link } from "@/i18n/navigation";
 import { intlLocale, routing, type Locale } from "@/i18n/routing";
 import { goHref } from "@/lib/go/redirect";
-import { getProductPage, getProductPriceSummary } from "@/lib/catalog/product";
+import { getPriceHistory, getProductPage, getProductPriceSummary } from "@/lib/catalog/product";
 import { sportSlug } from "@/lib/catalog/taxonomy";
 import { formatPrice } from "@/lib/format/price";
 
@@ -52,15 +54,16 @@ export async function generateMetadata({
   };
 }
 
-/** Racket page, top part (design/handoff/Product.dc.html; RP-23). */
+/** Racket page (design/handoff/Product.dc.html): top part (RP-23), prices and history (RP-24). */
 export default async function RacketPage({
   params,
 }: PageProps<"/[locale]/rackets/[sport]/[product]">) {
   const { locale, product: slug } = (await params) as Params;
   setRequestLocale(locale);
-  const [product, summary] = await Promise.all([
+  const [product, summary, history] = await Promise.all([
     getProductPage(locale, slug),
     getProductPriceSummary(locale, slug),
+    getPriceHistory(locale, slug),
   ]);
   if (!product || !summary) notFound();
 
@@ -357,6 +360,15 @@ export default async function RacketPage({
                 <ProductFavToggle label={t("save", { name: product.title })} />
               </div>
 
+              {summary.shopCount > 1 && (
+                <a
+                  href="#prijzen"
+                  className="rp-underline text-ink self-start text-[14px] font-semibold"
+                >
+                  {t("allShops", { count: summary.shopCount })}
+                </a>
+              )}
+
               {best && available && (
                 <div className="text-muted-2 flex flex-col gap-1 text-[13px] leading-normal">
                   {checkedOn && <p>{t("checked", { date: checkedOn })}</p>}
@@ -399,6 +411,31 @@ export default async function RacketPage({
           </Reveal>
         </div>
       </section>
+
+      {product.offers.length > 0 && (
+        <section
+          id="prijzen"
+          className="rp-container flex w-full scroll-mt-[calc(var(--rp-hdr,0px)+56px)] flex-col gap-6 pt-[72px] pb-10"
+        >
+          <ShopPrices offers={product.offers} />
+          <p className="text-muted-2 text-[13px]">
+            {t("shops.updated")} {ta("disclosure")}
+          </p>
+        </section>
+      )}
+
+      {history && (
+        <section
+          id="historie"
+          className="rp-container flex w-full scroll-mt-[calc(var(--rp-hdr,0px)+56px)] flex-col gap-6 py-14"
+        >
+          <PriceHistory
+            points={history.points}
+            today={history.today}
+            trackedDays={history.trackedDays}
+          />
+        </section>
+      )}
     </>
   );
 }
