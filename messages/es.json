@@ -70,7 +70,9 @@
     "reviewsTitle": "Lo que dicen nuestros visitantes",
     "blogTitle": "Blog y consejos",
     "blogAll": "Todos los artículos",
-    "blogMinutes": "{minutes} min"
+    "blogMinutes": "{minutes} min",
+    "howStep1TextSearch": "Busca tu pala y compara. Mostramos el precio en {count} tiendas, gastos de envío incluidos.",
+    "howStep1TextNoCountSearch": "Busca tu pala y compara. Mostramos los precios de varias tiendas, gastos de envío incluidos."
   },
   "notFound": {
     "title": "Página no encontrada",
@@ -162,8 +164,11 @@
       "emptyText": "Quita un filtro o prueba el asesor.",
       "clearAll": "Borrar todos los filtros",
       "noneYetTitle": "Aún no hay palas",
-      "noneYetText": "Todavía no tenemos palas de este deporte. Mira los otros deportes o vuelve pronto."
-    }
+      "noneYetText": "Todavía no tenemos palas de este deporte. Mira los otros deportes o vuelve pronto.",
+      "emptyTextFilter": "Quita un filtro para ver más palas."
+    },
+    "heroIntroFilter": "Compara precios en {count} tiendas. Filtra por marca, nivel, estilo de juego y precio.",
+    "heroIntroNoCountFilter": "Compara precios en tiendas españolas. Filtra por marca, nivel, estilo de juego y precio."
   },
   "productCard": {
     "shopsCompared": "Comparado en {count, plural, one {# tienda} other {# tiendas}}",
@@ -514,7 +519,8 @@
     "advisorTitle": "¿Qué raqueta encaja con tu juego?",
     "readAlso": "Lee también",
     "allArticles": "Todos los artículos",
-    "notFoundTitle": "Artículo no encontrado"
+    "notFoundTitle": "Artículo no encontrado",
+    "noArticlesSoon": "Pronto publicaremos aquí nuestras primeras guías de compra."
   },
   "product": {
     "metaTitle": "{name}: comparar precios",

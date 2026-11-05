@@ -70,7 +70,9 @@
     "reviewsTitle": "Wat bezoekers over ons zeggen",
     "blogTitle": "Blogs & tips",
     "blogAll": "Alle artikelen",
-    "blogMinutes": "{minutes} min"
+    "blogMinutes": "{minutes} min",
+    "howStep1TextSearch": "Zoek je racket en vergelijk. We tonen de prijs bij {count} winkels naast elkaar, inclusief verzendkosten.",
+    "howStep1TextNoCountSearch": "Zoek je racket en vergelijk. We tonen de prijzen van verschillende winkels naast elkaar, inclusief verzendkosten."
   },
   "notFound": {
     "title": "Pagina niet gevonden",
@@ -162,8 +164,11 @@
       "emptyText": "Haal een filter weg of probeer de keuzehulp.",
       "clearAll": "Wis alle filters",
       "noneYetTitle": "Nog geen rackets",
-      "noneYetText": "Voor deze sport hebben we nog geen rackets. Bekijk de andere sporten of kom binnenkort terug."
-    }
+      "noneYetText": "Voor deze sport hebben we nog geen rackets. Bekijk de andere sporten of kom binnenkort terug.",
+      "emptyTextFilter": "Haal een filter weg om meer rackets te zien."
+    },
+    "heroIntroFilter": "Vergelijk prijzen bij {count} winkels. Filter op merk, niveau, speelstijl en prijs.",
+    "heroIntroNoCountFilter": "Vergelijk prijzen bij Nederlandse winkels. Filter op merk, niveau, speelstijl en prijs."
   },
   "productCard": {
     "shopsCompared": "Bij {count, plural, one {# winkel} other {# winkels}} vergeleken",
@@ -721,7 +726,8 @@
     "advisorTitle": "Welk racket past bij jouw spel?",
     "readAlso": "Lees ook",
     "allArticles": "Alle artikelen",
-    "notFoundTitle": "Artikel niet gevonden"
+    "notFoundTitle": "Artikel niet gevonden",
+    "noArticlesSoon": "Hier verschijnen binnenkort onze eerste koopgidsen."
   },
   "product": {
     "metaTitle": "{name}: prijzen vergelijken",

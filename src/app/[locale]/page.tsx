@@ -1,3 +1,4 @@
+import { ADVISOR_LIVE } from "@/lib/features";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Image from "next/image";
@@ -60,16 +61,18 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                 : t("introNoCount")}
             </p>
             <HeroSearch index={searchIndex} />
-            <Link
-              href="/advisor"
-              prefetch={false}
-              className="hover:text-lime -mt-2.5 flex items-center gap-2.5 self-start text-[15px] font-medium text-white"
-            >
-              <span>
-                {t("advisorDoubt")} <span className="font-semibold">{t("advisorLink")}</span>
-              </span>
-              <ArrowIcon size={12} className="text-lime" />
-            </Link>
+            {ADVISOR_LIVE && (
+              <Link
+                href="/advisor"
+                prefetch={false}
+                className="hover:text-lime -mt-2.5 flex items-center gap-2.5 self-start text-[15px] font-medium text-white"
+              >
+                <span>
+                  {t("advisorDoubt")} <span className="font-semibold">{t("advisorLink")}</span>
+                </span>
+                <ArrowIcon size={12} className="text-lime" />
+              </Link>
+            )}
           </div>
           {season.image && (
             <Image

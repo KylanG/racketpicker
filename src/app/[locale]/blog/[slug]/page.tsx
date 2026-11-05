@@ -1,3 +1,4 @@
+import { ADVISOR_LIVE } from "@/lib/features";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -170,23 +171,25 @@ export default async function ArticlePage({ params }: PageProps<"/[locale]/blog/
           </p>
         </Reveal>
         <MarkdownBody source={article.body} />
-        <Reveal>
-          <Slant
-            as={Link}
-            href="/advisor"
-            prefetch={false}
-            size={12}
-            className="bg-lime hover:bg-lime-soft mt-2 flex items-center gap-[18px] px-7 py-6 text-green-950 hover:text-green-950"
-          >
-            <span className="flex flex-1 flex-col gap-1">
-              <span className="text-[13px] font-semibold tracking-[1px] uppercase">
-                {t("advisorEyebrow")}
+        {ADVISOR_LIVE && (
+          <Reveal>
+            <Slant
+              as={Link}
+              href="/advisor"
+              prefetch={false}
+              size={12}
+              className="bg-lime hover:bg-lime-soft mt-2 flex items-center gap-[18px] px-7 py-6 text-green-950 hover:text-green-950"
+            >
+              <span className="flex flex-1 flex-col gap-1">
+                <span className="text-[13px] font-semibold tracking-[1px] uppercase">
+                  {t("advisorEyebrow")}
+                </span>
+                <span className="text-[20px] font-semibold">{t("advisorTitle")}</span>
               </span>
-              <span className="text-[20px] font-semibold">{t("advisorTitle")}</span>
-            </span>
-            <ArrowIcon size={16} />
-          </Slant>
-        </Reveal>
+              <ArrowIcon size={16} />
+            </Slant>
+          </Reveal>
+        )}
       </article>
 
       {related.length > 0 && (

@@ -1,3 +1,4 @@
+import { ADVISOR_LIVE } from "@/lib/features";
 import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { SPORT_ROUTE, type NavHref } from "@/components/layout/nav-types";
@@ -34,26 +35,28 @@ export async function CtaBlocks({ shopCount, eyebrow }: { shopCount: number; eye
   return (
     <section className="rp-container w-full pt-6 pb-[88px]">
       <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] gap-4">
-        <Link
-          href="/advisor"
-          prefetch={false}
-          style={clip}
-          className={`${block} bg-lime hover:bg-lime-soft text-green-950 hover:text-green-950`}
-        >
-          <p className="text-[13px] font-semibold tracking-[1.4px] uppercase">
-            {t("ctaAdvisorEyebrow")}
-          </p>
-          <h2 className={title}>{t("ctaAdvisorTitle")}</h2>
-          <p className="max-w-[420px] text-[17px] leading-normal">{t("ctaAdvisorText")}</p>
-          <Slant
-            as="span"
-            size={8}
-            className="[&_[data-arrow]]:text-lime mt-auto flex items-center gap-2.5 self-start bg-green-950 px-6 py-[15px] text-[15px] font-semibold text-white"
+        {ADVISOR_LIVE && (
+          <Link
+            href="/advisor"
+            prefetch={false}
+            style={clip}
+            className={`${block} bg-lime hover:bg-lime-soft text-green-950 hover:text-green-950`}
           >
-            {t("ctaAdvisorButton")}
-            <ArrowIcon />
-          </Slant>
-        </Link>
+            <p className="text-[13px] font-semibold tracking-[1.4px] uppercase">
+              {t("ctaAdvisorEyebrow")}
+            </p>
+            <h2 className={title}>{t("ctaAdvisorTitle")}</h2>
+            <p className="max-w-[420px] text-[17px] leading-normal">{t("ctaAdvisorText")}</p>
+            <Slant
+              as="span"
+              size={8}
+              className="[&_[data-arrow]]:text-lime mt-auto flex items-center gap-2.5 self-start bg-green-950 px-6 py-[15px] text-[15px] font-semibold text-white"
+            >
+              {t("ctaAdvisorButton")}
+              <ArrowIcon />
+            </Slant>
+          </Link>
+        )}
         <a
           href="#deals"
           style={clip}
@@ -190,7 +193,9 @@ export async function HowItWorks({ shopCount }: { shopCount: number }) {
   const steps = [
     [
       t("howStep1Title"),
-      shopCount > 0 ? t("howStep1Text", { count: shopCount }) : t("howStep1TextNoCount"),
+      shopCount > 0
+        ? t(ADVISOR_LIVE ? "howStep1Text" : "howStep1TextSearch", { count: shopCount })
+        : t(ADVISOR_LIVE ? "howStep1TextNoCount" : "howStep1TextNoCountSearch"),
     ],
     [t("howStep2Title"), t("howStep2Text")],
     [t("howStep3Title"), t("howStep3Text")],
