@@ -88,6 +88,18 @@ npm run feeds:import -- padel-point
 - **Handmatig draaien** (dezelfde stappen als de cron): `npm run feeds:import -- --all`
 - **Nodig in Vercel:** `CRON_SECRET` (Secret, Production), `SUPABASE_SECRET_KEY`, `DAISYCON_FEED_URLS` en `AWIN_FEED_URLS`.
 
+## bol.com (RP-72)
+
+bol is een marktplaats, dus we halen niet de hele catalogus op. Per product in onze catalogus met een EAN vraagt de cron de beste aanbieding op via de **Marketing Catalog API** (`src/lib/feeds/bol.ts`).
+
+- **Endpoint:** `GET /marketing/catalog/v1/products/{ean}/offers/best?country-code=NL&include-seller=true`. Inloggen gaat via client credentials op `login.bol.com/token`.
+- **Snelheid:** één verzoek tegelijk, minstens 150 ms ertussen (bol staat 10 per seconde toe). Bij een 429 of 5xx volgen maximaal 3 nieuwe pogingen.
+- **Geen aanbieding (404):** het bol-aanbod van dat product gaat uit. Alleen nieuwe producten tellen mee, geen tweedehands.
+- **Andere fouten:** de hele bol-run stopt, zodat een storing bij bol onze prijzen niet uitzet.
+- **Link:** `partner.bol.com/click/click?...&s=1556484`, de websitecode van Racketpicker. Makeupmath gebruikt een eigen code.
+- **Nodig in Vercel (Production):** `BOL_CLIENT_ID` en `BOL_CLIENT_SECRET` (Sensitive).
+- **Productfeed:** de FTP-sportfeed is te groot voor een Vercel-functie. Die gebruiken we alleen om nieuwe rackets en EAN-codes te vinden (RP-73).
+
 ## Nog te verifiëren met de eerste echte feed
 
 De kolomnamen in `adapters.ts` volgen het standaardformaat van beide netwerken, met aliassen. Feeds verschillen per adverteerder: draai eerst `--offline` op een echte feed en vul zo nodig aliassen aan.

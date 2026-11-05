@@ -1,7 +1,14 @@
 import "server-only";
 import { createAdminClient } from "@/lib/supabase/admin";
 import type { Json } from "@/lib/supabase/database.types";
-import { looksTruncated, prepareFeed, toIngestRow, type PipelineStats } from "./pipeline";
+import { fetchBolItems } from "./bol";
+import {
+  looksTruncated,
+  prepareFeed,
+  toIngestRow,
+  type PipelineStats,
+  type PreparedItem,
+} from "./pipeline";
 import type { AffiliateNetwork, CatalogProduct } from "./types";
 
 const FEED_URL_ENV: Partial<Record<AffiliateNetwork, string>> = {
@@ -79,9 +86,17 @@ export async function runImport(
     throw new Error(`Feed source for "${shopSlug}" is not active`);
   }
 
-  const bytes = options.bytes ?? (await download(resolveFeedUrl(source.network, source.feed_key)));
   const catalog = await loadCatalog();
-  const { items, stats } = prepareFeed(bytes, source.network, source.filter, catalog);
+  let prepared: { items: PreparedItem[]; stats: PipelineStats };
+  if (source.network === "bol") {
+    // bol: best offer per EAN of our own catalog via the Marketing Catalog API (RP-72).
+    prepared = await fetchBolItems(catalog);
+  } else {
+    const bytes =
+      options.bytes ?? (await download(resolveFeedUrl(source.network, source.feed_key)));
+    prepared = prepareFeed(bytes, source.network, source.filter, catalog);
+  }
+  const { items, stats } = prepared;
 
   if (options.dryRun) return { shop: shopSlug, dryRun: true, pipeline: stats };
 
