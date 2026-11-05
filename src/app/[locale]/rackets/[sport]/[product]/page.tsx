@@ -10,8 +10,7 @@ import { getAlternates } from "@/i18n/alternates";
 import { Link } from "@/i18n/navigation";
 import { intlLocale, routing, type Locale } from "@/i18n/routing";
 import { goHref } from "@/lib/go/redirect";
-import { getProductPage } from "@/lib/catalog/product";
-import { summarizePrices } from "@/lib/catalog/product-price";
+import { getProductPage, getProductPriceSummary } from "@/lib/catalog/product";
 import { sportSlug } from "@/lib/catalog/taxonomy";
 import { formatPrice } from "@/lib/format/price";
 
@@ -33,7 +32,7 @@ export async function generateMetadata({
   const product = await getProductPage(locale, slug);
   if (!product) return { robots: { index: false } };
   const t = await getTranslations({ locale, namespace: "product" });
-  const shops = summarizePrices(product.offers, product.stats).shopCount;
+  const shops = new Set(product.offers.map((o) => o.shop.slug)).size;
   return {
     title: product.seoTitle ?? t("metaTitle", { name: product.title }),
     description:
@@ -59,8 +58,11 @@ export default async function RacketPage({
 }: PageProps<"/[locale]/rackets/[sport]/[product]">) {
   const { locale, product: slug } = (await params) as Params;
   setRequestLocale(locale);
-  const product = await getProductPage(locale, slug);
-  if (!product) notFound();
+  const [product, summary] = await Promise.all([
+    getProductPage(locale, slug),
+    getProductPriceSummary(locale, slug),
+  ]);
+  if (!product || !summary) notFound();
 
   const [t, tr, ts, ta] = await Promise.all([
     getTranslations({ locale, namespace: "product" }),
@@ -68,7 +70,6 @@ export default async function RacketPage({
     getTranslations({ locale, namespace: "sports" }),
     getTranslations({ locale, namespace: "affiliate" }),
   ]);
-  const summary = summarizePrices(product.offers, product.stats);
   const { best, state } = summary;
   const price = (n: number) => formatPrice(n, locale);
   const sportHref = {

@@ -6,6 +6,7 @@ import { supabaseUrl } from "@/lib/supabase/env";
 import { createPublicClient } from "@/lib/supabase/public";
 import { CATALOG_TAG, productTag } from "./cache-tags";
 import { priceStatsFromRow, type PriceStats } from "./pricing";
+import { summarizePrices } from "./product-price";
 import {
   LEVEL_FROM_DB,
   STYLE_FROM_DB,
@@ -201,4 +202,16 @@ export async function getProductPage(locale: Locale, slug: string): Promise<Prod
     })),
     stats: stats ? priceStatsFromRow(stats) : null,
   };
+}
+
+/**
+ * Price summary for the product page. Cached: the Omnibus labels depend on today's date,
+ * which Cache Components only allows inside a cache; the daily import revalidates it.
+ */
+export async function getProductPriceSummary(locale: Locale, slug: string) {
+  "use cache";
+  cacheTag(CATALOG_TAG);
+  cacheLife("hours");
+  const product = await getProductPage(locale, slug);
+  return product ? summarizePrices(product.offers, product.stats) : null;
 }
