@@ -870,6 +870,10 @@ export type Database = {
       };
     };
     Functions: {
+      record_click: {
+        Args: { p_offer_id: string; p_source_path?: string };
+        Returns: undefined;
+      };
       upsert_manual_offers: {
         Args: { p_items: Json; p_market_code: string };
         Returns: Json;

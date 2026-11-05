@@ -22,6 +22,6 @@ export default async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Everything except API routes, Next internals and files with an extension.
-  matcher: "/((?!api|_next|_vercel|.*\\..*).*)",
+  // Everything except API routes, /go/ redirects (RP-52), Next internals and files with an extension.
+  matcher: "/((?!api|go/|_next|_vercel|.*\\..*).*)",
 };
