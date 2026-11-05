@@ -5,6 +5,7 @@ import { PRODUCT_IMAGES_BUCKET } from "@/lib/feeds/images";
 import { supabaseUrl } from "@/lib/supabase/env";
 import { createPublicClient } from "@/lib/supabase/public";
 import { CATALOG_TAG, productTag } from "./cache-tags";
+import { addDays, dailyLowest, dayNumber, type HistoryPoint } from "./price-history-calc";
 import { priceStatsFromRow, type PriceStats } from "./pricing";
 import { summarizePrices } from "./product-price";
 import {
@@ -214,4 +215,52 @@ export async function getProductPriceSummary(locale: Locale, slug: string) {
   cacheLife("hours");
   const product = await getProductPage(locale, slug);
   return product ? summarizePrices(product.offers, product.stats) : null;
+}
+
+export type PriceHistory = {
+  /** Daily lowest available price across shops, last year, oldest first. */
+  points: HistoryPoint[];
+  today: string;
+  /** Days since the first recorded price (for "We volgen de prijs sinds X dagen"). */
+  trackedDays: number;
+};
+
+/** Price history for the chart (RP-24). Cached; "today" may only be read inside a cache. */
+export async function getPriceHistory(locale: Locale, slug: string): Promise<PriceHistory | null> {
+  "use cache";
+  cacheTag(CATALOG_TAG);
+  const product = await getProductPage(locale, slug);
+  if (!product) {
+    cacheLife("hours");
+    return null;
+  }
+  cacheTag(productTag(product.id));
+  const today = new Date().toISOString().slice(0, 10);
+  if (product.offers.length === 0) {
+    cacheLife("hours");
+    return { points: [], today, trackedDays: 0 };
+  }
+  const { data, error } = await createPublicClient()
+    .from("price_history")
+    .select("recorded_on, price, stock_status")
+    .in(
+      "offer_id",
+      product.offers.map((o) => o.id),
+    )
+    .gte("recorded_on", addDays(today, -366))
+    .order("recorded_on")
+    .limit(5000);
+  if (error) {
+    console.error("[product] could not load price history", slug, error.message);
+    cacheLife("minutes");
+    return { points: [], today, trackedDays: 0 };
+  }
+  cacheLife("hours");
+  const points = dailyLowest(data ?? []);
+  const first = data?.[0]?.recorded_on;
+  return {
+    points,
+    today,
+    trackedDays: first ? Math.max(1, dayNumber(today) - dayNumber(first) + 1) : 0,
+  };
 }
