@@ -6,7 +6,7 @@
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
-/** Link for a "Bekijk bij winkel" button. Always use with rel="sponsored nofollow". */
+/** Link for a "Bekijk bij winkel" button. Always use with target="_blank" rel="sponsored nofollow noopener" (RP-76). */
 export function goHref(shopSlug: string, offerId: string): string {
   return `/go/${shopSlug}/${offerId}`;
 }
