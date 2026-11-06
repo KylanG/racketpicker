@@ -4,3 +4,4 @@ update public.brands set logo_path = 'brands/puma.svg' where slug = 'puma';
 update public.brands set logo_path = 'brands/wilson.svg' where slug = 'wilson';
 update public.brands set logo_path = 'brands/bullpadel.svg' where slug = 'bullpadel';
 update public.brands set logo_path = 'brands/siux.svg' where slug = 'siux';
+update public.brands set logo_path = 'brands/head.svg' where slug = 'head';
