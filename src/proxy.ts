@@ -2,6 +2,7 @@ import createMiddleware from "next-intl/middleware";
 import { NextResponse, type NextRequest } from "next/server";
 import { routing } from "./i18n/routing";
 import { hasUnknownAdvisorProfile } from "./lib/advisor/route-guard";
+import { hasUnknownNewsletterStatus } from "./lib/newsletter/status";
 import { articleExists, articleFromPath } from "./lib/blog/route-guard";
 import { hasUnknownSport, racketExists, racketFromPath } from "./lib/catalog/route-guard";
 
@@ -16,6 +17,7 @@ export default async function proxy(request: NextRequest) {
   if (
     hasUnknownSport(pathname) ||
     hasUnknownAdvisorProfile(pathname) ||
+    hasUnknownNewsletterStatus(pathname) ||
     (article && !(await articleExists(article.locale, article.slug))) ||
     (racket && !(await racketExists(racket)))
   ) {

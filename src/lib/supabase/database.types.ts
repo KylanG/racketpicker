@@ -763,6 +763,48 @@ export type Database = {
           },
         ];
       };
+      subscribers: {
+        Row: {
+          id: string;
+          email: string;
+          market_code: string;
+          status: string;
+          confirm_token_hash: string | null;
+          unsubscribe_token_hash: string;
+          confirm_sent_at: string | null;
+          confirmed_at: string | null;
+          unsubscribed_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          email: string;
+          market_code?: string;
+          status?: string;
+          confirm_token_hash?: string | null;
+          unsubscribe_token_hash: string;
+          confirm_sent_at?: string | null;
+          confirmed_at?: string | null;
+          unsubscribed_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          email?: string;
+          market_code?: string;
+          status?: string;
+          confirm_token_hash?: string | null;
+          unsubscribe_token_hash?: string;
+          confirm_sent_at?: string | null;
+          confirmed_at?: string | null;
+          unsubscribed_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       shops: {
         Row: {
           created_at: string;
