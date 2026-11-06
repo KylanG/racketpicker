@@ -32,12 +32,14 @@ export function menuBrands(items: RacketItem[], maxBrands = 6, maxItems = 4): Me
             b.shopCount - a.shopCount ||
             a.name.localeCompare(b.name),
         )
-        .slice(0, maxItems)
         .map((i) => ({
           label: i.name.toLowerCase().startsWith(`${name.toLowerCase()} `)
             ? i.name.slice(name.length + 1)
             : i.name,
           href: i.href,
-        })),
+        }))
+        // One line per model name (sample data can repeat a real model on Preview).
+        .filter((m, idx, all) => all.findIndex((x) => x.label === m.label) === idx)
+        .slice(0, maxItems),
     }));
 }
