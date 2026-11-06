@@ -57,8 +57,8 @@ export async function CtaBlocks({ shopCount, eyebrow }: { shopCount: number; eye
             </Slant>
           </Link>
         )}
-        <a
-          href="#deals"
+        <Link
+          href="/deals"
           style={clip}
           className={`${block} bg-green-950 text-white hover:bg-green-900 hover:text-white`}
         >
@@ -77,7 +77,7 @@ export async function CtaBlocks({ shopCount, eyebrow }: { shopCount: number; eye
             {t("ctaDealsButton")}
             <ArrowIcon />
           </Slant>
-        </a>
+        </Link>
       </div>
     </section>
   );

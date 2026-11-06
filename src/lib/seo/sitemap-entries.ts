@@ -24,6 +24,7 @@ export type SitemapRoute =
 export type StaticPath =
   | "/"
   | "/rackets"
+  | "/deals"
   | "/advisor"
   | "/blog"
   | "/price-history"
@@ -37,6 +38,7 @@ export type StaticPath =
 const STATIC: { pathname: StaticPath; priority: number }[] = [
   { pathname: "/", priority: 1 },
   { pathname: "/rackets", priority: 0.8 },
+  { pathname: "/deals", priority: 0.8 },
   { pathname: "/advisor", priority: 0.8 },
   { pathname: "/blog", priority: 0.6 },
   { pathname: "/price-history", priority: 0.4 },

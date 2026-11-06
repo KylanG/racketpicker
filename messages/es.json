@@ -1012,6 +1012,22 @@
     "priceHistory": "Cómo funciona el historial de precios",
     "about": "Sobre nosotros",
     "faq": "Preguntas frecuentes",
-    "contactTitle": "Contacto"
+    "contactTitle": "Contacto",
+    "deals": "Ofertas",
+    "dealsNote": "todos los productos realmente rebajados, comparados con el precio más bajo de los 30 días anteriores."
+  },
+  "deals": {
+    "metaTitle": "Ofertas de pádel: descuentos reales comparados",
+    "metaDescription": "Todas las palas y accesorios de pádel que ahora están realmente rebajados. Descuento frente al precio más bajo de los últimos 30 días, no frente al precio recomendado.",
+    "breadcrumb": "Ofertas",
+    "title": "Ofertas: solo descuentos reales",
+    "intro": "Solo mostramos un descuento si el precio actual es más bajo que el precio más bajo de los 30 días anteriores. Así ves al instante si una oferta es real. El precio recomendado no cuenta.",
+    "introCount": "Ahora {count, plural, one {# oferta} other {# ofertas}}, primero el mayor descuento. Solo mostramos un descuento si el precio es más bajo que el precio más bajo de los 30 días anteriores; el precio recomendado no cuenta.",
+    "total": "{count, plural, one {<b>#</b> oferta} other {<b>#</b> ofertas}}",
+    "emptyTitle": "No hay ofertas con estos filtros",
+    "emptyText": "Prueba con menos filtros o mira todas las ofertas.",
+    "noneYetTitle": "Ahora no hay ofertas reales",
+    "noneYetText": "En este momento nada está realmente rebajado. Crea una alerta de precio en una pala y te avisaremos por correo cuando baje.",
+    "noneYetLink": "Ver todas las palas"
   }
 }

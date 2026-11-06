@@ -60,6 +60,7 @@ async function llmsText(locale: Locale): Promise<string> {
     "",
     `## ${t("pagesTitle")}`,
     ...listings,
+    link(t("deals"), "/deals", t("dealsNote")),
     link(t("advisor"), "/advisor", t("advisorNote")),
     link(t("blog"), "/blog", t("blogNote")),
     "",

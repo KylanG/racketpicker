@@ -48,6 +48,8 @@ export const routing = defineRouting({
       nl: "/keuzehulp/[sport]/[profile]",
       es: "/asesor/[sport]/[profile]",
     },
+    // All real discounts in one place (RP-86).
+    "/deals": { nl: "/deals", es: "/ofertas" },
     "/blog": "/blog",
     "/blog/[slug]": "/blog/[slug]",
     "/favorites": { nl: "/favorieten", es: "/favoritos" },

@@ -63,7 +63,7 @@ export async function Footer() {
   const columns: { title: string; links: FooterLink[]; cookies?: boolean }[] = [
     {
       title: t("columns.compare"),
-      links: [...compare, { label: t("links.deals"), href: { pathname: "/", hash: "deals" } }],
+      links: [...compare, { label: t("links.deals"), href: "/deals" }],
     },
     {
       title: t("columns.help"),
