@@ -119,26 +119,53 @@ export function brandFromTitle(title: string): string | null {
   return null;
 }
 
+/** Colours and other words that describe a variant, not the model. */
+const NOISE =
+  /\b(zwart|wit|grijs|grijsgroene?|grijs-wit|rood|blauw|donkerblauw|lichtblauw|geel|groen|oranje|roze|paars|zilver|goud|black|white|grey|gray|red|blue|navy|yellow|green|orange|pink|purple|silver|gold|zwart-oranje|zwart-wit|default|volwassenen|unisex|kleur|color|colour|tennis|box)\b/gi;
+
+/** Words that only name the kind of product; the page shows that already. */
+const GENERIC: Record<string, RegExp> = {
+  rackets: /\b(padel ?rackets?\w*|padelrackets?\w*|rackets?|padel)\b/gi,
+  balls: /\b(padelballen|padelbal|ballen|bal|padel)\b/gi,
+  grips: /\b(padel)\b/gi,
+  bags: /\b(padeltas|padel ?tas|racketbag|tas|bag|padel)\b/gi,
+};
+
+/** Pack sizes, colour labels and product codes such as "3 stuks", "2x3", "BPP26003", "049050". */
+const PACKS =
+  /\b(\d+\s*(stuks|stuk|pack|pak|blikken|blik|ballen)\b(\s*van\s*\d+\s*ballen)?|\d+-pack|\d+\s*x\s*\d+|[A-Z]{2,}\d{4,}|\d{5,})\b/gi;
+
+const titleCase = (word: string) =>
+  /^[a-z][a-z]+$/.test(word) ? word.charAt(0).toUpperCase() + word.slice(1) : word;
+
 /**
  * Model and year from a bol title such as
  * "Adidas Metalbone 3.4 2025 - Padelracket - Zwart/Rood" → { model: "Metalbone 3.4", year: 2025 }.
- * Only the part before the first " - " or " | " counts; generic words are dropped.
+ * Only the part before the first separator counts. Colours, pack sizes, product codes,
+ * text in brackets and words that only name the kind of product are dropped.
  */
 export function modelFromTitle(
   title: string,
   brand: string,
+  kind: keyof typeof GENERIC = "rackets",
 ): { model: string; year: number | null } {
-  const head = title.split(/\s[-|–]\s|,\s/)[0]!.trim();
-  let rest = head.slice(head.toLowerCase().indexOf(brand.toLowerCase()) + brand.length).trim();
+  const head = title.split(/\s?[-|–]\s|,\s/)[0]!.trim();
+  let rest = head.slice(head.toLowerCase().indexOf(brand.toLowerCase()) + brand.length);
   const yearMatch = rest.match(/\b(20[2-3]\d)\b/);
   const year = yearMatch ? Number(yearMatch[1]) : null;
   rest = rest
+    .replace(/\([^)]*\)/g, " ")
     .replace(/\b20[2-3]\d\b/, " ")
-    .replace(/\b(padel ?racket|padelracket|padel racket|racket|padel)\b/gi, " ")
+    .replace(PACKS, " ")
+    .replace(GENERIC[kind]!, " ")
+    .replace(NOISE, " ")
+    .replace(/[:/]/g, " ")
+    .replace(/(^|\s)\d(?=\s|$)/g, " ")
     .replace(/\s{2,}/g, " ")
     .trim()
-    .replace(/^[-–:]\s*/, "");
-  return { model: rest, year };
+    .replace(/^[-–:+]\s*|\s*[-–:]$/g, "");
+  const model = rest.split(" ").filter(Boolean).map(titleCase).join(" ");
+  return { model, year };
 }
 
 export function slugify(s: string): string {
@@ -185,8 +212,8 @@ export function selectNewProducts(
     if (r.offer.condition && r.offer.condition.toUpperCase() !== "NEW") continue;
     const brand = brandFromTitle(title);
     if (!brand) continue;
-    const { model, year } = modelFromTitle(title, brand);
-    if (model.length < 2 || model.length > 80) continue;
+    const { model, year } = modelFromTitle(title, brand, target.productType ?? "rackets");
+    if (model.length < 2 || model.length > 60 || !/[a-z]/i.test(model)) continue;
 
     const key = `${brand}|${model.toLowerCase()}|${year ?? ""}`;
     if (known.keys.has(key)) continue;

@@ -48,10 +48,43 @@ describe("modelFromTitle", () => {
       model: "AT10 Genius 18K",
       year: null,
     });
-    expect(modelFromTitle("Head Padel Pro S, 3 stuks", "Head")).toEqual({
+    expect(modelFromTitle("Head Padel Pro S, 3 stuks", "Head", "balls")).toEqual({
       model: "Pro S",
       year: null,
     });
+  });
+
+  it.each([
+    ["Bullpadel Neuron 02 Default 2025 - padelracket", "rackets", "Neuron 02"],
+    ["Head Evo Kleur : Speed 2025 padelracket", "rackets", "Evo Speed"],
+    ["Bullpadel Vertex 04 Comfort (Diamant) padelracket", "rackets", "Vertex 04 Comfort"],
+    [
+      "Nox ML10 PRO CUP SILVER LIGHT miguel lamperti 2027",
+      "rackets",
+      "ML10 PRO CUP LIGHT Miguel Lamperti",
+    ],
+    ["Bullpadel Game Pwr Grey padel racket", "rackets", "Game Pwr"],
+    ["Puma Nova COURT 049050 padelracket", "rackets", "Nova COURT"],
+    ["Head Padelballen Pro S", "balls", "Pro S"],
+    ["Head Pro S Ballen (3-pack)", "balls", "Pro S"],
+    ["Head One Padelballen 1 blik van 3 ballen", "balls", "One"],
+    ["Babolat Court padelballen ballen 3x3", "balls", "Court"],
+    ["Bullpadel Overgrip GB-1201 ( ) 3 stuks Kleur : Zwart", "grips", "Overgrip GB-1201"],
+    ["Wilson Pro Overgrip Box Wit (60 Stuks)", "grips", "Pro Overgrip"],
+    ["Head Xtreme Soft 3 Pack Tennis", "grips", "Xtreme Soft"],
+    ["Nox AT10 Team tas Grijs 1", "bags", "AT10 Team"],
+    ["Nox AT10 Team Grijsgroene Padeltas", "bags", "AT10 Team"],
+    ["Bullpadel BPP26003 Vertex W Premier Racketbag Default", "bags", "Vertex W Premier"],
+    ["Head Core Ultimate tas racketbag grijs-wit", "bags", "Core Ultimate"],
+    ["Head Core Ultimate Padeltas Zwart-Oranje", "bags", "Core Ultimate"],
+    ["Adidas Control Padeltas 2026", "bags", "Control"],
+    ["Head Speed Motion (Druppel) 2025 padelracket", "rackets", "Speed Motion"],
+  ] as const)("cleans %s", (title, kind, model) => {
+    expect(modelFromTitle(title, title.split(" ")[0]!, kind).model).toBe(model);
+  });
+
+  it("drops glued generic words", () => {
+    expect(modelFromTitle("Dunlop PadelracketVolwassenen", "Dunlop").model).toBe("");
   });
 });
 
