@@ -1113,5 +1113,35 @@
     "emptyText": "Tik op het hartje bij een product om het hier te bewaren. Zo vergelijk je later snel de prijzen.",
     "emptyCta": "Rackets bekijken",
     "gone": "{count, plural, one {# bewaard product is niet meer beschikbaar en is weggelaten.} other {# bewaarde producten zijn niet meer beschikbaar en zijn weggelaten.}}"
+  },
+  "newsletter": {
+    "mail": {
+      "subject": "Bevestig je aanmelding voor de Racketpicker-nieuwsbrief",
+      "title": "Bevestig je aanmelding",
+      "intro": "Bedankt voor je aanmelding. Klik op de knop om te bevestigen dat je elke vrijdag de grootste prijsdalingen in padelrackets en -accessoires wilt ontvangen.",
+      "button": "Aanmelding bevestigen",
+      "ignore": "Heb je je niet aangemeld? Dan kun je deze mail negeren; zonder bevestiging sturen we je niets.",
+      "why": "Je krijgt deze mail omdat dit adres is ingevuld op racketpicker.com.",
+      "unsubscribe": "Afmelden:"
+    },
+    "status": {
+      "metaTitle": "Nieuwsbrief",
+      "home": "Home",
+      "breadcrumb": "Kruimelpad",
+      "title": "Nieuwsbrief",
+      "bevestigd": {
+        "heading": "Je bent aangemeld",
+        "text": "Bedankt! Vanaf nu krijg je elke vrijdag de grootste echte prijsdalingen in je inbox. Afmelden kan altijd via de link onder elke mail."
+      },
+      "afgemeld": {
+        "heading": "Je bent afgemeld",
+        "text": "Je krijgt geen nieuwsbrief meer van ons. Toch weer interesse? Meld je opnieuw aan onderaan elke pagina."
+      },
+      "ongeldig": {
+        "heading": "Deze link werkt niet meer",
+        "text": "De link is verlopen of al gebruikt. Bevestigingslinks werken een week. Meld je opnieuw aan onderaan de pagina, dan sturen we een nieuwe mail."
+      },
+      "cta": "Naar de deals"
+    }
   }
 }

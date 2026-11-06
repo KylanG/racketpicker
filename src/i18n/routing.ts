@@ -51,6 +51,8 @@ export const routing = defineRouting({
     "/blog": "/blog",
     "/blog/[slug]": "/blog/[slug]",
     "/favorites": { nl: "/favorieten", es: "/favoritos" },
+    // Result of a newsletter confirmation or unsubscribe link (RP-32).
+    "/newsletter/[status]": { nl: "/nieuwsbrief/[status]", es: "/boletin/[status]" },
     // Info pages from the footer; content follows in RP-36 (legal, KvK) and later tickets.
     "/about": { nl: "/over-ons", es: "/sobre-nosotros" },
     "/how-we-earn": { nl: "/hoe-we-verdienen", es: "/como-ganamos" },

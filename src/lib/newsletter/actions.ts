@@ -1,16 +1,20 @@
 "use server";
 
+import { getLocale } from "next-intl/server";
+import type { Locale } from "@/i18n/routing";
 import { isValidEmail } from "./email";
+import { subscribe } from "./subscribe";
 
 export type SubscribeResult =
   { status: "success" } | { status: "invalid" } | { status: "unavailable" };
 
 /**
- * Newsletter sign-up from the footer. Storing the address and sending the double opt-in
- * mail via Resend follow in RP-32; until then the form honestly reports that signing
- * up is not possible yet, instead of pretending it worked.
+ * Newsletter sign-up from the footer (RP-32): double opt-in via a confirmation mail.
+ * "success" also for addresses that are already subscribed, so the form does not
+ * reveal who is on the list.
  */
 export async function subscribeToNewsletter(email: string): Promise<SubscribeResult> {
   if (typeof email !== "string" || !isValidEmail(email)) return { status: "invalid" };
-  return { status: "unavailable" };
+  const outcome = await subscribe(email, (await getLocale()) as Locale);
+  return outcome === "unavailable" ? { status: "unavailable" } : { status: "success" };
 }
