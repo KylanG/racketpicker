@@ -11,6 +11,7 @@ const rackets = DISCOVERY_TARGETS.find((t) => t.key === "padel-rackets")!;
 const balls = DISCOVERY_TARGETS.find((t) => t.key === "padel-balls")!;
 const grips = DISCOVERY_TARGETS.find((t) => t.key === "padel-grips")!;
 const bags = DISCOVERY_TARGETS.find((t) => t.key === "padel-bags")!;
+const nox = DISCOVERY_TARGETS.find((t) => t.key === "padel-rackets-nox")!;
 
 // Valid EAN-13s (check digit included).
 const EAN = ["8435778902621", "8435778902638", "4006381333931", "5901234123457", "4012345678901"];
@@ -85,6 +86,30 @@ describe("modelFromTitle", () => {
 
   it("drops glued generic words", () => {
     expect(modelFromTitle("Dunlop PadelracketVolwassenen", "Dunlop").model).toBe("");
+  });
+});
+
+describe("brand racket searches", () => {
+  it("has one search per brand, after the general searches", () => {
+    expect(nox.searchTerm).toBe("Nox padel racket");
+    expect(DISCOVERY_TARGETS.findIndex((t) => t.key === "padel-rackets-nox")).toBeGreaterThan(
+      DISCOVERY_TARGETS.findIndex((t) => t.key === "padel-bags"),
+    );
+    expect(DISCOVERY_TARGETS.some((t) => t.key === "padel-rackets-vibor-a")).toBe(true);
+  });
+
+  it("only takes rackets, not the brand's shoes, clothing or covers", () => {
+    const picked = selectNewProducts(
+      [
+        result("Nox AT10 Luxury Genius 18K 2025 - Padelracket", EAN[0]),
+        result("Nox AT10 padel schoenen - wit", EAN[1]),
+        result("Nox Team padel shirt heren", EAN[2]),
+        result("Nox padelracket hoes", EAN[3]),
+      ],
+      nox,
+      empty(),
+    );
+    expect(picked.map((p) => p.ean)).toEqual([EAN[0]]);
   });
 });
 

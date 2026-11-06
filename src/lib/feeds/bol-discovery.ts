@@ -26,7 +26,11 @@ export type DiscoveryTarget = {
 const NOT_A_RACKET =
   /\b(hoes|cover|tas|bag|rugzak|bal(len)?|grip|overgrip|protector|beschermer|tape|set|kinder|kids?|junior|jr|beach|strand|tennisracket|pickleball|squash|badminton|sleutelhanger|mini)\b/i;
 
-export const DISCOVERY_TARGETS: DiscoveryTarget[] = [
+/** Clothing and shoes, which brand searches bring up next to rackets. */
+const NOT_GEAR =
+  /\b(schoen(en)?|shoes?|sneakers?|shirt|t-shirt|polo|shorts?|broek|rok|jurk|skort|jas|jack|hoodie|sweater|vest|sokken|socks|pet|cap|hoofdband|polsband|zweetband)\b/i;
+
+const BASE_TARGETS: DiscoveryTarget[] = [
   {
     key: "padel-rackets",
     searchTerm: "padel racket",
@@ -44,7 +48,7 @@ export const DISCOVERY_TARGETS: DiscoveryTarget[] = [
     category: "accessories",
     sport: "padel",
     productType: "balls",
-    limit: 30,
+    limit: 60,
     include: /padel.*\bbal(len)?\b|\bbal(len)?\b.*padel|padelbal/i,
     exclude: /\b(racket|tas|bag|machine|kanon|houder|mand)\b/i,
     minPrice: 3,
@@ -55,7 +59,7 @@ export const DISCOVERY_TARGETS: DiscoveryTarget[] = [
     category: "accessories",
     sport: "padel",
     productType: "grips",
-    limit: 30,
+    limit: 60,
     include: /grip/i,
     exclude: /\b(racket|tas|bag|bal(len)?|fiets|golf|handschoen)\b/i,
     minPrice: 3,
@@ -66,7 +70,7 @@ export const DISCOVERY_TARGETS: DiscoveryTarget[] = [
     category: "accessories",
     sport: "padel",
     productType: "bags",
-    limit: 40,
+    limit: 60,
     include: /padel.*\b(tas|bag|rugzak|backpack|racketbag|thermobag)\b|padeltas/i,
     exclude: /\b(racket(?!bag)|bal(len)?|grip|hoes|cover)\b/i,
     minPrice: 15,
@@ -101,6 +105,25 @@ export const KNOWN_BRANDS = [
   "Vibor-A",
   "Wilson",
 ] as const;
+
+/**
+ * One extra racket search per brand (RP-81): the general search only reaches the most
+ * popular models. These run after the general ones, so popular products come in first.
+ * The title must name a racket, and clothing or shoes are skipped.
+ */
+const BRAND_RACKET_TARGETS: DiscoveryTarget[] = KNOWN_BRANDS.map((brand) => ({
+  key: `padel-rackets-${brand.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+  searchTerm: `${brand} padel racket`,
+  category: "rackets",
+  sport: "padel",
+  productType: null,
+  limit: 50,
+  include: /padel\s?-?(racket|bat)|padelracket/i,
+  exclude: new RegExp(`${NOT_A_RACKET.source}|${NOT_GEAR.source}`, "i"),
+  minPrice: 40,
+}));
+
+export const DISCOVERY_TARGETS: DiscoveryTarget[] = [...BASE_TARGETS, ...BRAND_RACKET_TARGETS];
 
 const normalize = (s: string) =>
   s
