@@ -10,7 +10,11 @@ export async function generateMetadata({
 }: PageProps<"/[locale]/rackets">): Promise<Metadata> {
   const { locale } = (await params) as { locale: Locale };
   const t = await getTranslations({ locale, namespace: "rackets" });
-  return { title: t("allTitle"), ...listingSeo(locale, null, await searchParams) };
+  return {
+    title: t("allTitle"),
+    description: t("allMetaDescription"),
+    ...listingSeo(locale, null, await searchParams),
+  };
 }
 
 /** All rackets across sports, with the same filters as a sport page. */

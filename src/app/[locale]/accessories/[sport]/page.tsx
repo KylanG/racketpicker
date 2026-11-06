@@ -10,7 +10,7 @@ import { Slant } from "@/components/ui/slant";
 import { getPathname, Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { getShopCount } from "@/lib/catalog/deals";
-import { listingSeo } from "@/lib/catalog/listing-metadata";
+import { listingBrand, listingSeo } from "@/lib/catalog/listing-metadata";
 import { KINDS, parseFilters } from "@/lib/catalog/racket-filters";
 import { getCatalogListing } from "@/lib/catalog/rackets";
 import { SPORTS, sportFromSlug, sportSlug } from "@/lib/catalog/taxonomy";
@@ -32,9 +32,16 @@ export async function generateMetadata({
   if (!sport) return {};
   const query = await searchParams;
   const { soort } = parseFilters(query);
-  const t = await getTranslations({ locale, namespace: "accessories" });
+  const [t, brand] = await Promise.all([
+    getTranslations({ locale, namespace: "accessories" }),
+    listingBrand(locale, "accessories", query),
+  ]);
   return {
-    title: soort.length === 1 ? t(`kindTitle.${soort[0]!}`) : t("pageTitle"),
+    title: brand
+      ? t("brandPageTitle", { brand })
+      : soort.length === 1
+        ? t(`kindTitle.${soort[0]!}`)
+        : t("pageTitle"),
     description: t("metaDescription"),
     ...listingSeo(locale, sport, query, "accessories"),
   };

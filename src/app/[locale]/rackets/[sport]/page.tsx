@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { RacketsOverview } from "@/components/rackets/rackets-overview";
 import { routing, type Locale } from "@/i18n/routing";
-import { listingSeo } from "@/lib/catalog/listing-metadata";
+import { listingBrand, listingSeo } from "@/lib/catalog/listing-metadata";
 import { SPORTS, sportFromSlug, sportSlug } from "@/lib/catalog/taxonomy";
 
 export function generateStaticParams() {
@@ -19,11 +19,23 @@ export async function generateMetadata({
   const { locale, sport: slug } = (await params) as { locale: Locale; sport: string };
   const sport = sportFromSlug(slug, locale);
   if (!sport) return {};
-  const t = await getTranslations({ locale, namespace: "rackets" });
-  return {
-    title: t("pageTitle", { name: t(`sportTitle.${sport}`) }),
-    ...listingSeo(locale, sport, await searchParams),
-  };
+  const query = await searchParams;
+  const [t, brand] = await Promise.all([
+    getTranslations({ locale, namespace: "rackets" }),
+    listingBrand(locale, "rackets", query),
+  ]);
+  const name = t(`sportNoun.${sport}`);
+  return brand
+    ? {
+        title: t("brandPageTitle", { brand, name }),
+        description: t("brandMetaDescription", { brand, name }),
+        ...listingSeo(locale, sport, query),
+      }
+    : {
+        title: t("pageTitle", { name: t(`sportTitle.${sport}`) }),
+        description: t("metaDescription", { name }),
+        ...listingSeo(locale, sport, query),
+      };
 }
 
 /** Overview per sport, e.g. /nl/rackets/padel?merk=adidas. Unknown sports 404 in the proxy. */

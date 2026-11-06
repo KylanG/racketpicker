@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getAlternates } from "@/i18n/alternates";
 import type { Locale } from "@/i18n/routing";
 import { isIndexable, parseFilters } from "./racket-filters";
+import { getCatalogListing } from "./rackets";
 import { sportSlug, type SportKey } from "./taxonomy";
 
 type Params = Record<string, string | string[] | undefined>;
@@ -43,4 +44,19 @@ export function listingSeo(
     };
   }
   return { alternates };
+}
+
+/**
+ * The brand a listing is filtered on, when exactly one brand is selected (the indexable
+ * sport + brand page), for its title. Null for an unknown brand or any other filter.
+ */
+export async function listingBrand(
+  locale: Locale,
+  category: "rackets" | "accessories",
+  params: Params,
+): Promise<string | null> {
+  const { merk } = parseFilters(params);
+  if (merk.length !== 1) return null;
+  const items = await getCatalogListing(locale, category);
+  return items.find((i) => i.brand.slug === merk[0])?.brand.name ?? null;
 }

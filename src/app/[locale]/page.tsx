@@ -25,8 +25,14 @@ import { getSearchIndex } from "@/lib/catalog/search";
 import { ACTIVE_SEASON, SEASONS, type HomeBlock } from "@/lib/home/season";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
-  const { locale } = await params;
-  return { alternates: getAlternates("/", locale as Locale) };
+  const { locale } = (await params) as { locale: Locale };
+  const t = await getTranslations({ locale, namespace: "metadata" });
+  return {
+    // The full title here, without the "| Racketpicker" suffix of other pages.
+    title: { absolute: t("homeTitle") },
+    description: t("homeDescription"),
+    alternates: getAlternates("/", locale),
+  };
 }
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {

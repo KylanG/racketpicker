@@ -2,7 +2,9 @@
   "metadata": {
     "title": "Racketpicker",
     "description": "Compara palas, zapatillas y accesorios de pádel y otros deportes de raqueta en tiendas españolas.",
-    "shareTitle": "Palas y material, comparados con honestidad"
+    "shareTitle": "Palas y material, comparados con honestidad",
+    "homeTitle": "Racketpicker – Palas de pádel y material, comparados con honestidad",
+    "homeDescription": "Compara precios de palas, pelotas, grips y paleteros de pádel en tiendas españolas. Con historial de precios por producto y un asesor gratuito."
   },
   "home": {
     "season": {
@@ -180,7 +182,19 @@
       "emptyTextFilter": "Quita un filtro para ver más palas."
     },
     "heroIntroFilter": "Compara precios en {count} tiendas. Filtra por marca, nivel, estilo de juego y precio.",
-    "heroIntroNoCountFilter": "Compara precios en tiendas españolas. Filtra por marca, nivel, estilo de juego y precio."
+    "heroIntroNoCountFilter": "Compara precios en tiendas españolas. Filtra por marca, nivel, estilo de juego y precio.",
+    "sportNoun": {
+      "padel": "palas de pádel",
+      "tennis": "raquetas de tenis",
+      "badminton": "raquetas de bádminton",
+      "squash": "raquetas de squash",
+      "pickleball": "palas de pickleball",
+      "table-tennis": "palas de tenis de mesa"
+    },
+    "brandPageTitle": "Compara {name} {brand}",
+    "metaDescription": "Compara {name} en tiendas españolas. Filtra por marca, nivel, estilo de juego y precio y ve el precio más bajo por tienda.",
+    "brandMetaDescription": "Todas las {name} {brand}, con el precio más bajo por tienda y el historial de precios.",
+    "allMetaDescription": "Compara raquetas en tiendas españolas. Filtra por deporte, marca, nivel, estilo de juego y precio."
   },
   "productCard": {
     "shopsCompared": "Comparado en {count, plural, one {# tienda} other {# tiendas}}",
@@ -891,7 +905,8 @@
     "noneYetText": "Añadimos productos nuevos cada día. Vuelve pronto.",
     "total": "{count, plural, one {<b>#</b> producto} other {<b>#</b> productos}}",
     "emptyTitle": "No hay productos con estos filtros",
-    "emptyText": "Quita un filtro para ver más productos."
+    "emptyText": "Quita un filtro para ver más productos.",
+    "brandPageTitle": "Compara accesorios de pádel {brand}"
   },
   "favorites": {
     "metaTitle": "Mis favoritos",
@@ -982,5 +997,21 @@
       "unavailable": "Ahora no se puede crear una alerta. Inténtalo más tarde.",
       "sending": "Enviando…"
     }
+  },
+  "llms": {
+    "intro": "Racketpicker es un comparador de precios independiente para deportes de raqueta. Empezamos con el pádel; tenis, bádminton, squash, pickleball y tenis de mesa vendrán después. Los precios de {shops} tiendas se actualizan cada día.",
+    "introNoCount": "Racketpicker es un comparador de precios independiente para deportes de raqueta. Empezamos con el pádel; tenis, bádminton, squash, pickleball y tenis de mesa vendrán después. Los precios se actualizan cada día.",
+    "pagesTitle": "Páginas principales",
+    "listingNote": "con filtros por marca, precio y más.",
+    "advisor": "Asesor gratuito",
+    "advisorNote": "unas preguntas sobre nivel, estilo de juego y presupuesto; el resultado es una lista de palas que encajan.",
+    "blog": "Blog y consejos",
+    "blogNote": "guías de compra y explicaciones.",
+    "howTitle": "Cómo trabajamos",
+    "howWeEarn": "Cómo ganamos dinero",
+    "priceHistory": "Cómo funciona el historial de precios",
+    "about": "Sobre nosotros",
+    "faq": "Preguntas frecuentes",
+    "contactTitle": "Contacto"
   }
 }
