@@ -5,6 +5,8 @@ import {
   modelFromTitle,
   selectNewProducts,
   type BolSearchResult,
+  planTitleCleanup,
+  slugify,
 } from "../bol-discovery";
 
 const rackets = DISCOVERY_TARGETS.find((t) => t.key === "padel-rackets")!;
@@ -62,10 +64,19 @@ describe("modelFromTitle", () => {
     [
       "Nox ML10 PRO CUP SILVER LIGHT miguel lamperti 2027",
       "rackets",
-      "ML10 PRO CUP LIGHT Miguel Lamperti",
+      "ML10 Pro Cup Light Miguel Lamperti",
     ],
     ["Bullpadel Game Pwr Grey padel racket", "rackets", "Game Pwr"],
-    ["Puma Nova COURT 049050 padelracket", "rackets", "Nova COURT"],
+    ["Puma Nova COURT 049050 padelracket", "rackets", "Nova Court"],
+    ["Bullpadel NEXT PRO 3 Stuks", "balls", "Next Pro"],
+    ["Adidas Speed RX Doos 24 ballen", "balls", "Speed RX"],
+    ["Adidas Cross It Ctrl Heren 2026 padelracket", "rackets", "Cross It Ctrl"],
+    ["Adidas Eng Transparant 360-375 Gr Man", "rackets", "Eng"],
+    ["Dunlop D PDL 26 FX TEAM padelracket", "rackets", "FX Team"],
+    ["Dunlop AERO-STAR Team padelracket", "rackets", "Aero-Star Team"],
+    ["Dunlop Galaxy LTD padelracket", "rackets", "Galaxy LTD"],
+    ["Nox AT10 XXL Rackettas", "bags", "AT10 XXL"],
+    ["Bullpadel Vertex 05 Woman 2026 padelracket", "rackets", "Vertex 05 Woman"],
     ["Head Padelballen Pro S", "balls", "Pro S"],
     ["Head Pro S Ballen (3-pack)", "balls", "Pro S"],
     ["Head One Padelballen 1 blik van 3 ballen", "balls", "One"],
@@ -82,6 +93,23 @@ describe("modelFromTitle", () => {
     ["Head Speed Motion (Druppel) 2025 padelracket", "rackets", "Speed Motion"],
   ] as const)("cleans %s", (title, kind, model) => {
     expect(modelFromTitle(title, title.split(" ")[0]!, kind).model).toBe(model);
+  });
+
+  it("drops weights such as 280-320 Gr", () => {
+    expect(modelFromTitle("Drop Shot Tiger 3.0 280-320 Gr padelracket", "Drop Shot").model).toBe(
+      "Tiger 3.0",
+    );
+  });
+
+  it("reads the collection year from Dunlop and Bullpadel codes", () => {
+    expect(modelFromTitle("Dunlop D PDL 26 MEGAMAX padelracket", "Dunlop")).toEqual({
+      model: "Megamax",
+      year: 2026,
+    });
+    expect(modelFromTitle("Bullpadel Hack 04 CMF 26", "Bullpadel")).toEqual({
+      model: "Hack 04 CMF",
+      year: 2026,
+    });
   });
 
   it("drops glued generic words", () => {
@@ -189,5 +217,55 @@ describe("selectNewProducts", () => {
         empty(),
       ).map((p) => p.brand),
     ).toEqual(["Adidas"]);
+  });
+});
+
+describe("planTitleCleanup", () => {
+  const row = (
+    id: string,
+    brand: string,
+    model: string,
+    year: number | null,
+    productType: "balls" | null = null,
+  ) => ({
+    id,
+    brandId: `b-${brand}`,
+    brand,
+    model,
+    year,
+    productType,
+    slug: slugify([brand, model, year].filter(Boolean).join(" ")),
+  });
+
+  it("renames messy products, keeps clean ones and reports clashes as duplicates", () => {
+    const rows = [
+      row("1", "Dunlop", "D PDL 26 MEGAMAX", null),
+      row("2", "Bullpadel", "NEXT PRO Stuks", null, "balls"),
+      row("3", "Adidas", "Cross It Ctrl Heren", 2026),
+      row("4", "Adidas", "Cross It Ctrl", 2026),
+      row("5", "Head", "Speed Pro", 2025),
+    ];
+    const taken = {
+      keys: new Set(rows.map((r) => `${r.brandId}|${r.model.toLowerCase()}|${r.year ?? ""}`)),
+      slugs: new Set(rows.map((r) => r.slug)),
+    };
+    const { fixes, duplicates } = planTitleCleanup(rows, taken);
+    expect(fixes).toEqual([
+      {
+        id: "1",
+        model: "Megamax",
+        year: 2026,
+        title: "Dunlop Megamax 2026",
+        slug: "dunlop-megamax-2026",
+      },
+      {
+        id: "2",
+        model: "Next Pro",
+        year: null,
+        title: "Bullpadel Next Pro",
+        slug: "bullpadel-next-pro",
+      },
+    ]);
+    expect(duplicates).toEqual([{ id: "3", title: "Adidas Cross It Ctrl 2026" }]);
   });
 });

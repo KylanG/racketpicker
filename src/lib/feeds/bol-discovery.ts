@@ -144,22 +144,38 @@ export function brandFromTitle(title: string): string | null {
 
 /** Colours and other words that describe a variant, not the model. */
 const NOISE =
-  /\b(zwart|wit|grijs|grijsgroene?|grijs-wit|rood|blauw|donkerblauw|lichtblauw|geel|groen|oranje|roze|paars|zilver|goud|black|white|grey|gray|red|blue|navy|yellow|green|orange|pink|purple|silver|gold|zwart-oranje|zwart-wit|default|volwassenen|unisex|kleur|color|colour|tennis|box)\b/gi;
+  /\b(zwart|wit|grijs|grijsgroene?|grijs-wit|rood|blauw|donkerblauw|lichtblauw|geel|groen|oranje|roze|paars|zilver|goud|black|white|grey|gray|red|blue|navy|yellow|green|orange|pink|purple|silver|gold|zwart-oranje|zwart-wit|default|volwassenen|unisex|kleur|color|colour|tennis|box|transparant|stuks|stuk|doos|heren|man|mannen|men)\b/gi;
 
 /** Words that only name the kind of product; the page shows that already. */
 const GENERIC: Record<string, RegExp> = {
   rackets: /\b(padel ?rackets?\w*|padelrackets?\w*|rackets?|padel)\b/gi,
   balls: /\b(padelballen|padelbal|ballen|bal|padel)\b/gi,
   grips: /\b(padel)\b/gi,
-  bags: /\b(padeltas|padel ?tas|racketbag|tas|bag|padel)\b/gi,
+  bags: /\b(padeltas|padel ?tas|racketbag|rackettas|tas|bag|padel)\b/gi,
 };
 
 /** Pack sizes, colour labels and product codes such as "3 stuks", "2x3", "BPP26003", "049050". */
 const PACKS =
   /\b(\d+\s*(stuks|stuk|pack|pak|blikken|blik|ballen)\b(\s*van\s*\d+\s*ballen)?|\d+-pack|\d+\s*x\s*\d+|[A-Z]{2,}\d{4,}|\d{5,})\b/gi;
 
+/** Weights in a title, such as "280-320 Gr" or "360 gram": the specs show the weight. */
+const WEIGHTS = /\b\d{3}(\s*-\s*\d{3})?\s*(gr|gram|g)\b/gi;
+
+/** Acronyms that stay in capitals; other all-caps words become "Megamax", "Next Pro". */
+const KEEP_CAPS = new Set(["LTD", "CMF", "XXL", "XTR", "EVA", "GB"]);
+
+const capitalise = (part: string) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase();
+
+/** "miguel" → "Miguel", "MEGAMAX" → "Megamax", "AERO-STAR" → "Aero-Star"; AT10, RX and 12K stay. */
 const titleCase = (word: string) =>
-  /^[a-z][a-z]+$/.test(word) ? word.charAt(0).toUpperCase() + word.slice(1) : word;
+  word
+    .split("-")
+    .map((part) =>
+      /^[a-z][a-z]+$/.test(part) || (/^[A-Z]{3,}$/.test(part) && !KEEP_CAPS.has(part))
+        ? capitalise(part)
+        : part,
+    )
+    .join("-");
 
 /**
  * Model and year from a bol title such as
@@ -174,12 +190,19 @@ export function modelFromTitle(
 ): { model: string; year: number | null } {
   const head = title.split(/\s?[-|–]\s|,\s/)[0]!.trim();
   let rest = head.slice(head.toLowerCase().indexOf(brand.toLowerCase()) + brand.length);
+  // Dunlop writes the collection as "D PDL 26"; a trailing "26" (Bullpadel "CMF 26") too.
+  rest = rest
+    .replace(/\bD\s?PDL\s?(2[3-9])\b/i, " 20$1 ")
+    .replace(/^\s*(2[3-9])\s/, " 20$1 ")
+    .replace(/\s(2[3-9])\s*$/, " 20$1")
+    .replace(/\s'(2[3-9])\b/, " 20$1");
   const yearMatch = rest.match(/\b(20[2-3]\d)\b/);
   const year = yearMatch ? Number(yearMatch[1]) : null;
   rest = rest
     .replace(/\([^)]*\)/g, " ")
     .replace(/\b20[2-3]\d\b/, " ")
     .replace(PACKS, " ")
+    .replace(WEIGHTS, " ")
     .replace(GENERIC[kind]!, " ")
     .replace(NOISE, " ")
     .replace(/[:/]/g, " ")
@@ -261,4 +284,64 @@ export function selectNewProducts(
     });
   }
   return picked;
+}
+
+/** A product the bol discovery created, as stored. */
+export type DiscoveredRow = {
+  id: string;
+  brandId: string;
+  brand: string;
+  model: string;
+  year: number | null;
+  productType: ProductType | null;
+  slug: string;
+};
+
+export type TitleFix = {
+  id: string;
+  model: string;
+  year: number | null;
+  title: string;
+  /** Null when the cleaner slug is taken: the old slug stays. */
+  slug: string | null;
+};
+
+/**
+ * Cleaner names for products the discovery created earlier (RP-85), by running the
+ * current cleanup on their stored name. Skips a product when the clean name already
+ * belongs to another product of the brand; those are reported as possible duplicates.
+ */
+export function planTitleCleanup(
+  rows: DiscoveredRow[],
+  taken: { keys: Set<string>; slugs: Set<string> },
+): { fixes: TitleFix[]; duplicates: { id: string; title: string }[] } {
+  const fixes: TitleFix[] = [];
+  const duplicates: { id: string; title: string }[] = [];
+  const keyOf = (brandId: string, model: string, year: number | null) =>
+    `${brandId}|${model.toLowerCase()}|${year ?? ""}`;
+  for (const r of rows) {
+    const current = [r.brand, r.model, r.year].filter(Boolean).join(" ");
+    const cleaned = modelFromTitle(current, r.brand, r.productType ?? "rackets");
+    const year = cleaned.year ?? r.year;
+    if (cleaned.model.length < 2 || (cleaned.model === r.model && year === r.year)) continue;
+    const key = keyOf(r.brandId, cleaned.model, year);
+    if (taken.keys.has(key)) {
+      duplicates.push({
+        id: r.id,
+        title: [r.brand, cleaned.model, year].filter(Boolean).join(" "),
+      });
+      continue;
+    }
+    taken.keys.delete(keyOf(r.brandId, r.model, r.year));
+    taken.keys.add(key);
+    const title = [r.brand, cleaned.model, year].filter(Boolean).join(" ");
+    const slug = slugify(title);
+    const free = slug !== r.slug && !taken.slugs.has(slug);
+    if (free) {
+      taken.slugs.delete(r.slug);
+      taken.slugs.add(slug);
+    }
+    fixes.push({ id: r.id, model: cleaned.model, year, title, slug: free ? slug : null });
+  }
+  return { fixes, duplicates };
 }
