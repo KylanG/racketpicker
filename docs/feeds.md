@@ -96,6 +96,7 @@ bol is een marktplaats, dus we halen niet de hele catalogus op. Per product in o
 - **Snelheid:** één verzoek tegelijk, minstens 150 ms ertussen (bol staat 10 per seconde toe). Bij een 429 of 5xx volgen maximaal 3 nieuwe pogingen.
 - **Geen aanbieding (404):** het bol-aanbod van dat product gaat uit. Alleen nieuwe producten tellen mee, geen tweedehands.
 - **Andere fouten:** de hele bol-run stopt, zodat een storing bij bol onze prijzen niet uitzet.
+- **Foto's (RP-75):** voor de EAN met een aanbieding vraagt de cron ook `GET /products/{ean}/media`. Hij kiest de eerste afbeelding in de grootste maat tot 1200 px. De fotosync kopieert die één keer naar Supabase Storage, voor producten die nog geen foto hebben. Een fout bij de foto stopt de prijsimport nooit.
 - **Link:** `partner.bol.com/click/click?...&s=1556484`, de websitecode van Racketpicker. Makeupmath gebruikt een eigen code.
 - **Nodig in Vercel (Production):** `BOL_CLIENT_ID` en `BOL_CLIENT_SECRET` (Sensitive).
 - **Productfeed:** de FTP-sportfeed is te groot voor een Vercel-functie. Die gebruiken we alleen om nieuwe rackets en EAN-codes te vinden (RP-73).

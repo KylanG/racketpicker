@@ -89,6 +89,78 @@ export async function getBestOffer(
   }
 }
 
+export type BolMedia = {
+  ean?: string;
+  images?: {
+    order?: number;
+    mimeType?: string;
+    renditions?: { width: number; height: number; url: string }[];
+  }[];
+};
+
+/** Preferred photo width: sharp on the product page, small enough for the image sync. */
+const IMAGE_WIDTH = 1200;
+
+/**
+ * URL of the main product photo: the first image by `order`, in the largest rendition
+ * up to 1200px wide (else the smallest larger one). Null without a usable https image.
+ */
+export function pickBolImage(media: BolMedia | null): string | null {
+  const image = [...(media?.images ?? [])]
+    .filter((i) => i.renditions?.length)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))[0];
+  if (!image) return null;
+  const renditions = image.renditions!.filter((r) => r.url?.startsWith("https://") && r.width > 0);
+  const fitting = renditions
+    .filter((r) => r.width <= IMAGE_WIDTH)
+    .sort((a, b) => b.width - a.width);
+  const larger = renditions.filter((r) => r.width > IMAGE_WIDTH).sort((a, b) => a.width - b.width);
+  return (fitting[0] ?? larger[0])?.url ?? null;
+}
+
+/**
+ * Product photos for one EAN (RP-75). Never throws: a missing photo must not stop the
+ * price import, so errors return null after the same retries as offers.
+ */
+export async function getMedia(
+  ean: string,
+  token: string,
+  fetcher: Fetcher = fetch,
+  wait: (ms: number) => Promise<unknown> = sleep,
+): Promise<BolMedia | null> {
+  // The media endpoint only takes 13-digit EANs; a 12-digit UPC gets a leading zero.
+  const ean13 = ean.padStart(13, "0");
+  if (!/^\d{13}$/.test(ean13)) return null;
+  const url = `${API}/products/${ean13}/media`;
+  for (let attempt = 0; ; attempt++) {
+    try {
+      const res = await fetcher(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Accept-Language": "nl",
+        },
+      });
+      if (res.status === 404) return null;
+      if ((res.status === 429 || res.status >= 500) && attempt < RETRIES) {
+        await wait(1000 * (attempt + 1));
+        continue;
+      }
+      if (!res.ok) {
+        console.warn(`[feeds] bol media failed for ${ean}: HTTP ${res.status}`);
+        return null;
+      }
+      return (await res.json()) as BolMedia;
+    } catch (error) {
+      console.warn(
+        `[feeds] bol media failed for ${ean}:`,
+        error instanceof Error ? error.message : error,
+      );
+      return null;
+    }
+  }
+}
+
 function daysUntil(date: string | undefined, today: Date): number | null {
   if (!date) return null;
   const ms =
@@ -129,7 +201,7 @@ export function offerToItem(
 
 /**
  * Asks bol for every catalog product with an EAN. The first EAN of a product with an
- * offer wins. Any API error other than "no offer" aborts the run, so a bol outage never
+ * offer wins; for that EAN we also ask the photo. Any API error other than "no offer" aborts the run, so a bol outage never
  * turns our bol offers off.
  */
 export async function fetchBolItems(
@@ -162,7 +234,12 @@ export async function fetchBolItems(
       await wait(SPACING_MS);
       if (!offer) continue;
       item = offerToItem(offer, product, ean, options.today);
-      if (item) break;
+      if (item) {
+        // The photo for the image sync, which copies it to our storage once (RP-75).
+        item.imageUrl = pickBolImage(await getMedia(ean, token, fetcher, wait));
+        await wait(SPACING_MS);
+        break;
+      }
       stats.invalid++;
     }
     if (item) items.push(item);
