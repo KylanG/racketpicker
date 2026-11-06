@@ -327,7 +327,10 @@
           "description": "Pelotas, gomas y fundas"
         }
       }
-    }
+    },
+    "doubt": "¿Dudas?",
+    "brandAll": "Todo {brand}",
+    "subMenu": "{category} por deporte"
   },
   "languages": {
     "nl": "Nederlands",

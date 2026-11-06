@@ -327,7 +327,10 @@
           "description": "Ballen, rubbers en hoesjes"
         }
       }
-    }
+    },
+    "doubt": "Twijfel je?",
+    "brandAll": "Alle {brand}",
+    "subMenu": "{category} per sport"
   },
   "languages": {
     "nl": "Nederlands",

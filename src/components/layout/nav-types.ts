@@ -4,7 +4,25 @@ import type { CategoryKey, SportKey } from "@/lib/catalog/taxonomy";
 
 export type NavHref = ComponentProps<typeof Link>["href"];
 
-export type NavSub = { key: SportKey; name: string; description: string; href: NavHref };
+/** Brand column in the mega menu (RP-45): a few models and a link to all of the brand. */
+export type NavBrandColumn = {
+  name: string;
+  href: NavHref;
+  items: { label: string; href: string }[];
+  /** Products of this brand in the sub, for "Alle {count} van {brand}". */
+  count: number;
+};
+
+export type NavSub = {
+  key: SportKey;
+  name: string;
+  description: string;
+  href: NavHref;
+  /** Lowercase name for "Bekijk alle {x}", e.g. "padelrackets". */
+  lower: string;
+  /** Brands with the most products first. */
+  brands: NavBrandColumn[];
+};
 
 /** One top-level menu item; only categories with products get one. */
 export type NavItem = {
@@ -14,7 +32,7 @@ export type NavItem = {
   lower: string;
   /** Category overview, if the category has one (only rackets for now). */
   allHref: NavHref | null;
-  /** Where the desktop item links to until the mega menu (RP-45) opens a panel. */
+  /** First sub's overview; the desktop item opens the mega menu (RP-45) instead. */
   href: NavHref;
   subs: NavSub[];
 };
