@@ -12,7 +12,8 @@ import {
 } from "@/lib/home/brand-rotation";
 import type { NavHref } from "@/components/layout/nav-types";
 
-export type WallBrand = { slug: string; name: string; href: NavHref };
+/** `logo`: public path of a one-colour SVG (RP-56); without it the name is shown. */
+export type WallBrand = { slug: string; name: string; href: NavHref; logo?: string | null };
 
 type Phase = "in" | "out" | "pre";
 
@@ -104,9 +105,27 @@ export function BrandWall({ brands }: { brands: WallBrand[] }) {
                 href={brand.href}
                 className="grid h-16 place-items-center overflow-hidden text-center text-[22px] font-bold tracking-[-0.3px] text-[#9FB3A5] uppercase transition-colors duration-[250ms] hover:text-white"
               >
-                <span className="block" style={style(slot)}>
-                  {brand.name}
-                </span>
+                {brand.logo ? (
+                  // The SVG is a mask filled with the text colour, so it turns white on
+                  // hover like the names; the name stays for screen readers.
+                  <span className="block" style={style(slot)}>
+                    <span
+                      aria-hidden="true"
+                      className="block h-11 w-[150px] bg-current"
+                      style={{
+                        maskImage: `url(${brand.logo})`,
+                        maskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        maskSize: "contain",
+                      }}
+                    />
+                    <span className="sr-only">{brand.name}</span>
+                  </span>
+                ) : (
+                  <span className="block" style={style(slot)}>
+                    {brand.name}
+                  </span>
+                )}
               </Link>
             </li>
           );
