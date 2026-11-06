@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getAlternates } from "@/i18n/alternates";
 import type { Locale } from "@/i18n/routing";
-import { isIndexable, parseFilters } from "./racket-filters";
+import { isIndexable, isListingVariant, parseFilters } from "./racket-filters";
 import { getCatalogListing } from "./rackets";
 import { sportSlug, type SportKey } from "./taxonomy";
 
@@ -26,7 +26,7 @@ export function listingSeo(
     ? getAlternates((l) => ({ pathname, params: { sport: sportSlug(sport, l) } }), locale)
     : getAlternates("/rackets", locale);
 
-  if (!isIndexable(filters)) {
+  if (!isIndexable(filters) || isListingVariant(params)) {
     return { alternates, robots: { index: false, follow: true } };
   }
   if (filters.merk.length === 1 && alternates?.canonical) {

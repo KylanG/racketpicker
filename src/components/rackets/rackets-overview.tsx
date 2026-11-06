@@ -12,21 +12,28 @@ import { getShopCount } from "@/lib/catalog/deals";
 import {
   activeFilterCount,
   applyFilters,
+  filtersToQuery,
   EMPTY_FILTERS,
   facetCounts,
   FACETS,
   KINDS,
   LEVELS,
+  PAGE_SIZE,
   parseFilters,
+  parsePage,
   PRICES,
+  sortItems,
+  SORTS,
   STYLES,
   switchCount,
+  toggleValue,
   weightClass,
   WEIGHTS,
   type Facet,
   type Kind,
   type RacketFilters,
   type RacketItem,
+  type Sort,
 } from "@/lib/catalog/racket-filters";
 import { getRacketListing } from "@/lib/catalog/rackets";
 import { SPORTS, sportSlug, type SportKey } from "@/lib/catalog/taxonomy";
@@ -34,6 +41,7 @@ import { formatPrice } from "@/lib/format/price";
 import { FilterNavigationProvider, PendingResults } from "./filter-context";
 import { FilterForm, type FilterGroup, type FilterPanelData } from "./filter-form";
 import { FiltersDrawer } from "./filters-drawer";
+import { FilterChip, LoadMore, QueryButton, ResultsGrid, ResultsToolbar } from "./results-controls";
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
@@ -197,12 +205,15 @@ export async function FilteredResults({
   action,
   searchParams,
   category = "rackets",
+  defaultSort = "populair",
 }: {
   locale: Locale;
   items: RacketItem[];
   action: string;
   searchParams: SearchParams;
   category?: "rackets" | "accessories" | "deals" | "brand";
+  /** Order without ?sorteer; the deals page starts with the biggest discount. */
+  defaultSort?: Sort;
 }) {
   const [params, t, tf, ts, tp, ta, td] = await Promise.all([
     searchParams,
@@ -214,8 +225,23 @@ export async function FilteredResults({
     // Deals (RP-86) and brand pages (RP-55) mix rackets and accessories: own texts.
     getTranslations(category === "brand" ? "brands" : "deals"),
   ]);
+  const tl = await getTranslations("rackets.listing");
   const filters = parseFilters(params);
-  const results = applyFilters(items, filters);
+  const sort = filters.sort ?? defaultSort;
+  // Sort first, then filter: applyFilters keeps the order and moves sold-out to the end.
+  const results = applyFilters(sortItems(items, sort), filters);
+  // "Meer laden" (RP-27): page n shows the first n × 24 results.
+  const pageCount = Math.max(1, Math.ceil(results.length / PAGE_SIZE));
+  const page = Math.min(parsePage(params), pageCount);
+  const shown = results.slice(0, page * PAGE_SIZE);
+  const withPage = (n: number) => {
+    const q = filtersToQuery(filters);
+    return n > 1 ? `${q ? `${q}&` : "?"}pagina=${n}` : q;
+  };
+  // Sort choice keeps the filters, resets the page; the default order has no parameter.
+  const sortQuery = Object.fromEntries(
+    SORTS.map((s) => [s, filtersToQuery({ ...filters, sort: s === defaultSort ? undefined : s })]),
+  );
   const bold = { b: (c: ReactNode) => <strong>{c}</strong> };
   // Texts per overview; the deals page (RP-86) mixes rackets and accessories.
   const copy =
@@ -242,7 +268,37 @@ export async function FilteredResults({
             emptyTitle: td("emptyTitle"),
             emptyText: td("emptyText"),
           };
-  const panel = panelData(items, filters, locale, tf);
+  const panel = { ...panelData(items, filters, locale, tf), sort: filters.sort };
+  // Active filters as removable labels, in panel order.
+  const chips = [
+    ...panel.groups.flatMap((g) =>
+      g.options
+        .filter((o) => o.checked)
+        .map((o) => ({
+          key: `${g.facet}-${o.value}`,
+          label: o.label,
+          query: filtersToQuery(toggleValue(filters, g.facet, o.value)),
+        })),
+    ),
+    ...(filters.deals
+      ? [
+          {
+            key: "deals",
+            label: tf("onlyDeals"),
+            query: filtersToQuery({ ...filters, deals: false }),
+          },
+        ]
+      : []),
+    ...(filters.hideSoldOut
+      ? [
+          {
+            key: "soldout",
+            label: tf("hideSoldOut"),
+            query: filtersToQuery({ ...filters, hideSoldOut: false }),
+          },
+        ]
+      : []),
+  ];
 
   const levelLabel = (i: RacketItem) => {
     const [first] = i.levels;
@@ -279,12 +335,46 @@ export async function FilteredResults({
       )}
 
       <PendingResults label={tf("updating")}>
-        <div className="flex flex-wrap items-center gap-3.5">
-          {items.length > 0 && (
-            <FiltersDrawer data={panel} action={action} total={results.length} />
+        <div className="flex flex-wrap items-center justify-between gap-3.5">
+          <div className="flex flex-wrap items-center gap-3.5">
+            {items.length > 0 && (
+              <FiltersDrawer data={panel} action={action} total={results.length} />
+            )}
+            <h2 className="text-[15px] font-normal">{copy.total}</h2>
+          </div>
+          {results.length > 1 && (
+            <ResultsToolbar
+              sort={sort}
+              options={SORTS.map((s) => ({ value: s, label: tl(`sort.${s}`) }))}
+              queryFor={sortQuery}
+              labels={{
+                sort: tl("sortBy"),
+                view: tl("view"),
+                perRow: Object.fromEntries([2, 3, 4].map((n) => [n, tl("perRow", { count: n })])),
+              }}
+            />
           )}
-          <h2 className="text-[15px] font-normal">{copy.total}</h2>
         </div>
+
+        {chips.length > 0 && (
+          <div
+            className="flex flex-wrap items-center gap-2"
+            role="group"
+            aria-label={tl("activeFilters")}
+          >
+            {chips.map((c) => (
+              <FilterChip
+                key={c.key}
+                label={c.label}
+                query={c.query}
+                removeLabel={tl("removeFilter", { label: c.label })}
+              />
+            ))}
+            <QueryButton query={filtersToQuery({ ...EMPTY_FILTERS, sort: filters.sort })}>
+              {tl("clearAll")}
+            </QueryButton>
+          </div>
+        )}
 
         {items.length === 0 ? (
           <div className="bg-surface flex flex-col items-center gap-3.5 px-8 py-12 text-center">
@@ -315,40 +405,89 @@ export async function FilteredResults({
             </Slant>
           </div>
         ) : (
-          <ul className="grid grid-cols-1 gap-5 min-[560px]:grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
-            {results.map((i) => (
-              <li key={i.id} className="flex [&>*]:flex-1">
-                <ProductCard
-                  product={{
-                    id: i.id,
-                    href: i.href,
-                    brand: i.brand.name,
-                    sport: ts(i.sport),
-                    name: i.name,
-                    imageUrl: i.imageUrl,
-                    tags: [
-                      i.kind ? tf(`kindSingular.${i.kind}`) : null,
-                      levelLabel(i),
-                      i.style ? tf(`style.${i.style}`) : null,
-                      weightLabel(i),
-                    ].filter((x): x is string => Boolean(x)),
-                    price: i.price,
-                    compareAt: i.compareAt,
-                    shopCount: i.shopCount,
-                    inStock: i.inStock,
-                    priceNote: i.checkedOn
-                      ? tp("priceChecked", {
-                          date: new Intl.DateTimeFormat(intlLocale[locale], {
-                            day: "numeric",
-                            month: "long",
-                          }).format(new Date(i.checkedOn)),
-                        })
-                      : null,
-                  }}
-                />
-              </li>
-            ))}
-          </ul>
+          <>
+            <ResultsGrid>
+              {shown.map((i, index) => (
+                <li
+                  key={i.id}
+                  id={`r-${index + 1}`}
+                  tabIndex={-1}
+                  className="flex outline-offset-4 [&>*]:flex-1"
+                >
+                  <ProductCard
+                    product={{
+                      id: i.id,
+                      href: i.href,
+                      brand: i.brand.name,
+                      sport: ts(i.sport),
+                      name: i.name,
+                      imageUrl: i.imageUrl,
+                      tags: [
+                        i.kind ? tf(`kindSingular.${i.kind}`) : null,
+                        levelLabel(i),
+                        i.style ? tf(`style.${i.style}`) : null,
+                        weightLabel(i),
+                      ].filter((x): x is string => Boolean(x)),
+                      price: i.price,
+                      compareAt: i.compareAt,
+                      shopCount: i.shopCount,
+                      inStock: i.inStock,
+                      priceNote: i.checkedOn
+                        ? tp("priceChecked", {
+                            date: new Intl.DateTimeFormat(intlLocale[locale], {
+                              day: "numeric",
+                              month: "long",
+                            }).format(new Date(i.checkedOn)),
+                          })
+                        : null,
+                    }}
+                  />
+                </li>
+              ))}
+            </ResultsGrid>
+            {pageCount > 1 && (
+              <div className="mt-5 flex flex-col items-center gap-3">
+                <span className="text-muted text-[14px]">
+                  {tl("shown", { shown: shown.length, total: results.length })}
+                </span>
+                <div className="bg-line h-[3px] w-[200px]" aria-hidden="true">
+                  <div
+                    className="h-full bg-green-800"
+                    style={{ width: `${Math.round((shown.length / results.length) * 100)}%` }}
+                  />
+                </div>
+                {page < pageCount && (
+                  <LoadMore query={withPage(page + 1)} focusId={`r-${shown.length + 1}`}>
+                    {tl("loadMore")}
+                  </LoadMore>
+                )}
+                <nav aria-label={tl("pagination")} className="mt-2">
+                  <ul className="flex flex-wrap justify-center gap-1.5">
+                    {Array.from({ length: pageCount }, (_, k) => {
+                      const n = k + 1;
+                      const current = n === page;
+                      return (
+                        <li key={n}>
+                          <a
+                            href={`${action}${withPage(n)}`}
+                            aria-current={current ? "page" : undefined}
+                            aria-label={tl("page", { page: n })}
+                            className={`grid h-11 min-w-11 place-items-center text-[14px] font-semibold ${
+                              current
+                                ? "bg-ink text-white hover:text-white"
+                                : "bg-surface text-ink hover:bg-surface-hover hover:text-ink"
+                            }`}
+                          >
+                            {n}
+                          </a>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </nav>
+              </div>
+            )}
+          </>
         )}
       </PendingResults>
     </main>

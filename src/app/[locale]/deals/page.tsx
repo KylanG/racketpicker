@@ -8,7 +8,12 @@ import { Reveal } from "@/components/ui/reveal";
 import { getAlternates } from "@/i18n/alternates";
 import { getPathname, Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { activeFilterCount, parseFilters, type RacketItem } from "@/lib/catalog/racket-filters";
+import {
+  activeFilterCount,
+  isListingVariant,
+  parseFilters,
+  type RacketItem,
+} from "@/lib/catalog/racket-filters";
 import { getCatalogListing } from "@/lib/catalog/rackets";
 
 /**
@@ -32,7 +37,8 @@ export async function generateMetadata({
 }: PageProps<"/[locale]/deals">): Promise<Metadata> {
   const { locale } = (await params) as { locale: Locale };
   const t = await getTranslations({ locale, namespace: "deals" });
-  const filtered = activeFilterCount(parseFilters(await searchParams)) > 0;
+  const query = await searchParams;
+  const filtered = activeFilterCount(parseFilters(query)) > 0 || isListingVariant(query);
   return {
     title: t("metaTitle"),
     description: t("metaDescription"),
@@ -89,6 +95,7 @@ export default async function DealsPage({ params, searchParams }: PageProps<"/[l
             action={getPathname({ locale, href: "/deals" })}
             searchParams={searchParams}
             category="deals"
+            defaultSort="korting"
           />
         </Suspense>
       </FilterNavigationProvider>

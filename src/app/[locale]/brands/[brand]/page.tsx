@@ -10,7 +10,7 @@ import { getAlternates } from "@/i18n/alternates";
 import { getPathname, Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { getBrandPage } from "@/lib/catalog/brand-pages";
-import { activeFilterCount, parseFilters } from "@/lib/catalog/racket-filters";
+import { activeFilterCount, isListingVariant, parseFilters } from "@/lib/catalog/racket-filters";
 import { MIN_BRAND_PRODUCTS } from "@/lib/seo/sitemap-entries";
 import { formatPrice } from "@/lib/format/price";
 
@@ -30,9 +30,11 @@ export async function generateMetadata({
     getBrandPage(locale, slug),
   ]);
   if (!page) return {};
-  // Filtered variants are the same page, and a brand with a single product is too thin.
+  // Filtered, sorted or paged variants are the same page; one product is too thin.
+  const query = await searchParams;
   const noindex =
-    activeFilterCount(parseFilters(await searchParams)) > 0 ||
+    activeFilterCount(parseFilters(query)) > 0 ||
+    isListingVariant(query) ||
     page.items.length < MIN_BRAND_PRODUCTS;
   return {
     title: t("brandMetaTitle", { brand: page.brand.name }),
