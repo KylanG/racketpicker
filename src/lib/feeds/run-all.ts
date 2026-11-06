@@ -1,6 +1,7 @@
 import "server-only";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { MANUAL_OFFERS } from "@/data/manual-offers";
+import { runBolDiscovery, type DiscoveryResult } from "./bol-discovery-run";
 import { syncProductImages, type ImageSyncResult } from "./images";
 import { toRpcItems, validateManualOffers } from "./manual-offers";
 import { runImport, type ImportResult } from "./run-import";
@@ -15,6 +16,8 @@ export type DailyImportResult = {
   images: ImageSyncResult | { error: string };
   /** Hand-checked prices (RP-68): counts from upsert_manual_offers, or the error. */
   manual: Record<string, number> | { error: string };
+  /** New products from bol (RP-77), before the bol price import; null without bol. */
+  discovery: DiscoveryResult | null;
   /** True when at least one shop changed data and pages should be revalidated. */
   changed: boolean;
 };
@@ -31,6 +34,9 @@ export async function runDailyImport(): Promise<DailyImportResult> {
     .eq("is_active", true);
   if (error) throw new Error(`Loading feed sources failed: ${error.message}`);
 
+  // New bol products first, so the bol import right after gives them prices and photos.
+  const discovery = sources.some((s) => s.shops.slug === "bol") ? await runBolDiscovery() : null;
+
   const shops: ShopOutcome[] = [];
   for (const { shops: shop } of sources) {
     try {
@@ -46,7 +52,7 @@ export async function runDailyImport(): Promise<DailyImportResult> {
 
   let images: DailyImportResult["images"];
   try {
-    images = await syncProductImages();
+    images = await syncProductImages(60);
   } catch (e) {
     images = { error: e instanceof Error ? e.message : String(e) };
     console.error(`[feeds] images: ${images.error}`);
@@ -58,8 +64,12 @@ export async function runDailyImport(): Promise<DailyImportResult> {
     shops,
     images,
     manual,
+    discovery,
     changed:
-      shops.some((s) => s.ok) || ("stored" in images && images.stored > 0) || !("error" in manual),
+      shops.some((s) => s.ok) ||
+      (discovery?.created ?? 0) > 0 ||
+      ("stored" in images && images.stored > 0) ||
+      !("error" in manual),
   };
 }
 

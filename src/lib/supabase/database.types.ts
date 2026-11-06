@@ -642,6 +642,7 @@ export type Database = {
           model: string;
           model_year: number | null;
           msrp: number | null;
+          product_type: string | null;
           sport_key: string;
           status: Database["public"]["Enums"]["product_status"];
           tier: Database["public"]["Enums"]["content_tier"];
@@ -657,6 +658,7 @@ export type Database = {
           model: string;
           model_year?: number | null;
           msrp?: number | null;
+          product_type?: string | null;
           sport_key: string;
           status?: Database["public"]["Enums"]["product_status"];
           tier?: Database["public"]["Enums"]["content_tier"];
@@ -672,6 +674,7 @@ export type Database = {
           model?: string;
           model_year?: number | null;
           msrp?: number | null;
+          product_type?: string | null;
           sport_key?: string;
           status?: Database["public"]["Enums"]["product_status"];
           tier?: Database["public"]["Enums"]["content_tier"];

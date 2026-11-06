@@ -104,3 +104,15 @@ bol is een marktplaats, dus we halen niet de hele catalogus op. Per product in o
 ## Nog te verifiëren met de eerste echte feed
 
 De kolomnamen in `adapters.ts` volgen het standaardformaat van beide netwerken, met aliassen. Feeds verschillen per adverteerder: draai eerst `--offline` op een echte feed en vul zo nodig aliassen aan.
+
+### Nieuwe producten van bol (RP-77)
+
+Voor de bol-prijsimport zoekt de cron populaire producten op bol (`GET /products/search`, `sort=POPULARITY`, `src/lib/feeds/bol-discovery.ts`). Daarvan maakt hij nieuwe producten aan:
+
+- **Zoektermen:** padelrackets (top 100), padelballen (30), padel-overgrips (30) en padeltassen (40).
+- **Alleen bekende padelmerken** (`KNOWN_BRANDS`). Het merk moet vooraan in de titel staan.
+- **Filters op de titel** per soort, zodat er geen hoezen, kinderrackets, sets, tennis- of beachrackets tussen zitten. Er is ook een minimumprijs, en alleen nieuwe producten tellen mee.
+- **Model en jaar** komen uit het stuk van de titel vóór de eerste " - ". Kleurvarianten van hetzelfde model worden één product.
+- **Een EAN die al in de catalogus staat**, of hetzelfde merk + model + jaar, slaan we over.
+- **Rackets** worden direct gepubliceerd met tier C (noindex tot de specs zijn aangevuld). **Accessoires** komen binnen als draft, met `products.product_type` (`balls`, `grips`, `bags`). Ze krijgen al wel prijzen en historie, en worden zichtbaar zodra hun pagina's er zijn.
+- **Maximaal 60 nieuwe producten per run.** De rest volgt de volgende dag. Een fout hier stopt de prijsimport nooit. Het resultaat staat onder `discovery` in de cron-response.
