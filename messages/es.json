@@ -608,5 +608,131 @@
       "emptyTextNew": "Empezamos a seguir el precio de esta pala ahora. En unas semanas verás aquí cómo evoluciona. Crea ya una alerta de precio y te avisamos cuando baje.",
       "emptyCta": "Crear una alerta de precio"
     }
+  },
+  "advisor": {
+    "metaTitle": "¿Qué pala me conviene? Asesor gratuito",
+    "metaDescription": "Encuentra en cinco preguntas la pala que encaja con tu nivel, estilo de juego y presupuesto, al precio más bajo en tiendas españolas.",
+    "breadcrumb": "Ruta de navegación",
+    "home": "Inicio",
+    "title": "Asesor",
+    "h1": "¿Qué pala me conviene?",
+    "intro": "Responde {steps, select, 4 {cuatro} other {cinco}} preguntas cortas. Comparamos {count} palas y te mostramos las que mejor encajan con tu nivel, estilo de juego y presupuesto.",
+    "introNoCount": "Responde {steps, select, 4 {cuatro} other {cinco}} preguntas cortas. Te mostramos las palas que mejor encajan con tu nivel, estilo de juego y presupuesto.",
+    "back": "Anterior",
+    "progress": "Paso {step} de {total}",
+    "steps": {
+      "sport": {
+        "title": "¿Qué deporte practicas?",
+        "sub": "Solo mostramos palas y raquetas de este deporte."
+      },
+      "niveau": {
+        "title": "¿Cuál es tu nivel?",
+        "sub": "Sé sincero: una pala demasiado pesada frena tu progreso."
+      },
+      "stijl": {
+        "title": "¿Cómo prefieres jugar?",
+        "sub": "¿Dudas? Elige polivalente."
+      },
+      "frequentie": {
+        "title": "¿Con qué frecuencia juegas?",
+        "sub": "Quien juega más, saca más partido a una pala avanzada."
+      },
+      "budget": {
+        "title": "¿Cuánto quieres gastar?",
+        "sub": "Miramos el precio más bajo en todas las tiendas."
+      }
+    },
+    "options": {
+      "sport": {
+        "padel": {
+          "label": "Pádel",
+          "description": "Punto dulce, forma y balance"
+        },
+        "tennis": {
+          "label": "Tenis",
+          "description": "Del principiante al jugador de torneos"
+        },
+        "badminton": {
+          "label": "Bádminton",
+          "description": "Ligera, rápida y manejable"
+        },
+        "squash": {
+          "label": "Squash",
+          "description": "Control en un espacio pequeño"
+        },
+        "pickleball": {
+          "label": "Pickleball",
+          "description": "Palas para cada nivel"
+        },
+        "table-tennis": {
+          "label": "Tenis de mesa",
+          "description": "Palas y maderas"
+        }
+      },
+      "niveau": {
+        "beginner": {
+          "label": "Principiante",
+          "description": "Acabo de empezar o llevo menos de un año"
+        },
+        "gevorderd": {
+          "label": "Avanzado",
+          "description": "Juego a menudo y domino la técnica"
+        },
+        "competitie": {
+          "label": "Competición",
+          "description": "Juego ligas o torneos"
+        }
+      },
+      "stijl": {
+        "controle": {
+          "label": "Control",
+          "description": "Precisión y colocación antes que velocidad"
+        },
+        "allround": {
+          "label": "Polivalente",
+          "description": "Equilibrio entre control y potencia"
+        },
+        "power": {
+          "label": "Potencia",
+          "description": "Golpear fuerte y cerrar el punto"
+        }
+      },
+      "frequentie": {
+        "af-en-toe": {
+          "label": "De vez en cuando",
+          "description": "Unas veces al mes"
+        },
+        "wekelijks": {
+          "label": "1 vez por semana",
+          "description": "Un partido fijo cada semana"
+        },
+        "vaak": {
+          "label": "2–3 veces por semana",
+          "description": "Entrenamientos y partidos"
+        },
+        "dagelijks": {
+          "label": "Casi a diario",
+          "description": "Es mi afición número uno"
+        }
+      },
+      "budget": {
+        "tot-75": {
+          "label": "Hasta 75 €",
+          "description": "Suficiente para empezar"
+        },
+        "75-150": {
+          "label": "75 € – 150 €",
+          "description": "La mejor relación calidad-precio"
+        },
+        "150-250": {
+          "label": "150 € – 250 €",
+          "description": "Modelos top de la temporada pasada"
+        },
+        "250-plus": {
+          "label": "250 €+",
+          "description": "Lo último de lo último"
+        }
+      }
+    }
   }
 }

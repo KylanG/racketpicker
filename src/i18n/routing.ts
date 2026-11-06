@@ -39,6 +39,11 @@ export const routing = defineRouting({
     "/clothing/[sport]": { nl: "/kleding/[sport]", es: "/ropa/[sport]" },
     "/accessories/[sport]": { nl: "/accessoires/[sport]", es: "/accesorios/[sport]" },
     "/advisor": { nl: "/keuzehulp", es: "/asesor" },
+    // Outcome pages of the advisor (RP-50): /keuzehulp/padel/beginner-controle.
+    "/advisor/[sport]/[profile]": {
+      nl: "/keuzehulp/[sport]/[profile]",
+      es: "/asesor/[sport]/[profile]",
+    },
     "/blog": "/blog",
     "/blog/[slug]": "/blog/[slug]",
     "/favorites": { nl: "/favorieten", es: "/favoritos" },

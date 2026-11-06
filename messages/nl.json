@@ -815,5 +815,131 @@
       "emptyTextNew": "We volgen de prijs van dit racket vanaf nu. Over een paar weken zie je hier hoe de prijs zich ontwikkelt. Stel alvast een prijsalert in, dan hoor je het als hij daalt.",
       "emptyCta": "Stel een prijsalert in"
     }
+  },
+  "advisor": {
+    "metaTitle": "Welk racket past bij mij? Gratis keuzehulp",
+    "metaDescription": "Vind in vijf vragen het racket dat past bij jouw niveau, speelstijl en budget, met de laagste prijs bij Nederlandse winkels.",
+    "breadcrumb": "Kruimelpad",
+    "home": "Home",
+    "title": "Keuzehulp",
+    "h1": "Welk racket past bij mij?",
+    "intro": "Beantwoord {steps, select, 4 {vier} other {vijf}} korte vragen. We vergelijken {count} rackets en tonen welke het best passen bij jouw niveau, speelstijl en budget.",
+    "introNoCount": "Beantwoord {steps, select, 4 {vier} other {vijf}} korte vragen. We tonen welke rackets het best passen bij jouw niveau, speelstijl en budget.",
+    "back": "Vorige",
+    "progress": "Stap {step} van {total}",
+    "steps": {
+      "sport": {
+        "title": "Welke sport speel je?",
+        "sub": "We tonen alleen rackets voor deze sport."
+      },
+      "niveau": {
+        "title": "Wat is je niveau?",
+        "sub": "Wees eerlijk, een te zwaar racket remt je ontwikkeling."
+      },
+      "stijl": {
+        "title": "Hoe speel je het liefst?",
+        "sub": "Twijfel je? Kies allround."
+      },
+      "frequentie": {
+        "title": "Hoe vaak speel je?",
+        "sub": "Wie vaker speelt, haalt meer uit een geavanceerder racket."
+      },
+      "budget": {
+        "title": "Wat wil je uitgeven?",
+        "sub": "We kijken naar de laagste prijs bij alle winkels."
+      }
+    },
+    "options": {
+      "sport": {
+        "padel": {
+          "label": "Padel",
+          "description": "Sweetspot, vorm en balans"
+        },
+        "tennis": {
+          "label": "Tennis",
+          "description": "Van starter tot toernooispeler"
+        },
+        "badminton": {
+          "label": "Badminton",
+          "description": "Licht, snel en wendbaar"
+        },
+        "squash": {
+          "label": "Squash",
+          "description": "Controle in een kleine ruimte"
+        },
+        "pickleball": {
+          "label": "Pickleball",
+          "description": "Paddles voor elk niveau"
+        },
+        "table-tennis": {
+          "label": "Tafeltennis",
+          "description": "Batjes en blades"
+        }
+      },
+      "niveau": {
+        "beginner": {
+          "label": "Beginner",
+          "description": "Ik speel net of minder dan een jaar"
+        },
+        "gevorderd": {
+          "label": "Gevorderd",
+          "description": "Ik speel regelmatig en ken de techniek"
+        },
+        "competitie": {
+          "label": "Competitie",
+          "description": "Ik speel competitie of toernooien"
+        }
+      },
+      "stijl": {
+        "controle": {
+          "label": "Controle",
+          "description": "Precisie en plaatsing boven snelheid"
+        },
+        "allround": {
+          "label": "Allround",
+          "description": "Een balans tussen controle en kracht"
+        },
+        "power": {
+          "label": "Power",
+          "description": "Hard slaan en de punt afmaken"
+        }
+      },
+      "frequentie": {
+        "af-en-toe": {
+          "label": "Af en toe",
+          "description": "Een paar keer per maand"
+        },
+        "wekelijks": {
+          "label": "1× per week",
+          "description": "Een vaste wekelijkse partij"
+        },
+        "vaak": {
+          "label": "2–3× per week",
+          "description": "Training en wedstrijden"
+        },
+        "dagelijks": {
+          "label": "Bijna dagelijks",
+          "description": "Sport is mijn hobby nummer één"
+        }
+      },
+      "budget": {
+        "tot-75": {
+          "label": "Tot € 75",
+          "description": "Prima voor de start"
+        },
+        "75-150": {
+          "label": "€ 75 – € 150",
+          "description": "De beste prijs-kwaliteit"
+        },
+        "150-250": {
+          "label": "€ 150 – € 250",
+          "description": "Topmodellen van vorig seizoen"
+        },
+        "250-plus": {
+          "label": "€ 250+",
+          "description": "Het nieuwste van het nieuwste"
+        }
+      }
+    }
   }
 }
