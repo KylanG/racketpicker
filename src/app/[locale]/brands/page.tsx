@@ -61,8 +61,8 @@ export default async function BrandsPage({ params }: PageProps<"/[locale]/brands
         </section>
       </div>
 
-      <section className="rp-container py-[clamp(40px,5vw,72px)]">
-        <ul className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,220px),1fr))] gap-4">
+      <section className="rp-container w-full py-[clamp(40px,5vw,72px)]">
+        <ul className="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5">
           {brands.map((b) => (
             <li key={b.slug}>
               <Link
@@ -70,7 +70,11 @@ export default async function BrandsPage({ params }: PageProps<"/[locale]/brands
                 className="bg-surface hover:shadow-card-hover flex h-full flex-col items-center justify-center gap-4 px-5 py-8 text-center text-green-950 transition-shadow duration-300 hover:text-green-950"
               >
                 <span className="grid h-14 w-full place-items-center">
-                  <BrandLogo name={b.name} logo={logoSrc(b.logoPath)} className="h-12 w-[170px]" />
+                  <BrandLogo
+                    name={b.name}
+                    logo={logoSrc(b.logoPath)}
+                    className="mx-auto h-12 w-full max-w-[170px]"
+                  />
                 </span>
                 <span className="text-muted text-[14px]">
                   {t("productCount", { count: b.productCount })}
