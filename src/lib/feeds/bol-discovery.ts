@@ -1,0 +1,214 @@
+/**
+ * New products from bol (RP-77). Pure part: which search results become a product, and
+ * brand, model and year from the bol title. The I/O lives in bol-discovery-run.ts.
+ */
+import type { CategoryKey, SportKey } from "@/lib/catalog/taxonomy";
+import { validGtin } from "./bol";
+
+export type ProductType = "balls" | "grips" | "bags";
+
+export type DiscoveryTarget = {
+  key: string;
+  searchTerm: string;
+  category: CategoryKey;
+  sport: SportKey;
+  productType: ProductType | null;
+  /** How many popular results to look at (pages of 50). */
+  limit: number;
+  /** Title must match … */
+  include: RegExp;
+  /** … and must not match. */
+  exclude: RegExp;
+  minPrice: number;
+};
+
+/** Things that are never the product itself: covers, kids' sizes, beach tennis, sets. */
+const NOT_A_RACKET =
+  /\b(hoes|cover|tas|bag|rugzak|bal(len)?|grip|overgrip|protector|beschermer|tape|set|kinder|kids?|junior|jr|beach|strand|tennisracket|pickleball|squash|badminton|sleutelhanger|mini)\b/i;
+
+export const DISCOVERY_TARGETS: DiscoveryTarget[] = [
+  {
+    key: "padel-rackets",
+    searchTerm: "padel racket",
+    category: "rackets",
+    sport: "padel",
+    productType: null,
+    limit: 100,
+    include: /padel/i,
+    exclude: NOT_A_RACKET,
+    minPrice: 40,
+  },
+  {
+    key: "padel-balls",
+    searchTerm: "padelballen",
+    category: "accessories",
+    sport: "padel",
+    productType: "balls",
+    limit: 30,
+    include: /padel.*\bbal(len)?\b|\bbal(len)?\b.*padel|padelbal/i,
+    exclude: /\b(racket|tas|bag|machine|kanon|houder|mand)\b/i,
+    minPrice: 3,
+  },
+  {
+    key: "padel-grips",
+    searchTerm: "padel overgrip",
+    category: "accessories",
+    sport: "padel",
+    productType: "grips",
+    limit: 30,
+    include: /grip/i,
+    exclude: /\b(racket|tas|bag|bal(len)?|fiets|golf|handschoen)\b/i,
+    minPrice: 3,
+  },
+  {
+    key: "padel-bags",
+    searchTerm: "padeltas",
+    category: "accessories",
+    sport: "padel",
+    productType: "bags",
+    limit: 40,
+    include: /padel.*\b(tas|bag|rugzak|backpack|racketbag|thermobag)\b|padeltas/i,
+    exclude: /\b(racket(?!bag)|bal(len)?|grip|hoes|cover)\b/i,
+    minPrice: 15,
+  },
+];
+
+/**
+ * Padel brands we accept, in the spelling we show. Results of other brands are skipped,
+ * which keeps generic or no-name products off the site.
+ */
+export const KNOWN_BRANDS = [
+  "Adidas",
+  "Babolat",
+  "Black Crown",
+  "Bullpadel",
+  "Drop Shot",
+  "Dunlop",
+  "Head",
+  "Joma",
+  "Kuikma",
+  "Lok",
+  "Nox",
+  "Oxdog",
+  "Prince",
+  "Puma",
+  "Royal Padel",
+  "Siux",
+  "Softee",
+  "StarVie",
+  "Tecnifibre",
+  "Varlion",
+  "Vibor-A",
+  "Wilson",
+] as const;
+
+const normalize = (s: string) =>
+  s
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+
+/** Known brand at the start of the title (bol titles start with the brand). */
+export function brandFromTitle(title: string): string | null {
+  const t = ` ${normalize(title)} `;
+  for (const brand of [...KNOWN_BRANDS].sort((a, b) => b.length - a.length)) {
+    if (t.startsWith(` ${normalize(brand)} `)) return brand;
+  }
+  return null;
+}
+
+/**
+ * Model and year from a bol title such as
+ * "Adidas Metalbone 3.4 2025 - Padelracket - Zwart/Rood" → { model: "Metalbone 3.4", year: 2025 }.
+ * Only the part before the first " - " or " | " counts; generic words are dropped.
+ */
+export function modelFromTitle(
+  title: string,
+  brand: string,
+): { model: string; year: number | null } {
+  const head = title.split(/\s[-|–]\s|,\s/)[0]!.trim();
+  let rest = head.slice(head.toLowerCase().indexOf(brand.toLowerCase()) + brand.length).trim();
+  const yearMatch = rest.match(/\b(20[2-3]\d)\b/);
+  const year = yearMatch ? Number(yearMatch[1]) : null;
+  rest = rest
+    .replace(/\b20[2-3]\d\b/, " ")
+    .replace(/\b(padel ?racket|padelracket|padel racket|racket|padel)\b/gi, " ")
+    .replace(/\s{2,}/g, " ")
+    .trim()
+    .replace(/^[-–:]\s*/, "");
+  return { model: rest, year };
+}
+
+export function slugify(s: string): string {
+  return normalize(s).replace(/\s+/g, "-").slice(0, 80).replace(/-+$/, "");
+}
+
+export type BolSearchResult = {
+  ean?: string;
+  title?: string;
+  url?: string;
+  image?: { url?: string };
+  offer?: { price?: number; condition?: string };
+};
+
+export type NewProduct = {
+  ean: string;
+  brand: string;
+  model: string;
+  year: number | null;
+  title: string;
+  slug: string;
+  category: CategoryKey;
+  sport: SportKey;
+  productType: ProductType | null;
+};
+
+/**
+ * Search results that become new products: a valid EAN we do not have yet, a known brand,
+ * a title that passes the target's filters, a model name and a price above the minimum.
+ * One product per brand + model + year (bol lists colour variants separately).
+ */
+export function selectNewProducts(
+  results: BolSearchResult[],
+  target: DiscoveryTarget,
+  known: { eans: Set<string>; keys: Set<string>; slugs: Set<string> },
+): NewProduct[] {
+  const picked: NewProduct[] = [];
+  for (const r of results) {
+    const ean = r.ean?.trim();
+    const title = r.title?.trim();
+    if (!ean || !title || !validGtin(ean) || known.eans.has(ean)) continue;
+    if (!target.include.test(title) || target.exclude.test(title)) continue;
+    if (!(r.offer?.price && r.offer.price >= target.minPrice)) continue;
+    if (r.offer.condition && r.offer.condition.toUpperCase() !== "NEW") continue;
+    const brand = brandFromTitle(title);
+    if (!brand) continue;
+    const { model, year } = modelFromTitle(title, brand);
+    if (model.length < 2 || model.length > 80) continue;
+
+    const key = `${brand}|${model.toLowerCase()}|${year ?? ""}`;
+    if (known.keys.has(key)) continue;
+    const display = [brand, model, year].filter(Boolean).join(" ");
+    let slug = slugify(display);
+    if (known.slugs.has(slug)) slug = `${slug}-${ean.slice(-4)}`;
+    if (known.slugs.has(slug)) continue;
+
+    known.eans.add(ean);
+    known.keys.add(key);
+    known.slugs.add(slug);
+    picked.push({
+      ean,
+      brand,
+      model,
+      year,
+      title: display,
+      slug,
+      category: target.category,
+      sport: target.sport,
+      productType: target.productType,
+    });
+  }
+  return picked;
+}

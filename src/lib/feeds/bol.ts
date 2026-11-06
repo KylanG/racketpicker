@@ -11,9 +11,9 @@ import type { CatalogProduct, StockStatus } from "./types";
 export const BOL_SITE_ID = "1556484";
 
 const TOKEN_URL = "https://login.bol.com/token?grant_type=client_credentials";
-const API = "https://api.bol.com/marketing/catalog/v1";
+export const BOL_API = "https://api.bol.com/marketing/catalog/v1";
 /** bol allows 10 requests per second: one at a time, at least this many ms apart. */
-const SPACING_MS = 150;
+export const BOL_SPACING_MS = 150;
 const RETRIES = 3;
 
 export type BolOffer = {
@@ -61,7 +61,7 @@ export async function getBolToken(fetcher: Fetcher = fetch): Promise<string> {
   return data.access_token;
 }
 
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 /** Best offer for one EAN in NL, or null when bol has no orderable offer (404). */
 export async function getBestOffer(
@@ -70,7 +70,7 @@ export async function getBestOffer(
   fetcher: Fetcher = fetch,
   wait: (ms: number) => Promise<unknown> = sleep,
 ): Promise<BolOffer | null> {
-  const url = `${API}/products/${ean}/offers/best?country-code=NL&include-seller=true`;
+  const url = `${BOL_API}/products/${ean}/offers/best?country-code=NL&include-seller=true`;
   for (let attempt = 0; ; attempt++) {
     const res = await fetcher(url, {
       headers: {
@@ -131,7 +131,7 @@ export async function getMedia(
   // The media endpoint only takes 13-digit EANs; a 12-digit UPC gets a leading zero.
   const ean13 = ean.padStart(13, "0");
   if (!/^\d{13}$/.test(ean13)) return null;
-  const url = `${API}/products/${ean13}/media`;
+  const url = `${BOL_API}/products/${ean13}/media`;
   for (let attempt = 0; ; attempt++) {
     try {
       const res = await fetcher(url, {
@@ -185,7 +185,7 @@ export function offerToItem(
     title,
     brand: product.brand,
     gtin: ean,
-    category: "padel rackets",
+    category: product.category === "accessories" ? "padel accessories" : "padel rackets",
     price: Math.round(offer.price * 100) / 100,
     // bol shows shipping in the basket; unknown per offer here.
     shippingCost: null,
@@ -206,7 +206,13 @@ export function offerToItem(
  */
 export async function fetchBolItems(
   catalog: CatalogProduct[],
-  options: { fetcher?: Fetcher; today?: Date; wait?: (ms: number) => Promise<unknown> } = {},
+  options: {
+    fetcher?: Fetcher;
+    today?: Date;
+    wait?: (ms: number) => Promise<unknown>;
+    /** Products that already have a photo: no media request for them. */
+    withImage?: Set<string>;
+  } = {},
 ): Promise<{ items: PreparedItem[]; stats: PipelineStats }> {
   const fetcher = options.fetcher ?? fetch;
   const withEan = catalog.filter((p) => p.gtins.some(validGtin));
@@ -231,13 +237,15 @@ export async function fetchBolItems(
     let item: PreparedItem | null = null;
     for (const ean of product.gtins.filter(validGtin)) {
       const offer = await getBestOffer(ean, token, fetcher, wait);
-      await wait(SPACING_MS);
+      await wait(BOL_SPACING_MS);
       if (!offer) continue;
       item = offerToItem(offer, product, ean, options.today);
       if (item) {
         // The photo for the image sync, which copies it to our storage once (RP-75).
-        item.imageUrl = pickBolImage(await getMedia(ean, token, fetcher, wait));
-        await wait(SPACING_MS);
+        if (!options.withImage?.has(product.id)) {
+          item.imageUrl = pickBolImage(await getMedia(ean, token, fetcher, wait));
+          await wait(BOL_SPACING_MS);
+        }
         break;
       }
       stats.invalid++;

@@ -35,6 +35,8 @@ export type CatalogProduct = {
   model: string;
   modelYear: number | null;
   gtins: string[];
+  /** Category key; set for the bol import, which covers accessories too (RP-77). */
+  category?: string;
 };
 
 export type MatchResult =

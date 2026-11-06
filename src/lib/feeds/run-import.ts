@@ -35,13 +35,19 @@ export function resolveFeedUrl(network: AffiliateNetwork, feedKey: string): stri
   return url;
 }
 
-export async function loadCatalog(): Promise<CatalogProduct[]> {
-  const { data, error } = await createAdminClient()
+/**
+ * Products to match feed rows against. Feeds are filtered on padel rackets, so only
+ * rackets; bol is asked per EAN, so there also accessories (RP-77), drafts included so
+ * their price history builds up before their pages exist.
+ */
+export async function loadCatalog(allCategories = false): Promise<CatalogProduct[]> {
+  let query = createAdminClient()
     .from("products")
-    .select("id, model, model_year, gtins, brands!inner(name)")
-    .eq("category_key", "rackets")
+    .select("id, model, model_year, gtins, category_key, brands!inner(name)")
     .eq("is_sample", false)
     .neq("status", "archived");
+  if (!allCategories) query = query.eq("category_key", "rackets");
+  const { data, error } = await query;
   if (error) throw new Error(`Loading catalog failed: ${error.message}`);
   return data.map((p) => ({
     id: p.id,
@@ -49,6 +55,7 @@ export async function loadCatalog(): Promise<CatalogProduct[]> {
     model: p.model,
     modelYear: p.model_year,
     gtins: p.gtins,
+    category: p.category_key,
   }));
 }
 
@@ -86,11 +93,17 @@ export async function runImport(
     throw new Error(`Feed source for "${shopSlug}" is not active`);
   }
 
-  const catalog = await loadCatalog();
+  const catalog = await loadCatalog(source.network === "bol");
   let prepared: { items: PreparedItem[]; stats: PipelineStats };
   if (source.network === "bol") {
     // bol: best offer per EAN of our own catalog via the Marketing Catalog API (RP-72).
-    prepared = await fetchBolItems(catalog);
+    const { data: images, error: imagesError } = await createAdminClient()
+      .from("product_images")
+      .select("product_id");
+    if (imagesError) throw new Error(`Loading product images failed: ${imagesError.message}`);
+    prepared = await fetchBolItems(catalog, {
+      withImage: new Set(images.map((i) => i.product_id)),
+    });
   } else {
     const bytes =
       options.bytes ?? (await download(resolveFeedUrl(source.network, source.feed_key)));
