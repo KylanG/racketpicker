@@ -63,52 +63,55 @@ export function NewsletterForm() {
 
   return (
     <form noValidate onSubmit={onSubmit} className="flex max-w-[560px] flex-col gap-3.5">
-      {/* The focus ring goes around the whole bar instead of the bare input. */}
-      <Slant
-        size={12}
-        className="has-[input:focus-visible]:outline-ink flex items-center gap-3 bg-white py-2 pr-2 pl-6 has-[input:focus-visible]:shadow-[0_0_0_6px_var(--color-lime)] has-[input:focus-visible]:outline-[3px] has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-solid"
-      >
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          stroke="var(--color-green-800)"
-          strokeWidth="1.7"
-          aria-hidden="true"
-          className="shrink-0"
-        >
-          <rect x="2.5" y="4.5" width="15" height="11" />
-          <path d="M3 5l7 6 7-6" />
-        </svg>
-        <label htmlFor={inputId} className="sr-only">
-          {t("emailLabel")}
-        </label>
-        <input
-          ref={inputRef}
-          id={inputId}
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
-          inputMode="email"
-          placeholder={t("emailPlaceholder")}
-          aria-invalid={error === "errorInvalid" ? true : undefined}
-          aria-describedby={error ? errorId : undefined}
-          onInput={() => error === "errorInvalid" && setError(null)}
-          className="text-ink placeholder:text-muted w-0 min-w-0 flex-1 border-0 bg-transparent py-3 text-[16px] font-medium outline-none focus-visible:shadow-none focus-visible:outline-none"
-        />
+      {/* The focus ring follows the slanted bar instead of the bare input. */}
+      <div className="rp-slant-focus">
         <Slant
-          as="button"
-          type="submit"
-          size={8}
-          disabled={pending}
-          className="bg-lime hover:bg-lime-hover flex min-h-12 shrink-0 cursor-pointer items-center gap-2.5 pr-5 pl-[22px] text-[15px] font-semibold text-green-950 transition-colors duration-300 disabled:cursor-wait disabled:opacity-70"
+          size={12}
+          data-slant-keep=""
+          className="flex items-center gap-3 bg-white py-2 pr-2 pl-6"
         >
-          <span>{t("subscribe")}</span>
-          <ArrowIcon size={12} />
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            stroke="var(--color-green-800)"
+            strokeWidth="1.7"
+            aria-hidden="true"
+            className="shrink-0"
+          >
+            <rect x="2.5" y="4.5" width="15" height="11" />
+            <path d="M3 5l7 6 7-6" />
+          </svg>
+          <label htmlFor={inputId} className="sr-only">
+            {t("emailLabel")}
+          </label>
+          <input
+            ref={inputRef}
+            id={inputId}
+            name="email"
+            type="email"
+            required
+            autoComplete="email"
+            inputMode="email"
+            placeholder={t("emailPlaceholder")}
+            aria-invalid={error === "errorInvalid" ? true : undefined}
+            aria-describedby={error ? errorId : undefined}
+            onInput={() => error === "errorInvalid" && setError(null)}
+            className="text-ink placeholder:text-muted w-0 min-w-0 flex-1 border-0 bg-transparent py-3 text-[16px] font-medium outline-none focus-visible:shadow-none focus-visible:outline-none"
+          />
+          <Slant
+            as="button"
+            type="submit"
+            size={8}
+            disabled={pending}
+            className="bg-lime hover:bg-lime-hover flex min-h-12 shrink-0 cursor-pointer items-center gap-2.5 pr-5 pl-[22px] text-[15px] font-semibold text-green-950 transition-colors duration-300 disabled:cursor-wait disabled:opacity-70"
+          >
+            <span>{t("subscribe")}</span>
+            <ArrowIcon size={12} />
+          </Slant>
         </Slant>
-      </Slant>
+      </div>
 
       {/* Errors and progress are announced without moving focus. */}
       <p id={errorId} aria-live="polite" className="text-lime text-[14px] font-medium empty:hidden">

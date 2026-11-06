@@ -35,11 +35,7 @@ export default async function NewsletterStatusPage({
     <>
       <div className="rp-hero-sub text-white">
         <Header />
-        <section
-          id="main"
-          tabIndex={-1}
-          className="rp-container flex flex-col gap-[18px] pt-[clamp(40px,5vw,72px)] pb-[clamp(48px,6vw,88px)] outline-none"
-        >
+        <section className="rp-container flex flex-col gap-[18px] pt-[clamp(40px,5vw,72px)] pb-[clamp(48px,6vw,88px)]">
           <nav aria-label={t("breadcrumb")}>
             <ol className="text-on-dark flex gap-2 text-[13px]">
               <li className="flex gap-2">
@@ -58,18 +54,32 @@ export default async function NewsletterStatusPage({
               {t(`${status}.heading`)}
             </h1>
           </Reveal>
-          <p className="text-on-dark-strong max-w-[640px] text-[17px] leading-normal">
-            {t(`${status}.text`)}
-          </p>
+        </section>
+      </div>
+      {/* White content block, as on the info pages, so the footer's slant has room. */}
+      <section
+        id="main"
+        tabIndex={-1}
+        className="rp-container flex w-full flex-col items-start gap-6 pt-14 pb-24 outline-none"
+      >
+        <p className="text-ink max-w-[640px] text-[18px] leading-[1.55]">{t(`${status}.text`)}</p>
+        <div className="flex flex-wrap gap-3">
           <Slant
             as={Link}
             href={{ pathname: "/", hash: "deals" }}
-            className="bg-lime hover:bg-lime-hover mt-2 self-start px-6 py-3.5 text-[15px] font-semibold text-green-950 hover:text-green-950"
+            className="bg-lime hover:bg-lime-hover px-6 py-3.5 text-[15px] font-semibold text-green-950 hover:text-green-950"
           >
             {t("cta")}
           </Slant>
-        </section>
-      </div>
+          <Slant
+            as={Link}
+            href="/rackets"
+            className="bg-green-950 px-6 py-3.5 text-[15px] font-semibold text-white hover:bg-green-900 hover:text-white"
+          >
+            {t("ctaRackets")}
+          </Slant>
+        </div>
+      </section>
     </>
   );
 }

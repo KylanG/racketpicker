@@ -180,9 +180,17 @@
     box-shadow: none;
   }
 
-  :focus-visible[data-slant],
-  [data-slant]:has(:focus-visible) {
+  :focus-visible[data-slant]:not([data-slant-keep]),
+  [data-slant]:not([data-slant-keep]):has(:focus-visible) {
     clip-path: none !important;
+  }
+  /*
+   * Slanted input bars (search, newsletter) keep their shape on focus: the wrapper draws a
+   * 3px lime ring that follows the slant (filter runs after the child's clip-path).
+   */
+  .rp-slant-focus:has(input:focus-visible) {
+    filter: drop-shadow(3px 0 0 var(--color-lime)) drop-shadow(-3px 0 0 var(--color-lime))
+      drop-shadow(0 3px 0 var(--color-lime)) drop-shadow(0 -3px 0 var(--color-lime));
   }
 
   @media (prefers-reduced-motion: reduce) {

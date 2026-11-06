@@ -1141,7 +1141,8 @@
         "heading": "Deze link werkt niet meer",
         "text": "De link is verlopen of al gebruikt. Bevestigingslinks werken een week. Meld je opnieuw aan onderaan de pagina, dan sturen we een nieuwe mail."
       },
-      "cta": "Naar de deals"
+      "cta": "Naar de deals",
+      "ctaRackets": "Bekijk de rackets"
     }
   }
 }

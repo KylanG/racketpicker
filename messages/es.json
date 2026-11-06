@@ -934,7 +934,8 @@
         "heading": "Este enlace ya no funciona",
         "text": "El enlace ha caducado o ya se ha usado. Los enlaces de confirmación valen una semana. Suscríbete de nuevo al pie de la página y te enviaremos otro correo."
       },
-      "cta": "Ver ofertas"
+      "cta": "Ver ofertas",
+      "ctaRackets": "Ver las palas"
     }
   }
 }
