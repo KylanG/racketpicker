@@ -1,6 +1,7 @@
 import createMiddleware from "next-intl/middleware";
 import { NextResponse, type NextRequest } from "next/server";
 import { routing } from "./i18n/routing";
+import { hasUnknownAdvisorProfile } from "./lib/advisor/route-guard";
 import { articleExists, articleFromPath } from "./lib/blog/route-guard";
 import { hasUnknownSport, racketExists, racketFromPath } from "./lib/catalog/route-guard";
 
@@ -10,10 +11,11 @@ export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const article = articleFromPath(pathname);
   const racket = racketFromPath(pathname);
-  // Unknown sport (e.g. /nl/rackets/voetbal), article or racket: rewrite to a path no route
+  // Unknown sport (e.g. /nl/rackets/voetbal), advisor profile, article or racket: rewrite to a path no route
   // matches, so the global 404 page is served with status 404 instead of a streamed 200.
   if (
     hasUnknownSport(pathname) ||
+    hasUnknownAdvisorProfile(pathname) ||
     (article && !(await articleExists(article.locale, article.slug))) ||
     (racket && !(await racketExists(racket)))
   ) {

@@ -733,6 +733,127 @@
           "description": "Lo último de lo último"
         }
       }
+    },
+    "outcome": {
+      "metaTitle": "Mejor {racket} para {level} con {style}",
+      "metaDescription": "¿Qué {racket} conviene a {level} con {style}? Comparamos las que encajan y mostramos el precio más bajo en tiendas españolas.",
+      "h1": "La mejor {racket} para {level} con {style}",
+      "intro": "Según tus respuestas mostramos las palas que mejor encajan contigo, con el precio más bajo en todas las tiendas.",
+      "level": {
+        "beginner": "principiantes",
+        "gevorderd": "jugadores avanzados",
+        "competitie": "jugadores de competición"
+      },
+      "style": {
+        "controle": "juego de control",
+        "allround": "juego polivalente",
+        "power": "juego de potencia"
+      },
+      "racket": {
+        "padel": "pala de pádel",
+        "tennis": "raqueta de tenis",
+        "badminton": "raqueta de bádminton",
+        "squash": "raqueta de squash",
+        "pickleball": "pala de pickleball",
+        "table-tennis": "pala de tenis de mesa"
+      },
+      "personalize": "Hazlo más personal"
+    },
+    "result": {
+      "count": "{count, plural, =0 {No hemos encontrado palas} one {Esta pala encaja contigo} other {Las # palas que mejor encajan contigo}}",
+      "restart": "Empezar de nuevo",
+      "edit": "Cambiar {question}",
+      "share": "Enlace para compartir:",
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "match": "{percent}% de coincidencia",
+      "from": "desde <strong>{price}</strong> · {count, plural, one {# tienda} other {# tiendas}}",
+      "why": {
+        "level": "pensada para {level}",
+        "style": "orientada al {style}, como tú juegas",
+        "inBudget": "dentro de tu presupuesto",
+        "belowBudget": "por debajo de tu presupuesto",
+        "intensive": "aguanta bien el juego intensivo",
+        "fallback": "buena alternativa si quieres progresar"
+      },
+      "empty": "Todavía no tenemos palas en stock para este deporte. Mira todas las palas o vuelve más tarde.",
+      "emptyCta": "Ver todas las palas",
+      "disclosure": "Si compras a través de nosotros, la tienda nos paga una comisión. A ti no te cuesta nada más y nunca cambia el orden de los resultados."
+    },
+    "question": {
+      "sport": "Deporte",
+      "niveau": "Nivel",
+      "stijl": "Estilo",
+      "frequentie": "Frecuencia",
+      "budget": "Presupuesto"
+    },
+    "info": {
+      "tableTitle": "Control, polivalente o potencia: ¿cuál es la diferencia?",
+      "tableIntro": "En todos los deportes de raqueta, el estilo de una pala se reduce a las mismas tres propiedades: peso, balance y tamaño del punto dulce.",
+      "tableCaption": "Diferencias entre palas de control, polivalentes y de potencia",
+      "rows": {
+        "weight": {
+          "label": "Peso",
+          "control": "Más ligera, manejable",
+          "allround": "Medio",
+          "power": "Más pesada, más pegada"
+        },
+        "balance": {
+          "label": "Balance",
+          "control": "Bajo, hacia el puño",
+          "allround": "Neutro",
+          "power": "Alto, hacia la cabeza"
+        },
+        "sweetspot": {
+          "label": "Punto dulce",
+          "control": "Grande y permisivo",
+          "allround": "Medio",
+          "power": "Pequeño, alto en la cabeza"
+        },
+        "material": {
+          "label": "Material",
+          "control": "Más blando, más tacto",
+          "allround": "Mixto",
+          "power": "Más rígido, más carbono"
+        },
+        "for": {
+          "label": "Ideal para",
+          "control": "Principiantes y jugadores tácticos",
+          "allround": "La mayoría de jugadores",
+          "power": "Jugadores avanzados y ofensivos"
+        }
+      },
+      "faqTitle": "Preguntas frecuentes",
+      "faqIntro": "¿No encuentras tu pregunta? Escríbenos a hello@racketpicker.com.",
+      "faq": {
+        "free": {
+          "q": "¿El asesor es realmente gratis?",
+          "a": "Sí. No necesitas crear una cuenta. Si compras a través de nosotros, la tienda nos paga una comisión. Tú no pagas nada más y no influye en el orden de los resultados."
+        },
+        "match": {
+          "q": "¿Cómo calculáis el porcentaje de coincidencia?",
+          "a": "Comparamos tu nivel, estilo, frecuencia y presupuesto con las características de cada pala: el nivel y el estilo para los que está pensada y el precio actual más bajo."
+        },
+        "beginner": {
+          "q": "¿Como principiante debo comprar una pala barata?",
+          "a": "No necesariamente, pero una pala para avanzados suele ser más pesada y dura, y perdona menos los errores. Una pala polivalente o de control te ayuda a progresar más rápido."
+        },
+        "prices": {
+          "q": "¿Cada cuánto se actualizan los precios?",
+          "a": "Cada día. En cada pala ves también el historial de precios, para saber si una oferta es realmente buena."
+        },
+        "later": {
+          "q": "¿Puedo volver a ver mi resultado más tarde?",
+          "a": "Sí. Cada resultado tiene su propio enlace que puedes guardar o compartir."
+        }
+      },
+      "linksTitle": "¿Prefieres comparar tú mismo?",
+      "sportRackets": "Palas de {sport}",
+      "links": {
+        "beginner": "Palas para principiantes",
+        "power": "Palas de potencia",
+        "controle": "Palas de control"
+      }
     }
   }
 }
