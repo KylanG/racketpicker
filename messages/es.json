@@ -9,9 +9,12 @@
   "home": {
     "season": {
       "blackFriday": {
-        "title": "Ofertas de pádel del Black Friday, comparadas con honestidad",
+        "title": "Black Friday sin descuentos falsos",
         "imageAlt": "Black Friday: letras hechas de pelotas de tenis con dos palas de pádel",
-        "ctaEyebrow": "Black Friday"
+        "ctaEyebrow": "Black Friday",
+        "alertEyebrow": "Black Friday",
+        "alertTitle": "Sin descuentos falsos. Nosotros vigilamos el precio por ti.",
+        "alertText": "En Black Friday los precios suelen subir primero y después «bajar». Nosotros siempre comparamos con el precio más bajo de los 30 días anteriores. Crea una alerta de precio para la pala que quieres: cuando baje de tu precio objetivo, te avisamos al momento por correo."
       },
       "regular": {
         "title": "Palas de pádel comparadas con honestidad",

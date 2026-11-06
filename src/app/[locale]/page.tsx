@@ -20,7 +20,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { getAlternates } from "@/i18n/alternates";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { getShopCount } from "@/lib/catalog/deals";
+import { getFeaturedDeals, getShopCount } from "@/lib/catalog/deals";
 import { getSearchIndex } from "@/lib/catalog/search";
 import { ACTIVE_SEASON, SEASONS, type HomeBlock } from "@/lib/home/season";
 
@@ -39,11 +39,16 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = (await params) as { locale: Locale };
   setRequestLocale(locale);
   const season = SEASONS[ACTIVE_SEASON];
-  const [t, shopCount, searchIndex] = await Promise.all([
+  const [t, shopCount, searchIndex, deals] = await Promise.all([
     getTranslations("home"),
     getShopCount(locale),
     getSearchIndex(locale),
+    getFeaturedDeals(locale),
   ]);
+  // No featured deals yet (e.g. the first 30 days of price history): the season can put
+  // the price alert in their place (RP-87).
+  const blocks =
+    deals.length === 0 && season.blocksWithoutDeals ? season.blocksWithoutDeals : season.blocks;
 
   return (
     <>
@@ -98,7 +103,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
       <div className="flex flex-col">
         {/* Order of the first three blocks depends on the season (src/lib/home/season.ts). */}
-        {season.blocks.map((block) => {
+        {blocks.map((block) => {
           const blocks: Record<HomeBlock, ReactNode> = {
             deals: <FeaturedDeals key="deals" />,
             ctas: (
@@ -109,12 +114,23 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               />
             ),
             shop: <ShopBlock key="shop" />,
+            alert: (
+              <PriceAlertPromo
+                key="alert"
+                first
+                copy={{
+                  eyebrow: t("season.blackFriday.alertEyebrow"),
+                  title: t("season.blackFriday.alertTitle"),
+                  text: t("season.blackFriday.alertText"),
+                }}
+              />
+            ),
           };
           return blocks[block];
         })}
         <HowItWorks shopCount={shopCount} />
         <BrandBlock />
-        <PriceAlertPromo />
+        {!blocks.includes("alert") && <PriceAlertPromo />}
         <TrustpilotReviews />
         <LatestArticles />
       </div>

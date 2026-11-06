@@ -9,9 +9,12 @@
   "home": {
     "season": {
       "blackFriday": {
-        "title": "Black friday padel deals, eerlijk vergeleken",
+        "title": "Black Friday zonder nepkortingen",
         "imageAlt": "Black Friday: letters gemaakt van tennisballen met twee padelrackets",
-        "ctaEyebrow": "Black Friday"
+        "ctaEyebrow": "Black Friday",
+        "alertEyebrow": "Black Friday",
+        "alertTitle": "Geen nepkortingen. Wij houden de prijs voor je in de gaten.",
+        "alertText": "Rond Black Friday gaan prijzen vaak eerst omhoog en daarna „in de aanbieding”. Wij vergelijken altijd met de laagste prijs van de 30 dagen ervoor. Zet een prijsalert op het racket dat je wilt: zakt de prijs onder jouw doelprijs, dan krijg je meteen een mail."
       },
       "regular": {
         "title": "Padelrackets eerlijk vergeleken",

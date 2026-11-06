@@ -275,21 +275,36 @@ export async function BrandBlock() {
 /* ---------------------------------------------------------------------------------- */
 
 /** Price alert promo with an example card (clearly labelled as an example). */
-export async function PriceAlertPromo() {
+/**
+ * "Prijsalert" block. `copy` replaces the texts (the Black Friday version, RP-87) and
+ * `first` gives it the spacing of the first block under the hero.
+ */
+export async function PriceAlertPromo({
+  copy,
+  first = false,
+}: {
+  copy?: { eyebrow: string; title: string; text: string };
+  first?: boolean;
+} = {}) {
   const locale = (await getLocale()) as Locale;
   const t = await getTranslations("home");
   const now = 199;
   const target = 179;
+  const text = copy ?? {
+    eyebrow: t("alertEyebrow"),
+    title: t("alertTitle"),
+    text: t("alertText"),
+  };
 
   return (
-    <section className="rp-container w-full pt-[136px]">
+    <section className={`rp-container w-full ${first ? "pt-24 pb-10" : "pt-[136px]"}`}>
       <div className="bg-surface grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-12 p-[clamp(32px,4.5vw,64px)]">
         <div className="flex flex-col gap-4">
-          <p className="rp-eyebrow">{t("alertEyebrow")}</p>
+          <p className="rp-eyebrow">{text.eyebrow}</p>
           <Reveal>
-            <h2 className="rp-h2">{t("alertTitle")}</h2>
+            <h2 className="rp-h2">{text.title}</h2>
           </Reveal>
-          <p className="text-muted max-w-[480px] text-[17px] leading-[1.55]">{t("alertText")}</p>
+          <p className="text-muted max-w-[480px] text-[17px] leading-[1.55]">{text.text}</p>
           <Slant
             as={Link}
             href={sportHref("padel", locale)}
