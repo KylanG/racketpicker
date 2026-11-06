@@ -113,6 +113,22 @@
   }
 }
 
+/* New advisor question: the same rise as <Reveal>, played on every step change. */
+@keyframes rp-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+.rp-fade-in {
+  animation: rp-rise 800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rp-fade-in {
+    animation: none;
+  }
+}
+
 @layer base {
   :root {
     /* Page gutter and visible sticky-header height (set by the header, RP-22). */
