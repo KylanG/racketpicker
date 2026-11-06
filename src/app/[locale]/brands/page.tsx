@@ -61,8 +61,8 @@ export default async function BrandsPage({ params }: PageProps<"/[locale]/brands
         </section>
       </div>
 
-      <section className="rp-container py-[clamp(40px,5vw,72px)]">
-        <ul className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,220px),1fr))] gap-4">
+      <section className="rp-container w-full py-[clamp(40px,5vw,72px)]">
+        <ul className="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5">
           {brands.map((b) => (
             <li key={b.slug}>
               <Link
