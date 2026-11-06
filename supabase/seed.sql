@@ -165,3 +165,35 @@ cross join generate_series(0, 89) as d
 where sc.scenario <> 'new' or d < 20;
 
 commit;
+-- Sample accessories (RP-78): only visible where sample data is shown (Preview). ------
+with seed(brand_slug, model, product_type, slug, base_price) as (values
+  ('head', 'Pro S', 'balls', 'voorbeeld-head-pro-s-padelballen', 6.99),
+  ('bullpadel', 'Next Pro', 'balls', 'voorbeeld-bullpadel-next-pro-padelballen', 7.49),
+  ('bullpadel', 'Overgrip GB-1201', 'grips', 'voorbeeld-bullpadel-overgrip-gb-1201', 6.95),
+  ('head', 'Prime Tour Overgrip', 'grips', 'voorbeeld-head-prime-tour-overgrip', 5.99),
+  ('nox', 'AT10 Team', 'bags', 'voorbeeld-nox-at10-team-padeltas', 69.95),
+  ('adidas', 'Multigame', 'bags', 'voorbeeld-adidas-multigame-padeltas', 59.95)
+), products as (
+  insert into public.products (brand_id, category_key, sport_key, model, gtins, tier, status, is_sample, product_type)
+  select b.id, 'accessories', 'padel', s.model, '{}', 'C', 'published', true, s.product_type
+  from seed s join public.brands b on b.slug = s.brand_slug
+  returning id, brand_id, model
+), content as (
+  insert into public.product_content (product_id, market_code, slug, title, is_published)
+  select p.id, 'nl', s.slug, b.name || ' ' || s.model, true
+  from products p join public.brands b on b.id = p.brand_id
+  join seed s on s.brand_slug = b.slug and s.model = p.model
+  returning product_id
+)
+insert into public.offers (product_id, shop_id, market_code, external_id, feed_title, price, shipping_cost,
+  stock_status, delivery_days_min, delivery_days_max, affiliate_url, product_url)
+select p.id, sh.id, 'nl', 'sample-' || s.slug, b.name || ' ' || s.model,
+  round(s.base_price * (array[1.00, 1.06, 0.95])[sh.n], 2),
+  case when s.base_price >= 50 then 0 else 3.95 end,
+  'in_stock', 1, 3, sh.website_url || '/?sample=' || s.slug, sh.website_url
+from products p join public.brands b on b.id = p.brand_id
+join seed s on s.brand_slug = b.slug and s.model = p.model
+join (
+  select id, slug, website_url, row_number() over (order by slug)::int as n
+  from public.shops where slug in ('padeldiscount', 'padel-point', 'smash-expert')
+) sh on true;

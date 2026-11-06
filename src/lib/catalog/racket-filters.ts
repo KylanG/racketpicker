@@ -23,17 +23,28 @@ export type RacketItem = {
   style: Style | null;
   /** Midpoint of the weight range in grams. */
   weight: number | null;
+  /** Accessories only (RP-78): balls, grips or bags, as the URL slug. */
+  kind?: Kind | null;
 };
 
 export const LEVELS = ["beginner", "gemiddeld", "gevorderd", "competitie"] as const;
 export const STYLES = ["controle", "allround", "power"] as const;
 export const WEIGHTS = ["licht", "gemiddeld", "zwaar"] as const;
 export const PRICES = ["tot-75", "75-150", "150-250", "250-plus"] as const;
+/** Accessory types (RP-78), in tab order; `products.product_type` → URL slug. */
+export const KINDS = ["tassen", "ballen", "grips"] as const;
 
 export type Level = (typeof LEVELS)[number];
 export type Style = (typeof STYLES)[number];
 export type Weight = (typeof WEIGHTS)[number];
 export type PriceBucket = (typeof PRICES)[number];
+export type Kind = (typeof KINDS)[number];
+
+export const KIND_FROM_DB: Record<string, Kind> = {
+  bags: "tassen",
+  balls: "ballen",
+  grips: "grips",
+};
 
 /** Database enums → URL slugs. */
 export const LEVEL_FROM_DB: Record<string, Level> = {
@@ -76,10 +87,12 @@ export function priceBucket(price: number | null): PriceBucket | null {
   return PRICES.find((b) => price >= PRICE_RANGES[b][0] && price < PRICE_RANGES[b][1]) ?? null;
 }
 
-export type Facet = "merk" | "prijs" | "niveau" | "stijl" | "gewicht";
-export const FACETS: Facet[] = ["merk", "prijs", "niveau", "stijl", "gewicht"];
+export type Facet = "soort" | "merk" | "prijs" | "niveau" | "stijl" | "gewicht";
+/** "soort" only has options for accessories; facets without options are hidden. */
+export const FACETS: Facet[] = ["soort", "merk", "prijs", "niveau", "stijl", "gewicht"];
 
 export type RacketFilters = {
+  soort: Kind[];
   merk: string[];
   prijs: PriceBucket[];
   niveau: Level[];
@@ -90,6 +103,7 @@ export type RacketFilters = {
 };
 
 export const EMPTY_FILTERS: RacketFilters = {
+  soort: [],
   merk: [],
   prijs: [],
   niveau: [],
@@ -113,6 +127,7 @@ const only = <T extends string>(values: string[], allowed: readonly T[]) =>
 /** Parses search params; unknown values are dropped, so odd URLs never break the page. */
 export function parseFilters(params: Params): RacketFilters {
   return {
+    soort: only(list(params.soort), KINDS),
     merk: [...new Set(list(params.merk).filter((s) => /^[a-z0-9-]{1,60}$/.test(s)))].sort(),
     prijs: only(list(params.prijs), PRICES),
     niveau: only(list(params.niveau), LEVELS),
@@ -151,6 +166,8 @@ export function toggleValue(f: RacketFilters, facet: Facet, value: string): Rack
 
 function facetValues(item: RacketItem, facet: Facet): string[] {
   switch (facet) {
+    case "soort":
+      return item.kind ? [item.kind] : [];
     case "merk":
       return [item.brand.slug];
     case "prijs": {
@@ -212,10 +229,10 @@ export function switchCount(
 }
 
 /**
- * Only the sport page and sport + one brand are indexable; other combinations get
+ * Only the sport page, sport + one brand and (accessories) sport + one type are indexable; other combinations get
  * noindex and a canonical to the sport page (design/handoff/README.md).
  */
 export function isIndexable(f: RacketFilters): boolean {
   const n = activeFilterCount(f);
-  return n === 0 || (n === 1 && f.merk.length === 1);
+  return n === 0 || (n === 1 && (f.merk.length === 1 || f.soort.length === 1));
 }

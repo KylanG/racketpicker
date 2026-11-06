@@ -11,7 +11,7 @@ export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const article = articleFromPath(pathname);
   const racket = racketFromPath(pathname);
-  // Unknown sport (e.g. /nl/rackets/voetbal), advisor profile, article or racket: rewrite to a path no route
+  // Unknown sport (e.g. /nl/rackets/voetbal), advisor profile, article, racket or accessory: rewrite to a path no route
   // matches, so the global 404 page is served with status 404 instead of a streamed 200.
   if (
     hasUnknownSport(pathname) ||

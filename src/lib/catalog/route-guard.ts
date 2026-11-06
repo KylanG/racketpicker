@@ -30,29 +30,53 @@ export function hasUnknownSport(pathname: string): boolean {
   return sportFromSlug(decodeURIComponent(sport), locale as Locale) === null;
 }
 
-/** { locale, sport, slug } for /{locale}/{rackets}/{sport}/{product}, else null. */
-export function racketFromPath(
-  pathname: string,
-): { locale: Locale; sport: SportKey; slug: string } | null {
+type ProductRoute = "/rackets/[sport]/[product]" | "/accessories/[sport]/[product]";
+const PRODUCT_ROUTES: { route: ProductRoute; category: "rackets" | "accessories" }[] = [
+  { route: "/rackets/[sport]/[product]", category: "rackets" },
+  { route: "/accessories/[sport]/[product]", category: "accessories" },
+];
+
+export type ProductPath = {
+  locale: Locale;
+  sport: SportKey;
+  slug: string;
+  category: "rackets" | "accessories";
+};
+
+/**
+ * { locale, sport, slug, category } for /{locale}/{rackets|accessoires}/{sport}/{product},
+ * else null.
+ */
+export function racketFromPath(pathname: string): ProductPath | null {
   const parts = pathname.replace(/\/$/, "").split("/");
   if (parts.length !== 5) return null;
   const [, locale, segment, sportSlugPart, slug] = parts;
   if (!locale || !sportSlugPart || !slug) return null;
   if (!(routing.locales as readonly string[]).includes(locale)) return null;
-  const route = routing.pathnames["/rackets/[sport]/[product]"];
-  const expected = (typeof route === "string" ? route : route[locale as Locale]).split("/")[1];
-  if (segment !== expected) return null;
+  const match = PRODUCT_ROUTES.find(({ route }) => {
+    const external = routing.pathnames[route];
+    return (
+      (typeof external === "string" ? external : external[locale as Locale]).split("/")[1] ===
+      segment
+    );
+  });
+  if (!match) return null;
   const sport = sportFromSlug(decodeURIComponent(sportSlugPart), locale as Locale);
   if (!sport) return null;
-  return { locale: locale as Locale, sport, slug: decodeURIComponent(slug) };
+  return {
+    locale: locale as Locale,
+    sport,
+    slug: decodeURIComponent(slug),
+    category: match.category,
+  };
 }
 
 /**
- * Whether a published racket with this slug exists for the sport (RLS hides unpublished
+ * Whether a published product of the category with this slug exists for the sport (RLS hides unpublished
  * products). Sample products only count where sample data is shown.
  */
 export async function racketExists(
-  r: { locale: Locale; sport: SportKey; slug: string },
+  r: { locale: Locale; sport: SportKey; slug: string; category?: "rackets" | "accessories" },
   fetcher: typeof fetch = fetch,
   now = Date.now(),
 ): Promise<boolean> {
@@ -61,7 +85,7 @@ export async function racketExists(
     process.env.NEXT_PUBLIC_SHOW_SAMPLE_DATA === "true" ? "" : "&products.is_sample=eq.false";
   return restRowExists(
     `product_content?select=slug,products!inner(id)&market_code=eq.${r.locale}&slug=eq.${r.slug}` +
-      `&is_published=eq.true&products.sport_key=eq.${r.sport}&products.category_key=eq.rackets` +
+      `&is_published=eq.true&products.sport_key=eq.${r.sport}&products.category_key=eq.${r.category ?? "rackets"}` +
       `&products.status=eq.published${samples}&limit=1`,
     fetcher,
     now,

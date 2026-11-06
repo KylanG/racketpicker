@@ -9,9 +9,11 @@ import { addDays, dailyLowest, dayNumber, type HistoryPoint } from "./price-hist
 import { priceStatsFromRow, type PriceStats } from "./pricing";
 import { summarizePrices } from "./product-price";
 import {
+  KIND_FROM_DB,
   LEVEL_FROM_DB,
   STYLE_FROM_DB,
   weightClass,
+  type Kind,
   type Level,
   type Style,
   type Weight,
@@ -48,6 +50,9 @@ export type ProductPage = {
   id: string;
   slug: string;
   sport: SportKey;
+  /** rackets or accessories (RP-78); accessories have `kind` and no specs. */
+  category: "rackets" | "accessories";
+  kind: Kind | null;
   brand: { slug: string; name: string };
   /** Model without the brand, e.g. "AT10 Genius 18K Alum 2026". */
   model: string;
@@ -80,7 +85,7 @@ async function loadProduct(locale: Locale, slug: string) {
     .from("product_content")
     .select(
       `slug, title, seo_title, seo_description,
-       products!inner(id, model, model_year, tier, sport_key, is_sample, status,
+       products!inner(id, model, model_year, tier, sport_key, category_key, product_type, is_sample, status,
          brands!inner(slug, name),
          racket_specs(shape, weight_min_g, weight_max_g, balance, balance_mm, core_material,
            face_material, frame_material, surface_texture, thickness_mm, levels, play_style),
@@ -126,7 +131,7 @@ async function loadProduct(locale: Locale, slug: string) {
   };
 }
 
-/** One racket for its product page, or null (unknown, unpublished or sample in production). */
+/** One racket or accessory for its product page, or null (unknown, unpublished or sample in production). */
 export async function getProductPage(locale: Locale, slug: string): Promise<ProductPage | null> {
   const loaded = await loadProduct(locale, slug);
   if (!loaded) return null;
@@ -134,6 +139,7 @@ export async function getProductPage(locale: Locale, slug: string): Promise<Prod
   const p = content.products;
   if (p.status !== "published" || (p.is_sample && !showSampleData())) return null;
   if (!p.sport_key || !isSportKey(p.sport_key)) return null;
+  if (p.category_key !== "rackets" && p.category_key !== "accessories") return null;
 
   const s = p.racket_specs as {
     shape: string | null;
@@ -158,6 +164,8 @@ export async function getProductPage(locale: Locale, slug: string): Promise<Prod
     id: p.id,
     slug: content.slug,
     sport: p.sport_key,
+    category: p.category_key === "accessories" ? "accessories" : "rackets",
+    kind: p.product_type ? (KIND_FROM_DB[p.product_type] ?? null) : null,
     brand: { slug: p.brands.slug, name: p.brands.name },
     model: [p.model, p.model_year].filter(Boolean).join(" "),
     title: content.title,
