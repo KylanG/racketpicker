@@ -18,6 +18,8 @@ export type DailyImportResult = {
   manual: Record<string, number> | { error: string };
   /** New products from bol (RP-77), before the bol price import; null without bol. */
   discovery: DiscoveryResult | null;
+  /** Products moved from tier C to B (RP-82), or the error. */
+  promoted: number | { error: string };
   /** True when at least one shop changed data and pages should be revalidated. */
   changed: boolean;
 };
@@ -58,6 +60,9 @@ export async function runDailyImport(): Promise<DailyImportResult> {
     console.error(`[feeds] images: ${images.error}`);
   }
 
+  // After prices and photos, so a product with a new second shop is indexable the same night.
+  const promoted = await promoteTiers();
+
   return {
     startedAt,
     finishedAt: new Date().toISOString(),
@@ -65,9 +70,11 @@ export async function runDailyImport(): Promise<DailyImportResult> {
     images,
     manual,
     discovery,
+    promoted,
     changed:
       shops.some((s) => s.ok) ||
       (discovery?.created ?? 0) > 0 ||
+      (typeof promoted === "number" && promoted > 0) ||
       ("stored" in images && images.stored > 0) ||
       !("error" in manual),
   };
@@ -92,4 +99,17 @@ async function importManualOffers(): Promise<DailyImportResult["manual"]> {
     return { error: error.message };
   }
   return data as Record<string, number>;
+}
+
+/**
+ * Tier C → B for products that now have at least two shops (RP-82, SQL function
+ * promote_tiers). Never throws: a failure here must not hide the import result.
+ */
+async function promoteTiers(): Promise<DailyImportResult["promoted"]> {
+  const { data, error } = await createAdminClient().rpc("promote_tiers");
+  if (error) {
+    console.error(`[feeds] promote tiers: ${error.message}`);
+    return { error: error.message };
+  }
+  return data;
 }

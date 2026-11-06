@@ -973,6 +973,7 @@ export type Database = {
         Args: { p_offer_id: string; p_source_path?: string };
         Returns: undefined;
       };
+      promote_tiers: { Args: never; Returns: number };
       upsert_manual_offers: {
         Args: { p_items: Json; p_market_code: string };
         Returns: Json;
