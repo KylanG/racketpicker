@@ -1027,7 +1027,7 @@
     "emptyTitle": "No hay ofertas con estos filtros",
     "emptyText": "Prueba con menos filtros o mira todas las ofertas.",
     "noneYetTitle": "Ahora no hay ofertas reales",
-    "noneYetText": "En este momento nada está realmente rebajado. Crea una alerta de precio en una pala y te avisaremos por correo cuando baje.",
+    "noneYetText": "Solo mostramos un descuento cuando hemos seguido el precio al menos 30 días, para que sepas que es real. Crea una alerta de precio en una pala y te avisaremos por correo cuando baje.",
     "noneYetLink": "Ver todas las palas"
   }
 }
