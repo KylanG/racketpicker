@@ -8,6 +8,7 @@ import { Slant } from "@/components/ui/slant";
 import { Link } from "@/i18n/navigation";
 import { useFavorites } from "@/lib/favorites/store";
 import { LanguageSwitcher } from "./language-switcher";
+import { MegaMenu } from "./mega-menu";
 import { MobileMenu } from "./mobile-menu";
 import type { HeaderActive, HeaderCta, NavHref, NavItem } from "./nav-types";
 
@@ -194,30 +195,7 @@ export function HeaderBar({
           </Link>
 
           {/* Desktop (≥960px) */}
-          <nav
-            aria-label={t("mainMenu")}
-            className="hidden min-w-0 flex-1 flex-nowrap min-[960px]:flex"
-          >
-            {items.map((item) => {
-              const isActive = item.key === active;
-              return (
-                <Link
-                  key={item.key}
-                  href={item.href}
-                  aria-current={isActive ? "true" : undefined}
-                  className={`flex items-center gap-1.5 border-b-2 px-[clamp(6px,.9vw,12px)] pt-3 pb-2.5 text-[14px] font-medium whitespace-nowrap text-white hover:text-white ${
-                    isActive ? "border-lime" : "border-transparent"
-                  }`}
-                >
-                  {item.label}
-                  {/* Opens the mega menu once RP-45 is in. */}
-                  <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
-                    <path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" strokeWidth="1.6" />
-                  </svg>
-                </Link>
-              );
-            })}
-          </nav>
+          <MegaMenu items={items} active={active} />
           <div className="hidden items-center gap-0.5 min-[960px]:flex">
             <LanguageSwitcher variant="compact" />
             <SearchButton />
