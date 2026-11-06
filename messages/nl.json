@@ -940,6 +940,128 @@
           "description": "Het nieuwste van het nieuwste"
         }
       }
+    },
+    "outcome": {
+      "metaTitle": "Beste {racket} voor {level} met {style}",
+      "metaDescription": "Welk {racket} past bij {level} met {style}? We vergelijken de rackets die passen en tonen de laagste prijs bij Nederlandse winkels.",
+      "h1": "Het beste {racket} voor {level} met {style}",
+      "intro": "Op basis van je niveau en speelstijl tonen we de rackets die het best passen, met de laagste prijs. Vul je ook frequentie en budget in, dan wordt het advies nog persoonlijker.",
+      "introPersonal": "Dit is je persoonlijke advies op basis van je niveau, speelstijl, speelfrequentie en budget.",
+      "level": {
+        "beginner": "beginners",
+        "gevorderd": "gevorderde spelers",
+        "competitie": "competitiespelers"
+      },
+      "style": {
+        "controle": "focus op controle",
+        "allround": "een allround spel",
+        "power": "focus op power"
+      },
+      "racket": {
+        "padel": "padelracket",
+        "tennis": "tennisracket",
+        "badminton": "badmintonracket",
+        "squash": "squashracket",
+        "pickleball": "pickleballpaddle",
+        "table-tennis": "tafeltennisbatje"
+      },
+      "personalize": "Maak het persoonlijker"
+    },
+    "result": {
+      "count": "{count, plural, =0 {Geen rackets gevonden} one {# racket past bij jou} other {# rackets passen bij jou}}",
+      "restart": "Opnieuw beginnen",
+      "edit": "Wijzig {question}",
+      "share": "Deelbare link:",
+      "copy": "Kopieer",
+      "copied": "Gekopieerd",
+      "match": "{percent}% match",
+      "from": "vanaf <strong>{price}</strong> · {count, plural, one {# winkel} other {# winkels}}",
+      "why": {
+        "level": "gemaakt voor {level}",
+        "style": "{style}-gericht, zoals jij speelt",
+        "inBudget": "binnen je budget",
+        "belowBudget": "onder je budget",
+        "intensive": "houdt intensief spelen goed bij",
+        "fallback": "goed alternatief als je wilt doorgroeien"
+      },
+      "empty": "We hebben nog geen rackets op voorraad voor deze sport. Bekijk alle rackets of kom later terug.",
+      "emptyCta": "Bekijk alle rackets",
+      "disclosure": "Koop je via ons, dan krijgen wij een vergoeding van de winkel. Dat kost jou niets extra en verandert nooit de volgorde van de resultaten."
+    },
+    "question": {
+      "sport": "Sport",
+      "niveau": "Niveau",
+      "stijl": "Speelstijl",
+      "frequentie": "Frequentie",
+      "budget": "Budget"
+    },
+    "info": {
+      "tableTitle": "Controle, allround of power: wat is het verschil?",
+      "tableIntro": "De speelstijl van een racket komt bij elke racketsport neer op dezelfde drie eigenschappen: gewicht, balans en de grootte van de sweetspot.",
+      "tableCaption": "Verschil tussen controle-, allround- en powerrackets",
+      "rows": {
+        "weight": {
+          "label": "Gewicht",
+          "control": "Lichter, wendbaar",
+          "allround": "Gemiddeld",
+          "power": "Zwaarder, meer doorslag"
+        },
+        "balance": {
+          "label": "Balans",
+          "control": "Laag, richting grip",
+          "allround": "Neutraal",
+          "power": "Hoog, richting kop"
+        },
+        "sweetspot": {
+          "label": "Sweetspot",
+          "control": "Groot en vergevingsgezind",
+          "allround": "Gemiddeld",
+          "power": "Klein, hoog in de kop"
+        },
+        "material": {
+          "label": "Materiaal",
+          "control": "Zachter, meer gevoel",
+          "allround": "Gemengd",
+          "power": "Stugger, meer carbon"
+        },
+        "for": {
+          "label": "Geschikt voor",
+          "control": "Beginners en tactische spelers",
+          "allround": "De meeste spelers",
+          "power": "Gevorderde, aanvallende spelers"
+        }
+      },
+      "faqTitle": "Veelgestelde vragen",
+      "faqIntro": "Staat je vraag er niet tussen? Mail ons via hello@racketpicker.com.",
+      "faq": {
+        "free": {
+          "q": "Is de keuzehulp echt gratis?",
+          "a": "Ja. Je hoeft geen account aan te maken. Koop je via ons bij een winkel, dan krijgen wij een vergoeding van die winkel. Jij betaalt niets extra en het heeft geen invloed op de volgorde van de resultaten."
+        },
+        "match": {
+          "q": "Hoe berekenen jullie het match-percentage?",
+          "a": "We vergelijken je niveau, speelstijl, speelfrequentie en budget met de eigenschappen van elk racket: het niveau en de speelstijl waarvoor het gemaakt is en de laagste actuele prijs."
+        },
+        "beginner": {
+          "q": "Moet ik als beginner een goedkoop racket kopen?",
+          "a": "Niet per se, maar een racket voor gevorderden is vaak zwaarder en harder. Dat vergeeft minder fouten. Een allround- of controleracket helpt je sneller vooruit."
+        },
+        "prices": {
+          "q": "Hoe vaak worden de prijzen bijgewerkt?",
+          "a": "Elke dag. Bij elk racket zie je ook de prijshistorie, zodat je weet of een aanbieding echt voordelig is."
+        },
+        "later": {
+          "q": "Kan ik mijn resultaat later terugvinden?",
+          "a": "Ja. Elk resultaat heeft een eigen link die je kunt bewaren of delen."
+        }
+      },
+      "linksTitle": "Liever zelf vergelijken?",
+      "sportRackets": "{sport}rackets",
+      "links": {
+        "beginner": "Beginnersrackets",
+        "power": "Power-rackets",
+        "controle": "Controle-rackets"
+      }
     }
   }
 }
