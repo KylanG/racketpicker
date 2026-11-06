@@ -1,3 +1,4 @@
+import { ADVISOR_LIVE } from "@/lib/features";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { ProductCard } from "@/components/catalog/product-card";
@@ -113,7 +114,9 @@ export async function RacketsOverview({
               </h1>
             </Reveal>
             <p className="text-on-dark-strong text-[16px] leading-normal">
-              {shopCount > 0 ? t("heroIntro", { count: shopCount }) : t("heroIntroNoCount")}
+              {shopCount > 0
+                ? t(ADVISOR_LIVE ? "heroIntro" : "heroIntroFilter", { count: shopCount })
+                : t(ADVISOR_LIVE ? "heroIntroNoCount" : "heroIntroNoCountFilter")}
             </p>
           </div>
           {tabs.length > 1 ? (
@@ -227,14 +230,16 @@ async function FilteredResults({
       {items.length > 0 && (
         <aside className="ease-rp sticky top-[calc(var(--rp-hdr,0px)+16px)] hidden max-h-[calc(100vh-32px-var(--rp-hdr,0px))] flex-col overflow-auto pr-1 transition-[top] duration-500 min-[900px]:flex">
           <FilterForm data={panel} idPrefix="aside" action={action} />
-          <Link
-            href="/advisor"
-            prefetch={false}
-            className="mt-5 flex flex-col gap-1 bg-green-950 p-[18px] text-white hover:bg-green-900 hover:text-white"
-          >
-            <span className="text-lime text-[13px] font-semibold">{tf("advisorDoubt")}</span>
-            <span className="text-[15px] font-semibold">{tf("advisorLink")}</span>
-          </Link>
+          {ADVISOR_LIVE && (
+            <Link
+              href="/advisor"
+              prefetch={false}
+              className="mt-5 flex flex-col gap-1 bg-green-950 p-[18px] text-white hover:bg-green-900 hover:text-white"
+            >
+              <span className="text-lime text-[13px] font-semibold">{tf("advisorDoubt")}</span>
+              <span className="text-[15px] font-semibold">{tf("advisorLink")}</span>
+            </Link>
+          )}
         </aside>
       )}
 
@@ -256,7 +261,9 @@ async function FilteredResults({
         ) : results.length === 0 ? (
           <div className="bg-surface flex flex-col items-center gap-3.5 px-8 py-12 text-center">
             <p className="text-[20px] font-semibold">{t("results.emptyTitle")}</p>
-            <p className="text-muted text-[15px]">{t("results.emptyText")}</p>
+            <p className="text-muted text-[15px]">
+              {t(ADVISOR_LIVE ? "results.emptyText" : "results.emptyTextFilter")}
+            </p>
             <Slant
               as="a"
               size={8}

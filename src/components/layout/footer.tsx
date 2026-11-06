@@ -1,3 +1,4 @@
+import { ADVISOR_LIVE } from "@/lib/features";
 import { cacheLife } from "next/cache";
 import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
@@ -67,7 +68,9 @@ export async function Footer() {
     {
       title: t("columns.help"),
       links: [
-        { label: t("links.advisor"), href: "/advisor", ...later },
+        ...(ADVISOR_LIVE
+          ? [{ label: t("links.advisor"), href: "/advisor" as const, ...later }]
+          : []),
         { label: t("links.blog"), href: "/blog" },
         { label: t("links.priceHistory"), href: "/price-history" },
         { label: t("links.faq"), href: "/faq" },

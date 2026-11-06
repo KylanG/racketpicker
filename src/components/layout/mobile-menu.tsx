@@ -1,5 +1,6 @@
 "use client";
 
+import { ADVISOR_LIVE } from "@/lib/features";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect, useId, useRef, useState } from "react";
@@ -145,17 +146,19 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
 
         <div className="mt-auto flex flex-col gap-4 px-(--rp-gutter) pt-6 pb-8">
           <LanguageSwitcher variant="menu" onNavigate={close} />
-          <Slant
-            as={Link}
-            href="/advisor"
-            // The advisor follows in its own ticket; no prefetch of a 404 until then.
-            prefetch={false}
-            size={8}
-            onClick={close}
-            className="flex min-h-[52px] items-center justify-center bg-white/12 text-[16px] font-semibold text-white hover:bg-white/20 hover:text-white"
-          >
-            {t("ctaAdvisorFree")}
-          </Slant>
+          {ADVISOR_LIVE && (
+            <Slant
+              as={Link}
+              href="/advisor"
+              // The advisor follows in its own ticket; no prefetch of a 404 until then.
+              prefetch={false}
+              size={8}
+              onClick={close}
+              className="flex min-h-[52px] items-center justify-center bg-white/12 text-[16px] font-semibold text-white hover:bg-white/20 hover:text-white"
+            >
+              {t("ctaAdvisorFree")}
+            </Slant>
+          )}
           {/* No slant here, as in the prototype. */}
           <Link
             href={{ pathname: "/", hash: "deals" }}

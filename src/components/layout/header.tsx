@@ -1,5 +1,6 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
+import { ADVISOR_LIVE } from "@/lib/features";
 import { getCatalogAvailability } from "@/lib/catalog/nav";
 import { CATEGORIES, sportSlug } from "@/lib/catalog/taxonomy";
 import { HeaderBar } from "./header-bar";
@@ -56,5 +57,5 @@ export async function Header({ active = null, cta = "deals" }: HeaderProps) {
     ];
   });
 
-  return <HeaderBar items={items} active={active} cta={cta} />;
+  return <HeaderBar items={items} active={active} cta={ADVISOR_LIVE ? cta : "deals"} />;
 }

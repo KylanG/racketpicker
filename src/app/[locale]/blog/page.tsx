@@ -1,3 +1,4 @@
+import { ADVISOR_LIVE } from "@/lib/features";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { BlogFilterProvider, BlogList, BlogTabs } from "@/components/blog/blog-filter";
@@ -78,16 +79,20 @@ export default async function BlogPage({ params }: PageProps<"/[locale]/blog">) 
           <BlogList articles={articles} labels={labels} />
         ) : (
           <div className="bg-surface flex flex-col items-start gap-5 p-10">
-            <p className="text-muted max-w-[560px] text-[16px] leading-normal">{t("noArticles")}</p>
-            <Slant
-              as={Link}
-              href="/advisor"
-              prefetch={false}
-              className="flex items-center gap-2.5 bg-green-950 py-[13px] pr-[18px] pl-5 text-[14px] font-semibold text-white hover:text-white"
-            >
-              {t("noArticlesCta")}
-              <ArrowIcon className="text-lime" />
-            </Slant>
+            <p className="text-muted max-w-[560px] text-[16px] leading-normal">
+              {t(ADVISOR_LIVE ? "noArticles" : "noArticlesSoon")}
+            </p>
+            {ADVISOR_LIVE && (
+              <Slant
+                as={Link}
+                href="/advisor"
+                prefetch={false}
+                className="flex items-center gap-2.5 bg-green-950 py-[13px] pr-[18px] pl-5 text-[14px] font-semibold text-white hover:text-white"
+              >
+                {t("noArticlesCta")}
+                <ArrowIcon className="text-lime" />
+              </Slant>
+            )}
           </div>
         )}
       </section>
