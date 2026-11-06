@@ -8,6 +8,7 @@ import { CookieBanner } from "@/components/layout/cookie-banner";
 import { Footer } from "@/components/layout/footer";
 import { SlantRounder } from "@/components/ui/slant-rounder";
 import { routing } from "@/i18n/routing";
+import { siteIndexable, siteOrigin } from "@/lib/seo/indexing";
 
 // One family for the whole site (design/handoff/README.md, "Typografie").
 // Self-hosted variable font (OFL, @fontsource-variable/outfit): no request to Google.
@@ -37,16 +38,18 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
   const t = await getTranslations({ locale, namespace: "metadata" });
   return {
     // Absolute URLs for the share image and icons.
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://racketpicker.com"),
-    title: t("title"),
+    metadataBase: new URL(siteOrigin()),
+    // Pages set their own title; the brand follows it ("Adidas Metalbone | Racketpicker").
+    title: { default: t("title"), template: `%s | ${t("title")}` },
     description: t("description"),
     openGraph: {
       siteName: "Racketpicker",
       locale: locale === "nl" ? "nl_NL" : "es_ES",
       type: "website",
     },
-    // Not indexable until launch; SEO setup follows in RP-34.
-    robots: { index: false, follow: false },
+    // Not indexable until launch or on previews (RP-34): flip SITE_INDEXABLE in Vercel.
+    // Pages with their own robots (Tier C, filters, status pages) stay noindex either way.
+    ...(siteIndexable() ? {} : { robots: { index: false, follow: false } }),
   };
 }
 

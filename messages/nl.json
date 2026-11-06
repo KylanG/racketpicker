@@ -2,7 +2,9 @@
   "metadata": {
     "title": "Racketpicker",
     "description": "Vergelijk rackets, schoenen en accessoires voor padel en andere racketsporten bij Nederlandse winkels.",
-    "shareTitle": "Rackets en gear eerlijk vergeleken"
+    "shareTitle": "Rackets en gear eerlijk vergeleken",
+    "homeTitle": "Racketpicker – Padelrackets en gear eerlijk vergeleken",
+    "homeDescription": "Vergelijk prijzen van padelrackets, ballen, grips en tassen bij Nederlandse winkels. Met prijshistorie per product en een gratis keuzehulp."
   },
   "home": {
     "season": {
@@ -180,7 +182,19 @@
       "emptyTextFilter": "Haal een filter weg om meer rackets te zien."
     },
     "heroIntroFilter": "Vergelijk prijzen bij {count} winkels. Filter op merk, niveau, speelstijl en prijs.",
-    "heroIntroNoCountFilter": "Vergelijk prijzen bij Nederlandse winkels. Filter op merk, niveau, speelstijl en prijs."
+    "heroIntroNoCountFilter": "Vergelijk prijzen bij Nederlandse winkels. Filter op merk, niveau, speelstijl en prijs.",
+    "sportNoun": {
+      "padel": "padelrackets",
+      "tennis": "tennisrackets",
+      "badminton": "badmintonrackets",
+      "squash": "squashrackets",
+      "pickleball": "pickleball-paddles",
+      "table-tennis": "tafeltennisbatjes"
+    },
+    "brandPageTitle": "{brand} {name} vergelijken",
+    "metaDescription": "Vergelijk {name} bij Nederlandse winkels. Filter op merk, niveau, speelstijl en prijs en zie per winkel de laagste prijs.",
+    "brandMetaDescription": "Alle {brand} {name} op een rij, met de laagste prijs per winkel en de prijshistorie.",
+    "allMetaDescription": "Vergelijk rackets bij Nederlandse winkels. Filter op sport, merk, niveau, speelstijl en prijs."
   },
   "productCard": {
     "shopsCompared": "Bij {count, plural, one {# winkel} other {# winkels}} vergeleken",
@@ -1098,7 +1112,8 @@
     "noneYetText": "We voegen elke dag nieuwe producten toe. Kom snel terug.",
     "total": "{count, plural, one {<b>#</b> product} other {<b>#</b> producten}}",
     "emptyTitle": "Geen producten met deze filters",
-    "emptyText": "Haal een filter weg om meer producten te zien."
+    "emptyText": "Haal een filter weg om meer producten te zien.",
+    "brandPageTitle": "{brand} padelaccessoires vergelijken"
   },
   "favorites": {
     "metaTitle": "Mijn favorieten",
@@ -1189,5 +1204,21 @@
       "unavailable": "Een alert instellen lukt nu niet. Probeer het later opnieuw.",
       "sending": "Bezig…"
     }
+  },
+  "llms": {
+    "intro": "Racketpicker is een onafhankelijke Nederlandse prijsvergelijker voor racketsporten. We beginnen met padel; tennis, badminton, squash, pickleball en tafeltennis volgen. Prijzen bij {shops} winkels worden dagelijks bijgewerkt.",
+    "introNoCount": "Racketpicker is een onafhankelijke Nederlandse prijsvergelijker voor racketsporten. We beginnen met padel; tennis, badminton, squash, pickleball en tafeltennis volgen. Prijzen worden dagelijks bijgewerkt.",
+    "pagesTitle": "Belangrijkste pagina's",
+    "listingNote": "filterbaar op merk, prijs en meer.",
+    "advisor": "Gratis keuzehulp",
+    "advisorNote": "een paar vragen over niveau, speelstijl en budget; resultaat als lijst met rackets die passen.",
+    "blog": "Blogs & tips",
+    "blogNote": "koopgidsen en uitleg.",
+    "howTitle": "Hoe we werken",
+    "howWeEarn": "Hoe we verdienen",
+    "priceHistory": "Zo werkt de prijshistorie",
+    "about": "Over ons",
+    "faq": "Veelgestelde vragen",
+    "contactTitle": "Contact"
   }
 }
