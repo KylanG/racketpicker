@@ -259,6 +259,7 @@ export async function BrandBlock() {
           brands={overview.brands.map((b) => ({
             slug: b.slug,
             name: b.name,
+            logo: b.logoPath ? `/${b.logoPath.replace(/^\//, "")}` : null,
             href: {
               pathname: SPORT_ROUTE.rackets,
               params: { sport: sportSlug(b.sport, locale) },
