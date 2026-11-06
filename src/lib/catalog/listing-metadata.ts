@@ -7,18 +7,22 @@ import { sportSlug, type SportKey } from "./taxonomy";
 type Params = Record<string, string | string[] | undefined>;
 
 /**
- * Canonical and robots for the overview: the sport page and sport + one brand are
+ * Canonical and robots for an overview: the sport page, sport + one brand and (accessories)
+ * sport + one type are
  * indexable (canonical to themselves); every other filter combination is noindex with
  * the canonical pointing to the unfiltered page. The site-wide pre-launch noindex from
  * the layout still applies to indexable pages until RP-34.
  */
-export function listingSeo(locale: Locale, sport: SportKey | null, params: Params): Metadata {
+export function listingSeo(
+  locale: Locale,
+  sport: SportKey | null,
+  params: Params,
+  category: "rackets" | "accessories" = "rackets",
+): Metadata {
   const filters = parseFilters(params);
+  const pathname = category === "rackets" ? "/rackets/[sport]" : "/accessories/[sport]";
   const alternates = sport
-    ? getAlternates(
-        (l) => ({ pathname: "/rackets/[sport]", params: { sport: sportSlug(sport, l) } }),
-        locale,
-      )
+    ? getAlternates((l) => ({ pathname, params: { sport: sportSlug(sport, l) } }), locale)
     : getAlternates("/rackets", locale);
 
   if (!isIndexable(filters)) {
@@ -28,6 +32,14 @@ export function listingSeo(locale: Locale, sport: SportKey | null, params: Param
     const brand = encodeURIComponent(filters.merk[0]!);
     return {
       alternates: { ...alternates, canonical: `${String(alternates.canonical)}?merk=${brand}` },
+    };
+  }
+  if (filters.soort.length === 1 && alternates?.canonical) {
+    return {
+      alternates: {
+        ...alternates,
+        canonical: `${String(alternates.canonical)}?soort=${filters.soort[0]}`,
+      },
     };
   }
   return { alternates };

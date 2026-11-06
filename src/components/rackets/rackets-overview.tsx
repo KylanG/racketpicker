@@ -14,6 +14,7 @@ import {
   EMPTY_FILTERS,
   facetCounts,
   FACETS,
+  KINDS,
   LEVELS,
   parseFilters,
   PRICES,
@@ -22,6 +23,7 @@ import {
   weightClass,
   WEIGHTS,
   type Facet,
+  type Kind,
   type RacketFilters,
   type RacketItem,
 } from "@/lib/catalog/racket-filters";
@@ -170,7 +172,7 @@ export async function RacketsOverview({
   );
 }
 
-function ResultsSkeleton() {
+export function ResultsSkeleton() {
   return (
     <main
       id="main"
@@ -187,23 +189,27 @@ function ResultsSkeleton() {
   );
 }
 
-async function FilteredResults({
+/** Filter column and result grid; shared with the accessories overview (RP-78). */
+export async function FilteredResults({
   locale,
   items,
   action,
   searchParams,
+  category = "rackets",
 }: {
   locale: Locale;
   items: RacketItem[];
   action: string;
   searchParams: SearchParams;
+  category?: "rackets" | "accessories";
 }) {
-  const [params, t, tf, ts, tp] = await Promise.all([
+  const [params, t, tf, ts, tp, ta] = await Promise.all([
     searchParams,
     getTranslations("rackets"),
     getTranslations("rackets.filters"),
     getTranslations("sports"),
     getTranslations("productCard"),
+    getTranslations("accessories"),
   ]);
   const filters = parseFilters(params);
   const results = applyFilters(items, filters);
@@ -230,7 +236,7 @@ async function FilteredResults({
       {items.length > 0 && (
         <aside className="ease-rp sticky top-[calc(var(--rp-hdr,0px)+16px)] hidden max-h-[calc(100vh-32px-var(--rp-hdr,0px))] flex-col overflow-auto pr-1 transition-[top] duration-500 min-[900px]:flex">
           <FilterForm data={panel} idPrefix="aside" action={action} />
-          {ADVISOR_LIVE && (
+          {ADVISOR_LIVE && category === "rackets" && (
             <Link
               href="/advisor"
               prefetch={false}
@@ -249,20 +255,30 @@ async function FilteredResults({
             <FiltersDrawer data={panel} action={action} total={results.length} />
           )}
           <h2 className="text-[15px] font-normal">
-            {t.rich("results.total", { count: results.length, b: (c) => <strong>{c}</strong> })}
+            {category === "rackets"
+              ? t.rich("results.total", { count: results.length, b: (c) => <strong>{c}</strong> })
+              : ta.rich("total", { count: results.length, b: (c) => <strong>{c}</strong> })}
           </h2>
         </div>
 
         {items.length === 0 ? (
           <div className="bg-surface flex flex-col items-center gap-3.5 px-8 py-12 text-center">
-            <p className="text-[20px] font-semibold">{t("results.noneYetTitle")}</p>
-            <p className="text-muted text-[15px]">{t("results.noneYetText")}</p>
+            <p className="text-[20px] font-semibold">
+              {category === "rackets" ? t("results.noneYetTitle") : ta("noneYetTitle")}
+            </p>
+            <p className="text-muted text-[15px]">
+              {category === "rackets" ? t("results.noneYetText") : ta("noneYetText")}
+            </p>
           </div>
         ) : results.length === 0 ? (
           <div className="bg-surface flex flex-col items-center gap-3.5 px-8 py-12 text-center">
-            <p className="text-[20px] font-semibold">{t("results.emptyTitle")}</p>
+            <p className="text-[20px] font-semibold">
+              {category === "rackets" ? t("results.emptyTitle") : ta("emptyTitle")}
+            </p>
             <p className="text-muted text-[15px]">
-              {t(ADVISOR_LIVE ? "results.emptyText" : "results.emptyTextFilter")}
+              {category === "accessories"
+                ? ta("emptyText")
+                : t(ADVISOR_LIVE ? "results.emptyText" : "results.emptyTextFilter")}
             </p>
             <Slant
               as="a"
@@ -286,6 +302,7 @@ async function FilteredResults({
                     name: i.name,
                     imageUrl: i.imageUrl,
                     tags: [
+                      i.kind ? tf(`kindSingular.${i.kind}`) : null,
                       levelLabel(i),
                       i.style ? tf(`style.${i.style}`) : null,
                       weightLabel(i),
@@ -323,6 +340,7 @@ function panelData(
 ): FilterPanelData {
   const price = (n: number) => formatPrice(n, locale);
   const label: Record<Exclude<Facet, "merk">, (v: string) => string> = {
+    soort: (v) => t(`kind.${v as Kind}`),
     prijs: (v) =>
       v === "tot-75"
         ? t("priceUnder", { max: price(75) })
@@ -337,6 +355,7 @@ function panelData(
     gewicht: (v) => t(`weight.${v as (typeof WEIGHTS)[number]}`),
   };
   const values: Record<Exclude<Facet, "merk">, readonly string[]> = {
+    soort: KINDS,
     prijs: PRICES,
     niveau: LEVELS,
     stijl: STYLES,

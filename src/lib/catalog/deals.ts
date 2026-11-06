@@ -90,11 +90,14 @@ export async function getFeaturedDeals(locale: Locale, limit = 8): Promise<Deal[
     if (price == null || compareAt == null || discount == null) continue;
 
     const href =
-      p.category_key === "rackets"
+      p.category_key === "rackets" || p.category_key === "accessories"
         ? getPathname({
             locale,
             href: {
-              pathname: "/rackets/[sport]/[product]",
+              pathname:
+                p.category_key === "rackets"
+                  ? "/rackets/[sport]/[product]"
+                  : "/accessories/[sport]/[product]",
               params: { sport: sportSlug(sport, locale), product: content.slug },
             },
           })

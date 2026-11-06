@@ -38,6 +38,10 @@ export const routing = defineRouting({
     "/shoes/[sport]": { nl: "/schoenen/[sport]", es: "/zapatillas/[sport]" },
     "/clothing/[sport]": { nl: "/kleding/[sport]", es: "/ropa/[sport]" },
     "/accessories/[sport]": { nl: "/accessoires/[sport]", es: "/accesorios/[sport]" },
+    "/accessories/[sport]/[product]": {
+      nl: "/accessoires/[sport]/[product]",
+      es: "/accesorios/[sport]/[product]",
+    },
     "/advisor": { nl: "/keuzehulp", es: "/asesor" },
     // Outcome pages of the advisor (RP-50): /keuzehulp/padel/beginner-controle.
     "/advisor/[sport]/[profile]": {

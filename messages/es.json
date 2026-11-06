@@ -122,7 +122,8 @@
         "prijs": "Precio",
         "niveau": "Nivel",
         "stijl": "Estilo de juego",
-        "gewicht": "Peso"
+        "gewicht": "Peso",
+        "soort": "Tipo"
       },
       "level": {
         "beginner": "Principiante",
@@ -156,6 +157,16 @@
         "licht": "Ligera",
         "gemiddeld": "Peso medio",
         "zwaar": "Pesada"
+      },
+      "kind": {
+        "tassen": "Bolsas",
+        "ballen": "Pelotas",
+        "grips": "Grips"
+      },
+      "kindSingular": {
+        "tassen": "Paletero",
+        "ballen": "Pelotas de pádel",
+        "grips": "Grip"
       }
     },
     "results": {
@@ -608,7 +619,8 @@
       "emptyTextNew": "Empezamos a seguir el precio de esta pala ahora. En unas semanas verás aquí cómo evoluciona. Crea ya una alerta de precio y te avisamos cuando baje.",
       "emptyCta": "Crear una alerta de precio"
     },
-    "newTab": "(se abre en una pestaña nueva)"
+    "newTab": "(se abre en una pestaña nueva)",
+    "metaDescriptionAccessory": "Compara el precio de {name} en {count, plural, one {# tienda} other {# tiendas}}, con historial de precios y alerta de precio."
   },
   "advisor": {
     "metaTitle": "¿Qué pala me conviene? Asesor gratuito",
@@ -856,5 +868,24 @@
         "controle": "Palas de control"
       }
     }
+  },
+  "accessories": {
+    "title": "Accesorios",
+    "pageTitle": "Comparar accesorios de pádel",
+    "kindTitle": {
+      "tassen": "Comparar paleteros",
+      "ballen": "Comparar pelotas de pádel",
+      "grips": "Comparar grips y overgrips"
+    },
+    "metaDescription": "Compara paleteros, pelotas y grips de pádel en tiendas españolas y ve al instante dónde sale más barato.",
+    "intro": "Compara bolsas, pelotas y grips en {count, plural, one {# tienda} other {# tiendas}}. Filtra por marca y precio.",
+    "introNoCount": "Compara bolsas, pelotas y grips en tiendas españolas. Filtra por marca y precio.",
+    "kindTabs": "Tipo",
+    "all": "Todo",
+    "noneYetTitle": "Aún no hay accesorios",
+    "noneYetText": "Añadimos productos nuevos cada día. Vuelve pronto.",
+    "total": "{count, plural, one {<b>#</b> producto} other {<b>#</b> productos}}",
+    "emptyTitle": "No hay productos con estos filtros",
+    "emptyText": "Quita un filtro para ver más productos."
   }
 }

@@ -122,7 +122,8 @@
         "prijs": "Prijs",
         "niveau": "Niveau",
         "stijl": "Speelstijl",
-        "gewicht": "Gewicht"
+        "gewicht": "Gewicht",
+        "soort": "Soort"
       },
       "level": {
         "beginner": "Beginner",
@@ -156,6 +157,16 @@
         "licht": "Licht",
         "gemiddeld": "Middengewicht",
         "zwaar": "Zwaar"
+      },
+      "kind": {
+        "tassen": "Tassen",
+        "ballen": "Ballen",
+        "grips": "Grips"
+      },
+      "kindSingular": {
+        "tassen": "Padeltas",
+        "ballen": "Padelballen",
+        "grips": "Grip"
       }
     },
     "results": {
@@ -815,7 +826,8 @@
       "emptyTextNew": "We volgen de prijs van dit racket vanaf nu. Over een paar weken zie je hier hoe de prijs zich ontwikkelt. Stel alvast een prijsalert in, dan hoor je het als hij daalt.",
       "emptyCta": "Stel een prijsalert in"
     },
-    "newTab": "(opent in een nieuw tabblad)"
+    "newTab": "(opent in een nieuw tabblad)",
+    "metaDescriptionAccessory": "Vergelijk de prijs van {name} bij {count, plural, one {# winkel} other {# winkels}}, met prijshistorie en een prijsalert."
   },
   "advisor": {
     "metaTitle": "Welk racket past bij mij? Gratis keuzehulp",
@@ -1063,5 +1075,24 @@
         "controle": "Controle-rackets"
       }
     }
+  },
+  "accessories": {
+    "title": "Accessoires",
+    "pageTitle": "Padelaccessoires vergelijken",
+    "kindTitle": {
+      "tassen": "Padeltassen vergelijken",
+      "ballen": "Padelballen vergelijken",
+      "grips": "Grips en overgrips vergelijken"
+    },
+    "metaDescription": "Vergelijk padeltassen, padelballen en grips bij Nederlandse winkels en zie direct waar je het goedkoopst uit bent.",
+    "intro": "Tassen, ballen en grips vergelijken bij {count, plural, one {# winkel} other {# winkels}}. Filter op merk en prijs.",
+    "introNoCount": "Tassen, ballen en grips vergelijken bij Nederlandse winkels. Filter op merk en prijs.",
+    "kindTabs": "Soort",
+    "all": "Alles",
+    "noneYetTitle": "Nog geen accessoires",
+    "noneYetText": "We voegen elke dag nieuwe producten toe. Kom snel terug.",
+    "total": "{count, plural, one {<b>#</b> product} other {<b>#</b> producten}}",
+    "emptyTitle": "Geen producten met deze filters",
+    "emptyText": "Haal een filter weg om meer producten te zien."
   }
 }

@@ -7,7 +7,13 @@ import { supabaseUrl } from "@/lib/supabase/env";
 import { createPublicClient } from "@/lib/supabase/public";
 import { CATALOG_TAG } from "./cache-tags";
 import { compareAtPrice, discountPercent, priceStatsFromRow } from "./pricing";
-import { LEVEL_FROM_DB, STYLE_FROM_DB, type Level, type RacketItem } from "./racket-filters";
+import {
+  KIND_FROM_DB,
+  LEVEL_FROM_DB,
+  STYLE_FROM_DB,
+  type Level,
+  type RacketItem,
+} from "./racket-filters";
 import { withoutSamples } from "./sample-data";
 import { SPORTS, sportSlug, type SportKey } from "./taxonomy";
 
@@ -18,7 +24,18 @@ const SPORT_KEYS = SPORTS.map((s) => s.key) as readonly string[];
  * discount, specs for the filters). One cached entry per market; filtering by sport and
  * by the URL filters happens per request on this list. Empty when Supabase is down.
  */
-export async function getRacketListing(locale: Locale): Promise<RacketItem[]> {
+export function getRacketListing(locale: Locale): Promise<RacketItem[]> {
+  return getCatalogListing(locale, "rackets");
+}
+
+/**
+ * Published products of one category with what an overview needs. Accessories (RP-78)
+ * have no racket specs; their type goes into `kind` for the type tabs and filter.
+ */
+export async function getCatalogListing(
+  locale: Locale,
+  category: "rackets" | "accessories",
+): Promise<RacketItem[]> {
   "use cache";
   cacheTag(CATALOG_TAG);
 
@@ -28,10 +45,10 @@ export async function getRacketListing(locale: Locale): Promise<RacketItem[]> {
       supabase
         .from("products")
         .select(
-          "id, sport_key, is_sample, brands(slug, name), racket_specs(levels, play_style, weight_min_g, weight_max_g), product_content(slug, title, market_code, is_published), product_images(storage_path, position)",
+          "id, sport_key, product_type, is_sample, brands(slug, name), racket_specs(levels, play_style, weight_min_g, weight_max_g), product_content(slug, title, market_code, is_published), product_images(storage_path, position)",
         )
         .eq("status", "published")
-        .eq("category_key", "rackets"),
+        .eq("category_key", category),
     ),
     supabase.rpc("product_price_stats", { p_market_code: locale }),
     supabase
@@ -87,7 +104,10 @@ export async function getRacketListing(locale: Locale): Promise<RacketItem[]> {
         href: getPathname({
           locale,
           href: {
-            pathname: "/rackets/[sport]/[product]",
+            pathname:
+              category === "rackets"
+                ? "/rackets/[sport]/[product]"
+                : "/accessories/[sport]/[product]",
             params: { sport: sportSlug(sport, locale), product: content.slug },
           },
         }),
@@ -111,6 +131,7 @@ export async function getRacketListing(locale: Locale): Promise<RacketItem[]> {
           .filter((l): l is Level => Boolean(l)),
         style: specs?.play_style ? (STYLE_FROM_DB[specs.play_style] ?? null) : null,
         weight,
+        kind: p.product_type ? (KIND_FROM_DB[p.product_type] ?? null) : null,
       },
     ];
   });
