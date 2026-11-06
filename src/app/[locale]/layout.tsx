@@ -47,6 +47,12 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
       locale: locale === "nl" ? "nl_NL" : "es_ES",
       type: "website",
     },
+    // Site ownership checks of affiliate networks (RP-88). Keep in place: they re-verify periodically.
+    verification: {
+      other: {
+        "tradetracker-site-verification": "c44bb9b6718667d3c1ce91f9d1ca210a71e1de1b",
+      },
+    },
     // Not indexable until launch or on previews (RP-34): flip SITE_INDEXABLE in Vercel.
     // Pages with their own robots (Tier C, filters, status pages) stay noindex either way.
     ...(siteIndexable() ? {} : { robots: { index: false, follow: false } }),
