@@ -1,15 +1,22 @@
 "use client";
 
 import { useState, type FormEvent, type ReactNode } from "react";
-import { FavButton } from "@/components/ui/fav-button";
+import { FavoriteToggle } from "@/components/catalog/favorite-toggle";
 
-/** Heart next to the CTA. Storage follows with favourites (RP-53); local state for now. */
-export function ProductFavToggle({ label }: { label: string }) {
-  const [pressed, setPressed] = useState(false);
+/** Heart next to the CTA, saved in the favourites (RP-53). */
+export function ProductFavToggle({
+  productId,
+  name,
+  label,
+}: {
+  productId: string;
+  name: string;
+  label: string;
+}) {
   return (
-    <FavButton
-      pressed={pressed}
-      onToggle={() => setPressed(!pressed)}
+    <FavoriteToggle
+      productId={productId}
+      name={name}
       label={label}
       className="border-border size-14! shrink-0 rounded-none! border-[1.5px]"
     />

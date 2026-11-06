@@ -197,7 +197,9 @@
     "yourSizes": "Jouw maat {sizes} leverbaar",
     "sizeRange": "Maten {min}–{max}",
     "noImage": "Nog geen foto",
-    "priceChecked": "Prijs gecontroleerd op {date}"
+    "priceChecked": "Prijs gecontroleerd op {date}",
+    "favAdded": "{name} is bewaard in je favorieten.",
+    "favRemoved": "{name} is uit je favorieten gehaald."
   },
   "header": {
     "skipToContent": "Naar de inhoud",
@@ -1094,5 +1096,19 @@
     "total": "{count, plural, one {<b>#</b> product} other {<b>#</b> producten}}",
     "emptyTitle": "Geen producten met deze filters",
     "emptyText": "Haal een filter weg om meer producten te zien."
+  },
+  "favorites": {
+    "metaTitle": "Mijn favorieten",
+    "title": "Mijn favorieten",
+    "home": "Home",
+    "breadcrumb": "Kruimelpad",
+    "intro": "Je bewaarde producten, met de laagste prijs van dit moment. Je favorieten worden op dit apparaat bewaard.",
+    "count": "{count, plural, one {<b>#</b> product bewaard} other {<b>#</b> producten bewaard}}",
+    "clear": "Alles verwijderen",
+    "remove": "Verwijder {name} uit favorieten",
+    "emptyTitle": "Nog geen favorieten",
+    "emptyText": "Tik op het hartje bij een product om het hier te bewaren. Zo vergelijk je later snel de prijzen.",
+    "emptyCta": "Rackets bekijken",
+    "gone": "{count, plural, one {# bewaard product is niet meer beschikbaar en is weggelaten.} other {# bewaarde producten zijn niet meer beschikbaar en zijn weggelaten.}}"
   }
 }

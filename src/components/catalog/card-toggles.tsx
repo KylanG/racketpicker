@@ -1,24 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import { FavButton } from "@/components/ui/fav-button";
+import { FavoriteToggle } from "./favorite-toggle";
 import { CheckIcon } from "@/components/ui/icons";
 
 /*
- * Client islands on the product card. State is local for now; RP-53 (favourites) and
- * RP-28 (compare bar) replace it with their stores. Both sit above the card's stretched
+ * Client islands on the product card: the heart uses the favourites store (RP-53); the
+ * compare toggle keeps local state until the compare bar (RP-28). Both sit above the card's stretched
  * link (relative z-10) so they stay separately clickable.
  */
 
-export function CardFavToggle({ label }: { productId: string; label: string }) {
-  const [pressed, setPressed] = useState(false);
+export function CardFavToggle({
+  productId,
+  name,
+  label,
+}: {
+  productId: string;
+  name: string;
+  label: string;
+}) {
   return (
-    <FavButton
-      pressed={pressed}
-      onToggle={() => setPressed(!pressed)}
-      label={label}
-      className="relative z-10"
-    />
+    <FavoriteToggle productId={productId} name={name} label={label} className="relative z-10" />
   );
 }
 
