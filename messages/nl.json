@@ -766,7 +766,7 @@
     "saveMsrp": "Je bespaart {amount} op de adviesprijs",
     "saveShops": "Tot {amount} goedkoper dan de duurste winkel",
     "saveShopsOnly": "Je bespaart tot {amount} ten opzichte van de duurste winkel",
-    "singleShop": "Dit racket is nu alleen verkrijgbaar bij {shop}. We tonen meer winkels zodra ze het aanbieden.",
+    "singleShop": "Dit product is nu alleen verkrijgbaar bij {shop}. We tonen meer winkels zodra ze het aanbieden.",
     "delivery": "{min, plural, =0 {Vandaag} one {# werkdag} other {# werkdagen}}",
     "deliveryRange": "{min}–{max} werkdagen",
     "deliveryLabel": "Levertijd: {value}",
