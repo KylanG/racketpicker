@@ -687,6 +687,7 @@ export type Database = {
       };
       product_source_specs: {
         Row: {
+          applied: Json;
           fetched_at: string;
           product_id: string;
           source: string;
@@ -694,6 +695,7 @@ export type Database = {
           unmapped: string[];
         };
         Insert: {
+          applied?: Json;
           fetched_at?: string;
           product_id: string;
           source: string;
@@ -701,6 +703,7 @@ export type Database = {
           unmapped?: string[];
         };
         Update: {
+          applied?: Json;
           fetched_at?: string;
           product_id?: string;
           source?: string;

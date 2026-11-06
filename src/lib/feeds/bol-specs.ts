@@ -102,19 +102,77 @@ export function parseThickness(value: string): number | null {
   return mm ?? null;
 }
 
+/**
+ * Weight from bol (RP-83 step 2). "Gewicht padelracket" is a coarse class ("365-375 gram",
+ * "Tot 365 gram"); "Product gewicht" is exact but often wrong (packaging, "363 kg"). The
+ * exact weight is used when it fits the class, otherwise the class when it is a range.
+ */
+export function weightFromBol(specs: FlatSpec[]): { min: number; max: number } | null {
+  const byName = (re: RegExp) => specs.find((s) => re.test(lower(s.name)))?.value;
+  const klass = byName(/^gewicht padelracket$/);
+  const exactText = byName(/^product gewicht \(onbespannen\)$/) ?? byName(/^product gewicht$/);
+  // bol mixes up units ("363 kg"): any number that is a plausible racket weight in grams.
+  const exact = exactText
+    ? numbers(exactText)
+        .map((n) => (n < 1 ? Math.round(n * 1000) : Math.round(n)))
+        .find((n) => n >= 300 && n <= 400)
+    : undefined;
+
+  if (klass) {
+    const v = lower(klass);
+    const values = numbers(v).filter((n) => n >= 250 && n <= 450);
+    const upTo = /\btot\b/.test(v);
+    const from = /\bvanaf\b/.test(v);
+    const lo = upTo ? 0 : Math.min(...values);
+    const hi = from ? Infinity : Math.max(...values);
+    if (values.length && exact !== undefined && exact >= lo && exact <= hi) {
+      return { min: exact, max: exact };
+    }
+    if (values.length >= 2 && !upTo && !from) return { min: lo, max: hi };
+    return null;
+  }
+  return exact !== undefined && exact >= 340 && exact <= 390 ? { min: exact, max: exact } : null;
+}
+
+/** bol's "Type speler" → levels: recreational covers beginners and intermediates. */
+export function levelsFromPlayerType(value: string): PlayLevel[] {
+  const v = lower(value);
+  const levels = new Set<PlayLevel>();
+  if (/recreati/.test(v)) {
+    levels.add("beginner");
+    levels.add("intermediate");
+  }
+  if (/competiti/.test(v)) levels.add("advanced");
+  if (/tour|professio/.test(v)) levels.add("pro");
+  return (["beginner", "intermediate", "advanced", "pro"] as const).filter((l) => levels.has(l));
+}
+
+const FOAM: Record<string, string> = {
+  zacht: "Zachte foam",
+  hard: "Harde foam",
+  hybride: "Hybride foam",
+};
+
+/**
+ * Play style follows from the head shape, as shops and brands describe it: round is
+ * control, teardrop and hybrid all-round, diamond power. Only used when the source has
+ * no play style of its own.
+ */
+export const STYLE_FROM_SHAPE: Record<RacketShape, PlayStyle> = {
+  round: "control",
+  teardrop: "all_round",
+  hybrid: "all_round",
+  diamond: "power",
+};
+
 type Rule = { match: RegExp; apply: (value: string, out: MappedSpecs) => boolean };
 
 /** Which spec (by name or key) fills which column. First matching rule wins. */
 const RULES: Rule[] = [
   {
+    // Handled together by weightFromBol; listed so it does not count as unmapped.
     match: /gewicht|weight/,
-    apply: (v, out) => {
-      const w = parseWeight(v);
-      if (!w) return false;
-      out.weight_min_g = w.min;
-      out.weight_max_g = w.max;
-      return true;
-    },
+    apply: () => true,
   },
   {
     match: /vorm|shape/,
@@ -130,7 +188,8 @@ const RULES: Rule[] = [
       const b = parseBalance(v);
       if (b?.balance) out.balance = b.balance;
       if (b?.mm !== undefined) out.balance_mm = b.mm;
-      return b !== null;
+      // A balance point outside 200–320 mm is not a padel value: known, but unusable.
+      return true;
     },
   },
   {
@@ -142,6 +201,14 @@ const RULES: Rule[] = [
     },
   },
   {
+    match: /soort foam/,
+    apply: (v, out) => {
+      const foam = FOAM[lower(v).trim()];
+      if (foam) out.core_material = foam;
+      return foam !== undefined;
+    },
+  },
+  {
     match: /kern|core|binnenkant|schuim/,
     apply: (v, out) => {
       out.core_material = v.slice(0, 80);
@@ -149,10 +216,18 @@ const RULES: Rule[] = [
     },
   },
   {
-    match: /slagvlak|oppervlak|face|buitenkant|cover|blad/,
+    match: /slagvlak|oppervlak|face|buitenkant|cover/,
     apply: (v, out) => {
       out.face_material = v.slice(0, 80);
       return true;
+    },
+  },
+  {
+    match: /type speler/,
+    apply: (v, out) => {
+      const levels = levelsFromPlayerType(v);
+      if (levels.length) out.levels = levels;
+      return levels.length > 0;
     },
   },
   {
@@ -164,7 +239,7 @@ const RULES: Rule[] = [
     },
   },
   {
-    match: /speelstijl|speel ?type|play ?style|type speler/,
+    match: /speelstijl|play ?style/,
     apply: (v, out) => {
       const style = parsePlayStyle(v);
       if (style) out.play_style = style;
@@ -173,26 +248,46 @@ const RULES: Rule[] = [
   },
 ];
 
+/**
+ * bol specs we know and deliberately do not use: identification, packaging, sizes and
+ * fields that are too unreliable (bol labels some padel rackets as tennis or for kids).
+ */
+const IGNORED =
+  /^(ean|fabrikant naam|kleur|doelgroep|inclusief hoes|type sport|fabrieksgarantie termijn|aantal artikelen in verpakking|gripmaat|product (lengte|breedte|hoogte)|bladgrootte|bladmateriaal|verpakkingsinhoud|frame of bespannen|flexibiliteit racket|snarenpatroon|materiaal)$/;
+
 /** Translates bol specs; `unmapped` lists spec names that no rule could use. */
 export function racketSpecsFromBol(specs: FlatSpec[]): { mapped: MappedSpecs; unmapped: string[] } {
   const mapped: MappedSpecs = {};
   const unmapped: string[] = [];
   for (const s of specs) {
+    if (IGNORED.test(lower(s.name).trim())) continue;
     const label = lower(`${s.name} ${s.key}`);
     const rule = RULES.find((r) => r.match.test(label));
     if (!rule || !rule.apply(s.value, mapped)) unmapped.push(s.name || s.key);
   }
+  const weight = weightFromBol(specs);
+  if (weight) {
+    mapped.weight_min_g = weight.min;
+    mapped.weight_max_g = weight.max;
+  }
+  if (!mapped.play_style && mapped.shape) mapped.play_style = STYLE_FROM_SHAPE[mapped.shape];
   return { mapped, unmapped };
 }
 
 type ExistingSpecs = { [K in keyof MappedSpecs]?: MappedSpecs[K] | null };
 
 /**
- * Only the columns that are still empty: hand-entered specs always win over bol.
- * An empty levels array counts as empty.
+ * The columns bol may write: empty ones, and ones that still hold what bol wrote last time
+ * (`applied`), so a better mapping can correct earlier bol values. Anything else was
+ * entered by hand and always wins. An empty levels array counts as empty.
  */
-export function fillEmpty(existing: ExistingSpecs | null, mapped: MappedSpecs): MappedSpecs {
+export function fillEmpty(
+  existing: ExistingSpecs | null,
+  mapped: MappedSpecs,
+  applied: MappedSpecs = {},
+): MappedSpecs {
   const out: MappedSpecs = {};
+  const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
   for (const [k, v] of Object.entries(mapped) as [
     keyof MappedSpecs,
     MappedSpecs[keyof MappedSpecs],
@@ -200,12 +295,22 @@ export function fillEmpty(existing: ExistingSpecs | null, mapped: MappedSpecs): 
     const current = existing?.[k];
     const empty =
       current === null || current === undefined || (Array.isArray(current) && current.length === 0);
-    if (empty && v !== undefined) (out as Record<string, unknown>)[k] = v;
+    const ours = applied[k] !== undefined && same(current, applied[k]);
+    if ((empty || ours) && v !== undefined && !same(current, v)) {
+      (out as Record<string, unknown>)[k] = v;
+    }
   }
   // A weight range is one value: never combine a hand-entered minimum with bol's maximum.
   if ((out.weight_min_g === undefined) !== (out.weight_max_g === undefined)) {
-    delete out.weight_min_g;
-    delete out.weight_max_g;
+    const editable = (k: "weight_min_g" | "weight_max_g") =>
+      existing?.[k] == null || same(existing[k], applied[k]);
+    if (editable("weight_min_g") && editable("weight_max_g")) {
+      out.weight_min_g = mapped.weight_min_g;
+      out.weight_max_g = mapped.weight_max_g;
+    } else {
+      delete out.weight_min_g;
+      delete out.weight_max_g;
+    }
   }
   return out;
 }
