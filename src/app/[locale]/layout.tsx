@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import localFont from "next/font/local";
@@ -28,13 +28,23 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+// Address bar colour on mobile: the header green (RP-80).
+export const viewport: Viewport = { themeColor: "#033A19" };
+
 export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) return {};
   const t = await getTranslations({ locale, namespace: "metadata" });
   return {
+    // Absolute URLs for the share image and icons.
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://racketpicker.com"),
     title: t("title"),
     description: t("description"),
+    openGraph: {
+      siteName: "Racketpicker",
+      locale: locale === "nl" ? "nl_NL" : "es_ES",
+      type: "website",
+    },
     // Not indexable until launch; SEO setup follows in RP-34.
     robots: { index: false, follow: false },
   };
