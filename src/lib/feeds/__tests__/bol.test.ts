@@ -6,6 +6,8 @@ import {
   bolAffiliateUrl,
   fetchBolItems,
   getBestOffer,
+  getMedia,
+  pickBolImage,
   offerToItem,
   validGtin,
   type BolOffer,
@@ -124,6 +126,86 @@ describe("getBestOffer", () => {
   });
 });
 
+const media = {
+  ean: offer.ean,
+  images: [
+    {
+      order: 1,
+      mimeType: "image/jpeg",
+      renditions: [{ width: 1200, height: 1200, url: "https://media.s-bol.com/side-1200.jpg" }],
+    },
+    {
+      order: 0,
+      mimeType: "image/jpeg",
+      renditions: [
+        { width: 168, height: 168, url: "https://media.s-bol.com/front-168.jpg" },
+        { width: 1200, height: 1200, url: "https://media.s-bol.com/front-1200.jpg" },
+        { width: 4000, height: 4000, url: "https://media.s-bol.com/front-4000.jpg" },
+      ],
+    },
+  ],
+};
+
+describe("pickBolImage", () => {
+  it("takes the first image in the largest rendition up to 1200px", () => {
+    expect(pickBolImage(media)).toBe("https://media.s-bol.com/front-1200.jpg");
+  });
+
+  it("falls back to the smallest larger rendition, and null without images", () => {
+    const big = {
+      images: [
+        {
+          order: 0,
+          renditions: [
+            { width: 4000, height: 4000, url: "https://media.s-bol.com/a.jpg" },
+            { width: 2000, height: 2000, url: "https://media.s-bol.com/b.jpg" },
+          ],
+        },
+      ],
+    };
+    expect(pickBolImage(big)).toBe("https://media.s-bol.com/b.jpg");
+    expect(pickBolImage({ images: [] })).toBeNull();
+    expect(pickBolImage(null)).toBeNull();
+    expect(
+      pickBolImage({
+        images: [{ order: 0, renditions: [{ width: 500, height: 500, url: "http://x" }] }],
+      }),
+    ).toBeNull();
+  });
+});
+
+describe("getMedia", () => {
+  it("pads 12-digit codes and never throws", async () => {
+    const f = vi.fn<typeof fetch>(async () => json(media));
+    expect(await getMedia("842776106209", "t", f)).toEqual(media);
+    expect(String(f.mock.calls[0]![0])).toContain("/products/0842776106209/media");
+
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    expect(
+      await getMedia(
+        offer.ean,
+        "t",
+        vi.fn<typeof fetch>(async () => json({}, 401)),
+      ),
+    ).toBeNull();
+    expect(
+      await getMedia(
+        offer.ean,
+        "t",
+        vi.fn<typeof fetch>(async () => Promise.reject(new Error("down"))),
+      ),
+    ).toBeNull();
+    expect(
+      await getMedia(
+        offer.ean,
+        "t",
+        vi.fn<typeof fetch>(async () => json({}, 404)),
+      ),
+    ).toBeNull();
+    warn.mockRestore();
+  });
+});
+
 describe("fetchBolItems", () => {
   beforeEach(() => {
     vi.stubEnv("BOL_CLIENT_ID", "id");
@@ -146,6 +228,7 @@ describe("fetchBolItems", () => {
       return json({}, 404);
     });
     const { items, stats } = await fetchBolItems(catalog, { fetcher: f, wait });
+    expect(items[0]!.imageUrl).toBeNull();
     expect(items.map((i) => i.match)).toEqual([
       { status: "matched", method: "gtin", productId: "p1", score: 1 },
     ]);
@@ -154,6 +237,17 @@ describe("fetchBolItems", () => {
     expect((tokenCall[1]!.headers as Record<string, string>).Authorization).toBe(
       `Basic ${Buffer.from("id:secret").toString("base64")}`,
     );
+  });
+
+  it("adds the photo of the EAN with the offer", async () => {
+    const f = vi.fn<typeof fetch>(async (input) => {
+      const url = String(input);
+      if (url.startsWith("https://login.bol.com")) return json({ access_token: "tok" });
+      if (url.endsWith("/media")) return json(media);
+      return json(offer);
+    });
+    const { items } = await fetchBolItems([product], { fetcher: f, wait });
+    expect(items[0]!.imageUrl).toBe("https://media.s-bol.com/front-1200.jpg");
   });
 
   it("does not call bol without products with an EAN", async () => {
