@@ -9,6 +9,60 @@ export type Database = {
   };
   public: {
     Tables: {
+      alerts: {
+        Row: {
+          id: string;
+          email: string;
+          market_code: string;
+          product_id: string;
+          kind: string;
+          target_price: number | null;
+          status: string;
+          confirm_token_hash: string | null;
+          unsubscribe_token_hash: string;
+          confirm_sent_at: string | null;
+          confirmed_at: string | null;
+          notified_at: string | null;
+          notified_price: number | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          email: string;
+          market_code?: string;
+          product_id: string;
+          kind: string;
+          target_price?: number | null;
+          status?: string;
+          confirm_token_hash?: string | null;
+          unsubscribe_token_hash: string;
+          confirm_sent_at?: string | null;
+          confirmed_at?: string | null;
+          notified_at?: string | null;
+          notified_price?: number | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          email?: string;
+          market_code?: string;
+          product_id?: string;
+          kind?: string;
+          target_price?: number | null;
+          status?: string;
+          confirm_token_hash?: string | null;
+          unsubscribe_token_hash?: string;
+          confirm_sent_at?: string | null;
+          confirmed_at?: string | null;
+          notified_at?: string | null;
+          notified_price?: number | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       articles: {
         Row: {
           author: string;
