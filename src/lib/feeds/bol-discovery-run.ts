@@ -51,9 +51,9 @@ async function search(
 }
 
 /**
- * Adds popular padel products from bol to the catalog (RP-77). Rackets are published
- * with content tier C (noindex until their specs are filled in); accessories start as
- * drafts until their pages exist. Prices and photos follow in the bol import that runs
+ * Adds popular padel products from bol to the catalog (RP-77). New products are published
+ * with content tier C (noindex until their content is filled in); accessories have their
+ * own pages since RP-78. Prices and photos follow in the bol import that runs
  * right after. Never throws: a failure here must not stop the price import.
  */
 export async function runBolDiscovery(fetcher: Fetcher = fetch): Promise<DiscoveryResult> {
@@ -115,7 +115,7 @@ export async function runBolDiscovery(fetcher: Fetcher = fetch): Promise<Discove
             model_year: p.year,
             gtins: [p.ean],
             tier: "C",
-            status: p.category === "rackets" ? "published" : "draft",
+            status: "published",
             is_sample: false,
             product_type: p.productType,
           })
