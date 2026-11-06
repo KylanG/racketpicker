@@ -40,6 +40,8 @@ function hrefFor(route: SitemapRoute, locale: Locale): { href: Href; query?: str
         },
       };
     }
+    case "brand":
+      return { href: { pathname: "/brands/[brand]", params: { brand: route.brand } } };
     case "advisor":
       return {
         href: {

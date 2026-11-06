@@ -4,7 +4,13 @@ import { routing } from "./i18n/routing";
 import { hasUnknownAdvisorProfile } from "./lib/advisor/route-guard";
 import { hasUnknownLinkStatus } from "./lib/newsletter/status";
 import { articleExists, articleFromPath } from "./lib/blog/route-guard";
-import { hasUnknownSport, racketExists, racketFromPath } from "./lib/catalog/route-guard";
+import {
+  brandExists,
+  brandFromPath,
+  hasUnknownSport,
+  racketExists,
+  racketFromPath,
+} from "./lib/catalog/route-guard";
 
 const intl = createMiddleware(routing);
 
@@ -12,14 +18,16 @@ export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const article = articleFromPath(pathname);
   const racket = racketFromPath(pathname);
-  // Unknown sport (e.g. /nl/rackets/voetbal), advisor profile, article, racket or accessory: rewrite to a path no route
+  const brand = brandFromPath(pathname);
+  // Unknown sport (e.g. /nl/rackets/voetbal), advisor profile, article, racket, accessory or brand: rewrite to a path no route
   // matches, so the global 404 page is served with status 404 instead of a streamed 200.
   if (
     hasUnknownSport(pathname) ||
     hasUnknownAdvisorProfile(pathname) ||
     hasUnknownLinkStatus(pathname) ||
     (article && !(await articleExists(article.locale, article.slug))) ||
-    (racket && !(await racketExists(racket)))
+    (racket && !(await racketExists(racket))) ||
+    (brand && !(await brandExists(brand.slug)))
   ) {
     const url = request.nextUrl.clone();
     url.pathname = `/${request.nextUrl.pathname.split("/")[1]}/_not-found`;

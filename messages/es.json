@@ -348,7 +348,8 @@
     },
     "doubt": "¿Dudas?",
     "brandAll": "Todo {brand}",
-    "subMenu": "{category} por deporte"
+    "subMenu": "{category} por deporte",
+    "brands": "Marcas"
   },
   "languages": {
     "nl": "Nederlands",
@@ -1032,5 +1033,26 @@
     "noneYetTitle": "Ahora no hay ofertas reales",
     "noneYetText": "Solo mostramos un descuento cuando hemos seguido el precio al menos 30 días, para que sepas que es real. Crea una alerta de precio en una pala y te avisaremos por correo cuando baje.",
     "noneYetLink": "Ver todas las palas"
+  },
+  "brands": {
+    "metaTitle": "Comparar marcas de pádel",
+    "metaDescription": "Todas las marcas en Racketpicker, de Adidas a Wilson. Mira por marca las palas y accesorios con el precio más bajo por tienda.",
+    "breadcrumb": "Marcas",
+    "title": "Marcas",
+    "intro": "{count, plural, one {# marca} other {# marcas}} con palas y accesorios que comparamos. Elige una marca para ver todo lo suyo, con el precio más bajo por tienda.",
+    "productCount": "{count, plural, one {# producto} other {# productos}}",
+    "brandMetaTitle": "{brand}: comparar palas y accesorios",
+    "brandMetaDescription": "Todos los productos de {brand}: {count, plural, one {# producto} other {# productos}}, con el precio más bajo por tienda y el historial de precios.",
+    "brandIntro": "{count, plural, one {# producto} other {# productos}} de {brand}: {parts}. {price}",
+    "partRackets": "{count, plural, one {# pala} other {# palas}}",
+    "partAccessories": "{count, plural, one {# accesorio} other {# accesorios}}",
+    "priceRange": "De {min} a {max}, en la tienda más barata.",
+    "priceFrom": "Desde {min} en la tienda más barata.",
+    "total": "{count, plural, one {<b>#</b> producto} other {<b>#</b> productos}}",
+    "emptyTitle": "No hay productos con estos filtros",
+    "emptyText": "Prueba con menos filtros.",
+    "noneYetTitle": "Aún no hay productos",
+    "noneYetText": "Todavía no comparamos nada de esta marca.",
+    "allBrands": "Todas las marcas"
   }
 }

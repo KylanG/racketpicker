@@ -8,7 +8,7 @@ import { ArrowIcon } from "@/components/ui/icons";
 import { Slant } from "@/components/ui/slant";
 import { Link } from "@/i18n/navigation";
 import { LanguageSwitcher } from "./language-switcher";
-import type { NavItem } from "./nav-types";
+import type { NavItem, NavLink } from "./nav-types";
 
 const MENU_DESKTOP_QUERY = "(min-width: 960px)";
 
@@ -30,7 +30,7 @@ function Chevron({ open }: { open: boolean }) {
  * Hamburger + full-screen menu (<960px). A modal <dialog>: the browser keeps focus
  * inside, makes the page inert, closes on Escape and returns focus to the hamburger.
  */
-export function MobileMenu({ items }: { items: NavItem[] }) {
+export function MobileMenu({ items, links = [] }: { items: NavItem[]; links?: NavLink[] }) {
   const t = useTranslations("header");
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
@@ -142,6 +142,17 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
               </div>
             );
           })}
+          {links.map((link) => (
+            <div key={link.key} className="border-b border-white/14">
+              <Link
+                href={link.href}
+                onClick={close}
+                className="flex min-h-[60px] items-center text-[20px] font-semibold text-white hover:text-white"
+              >
+                {link.label}
+              </Link>
+            </div>
+          ))}
         </nav>
 
         <div className="mt-auto flex flex-col gap-4 px-(--rp-gutter) pt-6 pb-8">

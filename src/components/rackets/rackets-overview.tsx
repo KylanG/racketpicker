@@ -202,7 +202,7 @@ export async function FilteredResults({
   items: RacketItem[];
   action: string;
   searchParams: SearchParams;
-  category?: "rackets" | "accessories" | "deals";
+  category?: "rackets" | "accessories" | "deals" | "brand";
 }) {
   const [params, t, tf, ts, tp, ta, td] = await Promise.all([
     searchParams,
@@ -211,7 +211,8 @@ export async function FilteredResults({
     getTranslations("sports"),
     getTranslations("productCard"),
     getTranslations("accessories"),
-    getTranslations("deals"),
+    // Deals (RP-86) and brand pages (RP-55) mix rackets and accessories: own texts.
+    getTranslations(category === "brand" ? "brands" : "deals"),
   ]);
   const filters = parseFilters(params);
   const results = applyFilters(items, filters);
