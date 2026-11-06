@@ -945,8 +945,7 @@
       "metaTitle": "Beste {racket} voor {level} met {style}",
       "metaDescription": "Welk {racket} past bij {level} met {style}? We vergelijken de rackets die passen en tonen de laagste prijs bij Nederlandse winkels.",
       "h1": "Het beste {racket} voor {level} met {style}",
-      "intro": "Op basis van je niveau en speelstijl tonen we de rackets die het best passen, met de laagste prijs. Vul je ook frequentie en budget in, dan wordt het advies nog persoonlijker.",
-      "introPersonal": "Dit is je persoonlijke advies op basis van je niveau, speelstijl, speelfrequentie en budget.",
+      "intro": "Op basis van je antwoorden tonen we de rackets die het best bij je passen, met de laagste prijs bij alle winkels.",
       "level": {
         "beginner": "beginners",
         "gevorderd": "gevorderde spelers",
@@ -968,7 +967,7 @@
       "personalize": "Maak het persoonlijker"
     },
     "result": {
-      "count": "{count, plural, =0 {Geen rackets gevonden} one {# racket past bij jou} other {# rackets passen bij jou}}",
+      "count": "{count, plural, =0 {Geen rackets gevonden} one {Dit racket past bij jou} other {De # rackets die het best bij jou passen}}",
       "restart": "Opnieuw beginnen",
       "edit": "Wijzig {question}",
       "share": "Deelbare link:",

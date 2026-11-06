@@ -34,6 +34,8 @@ const SITE_HOST = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://racketpicker.com
   .replace(/^https?:\/\/(www\.)?/, "")
   .replace(/\/$/, "");
 
+const MAX_RESULTS = 10;
+
 const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
 
 /**
@@ -56,7 +58,11 @@ export async function AdvisorResult({ locale, sport, sports, niveau, stijl, sear
     getRacketListing(locale),
   ]);
   const tOutcome = await getTranslations({ locale, namespace: "advisor.outcome" });
-  const matches = rankRackets(items, { sport, niveau, stijl, frequentie, budget });
+  // The ten best; the rest of the list adds little and is one click away in the overview.
+  const matches = rankRackets(items, { sport, niveau, stijl, frequentie, budget }).slice(
+    0,
+    MAX_RESULTS,
+  );
   const answers: Answers = { sport, niveau, stijl, frequentie, budget };
   const steps = activeSteps(sports);
   const firstOpen = steps.findIndex((k) => answers[k] == null);

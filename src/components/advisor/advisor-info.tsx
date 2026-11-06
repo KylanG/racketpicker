@@ -25,7 +25,7 @@ export async function AdvisorInfo({ locale, sports }: { locale: Locale; sports: 
     getTranslations({ locale, namespace: "advisor.options.stijl" }),
     getTranslations({ locale, namespace: "sports" }),
   ]);
-  const h2 = "text-[clamp(28px,2.6vw,38px)] font-semibold tracking-[-0.3px]";
+  const h2 = "text-[clamp(28px,2.6vw,38px)] leading-[1.1] font-semibold tracking-[-0.3px]";
 
   return (
     <>

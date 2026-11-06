@@ -738,8 +738,7 @@
       "metaTitle": "Mejor {racket} para {level} con {style}",
       "metaDescription": "¿Qué {racket} conviene a {level} con {style}? Comparamos las que encajan y mostramos el precio más bajo en tiendas españolas.",
       "h1": "La mejor {racket} para {level} con {style}",
-      "intro": "Según tu nivel y estilo de juego mostramos las palas que mejor encajan, con el precio más bajo. Si añades frecuencia y presupuesto, el consejo será aún más personal.",
-      "introPersonal": "Este es tu consejo personal según tu nivel, estilo de juego, frecuencia y presupuesto.",
+      "intro": "Según tus respuestas mostramos las palas que mejor encajan contigo, con el precio más bajo en todas las tiendas.",
       "level": {
         "beginner": "principiantes",
         "gevorderd": "jugadores avanzados",
@@ -761,7 +760,7 @@
       "personalize": "Hazlo más personal"
     },
     "result": {
-      "count": "{count, plural, =0 {No hemos encontrado palas} one {# pala encaja contigo} other {# palas encajan contigo}}",
+      "count": "{count, plural, =0 {No hemos encontrado palas} one {Esta pala encaja contigo} other {Las # palas que mejor encajan contigo}}",
       "restart": "Empezar de nuevo",
       "edit": "Cambiar {question}",
       "share": "Enlace para compartir:",
