@@ -18,7 +18,7 @@ const FIXED_AFTER = 160;
 const SCROLL_DELTA = 6;
 
 export const CTA_HREF: Record<HeaderCta, NavHref> = {
-  deals: { pathname: "/", hash: "deals" },
+  deals: "/deals",
   advisor: "/advisor",
 };
 

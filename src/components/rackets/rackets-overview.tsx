@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { ADVISOR_LIVE } from "@/lib/features";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
@@ -201,18 +202,45 @@ export async function FilteredResults({
   items: RacketItem[];
   action: string;
   searchParams: SearchParams;
-  category?: "rackets" | "accessories";
+  category?: "rackets" | "accessories" | "deals";
 }) {
-  const [params, t, tf, ts, tp, ta] = await Promise.all([
+  const [params, t, tf, ts, tp, ta, td] = await Promise.all([
     searchParams,
     getTranslations("rackets"),
     getTranslations("rackets.filters"),
     getTranslations("sports"),
     getTranslations("productCard"),
     getTranslations("accessories"),
+    getTranslations("deals"),
   ]);
   const filters = parseFilters(params);
   const results = applyFilters(items, filters);
+  const bold = { b: (c: ReactNode) => <strong>{c}</strong> };
+  // Texts per overview; the deals page (RP-86) mixes rackets and accessories.
+  const copy =
+    category === "rackets"
+      ? {
+          total: t.rich("results.total", { count: results.length, ...bold }),
+          noneYetTitle: t("results.noneYetTitle"),
+          noneYetText: t("results.noneYetText"),
+          emptyTitle: t("results.emptyTitle"),
+          emptyText: t(ADVISOR_LIVE ? "results.emptyText" : "results.emptyTextFilter"),
+        }
+      : category === "accessories"
+        ? {
+            total: ta.rich("total", { count: results.length, ...bold }),
+            noneYetTitle: ta("noneYetTitle"),
+            noneYetText: ta("noneYetText"),
+            emptyTitle: ta("emptyTitle"),
+            emptyText: ta("emptyText"),
+          }
+        : {
+            total: td.rich("total", { count: results.length, ...bold }),
+            noneYetTitle: td("noneYetTitle"),
+            noneYetText: td("noneYetText"),
+            emptyTitle: td("emptyTitle"),
+            emptyText: td("emptyText"),
+          };
   const panel = panelData(items, filters, locale, tf);
 
   const levelLabel = (i: RacketItem) => {
@@ -254,32 +282,28 @@ export async function FilteredResults({
           {items.length > 0 && (
             <FiltersDrawer data={panel} action={action} total={results.length} />
           )}
-          <h2 className="text-[15px] font-normal">
-            {category === "rackets"
-              ? t.rich("results.total", { count: results.length, b: (c) => <strong>{c}</strong> })
-              : ta.rich("total", { count: results.length, b: (c) => <strong>{c}</strong> })}
-          </h2>
+          <h2 className="text-[15px] font-normal">{copy.total}</h2>
         </div>
 
         {items.length === 0 ? (
           <div className="bg-surface flex flex-col items-center gap-3.5 px-8 py-12 text-center">
-            <p className="text-[20px] font-semibold">
-              {category === "rackets" ? t("results.noneYetTitle") : ta("noneYetTitle")}
-            </p>
-            <p className="text-muted text-[15px]">
-              {category === "rackets" ? t("results.noneYetText") : ta("noneYetText")}
-            </p>
+            <p className="text-[20px] font-semibold">{copy.noneYetTitle}</p>
+            <p className="text-muted text-[15px]">{copy.noneYetText}</p>
+            {category === "deals" && (
+              <Slant
+                as={Link}
+                size={8}
+                href="/rackets"
+                className="bg-ink px-5 py-3 text-[14px] font-semibold text-white hover:text-white"
+              >
+                {td("noneYetLink")}
+              </Slant>
+            )}
           </div>
         ) : results.length === 0 ? (
           <div className="bg-surface flex flex-col items-center gap-3.5 px-8 py-12 text-center">
-            <p className="text-[20px] font-semibold">
-              {category === "rackets" ? t("results.emptyTitle") : ta("emptyTitle")}
-            </p>
-            <p className="text-muted text-[15px]">
-              {category === "accessories"
-                ? ta("emptyText")
-                : t(ADVISOR_LIVE ? "results.emptyText" : "results.emptyTextFilter")}
-            </p>
+            <p className="text-[20px] font-semibold">{copy.emptyTitle}</p>
+            <p className="text-muted text-[15px]">{copy.emptyText}</p>
             <Slant
               as="a"
               size={8}

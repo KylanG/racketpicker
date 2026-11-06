@@ -1219,6 +1219,22 @@
     "priceHistory": "Zo werkt de prijshistorie",
     "about": "Over ons",
     "faq": "Veelgestelde vragen",
-    "contactTitle": "Contact"
+    "contactTitle": "Contact",
+    "deals": "Deals",
+    "dealsNote": "alle producten die nu echt in de aanbieding zijn, vergeleken met de laagste prijs van de 30 dagen ervoor."
+  },
+  "deals": {
+    "metaTitle": "Padel deals: echte kortingen vergeleken",
+    "metaDescription": "Alle padelrackets en accessoires die nu echt in de aanbieding zijn. Korting vergeleken met de laagste prijs van de afgelopen 30 dagen, niet met een adviesprijs.",
+    "breadcrumb": "Deals",
+    "title": "Deals: alleen echte kortingen",
+    "intro": "We tonen een korting alleen als de prijs nu lager is dan de laagste prijs van de 30 dagen ervoor. Zo zie je meteen of een aanbieding echt is. Adviesprijzen tellen niet mee.",
+    "introCount": "Nu {count, plural, one {# deal} other {# deals}}, grootste korting eerst. We tonen een korting alleen als de prijs lager is dan de laagste prijs van de 30 dagen ervoor; adviesprijzen tellen niet mee.",
+    "total": "{count, plural, one {<b>#</b> deal} other {<b>#</b> deals}}",
+    "emptyTitle": "Geen deals met deze filters",
+    "emptyText": "Probeer minder filters, of bekijk alle deals.",
+    "noneYetTitle": "Nu even geen echte deals",
+    "noneYetText": "We tonen een korting pas als we de prijs minstens 30 dagen hebben gevolgd, zodat je zeker weet dat hij echt is. Zet een prijsalert op een racket, dan krijg je een mail zodra de prijs zakt.",
+    "noneYetLink": "Bekijk alle rackets"
   }
 }

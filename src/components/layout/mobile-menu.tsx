@@ -161,7 +161,7 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
           )}
           {/* No slant here, as in the prototype. */}
           <Link
-            href={{ pathname: "/", hash: "deals" }}
+            href="/deals"
             onClick={close}
             className="bg-lime hover:bg-lime-hover flex min-h-[52px] items-center justify-center gap-2.5 text-[16px] font-semibold text-green-950 hover:text-green-950"
           >
