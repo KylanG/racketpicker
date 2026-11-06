@@ -37,7 +37,10 @@ export type NavItem = {
   subs: NavSub[];
 };
 
-export type HeaderActive = CategoryKey | "home" | null;
+export type HeaderActive = CategoryKey | "home" | "brands" | null;
+
+/** Plain top-level link after the categories, e.g. "Merken" (RP-55). */
+export type NavLink = { key: "brands"; label: string; href: NavHref };
 export type HeaderCta = "deals" | "advisor";
 
 /** Overview route per category; the sport is the dynamic segment. */

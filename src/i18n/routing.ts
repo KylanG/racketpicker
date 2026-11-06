@@ -50,6 +50,9 @@ export const routing = defineRouting({
     },
     // All real discounts in one place (RP-86).
     "/deals": { nl: "/deals", es: "/ofertas" },
+    // Brand overview and one page per brand (RP-55).
+    "/brands": { nl: "/merken", es: "/marcas" },
+    "/brands/[brand]": { nl: "/merken/[brand]", es: "/marcas/[brand]" },
     "/blog": "/blog",
     "/blog/[slug]": "/blog/[slug]",
     "/favorites": { nl: "/favorieten", es: "/favoritos" },

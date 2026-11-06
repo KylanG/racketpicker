@@ -3,6 +3,7 @@ import type { Locale } from "@/i18n/routing";
 import { ADVISOR_LIVE } from "@/lib/features";
 import { menuBrands } from "@/lib/catalog/menu-brands";
 import { getCatalogAvailability } from "@/lib/catalog/nav";
+import { getCatalogOverview } from "@/lib/catalog/overview";
 import type { RacketItem } from "@/lib/catalog/racket-filters";
 import { getCatalogListing } from "@/lib/catalog/rackets";
 import { CATEGORIES, sportSlug, type CategoryKey } from "@/lib/catalog/taxonomy";
@@ -13,6 +14,7 @@ import {
   type HeaderCta,
   type NavHref,
   type NavItem,
+  type NavLink,
 } from "./nav-types";
 
 type HeaderProps = {
@@ -29,13 +31,14 @@ type HeaderProps = {
  */
 export async function Header({ active = null, cta = "deals" }: HeaderProps) {
   const locale = (await getLocale()) as Locale;
-  const [availability, t, tc, ts, rackets, accessories] = await Promise.all([
+  const [availability, t, tc, ts, rackets, accessories, overview] = await Promise.all([
     getCatalogAvailability(),
     getTranslations("header"),
     getTranslations("categories"),
     getTranslations("sports"),
     getCatalogListing(locale, "rackets"),
     getCatalogListing(locale, "accessories"),
+    getCatalogOverview(),
   ]);
   const listing: Partial<Record<CategoryKey, RacketItem[]>> = { rackets, accessories };
 
@@ -74,5 +77,11 @@ export async function Header({ active = null, cta = "deals" }: HeaderProps) {
     ];
   });
 
-  return <HeaderBar items={items} active={active} cta={ADVISOR_LIVE ? cta : "deals"} />;
+  // "Merken" as soon as one brand has products (RP-55).
+  const links: NavLink[] =
+    overview.brands.length > 0 ? [{ key: "brands", label: t("brands"), href: "/brands" }] : [];
+
+  return (
+    <HeaderBar items={items} links={links} active={active} cta={ADVISOR_LIVE ? cta : "deals"} />
+  );
 }

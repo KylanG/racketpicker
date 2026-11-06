@@ -91,3 +91,32 @@ export async function racketExists(
     now,
   );
 }
+
+/** { locale, slug } for /{locale}/{merken|marcas}/{brand} (RP-55), else null. */
+export function brandFromPath(pathname: string): { locale: Locale; slug: string } | null {
+  const parts = pathname.replace(/\/$/, "").split("/");
+  if (parts.length !== 4) return null;
+  const [, locale, segment, slug] = parts;
+  if (!locale || !slug || !(routing.locales as readonly string[]).includes(locale)) return null;
+  const external = routing.pathnames["/brands/[brand]"];
+  const expected = (typeof external === "string" ? external : external[locale as Locale]).split(
+    "/",
+  )[1];
+  if (segment !== expected) return null;
+  return { locale: locale as Locale, slug: decodeURIComponent(slug) };
+}
+
+/** Whether a brand with this slug has a published product (samples only where shown). */
+export async function brandExists(
+  slug: string,
+  fetcher: typeof fetch = fetch,
+  now = Date.now(),
+): Promise<boolean> {
+  if (!SLUG.test(slug)) return false;
+  const samples = process.env.NEXT_PUBLIC_SHOW_SAMPLE_DATA === "true" ? "" : "&is_sample=eq.false";
+  return restRowExists(
+    `products?select=id,brands!inner(slug)&brands.slug=eq.${slug}&status=eq.published${samples}&limit=1`,
+    fetcher,
+    now,
+  );
+}

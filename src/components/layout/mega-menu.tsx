@@ -5,7 +5,7 @@ import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import { ArrowIcon } from "@/components/ui/icons";
 import { Link } from "@/i18n/navigation";
 import { ADVISOR_LIVE } from "@/lib/features";
-import type { HeaderActive, NavItem } from "./nav-types";
+import type { HeaderActive, NavItem, NavLink } from "./nav-types";
 
 /** Delays against flicker when the pointer crosses the gap between item and panel. */
 const OPEN_DELAY = 120;
@@ -17,7 +17,15 @@ const CLOSE_DELAY = 220;
  * leaving the menu. Left: the sub-categories (per sport) and the advisor block; right:
  * brand columns with models of the sub that is hovered or focused.
  */
-export function MegaMenu({ items, active }: { items: NavItem[]; active: HeaderActive }) {
+export function MegaMenu({
+  items,
+  links = [],
+  active,
+}: {
+  items: NavItem[];
+  links?: NavLink[];
+  active: HeaderActive;
+}) {
   const t = useTranslations("header");
   const baseId = useId();
   const [open, setOpen] = useState<string | null>(null);
@@ -244,6 +252,20 @@ export function MegaMenu({ items, active }: { items: NavItem[]; active: HeaderAc
               </li>
             );
           })}
+          {links.map((link) => (
+            // Plain links (Merken, RP-55) close any open mega menu when hovered.
+            <li key={link.key} onPointerEnter={(e) => e.pointerType === "mouse" && hide()}>
+              <Link
+                href={link.href}
+                aria-current={link.key === active ? "page" : undefined}
+                className={`flex min-h-11 items-center border-b-2 px-[clamp(6px,.9vw,12px)] pt-3 pb-2.5 text-[14px] font-medium whitespace-nowrap text-white hover:text-white ${
+                  link.key === active ? "border-lime" : "hover:border-lime border-transparent"
+                }`}
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
     </div>

@@ -238,7 +238,6 @@ export async function HowItWorks({ shopCount }: { shopCount: number }) {
 
 /** Merkenblok on green-950 with 24px slanted top and bottom. Hidden with few brands. */
 export async function BrandBlock() {
-  const locale = (await getLocale()) as Locale;
   const [overview, t] = await Promise.all([getCatalogOverview(), getTranslations("home")]);
   if (overview.brands.length < MIN_WALL_BRANDS) return null;
 
@@ -260,11 +259,8 @@ export async function BrandBlock() {
             slug: b.slug,
             name: b.name,
             logo: b.logoPath ? `/${b.logoPath.replace(/^\//, "")}` : null,
-            href: {
-              pathname: SPORT_ROUTE.rackets,
-              params: { sport: sportSlug(b.sport, locale) },
-              query: { merk: b.slug },
-            } as NavHref,
+            // Brand page (RP-55).
+            href: { pathname: "/brands/[brand]", params: { brand: b.slug } } as NavHref,
           }))}
         />
       </div>

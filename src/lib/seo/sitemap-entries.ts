@@ -19,12 +19,14 @@ export type SitemapRoute =
   | { kind: "static"; pathname: StaticPath; priority: number }
   | { kind: "listing"; category: "rackets" | "accessories"; sport: SportKey; query?: string }
   | { kind: "product"; product: SitemapProduct }
-  | { kind: "advisor"; sport: SportKey; profile: string };
+  | { kind: "advisor"; sport: SportKey; profile: string }
+  | { kind: "brand"; brand: string };
 
 export type StaticPath =
   | "/"
   | "/rackets"
   | "/deals"
+  | "/brands"
   | "/advisor"
   | "/blog"
   | "/price-history"
@@ -39,6 +41,7 @@ const STATIC: { pathname: StaticPath; priority: number }[] = [
   { pathname: "/", priority: 1 },
   { pathname: "/rackets", priority: 0.8 },
   { pathname: "/deals", priority: 0.8 },
+  { pathname: "/brands", priority: 0.6 },
   { pathname: "/advisor", priority: 0.8 },
   { pathname: "/blog", priority: 0.6 },
   { pathname: "/price-history", priority: 0.4 },
@@ -92,6 +95,13 @@ export function sitemapRoutes(
   for (const key of kinds) {
     const [sport, kind] = key.split(":") as [SportKey, Kind];
     routes.push({ kind: "listing", category: "accessories", sport, query: `soort=${kind}` });
+  }
+
+  // Brand pages (RP-55), with the same minimum as the sport + brand pages.
+  const perBrand = new Map<string, number>();
+  for (const p of products) perBrand.set(p.brand, (perBrand.get(p.brand) ?? 0) + 1);
+  for (const [brand, count] of perBrand) {
+    if (count >= MIN_BRAND_PRODUCTS) routes.push({ kind: "brand", brand });
   }
 
   const racketSports = new Set(

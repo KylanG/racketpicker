@@ -10,7 +10,7 @@ import { useFavorites } from "@/lib/favorites/store";
 import { LanguageSwitcher } from "./language-switcher";
 import { MegaMenu } from "./mega-menu";
 import { MobileMenu } from "./mobile-menu";
-import type { HeaderActive, HeaderCta, NavHref, NavItem } from "./nav-types";
+import type { HeaderActive, HeaderCta, NavHref, NavItem, NavLink } from "./nav-types";
 
 /** Scroll distance after which the header becomes fixed and compact. */
 const FIXED_AFTER = 160;
@@ -148,10 +148,12 @@ function SearchButton() {
 
 export function HeaderBar({
   items,
+  links = [],
   active,
   cta,
 }: {
   items: NavItem[];
+  links?: NavLink[];
   active: HeaderActive;
   cta: HeaderCta;
 }) {
@@ -195,7 +197,7 @@ export function HeaderBar({
           </Link>
 
           {/* Desktop (≥960px) */}
-          <MegaMenu items={items} active={active} />
+          <MegaMenu items={items} links={links} active={active} />
           <div className="hidden items-center gap-0.5 min-[960px]:flex">
             <LanguageSwitcher variant="compact" />
             <SearchButton />
@@ -216,7 +218,7 @@ export function HeaderBar({
           <div className="flex flex-1 items-center justify-end gap-[clamp(16px,2.8vw,40px)] min-[960px]:hidden">
             <FavoritesLink count={favoriteCount} />
             <SearchButton />
-            <MobileMenu items={items} />
+            <MobileMenu items={items} links={links} />
           </div>
         </header>
       </div>
