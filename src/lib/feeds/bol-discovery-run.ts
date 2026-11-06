@@ -3,11 +3,13 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { BOL_API, BOL_SPACING_MS, getBolToken, sleep } from "./bol";
 import {
   DISCOVERY_TARGETS,
+  planTitleCleanup,
   selectNewProducts,
   slugify,
   type BolSearchResult,
   type DiscoveryTarget,
   type NewProduct,
+  type ProductType,
 } from "./bol-discovery";
 
 /** New products per run at most, so one odd search result page cannot flood the catalog. */
@@ -19,8 +21,72 @@ type Fetcher = typeof fetch;
 export type DiscoveryResult = {
   searched: Record<string, number>;
   created: number;
+  /** Earlier products renamed by the current title cleanup (RP-85). */
+  renamed: number;
+  /** Clean names that already belong to another product: possible duplicates to review. */
+  duplicates: string[];
   skipped: string[];
 };
+
+type Db = ReturnType<typeof createAdminClient>;
+
+/**
+ * Applies the current title cleanup to products the discovery created before (tier C,
+ * no hand-written content), so improvements reach the whole catalog (RP-85).
+ */
+async function cleanUpTitles(db: Db, result: DiscoveryResult): Promise<void> {
+  const [rows, all, slugs] = await Promise.all([
+    db
+      .from("products")
+      .select(
+        "id, brand_id, model, model_year, product_type, brands!inner(name), product_content!inner(slug, intro, market_code)",
+      )
+      .eq("tier", "C")
+      .eq("is_sample", false)
+      .eq("product_content.market_code", "nl"),
+    db.from("products").select("brand_id, model, model_year"),
+    db.from("product_content").select("slug").eq("market_code", "nl"),
+  ]);
+  if (rows.error || all.error || slugs.error) {
+    throw new Error(rows.error?.message ?? all.error?.message ?? slugs.error?.message);
+  }
+  const candidates = rows.data
+    .filter((r) => r.product_content.length === 1 && r.product_content[0]!.intro === null)
+    .map((r) => ({
+      id: r.id,
+      brandId: r.brand_id,
+      brand: r.brands.name,
+      model: r.model,
+      year: r.model_year,
+      productType: (r.product_type as ProductType | null) ?? null,
+      slug: r.product_content[0]!.slug,
+    }));
+  const { fixes, duplicates } = planTitleCleanup(candidates, {
+    keys: new Set(
+      all.data.map((p) => `${p.brand_id}|${p.model.toLowerCase()}|${p.model_year ?? ""}`),
+    ),
+    slugs: new Set(slugs.data.map((c) => c.slug)),
+  });
+  result.duplicates = duplicates.map((d) => d.title);
+  for (const f of fixes) {
+    try {
+      const { error } = await db
+        .from("products")
+        .update({ model: f.model, model_year: f.year })
+        .eq("id", f.id);
+      if (error) throw new Error(error.message);
+      const { error: contentError } = await db
+        .from("product_content")
+        .update({ title: f.title, ...(f.slug ? { slug: f.slug } : {}) })
+        .eq("product_id", f.id)
+        .eq("market_code", "nl");
+      if (contentError) throw new Error(contentError.message);
+      result.renamed++;
+    } catch (e) {
+      result.skipped.push(`rename ${f.title}: ${e instanceof Error ? e.message : String(e)}`);
+    }
+  }
+}
 
 /** Popular search results for one target, up to its limit. */
 async function search(
@@ -57,9 +123,20 @@ async function search(
  * right after. Never throws: a failure here must not stop the price import.
  */
 export async function runBolDiscovery(fetcher: Fetcher = fetch): Promise<DiscoveryResult> {
-  const result: DiscoveryResult = { searched: {}, created: 0, skipped: [] };
+  const result: DiscoveryResult = {
+    searched: {},
+    created: 0,
+    renamed: 0,
+    duplicates: [],
+    skipped: [],
+  };
   try {
     const db = createAdminClient();
+    try {
+      await cleanUpTitles(db, result);
+    } catch (e) {
+      result.skipped.push(`title cleanup: ${e instanceof Error ? e.message : String(e)}`);
+    }
     const [products, contents, brands] = await Promise.all([
       db
         .from("products")

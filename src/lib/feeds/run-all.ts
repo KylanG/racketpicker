@@ -80,6 +80,7 @@ export async function runDailyImport(): Promise<DailyImportResult> {
     changed:
       shops.some((s) => s.ok) ||
       (discovery?.created ?? 0) > 0 ||
+      (discovery?.renamed ?? 0) > 0 ||
       (specs?.filled ?? 0) > 0 ||
       (typeof promoted === "number" && promoted > 0) ||
       ("stored" in images && images.stored > 0) ||
