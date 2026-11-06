@@ -197,7 +197,25 @@
     "brandPageTitle": "{brand} {name} vergelijken",
     "metaDescription": "Vergelijk {name} bij Nederlandse winkels. Filter op merk, niveau, speelstijl en prijs en zie per winkel de laagste prijs.",
     "brandMetaDescription": "Alle {brand} {name} op een rij, met de laagste prijs per winkel en de prijshistorie.",
-    "allMetaDescription": "Vergelijk rackets bij Nederlandse winkels. Filter op sport, merk, niveau, speelstijl en prijs."
+    "allMetaDescription": "Vergelijk rackets bij Nederlandse winkels. Filter op sport, merk, niveau, speelstijl en prijs.",
+    "listing": {
+      "sortBy": "Sorteer op",
+      "sort": {
+        "populair": "Populariteit",
+        "prijs-laag": "Prijs laag–hoog",
+        "prijs-hoog": "Prijs hoog–laag",
+        "korting": "Grootste korting"
+      },
+      "view": "Weergave",
+      "perRow": "{count} per rij",
+      "activeFilters": "Actieve filters",
+      "removeFilter": "Verwijder filter: {label}",
+      "clearAll": "Wis alles",
+      "shown": "{shown} van {total} getoond",
+      "loadMore": "Meer laden",
+      "pagination": "Paginering",
+      "page": "Pagina {page}"
+    }
   },
   "productCard": {
     "shopsCompared": "Bij {count, plural, one {# winkel} other {# winkels}} vergeleken",

@@ -197,7 +197,25 @@
     "brandPageTitle": "Compara {name} {brand}",
     "metaDescription": "Compara {name} en tiendas españolas. Filtra por marca, nivel, estilo de juego y precio y ve el precio más bajo por tienda.",
     "brandMetaDescription": "Todas las {name} {brand}, con el precio más bajo por tienda y el historial de precios.",
-    "allMetaDescription": "Compara raquetas en tiendas españolas. Filtra por deporte, marca, nivel, estilo de juego y precio."
+    "allMetaDescription": "Compara raquetas en tiendas españolas. Filtra por deporte, marca, nivel, estilo de juego y precio.",
+    "listing": {
+      "sortBy": "Ordenar por",
+      "sort": {
+        "populair": "Popularidad",
+        "prijs-laag": "Precio: de menor a mayor",
+        "prijs-hoog": "Precio: de mayor a menor",
+        "korting": "Mayor descuento"
+      },
+      "view": "Vista",
+      "perRow": "{count} por fila",
+      "activeFilters": "Filtros activos",
+      "removeFilter": "Quitar filtro: {label}",
+      "clearAll": "Borrar todo",
+      "shown": "{shown} de {total} mostrados",
+      "loadMore": "Cargar más",
+      "pagination": "Paginación",
+      "page": "Página {page}"
+    }
   },
   "productCard": {
     "shopsCompared": "Comparado en {count, plural, one {# tienda} other {# tiendas}}",

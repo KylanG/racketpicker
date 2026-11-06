@@ -13,6 +13,8 @@ export type FilterPanelData = {
   deals: { checked: boolean; count: number };
   hideSoldOut: { checked: boolean; count: number };
   activeCount: number;
+  /** Chosen sort (RP-27), kept when filters change; undefined = the page's default. */
+  sort?: string;
 };
 
 function formQuery(form: HTMLFormElement): string {
@@ -100,6 +102,8 @@ export function FilterForm({
     }
   }, [data]);
 
+  // "Wis alles" removes the filters but keeps the chosen order.
+  const clearQuery = data.sort ? `?sorteer=${data.sort}` : "";
   const onChange = () => ref.current && navigate(formQuery(ref.current));
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -108,14 +112,15 @@ export function FilterForm({
 
   return (
     <form ref={ref} method="get" action={action} onChange={onChange} onSubmit={onSubmit}>
+      {data.sort && <input type="hidden" name="sorteer" value={data.sort} />}
       <div className="border-border flex items-center justify-between border-b pb-3.5">
         <h2 className="text-[17px] font-semibold">{t("title")}</h2>
         {data.activeCount > 0 && (
           <a
-            href={action}
+            href={`${action}${clearQuery}`}
             onClick={(e) => {
               e.preventDefault();
-              navigate("");
+              navigate(clearQuery);
             }}
             className="text-[13px] font-medium text-green-800 underline hover:text-green-950"
           >

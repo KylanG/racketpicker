@@ -6,8 +6,11 @@ import {
   facetCounts,
   filtersToQuery,
   isIndexable,
+  isListingVariant,
   parseFilters,
+  parsePage,
   priceBucket,
+  sortItems,
   switchCount,
   toggleValue,
   weightClass,
@@ -153,5 +156,48 @@ describe("indexing", () => {
     expect(isIndexable({ ...EMPTY_FILTERS, merk: ["adidas", "kuikma"] })).toBe(false);
     expect(isIndexable({ ...EMPTY_FILTERS, merk: ["adidas"], deals: true })).toBe(false);
     expect(activeFilterCount({ ...EMPTY_FILTERS, niveau: ["beginner"], deals: true })).toBe(2);
+  });
+});
+
+describe("sorting and pages (RP-27)", () => {
+  const list = [
+    item({ id: "p1", price: 120, shopCount: 1, discount: 10 }),
+    item({ id: "p2", price: null, shopCount: 5, inStock: false }),
+    item({ id: "p3", price: 80, shopCount: 3, discount: 25 }),
+    item({ id: "p4", price: 200, shopCount: 3, imageUrl: "x.jpg" }),
+  ];
+  const ids = (xs: RacketItem[]) => xs.map((x) => x.id);
+
+  it("sorts by price, discount and popularity; prices unknown last", () => {
+    expect(ids(sortItems(list, "prijs-laag"))).toEqual(["p3", "p1", "p4", "p2"]);
+    expect(ids(sortItems(list, "prijs-hoog"))).toEqual(["p4", "p1", "p3", "p2"]);
+    expect(ids(sortItems(list, "korting"))).toEqual(["p3", "p1", "p2", "p4"]);
+    expect(ids(sortItems(list, "populair"))).toEqual(["p2", "p4", "p3", "p1"]);
+  });
+
+  it("keeps sold-out last after sorting", () => {
+    expect(ids(applyFilters(sortItems(list, "populair"), EMPTY_FILTERS))).toEqual([
+      "p4",
+      "p3",
+      "p1",
+      "p2",
+    ]);
+  });
+
+  it("reads sort and page from the URL", () => {
+    expect(parseFilters({ sorteer: "korting" }).sort).toBe("korting");
+    expect(parseFilters({ sorteer: "gek" }).sort).toBeUndefined();
+    expect(filtersToQuery({ ...EMPTY_FILTERS, merk: ["nox"], sort: "prijs-laag" })).toBe(
+      "?merk=nox&sorteer=prijs-laag",
+    );
+    expect(parsePage({ pagina: "3" })).toBe(3);
+    expect(parsePage({ pagina: "0" })).toBe(1);
+    expect(parsePage({ pagina: "x" })).toBe(1);
+  });
+
+  it("does not index sorted or later pages", () => {
+    expect(isListingVariant({})).toBe(false);
+    expect(isListingVariant({ sorteer: "korting" })).toBe(true);
+    expect(isListingVariant({ pagina: "2" })).toBe(true);
   });
 });

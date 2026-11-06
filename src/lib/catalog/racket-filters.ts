@@ -91,6 +91,13 @@ export type Facet = "soort" | "merk" | "prijs" | "niveau" | "stijl" | "gewicht";
 /** "soort" only has options for accessories; facets without options are hidden. */
 export const FACETS: Facet[] = ["soort", "merk", "prijs", "niveau", "stijl", "gewicht"];
 
+/** Result order (RP-27). "populair": most shops first; absent = the page's default. */
+export const SORTS = ["populair", "prijs-laag", "prijs-hoog", "korting"] as const;
+export type Sort = (typeof SORTS)[number];
+
+/** Products per page; divisible by 2, 3 and 4 so every grid width ends on a full row. */
+export const PAGE_SIZE = 24;
+
 export type RacketFilters = {
   soort: Kind[];
   merk: string[];
@@ -100,6 +107,8 @@ export type RacketFilters = {
   gewicht: Weight[];
   deals: boolean;
   hideSoldOut: boolean;
+  /** Chosen order; not a filter, but kept in the URL alongside them. */
+  sort?: Sort;
 };
 
 export const EMPTY_FILTERS: RacketFilters = {
@@ -135,7 +144,40 @@ export function parseFilters(params: Params): RacketFilters {
     gewicht: only(list(params.gewicht), WEIGHTS),
     deals: list(params.deals).includes("1"),
     hideSoldOut: list(params.uitverkocht).includes("verberg"),
+    sort: only(list(params.sorteer), SORTS)[0],
   };
+}
+
+/** Page number from ?pagina= (1 when absent or invalid); pages show cumulatively. */
+export function parsePage(params: Params): number {
+  const n = Number(list(params.pagina)[0]);
+  return Number.isInteger(n) && n > 1 && n < 1000 ? n : 1;
+}
+
+/** Sorted or paged lists are variations of the plain page: noindex, canonical to it. */
+export function isListingVariant(params: Params): boolean {
+  return parseFilters(params).sort !== undefined || parsePage(params) > 1;
+}
+
+/**
+ * Orders items (RP-27). Sold-out items still go last afterwards (applyFilters).
+ * "populair" = most shops first (the best comparisons), then with a photo, then as listed.
+ */
+export function sortItems(items: RacketItem[], sort: Sort): RacketItem[] {
+  const indexed = items.map((item, index) => ({ item, index }));
+  const byPrice = (dir: 1 | -1) => (a: RacketItem, b: RacketItem) =>
+    a.price == null ? 1 : b.price == null ? -1 : dir * (a.price - b.price);
+  const compare: (a: RacketItem, b: RacketItem) => number =
+    sort === "prijs-laag"
+      ? byPrice(1)
+      : sort === "prijs-hoog"
+        ? byPrice(-1)
+        : sort === "korting"
+          ? (a, b) => (b.discount ?? 0) - (a.discount ?? 0)
+          : (a, b) => b.shopCount - a.shopCount || Number(!!b.imageUrl) - Number(!!a.imageUrl);
+  return indexed
+    .sort((a, b) => compare(a.item, b.item) || a.index - b.index)
+    .map(({ item }) => item);
 }
 
 /** Query string for filters, in a fixed order so equal filters give equal URLs. */
@@ -144,6 +186,7 @@ export function filtersToQuery(f: RacketFilters): string {
   for (const facet of FACETS) if (f[facet].length) q.set(facet, f[facet].join(","));
   if (f.deals) q.set("deals", "1");
   if (f.hideSoldOut) q.set("uitverkocht", "verberg");
+  if (f.sort) q.set("sorteer", f.sort);
   const s = q.toString().replace(/%2C/g, ",");
   return s ? `?${s}` : "";
 }
@@ -233,6 +276,7 @@ export function switchCount(
  * noindex and a canonical to the sport page (design/handoff/README.md).
  */
 export function isIndexable(f: RacketFilters): boolean {
+  if (f.sort) return false;
   const n = activeFilterCount(f);
   return n === 0 || (n === 1 && (f.merk.length === 1 || f.soort.length === 1));
 }
