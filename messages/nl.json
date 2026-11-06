@@ -788,7 +788,6 @@
     "emailPlaceholder": "jouw@email.nl",
     "alertSubmit": "Alert instellen",
     "alertConsent": "Je ontvangt eerst een mail om de alert te bevestigen. Lees in onze <link>privacyverklaring</link> wat we met je gegevens doen.",
-    "alertSoon": "Prijsalerts komen binnenkort. We hebben je gegevens niet opgeslagen.",
     "allShops": "Bekijk alle {count} winkels",
     "shops": {
       "title": "Prijzen bij {count, plural, one {# winkel} other {# winkels}}",
@@ -1143,6 +1142,51 @@
       },
       "cta": "Naar de deals",
       "ctaRackets": "Bekijk de rackets"
+    }
+  },
+  "alerts": {
+    "mail": {
+      "confirmSubject": "Bevestig je alert voor {name}",
+      "confirmTitle": "Bevestig je alert",
+      "confirmPrice": "Je wilt een mail als de {name} voor {target} of minder te koop is. Klik op de knop om je prijsalert aan te zetten.",
+      "confirmStock": "Je wilt een mail als de {name} weer ergens op voorraad is. Klik op de knop om je voorraadalert aan te zetten.",
+      "confirmButton": "Alert bevestigen",
+      "ignore": "Heb je dit niet aangevraagd? Dan kun je deze mail negeren; zonder bevestiging sturen we je niets.",
+      "why": "Je krijgt deze mail omdat dit adres is ingevuld op racketpicker.com.",
+      "unsubscribe": "Alert uitzetten:",
+      "priceTitle": "Prijsdaling: {name}",
+      "priceText": "Goed nieuws: de {name} kost nu {price} bij {shop}. Dat is onder jouw doelprijs van {target}.",
+      "stockTitle": "Weer op voorraad: {name}",
+      "stockText": "De {name} is weer op voorraad bij {shop}, vanaf {price}.",
+      "once": "We sturen je één mail per alert. Wil je weer een seintje, zet dan een nieuwe alert op de productpagina.",
+      "viewButton": "Bekijk de prijzen",
+      "disclosure": "Koop je via Racketpicker, dan krijgen wij een vergoeding van de winkel. Dat kost jou niets extra."
+    },
+    "status": {
+      "metaTitle": "Prijsalert",
+      "home": "Home",
+      "breadcrumb": "Kruimelpad",
+      "title": "Prijsalert",
+      "bevestigd": {
+        "heading": "Je alert staat aan",
+        "text": "We houden de prijzen elke dag in de gaten en sturen je één mail zodra het zover is."
+      },
+      "afgemeld": {
+        "heading": "Je alert staat uit",
+        "text": "Je krijgt voor dit product geen mails meer van ons. Je kunt altijd een nieuwe alert zetten op de productpagina."
+      },
+      "ongeldig": {
+        "heading": "Deze link werkt niet meer",
+        "text": "De link is verlopen of al gebruikt. Bevestigingslinks werken een week. Zet de alert opnieuw op de productpagina, dan sturen we een nieuwe mail."
+      },
+      "cta": "Naar de deals",
+      "ctaRackets": "Bekijk de rackets"
+    },
+    "form": {
+      "sent": "Bijna klaar. Bevestig je alert via de mail die we je net stuurden.",
+      "invalid": "Vul een geldig e-mailadres en een doelprijs in.",
+      "unavailable": "Een alert instellen lukt nu niet. Probeer het later opnieuw.",
+      "sending": "Bezig…"
     }
   }
 }

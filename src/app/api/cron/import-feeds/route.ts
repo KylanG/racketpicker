@@ -2,6 +2,7 @@ import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import { CATALOG_TAG } from "@/lib/catalog/cache-tags";
 import { isAuthorizedCronRequest } from "@/lib/cron";
+import { runAlertChecks, type AlertCheckResult } from "@/lib/alerts/alerts";
 import { runDailyImport } from "@/lib/feeds/run-all";
 
 // Several feeds plus photo copies can take a while; Vercel Pro allows this.
@@ -18,13 +19,26 @@ export async function GET(request: Request) {
     // New prices/stock: mark catalog pages stale; they refresh on their next visit.
     if (result.changed) revalidateTag(CATALOG_TAG, "max");
 
+    // Price and stock alerts on the fresh prices (RP-33); a failure here never fails the import.
+    let alerts: AlertCheckResult | { error: string };
+    try {
+      alerts = await runAlertChecks();
+    } catch (e) {
+      alerts = { error: e instanceof Error ? e.message : String(e) };
+      console.error(`[alerts] check failed: ${alerts.error}`);
+    }
+
     const failed = result.shops.filter((s) => !s.ok).length;
     const stored = "stored" in result.images ? result.images.stored : 0;
     console.log(
-      `[feeds] daily import: ${result.shops.length} shops (${failed} failed), ${stored} photos stored`,
+      `[feeds] daily import: ${result.shops.length} shops (${failed} failed), ${stored} photos stored, ` +
+        ("sent" in alerts ? `${alerts.sent} alert mails` : "alerts failed"),
     );
     // Non-2xx makes the run show as failed in the Vercel Cron overview.
-    return NextResponse.json({ ok: failed === 0, ...result }, { status: failed ? 500 : 200 });
+    return NextResponse.json(
+      { ok: failed === 0, ...result, alerts },
+      { status: failed ? 500 : 200 },
+    );
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     console.error(`[feeds] daily import failed: ${message}`);

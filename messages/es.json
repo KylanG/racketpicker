@@ -581,7 +581,6 @@
     "emailPlaceholder": "tu@correo.es",
     "alertSubmit": "Crear alerta",
     "alertConsent": "Primero recibirás un correo para confirmar la alerta. Lee en nuestra <link>política de privacidad</link> qué hacemos con tus datos.",
-    "alertSoon": "Las alertas de precio llegarán pronto. No hemos guardado tus datos.",
     "allShops": "Ver las {count} tiendas",
     "shops": {
       "title": "Precios en {count, plural, one {# tienda} other {# tiendas}}",
@@ -936,6 +935,51 @@
       },
       "cta": "Ver ofertas",
       "ctaRackets": "Ver las palas"
+    }
+  },
+  "alerts": {
+    "mail": {
+      "confirmSubject": "Confirma tu alerta para {name}",
+      "confirmTitle": "Confirma tu alerta",
+      "confirmPrice": "Quieres un correo cuando {name} cueste {target} o menos. Pulsa el botón para activar tu alerta de precio.",
+      "confirmStock": "Quieres un correo cuando {name} vuelva a estar en stock. Pulsa el botón para activar tu alerta de stock.",
+      "confirmButton": "Confirmar alerta",
+      "ignore": "¿No lo has pedido tú? Puedes ignorar este correo; sin confirmación no te enviamos nada.",
+      "why": "Recibes este correo porque esta dirección se introdujo en racketpicker.com.",
+      "unsubscribe": "Desactivar alerta:",
+      "priceTitle": "Bajada de precio: {name}",
+      "priceText": "Buenas noticias: {name} cuesta ahora {price} en {shop}, por debajo de tu precio objetivo de {target}.",
+      "stockTitle": "De nuevo en stock: {name}",
+      "stockText": "{name} vuelve a estar en stock en {shop}, desde {price}.",
+      "once": "Te enviamos un solo correo por alerta. Si quieres otro aviso, crea una nueva alerta en la página del producto.",
+      "viewButton": "Ver los precios",
+      "disclosure": "Si compras a través de Racketpicker, la tienda nos paga una comisión. A ti no te cuesta nada más."
+    },
+    "status": {
+      "metaTitle": "Alerta de precio",
+      "home": "Inicio",
+      "breadcrumb": "Ruta de navegación",
+      "title": "Alerta de precio",
+      "bevestigd": {
+        "heading": "Tu alerta está activa",
+        "text": "Vigilamos los precios cada día y te enviamos un correo en cuanto llegue el momento."
+      },
+      "afgemeld": {
+        "heading": "Tu alerta está desactivada",
+        "text": "Ya no recibirás correos sobre este producto. Puedes crear una alerta nueva en la página del producto."
+      },
+      "ongeldig": {
+        "heading": "Este enlace ya no funciona",
+        "text": "El enlace ha caducado o ya se ha usado. Los enlaces de confirmación valen una semana. Crea la alerta de nuevo en la página del producto."
+      },
+      "cta": "Ver ofertas",
+      "ctaRackets": "Ver las palas"
+    },
+    "form": {
+      "sent": "Casi listo. Confirma tu alerta con el correo que te acabamos de enviar.",
+      "invalid": "Introduce un correo válido y un precio objetivo.",
+      "unavailable": "Ahora no se puede crear una alerta. Inténtalo más tarde.",
+      "sending": "Enviando…"
     }
   }
 }

@@ -348,6 +348,7 @@ export async function ProductView({
                 </p>
               </div>
               <AlertForm
+                productId={product.id}
                 defaultTarget={stockAlert ? null : target}
                 stock={stockAlert}
                 labels={{
@@ -355,7 +356,6 @@ export async function ProductView({
                   email: t("email"),
                   placeholder: t("emailPlaceholder"),
                   submit: t("alertSubmit"),
-                  soon: t("alertSoon"),
                 }}
                 consent={t.rich("alertConsent", {
                   link: (chunks) => (

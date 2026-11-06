@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { hasUnknownNewsletterStatus } from "../status";
+import { hasUnknownLinkStatus } from "../status";
 
-describe("hasUnknownNewsletterStatus", () => {
+describe("hasUnknownLinkStatus", () => {
   it("only flags unknown statuses on the newsletter route", () => {
-    expect(hasUnknownNewsletterStatus("/nl/nieuwsbrief/bevestigd")).toBe(false);
-    expect(hasUnknownNewsletterStatus("/nl/nieuwsbrief/iets")).toBe(true);
-    expect(hasUnknownNewsletterStatus("/nl/rackets/padel")).toBe(false);
+    expect(hasUnknownLinkStatus("/nl/nieuwsbrief/bevestigd")).toBe(false);
+    expect(hasUnknownLinkStatus("/nl/nieuwsbrief/iets")).toBe(true);
+    expect(hasUnknownLinkStatus("/nl/prijsalert/afgemeld")).toBe(false);
+    expect(hasUnknownLinkStatus("/nl/prijsalert/x")).toBe(true);
+    expect(hasUnknownLinkStatus("/nl/rackets/padel")).toBe(false);
   });
 });
