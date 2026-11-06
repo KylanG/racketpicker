@@ -615,8 +615,8 @@
       "today": "Hoy",
       "summary": "Precio más bajo por día desde el {from}: mínimo {lowest}, máximo {highest}, ahora {now}.",
       "emptyTitle": "Aún no hay historial de precios",
-      "emptyText": "Seguimos el precio de esta pala desde hace {days, plural, one {# día} other {# días}}. En unas semanas verás aquí cómo evoluciona. Crea ya una alerta de precio y te avisamos cuando baje.",
-      "emptyTextNew": "Empezamos a seguir el precio de esta pala ahora. En unas semanas verás aquí cómo evoluciona. Crea ya una alerta de precio y te avisamos cuando baje.",
+      "emptyText": "Seguimos el precio de este producto desde hace {days, plural, one {# día} other {# días}}. En unas semanas verás aquí cómo evoluciona. Crea ya una alerta de precio y te avisamos cuando baje.",
+      "emptyTextNew": "Empezamos a seguir el precio de este producto ahora. En unas semanas verás aquí cómo evoluciona. Crea ya una alerta de precio y te avisamos cuando baje.",
       "emptyCta": "Crear una alerta de precio"
     },
     "newTab": "(se abre en una pestaña nueva)",
