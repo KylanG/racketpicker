@@ -311,7 +311,11 @@ export async function ProductView({
                     <span>{t("ctaStock")}</span>
                   </a>
                 )}
-                <ProductFavToggle label={t("save", { name: product.title })} />
+                <ProductFavToggle
+                  productId={product.id}
+                  name={product.title}
+                  label={t("save", { name: product.title })}
+                />
               </div>
 
               {summary.shopCount > 1 && (

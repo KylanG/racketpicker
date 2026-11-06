@@ -56,7 +56,11 @@ export function ProductCard({
       </div>
 
       <div className="-mt-[52px] mr-1.5 mb-2 self-end">
-        <CardFavToggle productId={product.id} label={t("save", { name: product.name })} />
+        <CardFavToggle
+          productId={product.id}
+          name={product.name}
+          label={t("save", { name: product.name })}
+        />
       </div>
 
       <div className="flex flex-1 flex-col gap-2 px-[18px] pt-1.5">

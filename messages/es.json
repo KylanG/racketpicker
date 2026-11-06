@@ -197,7 +197,9 @@
     "yourSizes": "Tu talla {sizes} disponible",
     "sizeRange": "Tallas {min}–{max}",
     "noImage": "Sin foto todavía",
-    "priceChecked": "Precio comprobado el {date}"
+    "priceChecked": "Precio comprobado el {date}",
+    "favAdded": "{name} se ha guardado en tus favoritos.",
+    "favRemoved": "{name} se ha quitado de tus favoritos."
   },
   "header": {
     "skipToContent": "Ir al contenido",
@@ -887,5 +889,19 @@
     "total": "{count, plural, one {<b>#</b> producto} other {<b>#</b> productos}}",
     "emptyTitle": "No hay productos con estos filtros",
     "emptyText": "Quita un filtro para ver más productos."
+  },
+  "favorites": {
+    "metaTitle": "Mis favoritos",
+    "title": "Mis favoritos",
+    "home": "Inicio",
+    "breadcrumb": "Ruta de navegación",
+    "intro": "Tus productos guardados, con el precio más bajo de este momento. Tus favoritos se guardan en este dispositivo.",
+    "count": "{count, plural, one {<b>#</b> producto guardado} other {<b>#</b> productos guardados}}",
+    "clear": "Borrar todo",
+    "remove": "Quitar {name} de favoritos",
+    "emptyTitle": "Aún no tienes favoritos",
+    "emptyText": "Pulsa el corazón de un producto para guardarlo aquí. Así comparas los precios más tarde.",
+    "emptyCta": "Ver palas",
+    "gone": "{count, plural, one {# producto guardado ya no está disponible y no se muestra.} other {# productos guardados ya no están disponibles y no se muestran.}}"
   }
 }

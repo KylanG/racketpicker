@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowIcon } from "@/components/ui/icons";
 import { Slant } from "@/components/ui/slant";
 import { Link } from "@/i18n/navigation";
+import { useFavorites } from "@/lib/favorites/store";
 import { LanguageSwitcher } from "./language-switcher";
 import { MobileMenu } from "./mobile-menu";
 import type { HeaderActive, HeaderCta, NavHref, NavItem } from "./nav-types";
@@ -95,8 +96,6 @@ function FavoritesLink({ count }: { count: number }) {
   return (
     <Link
       href="/favorites"
-      // The favorites page follows in RP-53; no prefetch of a route that 404s until then.
-      prefetch={false}
       aria-label={t("favorites", { count })}
       className="hover:text-lime relative grid size-11 shrink-0 place-items-center text-white"
     >
@@ -157,8 +156,7 @@ export function HeaderBar({
 }) {
   const t = useTranslations("header");
   const { rootRef, placeholder, reveal, fixed, visible, entering } = useSmartSticky();
-  // Favorites store follows in RP-53.
-  const favoriteCount = 0;
+  const favoriteCount = useFavorites().ids.length;
 
   return (
     <div style={{ height: placeholder ?? undefined }}>
