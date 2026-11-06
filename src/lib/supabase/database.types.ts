@@ -685,6 +685,38 @@ export type Database = {
           },
         ];
       };
+      product_source_specs: {
+        Row: {
+          fetched_at: string;
+          product_id: string;
+          source: string;
+          specs: Json;
+          unmapped: string[];
+        };
+        Insert: {
+          fetched_at?: string;
+          product_id: string;
+          source: string;
+          specs?: Json;
+          unmapped?: string[];
+        };
+        Update: {
+          fetched_at?: string;
+          product_id?: string;
+          source?: string;
+          specs?: Json;
+          unmapped?: string[];
+        };
+        Relationships: [
+          {
+            foreignKeyName: "product_source_specs_product_id_fkey";
+            columns: ["product_id"];
+            isOneToOne: false;
+            referencedRelation: "products";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       products: {
         Row: {
           brand_id: string;

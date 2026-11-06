@@ -2,6 +2,7 @@ import "server-only";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { MANUAL_OFFERS } from "@/data/manual-offers";
 import { runBolDiscovery, type DiscoveryResult } from "./bol-discovery-run";
+import { syncBolSpecs, type SpecsSyncResult } from "./bol-specs-run";
 import { syncProductImages, type ImageSyncResult } from "./images";
 import { toRpcItems, validateManualOffers } from "./manual-offers";
 import { runImport, type ImportResult } from "./run-import";
@@ -18,6 +19,8 @@ export type DailyImportResult = {
   manual: Record<string, number> | { error: string };
   /** New products from bol (RP-77), before the bol price import; null without bol. */
   discovery: DiscoveryResult | null;
+  /** Racket specifications from bol (RP-83); null without bol. */
+  specs: SpecsSyncResult | null;
   /** Products moved from tier C to B (RP-82), or the error. */
   promoted: number | { error: string };
   /** True when at least one shop changed data and pages should be revalidated. */
@@ -60,6 +63,8 @@ export async function runDailyImport(): Promise<DailyImportResult> {
     console.error(`[feeds] images: ${images.error}`);
   }
 
+  const specs = sources.some((s) => s.shops.slug === "bol") ? await syncBolSpecs() : null;
+
   // After prices and photos, so a product with a new second shop is indexable the same night.
   const promoted = await promoteTiers();
 
@@ -70,10 +75,12 @@ export async function runDailyImport(): Promise<DailyImportResult> {
     images,
     manual,
     discovery,
+    specs,
     promoted,
     changed:
       shops.some((s) => s.ok) ||
       (discovery?.created ?? 0) > 0 ||
+      (specs?.filled ?? 0) > 0 ||
       (typeof promoted === "number" && promoted > 0) ||
       ("stored" in images && images.stored > 0) ||
       !("error" in manual),

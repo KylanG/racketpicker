@@ -161,6 +161,54 @@ export async function getMedia(
   }
 }
 
+/** One specification as bol returns it; `values` is a string or a list of strings. */
+export type BolSpecification = { key?: string; name?: string; values?: string | string[] };
+export type BolSpecificationGroup = { title?: string; specifications?: BolSpecification[] };
+
+/**
+ * Specifications of one product (RP-83), from /products/{ean}?include-specifications=true.
+ * Null when bol does not know the EAN or the request fails; the caller tries again later.
+ */
+export async function getSpecifications(
+  ean: string,
+  token: string,
+  fetcher: Fetcher = fetch,
+  wait: (ms: number) => Promise<unknown> = sleep,
+): Promise<BolSpecificationGroup[] | null> {
+  // Like the media endpoint, bol expects a 13-digit EAN; a 12-digit UPC gets a leading zero.
+  const ean13 = ean.padStart(13, "0");
+  if (!/^\d{13}$/.test(ean13)) return null;
+  const url = `${BOL_API}/products/${ean13}?country-code=NL&include-specifications=true`;
+  for (let attempt = 0; ; attempt++) {
+    try {
+      const res = await fetcher(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Accept-Language": "nl",
+        },
+      });
+      if (res.status === 404) return null;
+      if ((res.status === 429 || res.status >= 500) && attempt < RETRIES) {
+        await wait(1000 * (attempt + 1));
+        continue;
+      }
+      if (!res.ok) {
+        console.warn(`[feeds] bol specifications failed for ${ean}: HTTP ${res.status}`);
+        return null;
+      }
+      const data = (await res.json()) as { specificationGroups?: BolSpecificationGroup[] };
+      return data.specificationGroups ?? [];
+    } catch (error) {
+      console.warn(
+        `[feeds] bol specifications failed for ${ean}:`,
+        error instanceof Error ? error.message : error,
+      );
+      return null;
+    }
+  }
+}
+
 function daysUntil(date: string | undefined, today: Date): number | null {
   if (!date) return null;
   const ms =
