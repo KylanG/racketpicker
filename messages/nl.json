@@ -814,7 +814,8 @@
       "emptyText": "We volgen de prijs van dit racket sinds {days, plural, one {# dag} other {# dagen}}. Over een paar weken zie je hier hoe de prijs zich ontwikkelt. Stel alvast een prijsalert in, dan hoor je het als hij daalt.",
       "emptyTextNew": "We volgen de prijs van dit racket vanaf nu. Over een paar weken zie je hier hoe de prijs zich ontwikkelt. Stel alvast een prijsalert in, dan hoor je het als hij daalt.",
       "emptyCta": "Stel een prijsalert in"
-    }
+    },
+    "newTab": "(opent in een nieuw tabblad)"
   },
   "advisor": {
     "metaTitle": "Welk racket past bij mij? Gratis keuzehulp",

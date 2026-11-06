@@ -123,8 +123,9 @@ export function ShopPrices({ offers }: { offers: ProductOffer[] }) {
               <Slant
                 as="a"
                 href={goHref(r.offer.shop.slug, r.offer.id)}
-                rel="sponsored nofollow"
-                aria-label={tp("cta", { shop: r.offer.shop.name })}
+                target="_blank"
+                rel="sponsored nofollow noopener"
+                aria-label={`${tp("cta", { shop: r.offer.shop.name })} ${tp("newTab")}`}
                 className={`flex items-center justify-center gap-2.5 px-[18px] py-3 text-[14px] font-semibold whitespace-nowrap hover:opacity-[.88] ${
                   i === 0
                     ? "bg-lime text-green-950 hover:text-green-950"

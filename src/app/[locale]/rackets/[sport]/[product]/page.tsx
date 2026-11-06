@@ -328,11 +328,15 @@ export default async function RacketPage({
                 {best && available ? (
                   <a
                     href={goHref(best.shop.slug, best.id)}
-                    rel="sponsored nofollow"
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
                     className="bg-lime hover:bg-lime-hover ease-rp flex min-w-[200px] flex-1 items-center justify-between px-[22px] py-[17px] text-[16px] font-semibold text-green-950 transition-colors duration-300 hover:text-green-950"
                     style={{ clipPath: "polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)" }}
                   >
-                    <span>{t("cta", { shop: best.shop.name })}</span>
+                    <span>
+                      {t("cta", { shop: best.shop.name })}
+                      <span className="sr-only"> {t("newTab")}</span>
+                    </span>
                     <svg
                       data-arrow=""
                       width="13"
