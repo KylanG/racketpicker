@@ -27,7 +27,10 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "product" });
   const shops = new Set(product.offers.map((o) => o.shop.slug)).size;
   return {
-    title: product.seoTitle ?? t("metaTitle", { name: product.title }),
+    // A hand-written SEO title is complete (it already names Racketpicker).
+    title: product.seoTitle
+      ? { absolute: product.seoTitle }
+      : t("metaTitle", { name: product.title }),
     description:
       product.seoDescription ??
       (shops > 0

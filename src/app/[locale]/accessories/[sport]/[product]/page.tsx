@@ -30,7 +30,8 @@ export async function generateMetadata({
     : product.title;
   const shops = new Set(product.offers.map((o) => o.shop.slug)).size;
   return {
-    title: product.seoTitle ?? t("metaTitle", { name }),
+    // A hand-written SEO title is complete (it already names Racketpicker).
+    title: product.seoTitle ? { absolute: product.seoTitle } : t("metaTitle", { name }),
     description:
       product.seoDescription ??
       (shops > 0
