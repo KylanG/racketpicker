@@ -70,7 +70,7 @@ export default async function BrandsPage({ params }: PageProps<"/[locale]/brands
                 className="bg-surface hover:shadow-card-hover flex h-full flex-col items-center justify-center gap-4 px-5 py-8 text-center text-green-950 transition-shadow duration-300 hover:text-green-950"
               >
                 <span className="grid h-14 w-full place-items-center">
-                  <BrandLogo name={b.name} logo={logoSrc(b.logoPath)} className="h-12 w-[170px]" />
+                  <BrandLogo name={b.name} logo={logoSrc(b.logoPath)} className="mx-auto h-12 w-full max-w-[170px]" />
                 </span>
                 <span className="text-muted text-[14px]">
                   {t("productCount", { count: b.productCount })}

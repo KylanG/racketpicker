@@ -16,7 +16,7 @@ export function BrandLogo({
     return <span className="text-[22px] font-bold tracking-[-0.3px] uppercase">{name}</span>;
   }
   return (
-    <span className="block">
+    <span className="block w-full">
       <span
         aria-hidden="true"
         className={`block bg-current ${className}`}
