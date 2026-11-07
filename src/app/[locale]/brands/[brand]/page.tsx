@@ -101,17 +101,25 @@ export default async function BrandPage({
           </nav>
           <div className="flex max-w-[680px] flex-col gap-4">
             {brand.logoPath && (
-              <span className="text-white">
+              // Decorative: the heading below already names the brand.
+              <span aria-hidden="true" className="text-white">
                 <BrandLogo
                   name={brand.name}
                   logo={logoSrc(brand.logoPath)}
-                  className="h-14 w-[220px] [mask-position:left_center]"
+                  className="h-11 w-[180px] [mask-position:left_center]"
                 />
               </span>
             )}
             <Reveal>
               <h1 className="text-[clamp(32px,3.2vw,46px)] leading-[1.05] font-semibold tracking-[-0.4px]">
-                {brand.name}
+                {t(
+                  page.rackets > 0 && page.accessories > 0
+                    ? "brandTitle"
+                    : page.accessories > 0
+                      ? "brandTitleAccessories"
+                      : "brandTitleRackets",
+                  { brand: brand.name },
+                )}
               </h1>
             </Reveal>
             <p className="text-on-dark-strong text-[16px] leading-normal">
@@ -132,6 +140,7 @@ export default async function BrandPage({
             })}
             searchParams={searchParams}
             category="brand"
+            hideFacets={["merk"]}
           />
         </Suspense>
       </FilterNavigationProvider>

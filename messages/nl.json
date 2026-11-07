@@ -1278,6 +1278,9 @@
     "emptyText": "Probeer minder filters.",
     "noneYetTitle": "Nog geen producten",
     "noneYetText": "Van dit merk vergelijken we nog niets.",
-    "allBrands": "Alle merken"
+    "allBrands": "Alle merken",
+    "brandTitle": "{brand}: rackets en accessoires",
+    "brandTitleRackets": "{brand}-rackets",
+    "brandTitleAccessories": "{brand}-accessoires"
   }
 }

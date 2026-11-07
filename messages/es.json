@@ -1071,6 +1071,9 @@
     "emptyText": "Prueba con menos filtros.",
     "noneYetTitle": "Aún no hay productos",
     "noneYetText": "Todavía no comparamos nada de esta marca.",
-    "allBrands": "Todas las marcas"
+    "allBrands": "Todas las marcas",
+    "brandTitle": "{brand}: palas y accesorios",
+    "brandTitleRackets": "Palas {brand}",
+    "brandTitleAccessories": "Accesorios {brand}"
   }
 }
