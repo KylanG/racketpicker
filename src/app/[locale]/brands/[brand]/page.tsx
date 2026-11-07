@@ -59,6 +59,14 @@ export default async function BrandPage({
   // The proxy turns unknown brands into a 404 before rendering; this is a fallback.
   if (!page) return null;
   const { brand } = page;
+  const title = t(
+    page.rackets > 0 && page.accessories > 0
+      ? "brandTitle"
+      : page.accessories > 0
+        ? "brandTitleAccessories"
+        : "brandTitleRackets",
+    { brand: brand.name },
+  );
   const parts = [
     page.rackets > 0 ? t("partRackets", { count: page.rackets }) : null,
     page.accessories > 0 ? t("partAccessories", { count: page.accessories }) : null,
@@ -100,25 +108,17 @@ export default async function BrandPage({
             </ol>
           </nav>
           <div className="flex max-w-[680px] flex-col gap-4">
-            {brand.logoPath && (
-              // Decorative: the heading below already names the brand.
-              <span aria-hidden="true" className="text-white">
-                <BrandLogo
-                  name={brand.name}
-                  logo={logoSrc(brand.logoPath)}
-                  className="h-11 w-[180px] [mask-position:left_center]"
-                />
-              </span>
-            )}
             <Reveal>
+              {/* Logo or text, never both (RP-55): with a logo, the heading text is for screen readers and search engines. */}
               <h1 className="text-[clamp(32px,3.2vw,46px)] leading-[1.05] font-semibold tracking-[-0.4px]">
-                {t(
-                  page.rackets > 0 && page.accessories > 0
-                    ? "brandTitle"
-                    : page.accessories > 0
-                      ? "brandTitleAccessories"
-                      : "brandTitleRackets",
-                  { brand: brand.name },
+                {brand.logoPath ? (
+                  <BrandLogo
+                    name={title}
+                    logo={logoSrc(brand.logoPath)}
+                    className="h-14 w-[240px] [mask-position:left_center] sm:h-16 sm:w-[280px]"
+                  />
+                ) : (
+                  title
                 )}
               </h1>
             </Reveal>
