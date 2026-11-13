@@ -39,13 +39,26 @@ export function pickImagesToSync(
   return [...picked.values()];
 }
 
-export type ImageSyncResult = { attempted: number; stored: number; failed: string[] };
+export type ImageSyncResult = {
+  attempted: number;
+  stored: number;
+  failed: string[];
+  /** Photos not started because the run's time budget ran out (RP-92); next run. */
+  postponed?: number;
+};
+
+/** Photos downloaded at the same time: one by one took minutes for a big batch (RP-92). */
+const CONCURRENCY = 6;
 
 /**
  * Copies feed photos into Supabase Storage for products without photos, so the site
- * does not hotlink shop images. Bounded per run to keep the cron short.
+ * does not hotlink shop images. Bounded per run, and no new photo starts after
+ * `deadline` (epoch ms), to keep the cron within its time limit.
  */
-export async function syncProductImages(limit = 25): Promise<ImageSyncResult> {
+export async function syncProductImages(
+  limit = 25,
+  deadline = Number.POSITIVE_INFINITY,
+): Promise<ImageSyncResult> {
   const db = createAdminClient();
 
   const [{ data: items, error: itemsError }, { data: existing, error: existingError }] =
@@ -73,40 +86,57 @@ export async function syncProductImages(limit = 25): Promise<ImageSyncResult> {
     limit,
   );
 
-  const result: ImageSyncResult = { attempted: todo.length, stored: 0, failed: [] };
-  for (const candidate of todo) {
-    try {
-      const response = await fetch(candidate.imageUrl, { signal: AbortSignal.timeout(TIMEOUT_MS) });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const ext = imageExtension(response.headers.get("content-type"));
-      if (!ext) throw new Error(`unsupported type ${response.headers.get("content-type")}`);
-      const bytes = new Uint8Array(await response.arrayBuffer());
-      if (bytes.byteLength > MAX_BYTES) throw new Error("image larger than 5 MB");
-
-      const hash = createHash("sha256").update(bytes).digest("hex").slice(0, 16);
-      const path = `products/${candidate.productId}/${hash}.${ext}`;
-      const { error: uploadError } = await db.storage
-        .from(PRODUCT_IMAGES_BUCKET)
-        .upload(path, bytes, {
-          contentType: `image/${ext === "jpg" ? "jpeg" : ext}`,
-          upsert: true,
-        });
-      if (uploadError) throw new Error(uploadError.message);
-
-      const { error: insertError } = await db.from("product_images").insert({
-        product_id: candidate.productId,
-        storage_path: path,
-        alt: candidate.title,
-        position: 0,
-        source_url: candidate.imageUrl,
-      });
-      if (insertError) throw new Error(insertError.message);
-      result.stored++;
-    } catch (error) {
-      result.failed.push(
-        `${candidate.productId}: ${error instanceof Error ? error.message : String(error)}`,
-      );
+  const result: ImageSyncResult = { attempted: 0, stored: 0, failed: [], postponed: 0 };
+  const queue = [...todo];
+  const worker = async () => {
+    for (let candidate = queue.shift(); candidate; candidate = queue.shift()) {
+      if (Date.now() >= deadline) {
+        result.postponed!++;
+        continue;
+      }
+      result.attempted++;
+      await storeImage(db, candidate, result);
     }
-  }
+  };
+  await Promise.all(Array.from({ length: CONCURRENCY }, worker));
   return result;
+}
+
+async function storeImage(
+  db: ReturnType<typeof createAdminClient>,
+  candidate: { productId: string; imageUrl: string; title: string },
+  result: ImageSyncResult,
+): Promise<void> {
+  try {
+    const response = await fetch(candidate.imageUrl, { signal: AbortSignal.timeout(TIMEOUT_MS) });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const ext = imageExtension(response.headers.get("content-type"));
+    if (!ext) throw new Error(`unsupported type ${response.headers.get("content-type")}`);
+    const bytes = new Uint8Array(await response.arrayBuffer());
+    if (bytes.byteLength > MAX_BYTES) throw new Error("image larger than 5 MB");
+
+    const hash = createHash("sha256").update(bytes).digest("hex").slice(0, 16);
+    const path = `products/${candidate.productId}/${hash}.${ext}`;
+    const { error: uploadError } = await db.storage
+      .from(PRODUCT_IMAGES_BUCKET)
+      .upload(path, bytes, {
+        contentType: `image/${ext === "jpg" ? "jpeg" : ext}`,
+        upsert: true,
+      });
+    if (uploadError) throw new Error(uploadError.message);
+
+    const { error: insertError } = await db.from("product_images").insert({
+      product_id: candidate.productId,
+      storage_path: path,
+      alt: candidate.title,
+      position: 0,
+      source_url: candidate.imageUrl,
+    });
+    if (insertError) throw new Error(insertError.message);
+    result.stored++;
+  } catch (error) {
+    result.failed.push(
+      `${candidate.productId}: ${error instanceof Error ? error.message : String(error)}`,
+    );
+  }
 }

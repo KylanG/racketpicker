@@ -61,7 +61,11 @@ async function apply(
  * requests), so an improved mapping reaches every product; then asks bol for rackets it
  * has not been asked about recently. Hand-entered values are never overwritten. Never throws.
  */
-export async function syncBolSpecs(fetcher: typeof fetch = fetch): Promise<SpecsSyncResult> {
+export async function syncBolSpecs(
+  fetcher: typeof fetch = fetch,
+  /** No new bol request after this moment (epoch ms); the rest follows next run (RP-92). */
+  deadline = Number.POSITIVE_INFINITY,
+): Promise<SpecsSyncResult> {
   const result: SpecsSyncResult = { checked: 0, withSpecs: 0, filled: 0, unmapped: [], failed: [] };
   const unmapped = new Map<string, number>();
   try {
@@ -110,6 +114,7 @@ export async function syncBolSpecs(fetcher: typeof fetch = fetch): Promise<Specs
     const previous = new Map(stored.data.map((r) => [r.product_id, r.applied as MappedSpecs]));
     const token = await getBolToken(fetcher);
     for (const p of todo) {
+      if (Date.now() >= deadline) break;
       try {
         const groups = (await getSpecifications(p.ean, token, fetcher)) ?? [];
         await sleep(BOL_SPACING_MS);
