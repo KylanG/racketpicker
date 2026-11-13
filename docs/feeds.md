@@ -24,8 +24,9 @@ flowchart LR
 | `src/lib/feeds/csv.ts`                  | Leest CSV (ook gzip), herkent `,` `;` tab en `\|` automatisch                     |
 | `src/lib/feeds/adapters.ts`             | Kolomnamen per netwerk → één genormaliseerd formaat                               |
 | `src/lib/feeds/normalize.ts`            | Prijzen (`96,74` / `1.299,00`), GTIN, voorraad, levertijd                         |
-| `src/lib/feeds/filter.ts`               | Houdt alleen padelrackets over (geen grips, tassen, schoenen, ballen)             |
+| `src/lib/feeds/filter.ts`               | Houdt padelrackets over, of rackets en tassen (`classifyItem`, RP-91)             |
 | `src/lib/feeds/match.ts`                | Koppelt aan een product: eerst GTIN, dan naam (merk + model + jaar)               |
+| `src/lib/feeds/feed-discovery.ts`       | Nieuwe producten uit een feed (RP-91), opslaan via `create-products.ts`           |
 | `src/lib/feeds/pipeline.ts`             | Pure stap: bytes → items met match. Geen netwerk of database                      |
 | `src/lib/feeds/run-import.ts`           | Download, catalogus laden, veiligheidscheck, `ingest_feed_items()`, `import_runs` |
 | `scripts/import-feed.ts`                | CLI: `npm run feeds:import`                                                       |
@@ -38,6 +39,8 @@ flowchart LR
    - Alle modelwoorden moeten in de titel staan: _Metalbone_ ≠ _Metalbone HRD+_.
    - Ander modeljaar halveert de score; geen jaar in de titel → altijd eerst review.
    - Automatisch koppelen vanaf score **0,9** én minstens 0,1 beter dan de tweede kandidaat.
+   - **Kleuren, spelersnamen en productcodes** ("Grey/Orange", "Paquito Navarro", "BPP-26013") tellen niet mee, tenzij ze in de productnaam staan (_Coello Pro_). `rugzak` en `mochila` = `backpack` (RP-91).
+   - **Alleen binnen dezelfde soort**: een tas wordt nooit aan een racket uit dezelfde serie gekoppeld (RP-91).
 3. Anders: **pending**, met de beste kandidaat als suggestie (vanaf 0,5). Deze lijst controleren we handmatig.
 
 **Handmatige beslissingen blijven staan**: een item dat met de hand is gekoppeld (`match_method = 'manual'`) of afgewezen (`rejected`) wordt bij een volgende import niet overschreven.
@@ -54,11 +57,13 @@ flowchart LR
 
 ## Configuratie
 
-- Per winkel een rij in `feed_sources` (netwerk, `feed_key`, filter, actief). Nu ingericht, **allemaal inactief**: Padeldiscount, Daka (Daisycon), Padel-Point, Smash-Expert (Awin). Eerste versie: filter `padel_rackets` voor iedereen.
+- Per winkel een rij in `feed_sources` (netwerk, `feed_key`, filter, actief). Ingericht: Padeldiscount, Daka (Daisycon), Padel-Point, Smash-Expert, Padel Market (Awin).
+- **Filters:** `padel_rackets` (alleen rackets), `padel_rackets_bags` (rackets en tassen, zonder bundels, juniors, toilettassen en hoezen) of `all`.
+- **Padel Market** (RP-91): Awin-advertiser 24562, _English Feed EUR_ (datafeed 98176), filter `padel_rackets_bags`. Verzendkosten naar NL staan per product in de feed; gratis vanaf ~€ 200. Schoenen en kleding staan ook in de feed, maar volgen pas met RP-42/RP-48.
 - Feed-URL's bevatten inloggegevens en staan daarom **niet** in de database maar in Vercel (Secret):
   ```
   DAISYCON_FEED_URLS={"padeldiscount":"https://…","daka":"https://…"}
-  AWIN_FEED_URLS={"padel-point":"https://…","smash-expert":"https://…"}
+  AWIN_FEED_URLS={"padel-point":"https://…","smash-expert":"https://…","padel-market":"https://…"}
   ```
 - Winkel aanzetten: `update feed_sources set is_active = true where shop_id = (select id from shops where slug = '…');` en de winkel zelf (`shops.is_active`) aanzetten zodra er gekoppelde offers zijn.
 
@@ -116,3 +121,14 @@ Voor de bol-prijsimport zoekt de cron populaire producten op bol (`GET /products
 - **Een EAN die al in de catalogus staat**, of hetzelfde merk + model + jaar, slaan we over.
 - **Nieuwe producten** worden direct gepubliceerd met tier C (noindex tot de inhoud is aangevuld). Accessoires krijgen `products.product_type` (`balls`, `grips`, `bags`) en staan sinds RP-78 op `/nl/accessoires/padel`.
 - **Maximaal 60 nieuwe producten per run.** De rest volgt de volgende dag. Een fout hier stopt de prijsimport nooit. Het resultaat staat onder `discovery` in de cron-response.
+
+### Nieuwe producten uit affiliatefeeds (RP-91)
+
+Bij elke import van een feed met filter `padel_rackets` of `padel_rackets_bags` maakt `runImport` ook nieuwe producten aan (`feed-discovery.ts`), met dezelfde opslag als bol (`create-products.ts`, tier C):
+
+- **Alleen items zonder twijfel:** geen match en geen suggestie, of een suggestie met een ánder modeljaar (_Vertex 05 2027_ naast onze _Vertex 05 2026_). Twijfelgevallen blijven in de controlelijst.
+- **Eisen:** geldige EAN die we nog niet hebben, bekend merk (eerst de merkkolom van de feed), op voorraad, minimumprijs (rackets € 40, tassen € 15).
+- **Naam:** zonder spelersnamen, kleuren en productcodes; "(Backpack)" blijft als _Backpack_ in de naam, zodat rugzak en racketbag van één serie twee producten zijn. Kleurvarianten worden één product.
+- **Daarna** wordt de feed opnieuw gekoppeld, zodat de nieuwe producten meteen een aanbieding krijgen.
+- **Maximaal 300 per winkel per run.** Proefdraaien (`--dry-run`) toont het aantal onder `discovery.planned`.
+- Eerste test met de echte Padel Market-feed (13 nov): 472 rackets en tassen, 296 nieuw, daarna **418 gekoppeld (89%)**, 45 met suggestie in de controlelijst.

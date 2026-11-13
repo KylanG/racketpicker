@@ -85,3 +85,114 @@ describe("matchItem", () => {
     });
   });
 });
+
+describe("matchItem with colours, players and kinds (RP-91)", () => {
+  const products: CatalogProduct[] = [
+    {
+      id: "hack-05",
+      brand: "Bullpadel",
+      model: "Hack 05",
+      modelYear: 2027,
+      gtins: [],
+      category: "rackets",
+    },
+    {
+      id: "coello-pro",
+      brand: "Head",
+      model: "Coello Pro",
+      modelYear: 2026,
+      gtins: [],
+      category: "rackets",
+    },
+    {
+      id: "coello-team",
+      brand: "Head",
+      model: "Coello Team",
+      modelYear: 2026,
+      gtins: [],
+      category: "rackets",
+    },
+    {
+      id: "neuvortx-lime",
+      brand: "Adidas",
+      model: "Neuvortx Lime",
+      modelYear: 2026,
+      gtins: [],
+      category: "rackets",
+    },
+    {
+      id: "at10-bag",
+      brand: "Nox",
+      model: "AT10 Team",
+      modelYear: null,
+      gtins: [],
+      category: "accessories",
+      productType: "bags",
+    },
+    {
+      id: "at10-racket",
+      brand: "Nox",
+      model: "AT10 Team",
+      modelYear: null,
+      gtins: [],
+      category: "rackets",
+    },
+    {
+      id: "base-backpack",
+      brand: "Head",
+      model: "Base Rugzak 17L",
+      modelYear: 2026,
+      gtins: [],
+      category: "accessories",
+      productType: "bags",
+    },
+  ];
+  const racket = { category: "rackets", productType: null } as const;
+  const bag = { category: "accessories", productType: "bags" } as const;
+
+  it("ignores a player's name the product does not have", () => {
+    const r = matchItem(
+      item("BULLPADEL HACK 05 2027 PAQUITO NAVARRO (Racket)"),
+      products,
+      undefined,
+      racket,
+    );
+    expect(r).toMatchObject({ status: "matched", productId: "hack-05" });
+  });
+
+  it("keeps a player's name that is part of the model", () => {
+    const r = matchItem(
+      item("Head COELLO PRO 2026 Arturo Coello (Racket)"),
+      products,
+      undefined,
+      racket,
+    );
+    expect(r).toMatchObject({ status: "matched", productId: "coello-pro" });
+  });
+
+  it("ignores colours, but not a colour the product name has", () => {
+    expect(
+      matchItem(item("Nox AT10 Team Grey/Orange (Racket Bag)"), products, undefined, bag),
+    ).toMatchObject({
+      status: "matched",
+      productId: "at10-bag",
+    });
+    expect(matchItem(item("Adidas Neuvortx Blue 2026"), products, undefined, racket).status).toBe(
+      "pending",
+    );
+  });
+
+  it("never matches a bag to a racket of the same series", () => {
+    expect(matchItem(item("Nox AT10 Team (Racket Bag)"), products, undefined, bag)).toMatchObject({
+      productId: "at10-bag",
+    });
+    expect(matchItem(item("Nox AT10 Team Racket"), products, undefined, racket)).toMatchObject({
+      productId: "at10-racket",
+    });
+  });
+
+  it("reads rugzak and backpack as the same word, and skips product codes", () => {
+    const r = matchItem(item("Head BASE Backpack 17L 2026 HB-12345"), products, undefined, bag);
+    expect(r).toMatchObject({ status: "matched", productId: "base-backpack" });
+  });
+});

@@ -1,12 +1,23 @@
 import { getAdapter } from "./adapters";
 import { decodeFeed, parseCsv } from "./csv";
-import { isPadelRacket } from "./filter";
+import { classifyItem, isPadelRacket, RACKET_KIND } from "./filter";
 import { buildGtinIndex, matchItem } from "./match";
-import type { AffiliateNetwork, CatalogProduct, MatchResult, NormalizedFeedItem } from "./types";
+import type {
+  AffiliateNetwork,
+  CatalogProduct,
+  FeedItemKind,
+  MatchResult,
+  NormalizedFeedItem,
+} from "./types";
 
-export type FeedFilter = "all" | "padel_rackets";
+/**
+ * 'all': every row (padel-only shop). 'padel_rackets': padel rackets only.
+ * 'padel_rackets_bags': padel rackets and bags, each matched within its own kind (RP-91).
+ */
+export type FeedFilter = "all" | "padel_rackets" | "padel_rackets_bags";
 
-export type PreparedItem = NormalizedFeedItem & { match: MatchResult };
+/** kind: what the item is, when the filter decided it; null for filter 'all'. */
+export type PreparedItem = NormalizedFeedItem & { match: MatchResult; kind?: FeedItemKind | null };
 
 export type PipelineStats = {
   rows: number;
@@ -53,9 +64,19 @@ export function prepareFeed(
       stats.invalid++;
       continue;
     }
-    if (filter === "padel_rackets" && !isPadelRacket(item)) {
-      stats.filteredOut++;
-      continue;
+    let kind: FeedItemKind | null = null;
+    if (filter === "padel_rackets") {
+      if (!isPadelRacket(item)) {
+        stats.filteredOut++;
+        continue;
+      }
+      kind = RACKET_KIND;
+    } else if (filter === "padel_rackets_bags") {
+      kind = classifyItem(item);
+      if (!kind) {
+        stats.filteredOut++;
+        continue;
+      }
     }
     if (seen.has(item.externalId)) {
       stats.duplicates++;
@@ -63,7 +84,7 @@ export function prepareFeed(
     }
     seen.add(item.externalId);
 
-    const match = matchItem(item, catalog, gtinIndex);
+    const match = matchItem(item, catalog, gtinIndex, kind);
     if (match.status === "matched") {
       if (match.method === "gtin") stats.matchedByGtin++;
       else stats.matchedByName++;
@@ -72,7 +93,7 @@ export function prepareFeed(
     } else {
       stats.pendingWithoutSuggestion++;
     }
-    items.push({ ...item, match });
+    items.push({ ...item, match, kind });
   }
 
   stats.kept = items.length;
