@@ -86,8 +86,9 @@ npm run feeds:import -- padel-point
 - **Route:** `GET /api/cron/import-feeds`, beveiligd met `CRON_SECRET`. Vercel stuurt die automatisch mee als `Authorization: Bearer …`. Zonder geldig token krijg je een 401.
 - **Wat er gebeurt:**
   1. alle actieve feedbronnen worden geïmporteerd, één winkel tegelijk
-  2. van producten zonder foto worden maximaal 25 foto's gekopieerd naar Supabase Storage (bucket `product-images`, max 5 MB, jpg/png/webp/avif), zodat we geen afbeeldingen van winkels hotlinken
+  2. van producten zonder foto worden foto's gekopieerd (binnen het tijdsbudget, zie hieronder) naar Supabase Storage (bucket `product-images`, max 5 MB, jpg/png/webp/avif), zodat we geen afbeeldingen van winkels hotlinken
   3. de cache-tag `catalog` wordt ververst (`revalidateTag(…, "max")`), zodat pagina's de nieuwe prijzen tonen bij het volgende bezoek
+- **Tijdsbudget (RP-92):** de route mag 300 s draaien. Eerst alle prijzen; daarna starten foto's (6 tegelijk, max 150) tot 200 s en bol-specs tot 230 s. Wat niet past, volgt de volgende nacht (`images.postponed`). Zo blijft er tijd voor `revalidateTag` en de alerts.
 - **Fouten:** een winkel die faalt, houdt de andere niet tegen. De fout staat in `import_runs` en in de Vercel-logs. De route geeft dan een 500 terug, zodat de run in het Cron-overzicht van Vercel als mislukt zichtbaar is.
 - **"Laatst bijgewerkt"** op de site komt uit `product_price_summary.last_updated_at`. Elke import werkt dat bij, ook als de prijs gelijk blijft. Het betekent dus "prijs gecontroleerd op".
 - **Handmatig draaien** (dezelfde stappen als de cron): `npm run feeds:import -- --all`
