@@ -1,11 +1,11 @@
 import "server-only";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { BOL_API, BOL_SPACING_MS, getBolToken, sleep } from "./bol";
+import { insertProducts } from "./create-products";
 import {
   DISCOVERY_TARGETS,
   planTitleCleanup,
   selectNewProducts,
-  slugify,
   type BolSearchResult,
   type DiscoveryTarget,
   type NewProduct,
@@ -137,16 +137,15 @@ export async function runBolDiscovery(fetcher: Fetcher = fetch): Promise<Discove
     } catch (e) {
       result.skipped.push(`title cleanup: ${e instanceof Error ? e.message : String(e)}`);
     }
-    const [products, contents, brands] = await Promise.all([
+    const [products, contents] = await Promise.all([
       db
         .from("products")
         .select("gtins, model, model_year, brands!inner(name)")
         .eq("is_sample", false),
       db.from("product_content").select("slug").eq("market_code", "nl"),
-      db.from("brands").select("id, slug, name"),
     ]);
-    if (products.error || contents.error || brands.error) {
-      throw new Error(products.error?.message ?? contents.error?.message ?? brands.error?.message);
+    if (products.error || contents.error) {
+      throw new Error(products.error?.message ?? contents.error?.message);
     }
     const known = {
       eans: new Set(products.data.flatMap((p) => p.gtins)),
@@ -168,53 +167,7 @@ export async function runBolDiscovery(fetcher: Fetcher = fetch): Promise<Discove
       }
     }
 
-    const brandId = new Map(brands.data.map((b) => [b.name.toLowerCase(), b.id]));
-    for (const p of todo.slice(0, MAX_NEW_PER_RUN)) {
-      try {
-        let id = brandId.get(p.brand.toLowerCase());
-        if (!id) {
-          const { data, error } = await db
-            .from("brands")
-            .upsert({ slug: slugify(p.brand), name: p.brand }, { onConflict: "slug" })
-            .select("id")
-            .single();
-          if (error) throw new Error(`brand: ${error.message}`);
-          id = data.id;
-          brandId.set(p.brand.toLowerCase(), id);
-        }
-        const { data: product, error } = await db
-          .from("products")
-          .insert({
-            brand_id: id,
-            category_key: p.category,
-            sport_key: p.sport,
-            model: p.model,
-            model_year: p.year,
-            gtins: [p.ean],
-            tier: "C",
-            status: "published",
-            is_sample: false,
-            product_type: p.productType,
-          })
-          .select("id")
-          .single();
-        if (error) throw new Error(`product: ${error.message}`);
-        const { error: contentError } = await db.from("product_content").insert({
-          product_id: product.id,
-          market_code: "nl",
-          slug: p.slug,
-          title: p.title,
-          is_published: true,
-        });
-        if (contentError) {
-          await db.from("products").delete().eq("id", product.id);
-          throw new Error(`content: ${contentError.message}`);
-        }
-        result.created++;
-      } catch (e) {
-        result.skipped.push(`${p.ean} ${p.title}: ${e instanceof Error ? e.message : String(e)}`);
-      }
-    }
+    result.created = await insertProducts(db, todo.slice(0, MAX_NEW_PER_RUN), result.skipped);
     if (todo.length > MAX_NEW_PER_RUN) {
       result.skipped.push(`${todo.length - MAX_NEW_PER_RUN} more left for the next run`);
     }

@@ -1036,7 +1036,7 @@ export type Database = {
     Enums: {
       affiliate_network: "daisycon" | "awin" | "direct" | "other" | "bol";
       content_tier: "A" | "B" | "C";
-      feed_filter: "all" | "padel_rackets";
+      feed_filter: "all" | "padel_rackets" | "padel_rackets_bags";
       feed_format: "csv" | "csv_gz";
       import_status: "running" | "succeeded" | "failed";
       match_method: "gtin" | "name" | "manual";
@@ -1171,7 +1171,7 @@ export const Constants = {
     Enums: {
       affiliate_network: ["daisycon", "awin", "direct", "other", "bol"],
       content_tier: ["A", "B", "C"],
-      feed_filter: ["all", "padel_rackets"],
+      feed_filter: ["all", "padel_rackets", "padel_rackets_bags"],
       feed_format: ["csv", "csv_gz"],
       import_status: ["running", "succeeded", "failed"],
       match_method: ["gtin", "name", "manual"],

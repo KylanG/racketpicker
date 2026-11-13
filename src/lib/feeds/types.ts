@@ -20,6 +20,12 @@ export type NormalizedFeedItem = {
   imageUrl: string | null;
 };
 
+/** Category (and type within it) a feed item belongs to; used to match within one kind. */
+export type FeedItemKind = {
+  category: "rackets" | "shoes" | "clothing" | "accessories";
+  productType: "balls" | "grips" | "bags" | null;
+};
+
 export type RawRow = Record<string, string>;
 
 export type FeedAdapter = {
@@ -37,6 +43,8 @@ export type CatalogProduct = {
   gtins: string[];
   /** Category key; set for the bol import, which covers accessories too (RP-77). */
   category?: string;
+  /** Type within the category (accessories: balls, grips, bags). */
+  productType?: string | null;
 };
 
 export type MatchResult =

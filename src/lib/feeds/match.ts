@@ -1,4 +1,5 @@
-import type { CatalogProduct, MatchResult, NormalizedFeedItem } from "./types";
+import type { CatalogProduct, FeedItemKind, MatchResult, NormalizedFeedItem } from "./types";
+import { COLOUR_WORDS, PLAYER_WORDS, PRODUCT_CODE } from "./variant-words";
 
 /** Score at or above which a name match is accepted automatically. */
 export const AUTO_MATCH_SCORE = 0.9;
@@ -31,7 +32,13 @@ const NOISE = new Set([
   "nieuw",
   "new",
   "edition",
+  "bag",
+  "bags",
+  "tas",
 ]);
+
+/** Same word in another language, so "Base Rugzak 17L" (bol) matches "BASE Backpack 17L". */
+const SYNONYMS: Record<string, string> = { rugzak: "backpack", mochila: "backpack" };
 
 export function normalize(text: string): string {
   return text
@@ -47,11 +54,15 @@ export function extractYear(text: string): number | null {
   return m ? Number(m[1]) : null;
 }
 
-/** Model tokens: normalized words minus noise, brand words and 4-digit years. */
+/**
+ * Model tokens: normalized words minus noise, brand words, 4-digit years and shop product
+ * codes such as "BPP-26013".
+ */
 export function modelTokens(text: string, brand: string): string[] {
   const brandWords = new Set(normalize(brand).split(" "));
-  return normalize(text)
+  return normalize(text.replace(PRODUCT_CODE, " "))
     .split(" ")
+    .map((t) => SYNONYMS[t] ?? t)
     .filter((t) => t && !NOISE.has(t) && !brandWords.has(t) && !/^20[1-3]\d$/.test(t));
 }
 
@@ -72,8 +83,13 @@ function brandMatches(item: NormalizedFeedItem, product: CatalogProduct): boolea
 /** Similarity between a feed item and a catalog product, 0..1. */
 export function scoreName(item: NormalizedFeedItem, product: CatalogProduct): number {
   if (!brandMatches(item, product)) return 0;
-  const itemTokens = modelTokens(item.title, product.brand);
   const productTokens = modelTokens(product.model, product.brand);
+  // A colour or a player's name the product does not have says nothing about the model:
+  // "Hack 05 2027 Paquito Navarro" is the Hack 05 2027 (RP-91). When the product name has
+  // the word (Coello Pro), it still counts.
+  const itemTokens = modelTokens(item.title, product.brand).filter(
+    (t) => productTokens.includes(t) || !(COLOUR_WORDS.has(t) || PLAYER_WORDS.has(t)),
+  );
   let score = dice(itemTokens, productTokens);
 
   // Every model word must be present: "Metalbone" must not match "Metalbone HRD".
@@ -93,13 +109,23 @@ export function scoreName(item: NormalizedFeedItem, product: CatalogProduct): nu
 }
 
 /**
- * Matches one feed item: exact GTIN first, then name similarity.
- * Uncertain cases go to the review queue with the best suggestion.
+ * True when a catalog product can be the same kind of thing as the feed item: a bag never
+ * matches a racket of the same series (RP-91). Without a kind or a category, anything goes.
+ */
+export function sameKind(product: CatalogProduct, kind: FeedItemKind | null | undefined): boolean {
+  if (!kind || !product.category) return true;
+  return product.category === kind.category && (product.productType ?? null) === kind.productType;
+}
+
+/**
+ * Matches one feed item: exact GTIN first, then name similarity among products of the
+ * same kind. Uncertain cases go to the review queue with the best suggestion.
  */
 export function matchItem(
   item: NormalizedFeedItem,
   catalog: CatalogProduct[],
   gtinIndex: Map<string, string> = buildGtinIndex(catalog),
+  kind?: FeedItemKind | null,
 ): MatchResult {
   if (item.gtin) {
     const productId = gtinIndex.get(item.gtin);
@@ -109,6 +135,7 @@ export function matchItem(
   let best: { id: string; score: number } | null = null;
   let second = 0;
   for (const product of catalog) {
+    if (!sameKind(product, kind)) continue;
     const score = scoreName(item, product);
     if (!best || score > best.score) {
       second = best?.score ?? 0;
