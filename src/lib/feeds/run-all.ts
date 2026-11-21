@@ -31,8 +31,17 @@ export type DailyImportResult = {
  * Imports every active feed source, one shop at a time, then copies missing product
  * photos. A failing shop is logged in import_runs and does not stop the others.
  */
+/**
+ * Seconds after the start by which the extras (photos, specs) stop starting new work.
+ * The cron route may run 300 s and still has to revalidate and send alerts; prices come
+ * first, photos and specs that do not fit follow the next night (RP-92).
+ */
+const IMAGES_UNTIL_S = 200;
+const SPECS_UNTIL_S = 230;
+
 export async function runDailyImport(): Promise<DailyImportResult> {
-  const startedAt = new Date().toISOString();
+  const start = Date.now();
+  const startedAt = new Date(start).toISOString();
   const { data: sources, error } = await createAdminClient()
     .from("feed_sources")
     .select("shops!inner(slug)")
@@ -57,13 +66,15 @@ export async function runDailyImport(): Promise<DailyImportResult> {
 
   let images: DailyImportResult["images"];
   try {
-    images = await syncProductImages(60);
+    images = await syncProductImages(150, start + IMAGES_UNTIL_S * 1000);
   } catch (e) {
     images = { error: e instanceof Error ? e.message : String(e) };
     console.error(`[feeds] images: ${images.error}`);
   }
 
-  const specs = sources.some((s) => s.shops.slug === "bol") ? await syncBolSpecs() : null;
+  const specs = sources.some((s) => s.shops.slug === "bol")
+    ? await syncBolSpecs(fetch, start + SPECS_UNTIL_S * 1000)
+    : null;
 
   // After prices and photos, so a product with a new second shop is indexable the same night.
   const promoted = await promoteTiers();
