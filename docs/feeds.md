@@ -60,7 +60,7 @@ flowchart LR
 - Per winkel een rij in `feed_sources` (netwerk, `feed_key`, filter, actief). Ingericht: Padeldiscount, Daka (Daisycon), Padel-Point, Smash-Expert, Padel Market (Awin), PadelXpert (Adtraction).
 - **Filters:** `padel_rackets` (alleen rackets), `padel_rackets_bags` (rackets en tassen, zonder bundels, juniors, toilettassen en hoezen) of `all`.
 - **Padel Market** (RP-91): Awin-advertiser 24562, _English Feed EUR_ (datafeed 98176), filter `padel_rackets_bags`. Verzendkosten naar NL staan per product in de feed; gratis vanaf ~€ 200. Schoenen en kleding staan ook in de feed, maar volgen pas met RP-42/RP-48.
-- **PadelXpert** (RP-93): Adtraction-programma 1884003964, filter `padel_rackets_bags`, staat nog **uit**. De link `on.padelxpert.nl/t/t?a=…&as=…` is de trackinglink, niet de feed. De feed-URL staat in Adtraction bij het programma onder productfeeds (kies CSV). Controleer de kolommen eerst met `--offline --network adtraction`; de aliassen staan in `ADTRACTION_COLUMNS`. Verzendkosten nog invullen.
+- **PadelXpert** (RP-93): Adtraction-programma 1884003961, filter `padel_rackets_bags`, staat nog **uit**. De link `on.padelxpert.nl/t/t?a=…&as=…` is de trackinglink, niet de feed. De feed-URL staat in Adtraction bij het programma onder productfeeds (kies CSV). Controleer de kolommen eerst met `--offline --network adtraction`; de aliassen staan in `ADTRACTION_COLUMNS`. Verzending: gratis vanaf € 79, anders € 3,94; levertijd 2–3 werkdagen. Staan die niet per product in de feed, dan vullen we ze als standaard in.
 - Feed-URL's bevatten inloggegevens en staan daarom **niet** in de database maar in Vercel (Secret):
   ```
   DAISYCON_FEED_URLS={"padeldiscount":"https://…","daka":"https://…"}
