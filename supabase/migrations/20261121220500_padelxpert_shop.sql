@@ -1,5 +1,5 @@
--- RP-93: PadelXpert (padelxpert.nl) via Adtraction. The program id (1884003964) comes from
--- the tracking link on.padelxpert.nl/t/t?a=1884003964&as=2127163100 (as = our channel).
+-- RP-93: PadelXpert (padelxpert.nl) via Adtraction, program 1884003961 (apid in the feed URL;
+-- the tracking link's a=1884003964 is the ad, not the program). Our channel is 2127163100.
 -- The feed URL holds our credentials, so it lives in ADTRACTION_FEED_URLS under
 -- "padelxpert", not here.
 -- Shipping terms are not filled in yet: take them from the feed or the shop before launch.
@@ -7,7 +7,7 @@
 insert into public.shops (
   slug, name, market_code, network, network_advertiser_id, website_url, is_active
 ) values (
-  'padelxpert', 'PadelXpert', 'nl', 'adtraction', '1884003964', 'https://www.padelxpert.nl', false
+  'padelxpert', 'PadelXpert', 'nl', 'adtraction', '1884003961', 'https://www.padelxpert.nl', false
 )
 on conflict (slug) do nothing;
 
