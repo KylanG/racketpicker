@@ -60,7 +60,7 @@ flowchart LR
 - Per winkel een rij in `feed_sources` (netwerk, `feed_key`, filter, actief). Ingericht: Padeldiscount, Daka (Daisycon), Padel-Point, Smash-Expert, Padel Market (Awin), PadelXpert (Adtraction).
 - **Filters:** `padel_rackets` (alleen rackets), `padel_rackets_bags` (rackets en tassen, zonder bundels, juniors, toilettassen en hoezen) of `all`.
 - **Padel Market** (RP-91): Awin-advertiser 24562, _English Feed EUR_ (datafeed 98176), filter `padel_rackets_bags`. Verzendkosten naar NL staan per product in de feed; gratis vanaf ~€ 200. Schoenen en kleding staan ook in de feed, maar volgen pas met RP-42/RP-48.
-- **PadelXpert** (RP-93): Adtraction-programma 1884003964, filter `padel_rackets_bags`, staat nog **uit**. De link `on.padelxpert.nl/t/t?a=…&as=…` is de trackinglink, niet de feed. De feed-URL staat in Adtraction bij het programma onder productfeeds (kies CSV). Controleer de kolommen eerst met `--offline --network adtraction`; de aliassen staan in `ADTRACTION_COLUMNS`. Verzendkosten nog invullen.
+- **PadelXpert** (RP-93): Adtraction-programma 1884003961, filter `padel_rackets_bags`, staat nog **uit**. De link `on.padelxpert.nl/t/t?a=…&as=…` is de trackinglink, niet de feed. De feed-URL staat in Adtraction bij het programma onder productfeeds (kies CSV). Controleer de kolommen eerst met `--offline --network adtraction`; de aliassen staan in `ADTRACTION_COLUMNS`. Verzending: gratis vanaf € 79, anders € 3,94; levertijd 2–3 werkdagen. Staan die niet per product in de feed, dan vullen we ze als standaard in.
 - Feed-URL's bevatten inloggegevens en staan daarom **niet** in de database maar in Vercel (Secret):
   ```
   DAISYCON_FEED_URLS={"padeldiscount":"https://…","daka":"https://…"}
@@ -88,9 +88,8 @@ npm run feeds:import -- padel-point
 - **Route:** `GET /api/cron/import-feeds`, beveiligd met `CRON_SECRET`. Vercel stuurt die automatisch mee als `Authorization: Bearer …`. Zonder geldig token krijg je een 401.
 - **Wat er gebeurt:**
   1. alle actieve feedbronnen worden geïmporteerd, één winkel tegelijk
-  2. van producten zonder foto worden foto's gekopieerd (binnen het tijdsbudget, zie hieronder) naar Supabase Storage (bucket `product-images`, max 5 MB, jpg/png/webp/avif), zodat we geen afbeeldingen van winkels hotlinken
+  2. van producten zonder foto worden maximaal 25 foto's gekopieerd naar Supabase Storage (bucket `product-images`, max 5 MB, jpg/png/webp/avif), zodat we geen afbeeldingen van winkels hotlinken
   3. de cache-tag `catalog` wordt ververst (`revalidateTag(…, "max")`), zodat pagina's de nieuwe prijzen tonen bij het volgende bezoek
-- **Tijdsbudget (RP-92):** de route mag 300 s draaien. Eerst alle prijzen; daarna starten foto's (6 tegelijk, max 150) tot 200 s en bol-specs tot 230 s. Wat niet past, volgt de volgende nacht (`images.postponed`). Zo blijft er tijd voor `revalidateTag` en de alerts.
 - **Fouten:** een winkel die faalt, houdt de andere niet tegen. De fout staat in `import_runs` en in de Vercel-logs. De route geeft dan een 500 terug, zodat de run in het Cron-overzicht van Vercel als mislukt zichtbaar is.
 - **"Laatst bijgewerkt"** op de site komt uit `product_price_summary.last_updated_at`. Elke import werkt dat bij, ook als de prijs gelijk blijft. Het betekent dus "prijs gecontroleerd op".
 - **Handmatig draaien** (dezelfde stappen als de cron): `npm run feeds:import -- --all`
