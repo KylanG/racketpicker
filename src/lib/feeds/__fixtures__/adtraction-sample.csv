@@ -1,0 +1,4 @@
+SKU;Name;Description;Category;Price;OriginalPrice;Shipping;Currency;Instock;ProductUrl;ImageUrl;TrackingUrl;Brand;Ean;ManufacturerArticleNumber;DeliveryTime
+PX-1001;Bullpadel Vertex 04 2026;Diamantvorm voor gevorderde spelers;Padel > Padelrackets;279,95;299,95;0,00;EUR;yes;https://www.padelxpert.nl/bullpadel-vertex-04-2026;https://img.example.com/vertex04.jpg;https://on.padelxpert.nl/t/t?a=1884003964&as=2127163100&t=2&tk=1&url=https://www.padelxpert.nl/bullpadel-vertex-04-2026;Bullpadel;8435541700012;V04-26;1-2 werkdagen
+PX-1002;Head Speed Pro 2026;Druppelvorm;Padel > Padelrackets;249,00;;4,95;EUR;no;https://www.padelxpert.nl/head-speed-pro-2026;https://img.example.com/speedpro.jpg;https://on.padelxpert.nl/t/t?a=1884003964&as=2127163100&t=2&tk=1&url=https://www.padelxpert.nl/head-speed-pro-2026;Head;;SP-26;
+PX-1003;Padelballen zonder link;;Padel > Ballen;9,95;;4,95;EUR;yes;https://www.padelxpert.nl/ballen;;;Head;;;
