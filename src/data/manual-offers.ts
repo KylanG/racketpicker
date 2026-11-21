@@ -19,7 +19,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 199.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/nox-at10-genius-18k-alum-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelmq",
@@ -27,7 +27,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 202.49,
     stock: "in_stock",
     url: "https://www.padelmq.com/products/nox-at10-luxury-genius-18k-alum-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -35,7 +35,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 179.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/nox-at10-genius-attack-18k-alum-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -43,7 +43,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 124.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/nox-at10-pro-cup-hard-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -51,15 +51,15 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 139.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/nox-vk10-ventus-control-12k-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelmq",
     product: "nox-vk10-ventus-control-12k-2026",
-    price: 164.95,
+    price: 130.95,
     stock: "in_stock",
     url: "https://www.padelmq.com/products/nox-vk10-ventus-control-12k-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -67,7 +67,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 239.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/adidas-metalbone-pro-edt-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "justpadel",
@@ -75,7 +75,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 274.95,
     stock: "in_stock",
     url: "https://justpadel.com/products/adidas-metalbone-pro-edt-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelmq",
@@ -83,7 +83,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 313.06,
     stock: "in_stock",
     url: "https://www.padelmq.com/products/adidas-ale-galan-metalbone-pro-edt-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -91,7 +91,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 229.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/adidas-metalbone-ctrl-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -99,7 +99,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 179.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/adidas-metalbone-carbon-ctrl-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -107,7 +107,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 179.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/adidas-cross-it-light-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -115,7 +115,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 179.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/bullpadel-icon-2026-padel-racket",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelmq",
@@ -123,7 +123,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 164.49,
     stock: "in_stock",
     url: "https://www.padelmq.com/products/bullpadel-icon-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -131,15 +131,15 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 186.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/bullpadel-hack-04-hybrid-2026-padel-racket",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelmq",
     product: "bullpadel-hack-04-hybrid-2026",
-    price: 178.95,
+    price: 168.95,
     stock: "in_stock",
     url: "https://www.padelmq.com/products/bullpadel-hack-04-hybrid-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -147,23 +147,23 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 199.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/bullpadel-neuron-02-edge-2026-padel-racket",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "justpadel",
     product: "bullpadel-neuron-02-edge-2026",
     price: 199.95,
-    stock: "in_stock",
+    stock: "out_of_stock",
     url: "https://justpadel.com/products/bullpadel-neuron-02-geo-26",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelmq",
     product: "bullpadel-neuron-02-edge-2026",
-    price: 188.95,
+    price: 174.49,
     stock: "in_stock",
     url: "https://www.padelmq.com/products/bullpadel-neuron-02-edge-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -171,7 +171,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 219.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/babolat-technical-viper-3-0-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "justpadel",
@@ -179,7 +179,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 229.95,
     stock: "in_stock",
     url: "https://justpadel.com/products/babolat-technical-viper-3-0",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -187,7 +187,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 169.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/babolat-technical-viper-soft-3-0-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "justpadel",
@@ -195,7 +195,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 189.95,
     stock: "in_stock",
     url: "https://justpadel.com/products/babolat-technical-viper-soft-3-0",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -203,7 +203,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 149.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/babolat-counter-veron-2-6-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "justpadel",
@@ -211,7 +211,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 169.95,
     stock: "in_stock",
     url: "https://justpadel.com/products/babolat-counter-veron-2-6",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -219,7 +219,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 124.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/head-radical-motion-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -227,7 +227,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 124.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/head-speed-motion-padel-racket",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -235,7 +235,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 139.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/head-extreme-motion-2025-padel-racket",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "justpadel",
@@ -243,7 +243,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 159.95,
     stock: "in_stock",
     url: "https://justpadel.com/products/head-extreme-motion-2025",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelmq",
@@ -251,7 +251,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 148.95,
     stock: "in_stock",
     url: "https://www.padelmq.com/products/head-extreme-motion-2025",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -259,7 +259,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 54.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/head-lynx",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelshop",
@@ -267,7 +267,7 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 159.95,
     stock: "in_stock",
     url: "https://padelshop.com/nl/products/wilson-endure-pro-v1-2026",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
   {
     shop: "padelmq",
@@ -275,6 +275,6 @@ export const MANUAL_OFFERS: ManualOffer[] = [
     price: 198.95,
     stock: "in_stock",
     url: "https://www.padelmq.com/products/wilson-endure-pro-v1",
-    checkedOn: "2026-11-04",
+    checkedOn: "2026-11-09",
   },
 ];
