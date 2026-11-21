@@ -16,6 +16,7 @@ import type { AffiliateNetwork, CatalogProduct } from "./types";
 const FEED_URL_ENV: Partial<Record<AffiliateNetwork, string>> = {
   daisycon: "DAISYCON_FEED_URLS",
   awin: "AWIN_FEED_URLS",
+  adtraction: "ADTRACTION_FEED_URLS",
 };
 
 /**

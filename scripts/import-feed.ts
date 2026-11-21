@@ -3,7 +3,7 @@
  *
  *   npm run feeds:import -- <shop-slug> [--file feed.csv] [--dry-run] [--force]
  *   npm run feeds:import -- --all            (same as the daily cron: all active shops + photos)
- *   npm run feeds:import -- --offline --network awin --file feed.csv [--filter all]
+ *   npm run feeds:import -- --offline --network awin|daisycon|adtraction --file feed.csv [--filter all]
  *
  * --offline parses, filters and matches a local file without any database access
  * (empty catalog), to check that a new feed is read correctly.

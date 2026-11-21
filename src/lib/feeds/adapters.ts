@@ -64,6 +64,28 @@ export const DAISYCON_COLUMNS: ColumnMap = {
   image: ["image_large", "image_default", "image", "image_url"],
 };
 
+/**
+ * Adtraction product feed (CSV export from the publisher interface). Adtraction passes on the
+ * advertiser's own feed, which usually follows Google Shopping, so both naming styles are
+ * listed. Column names are matched case-insensitively. Only TrackingUrl is our tracked link:
+ * Google's "link" is the plain product page, so it is a product URL here.
+ */
+export const ADTRACTION_COLUMNS: ColumnMap = {
+  id: ["SKU", "ProductId", "id", "item_group_id"],
+  title: ["Name", "ProductName", "title"],
+  brand: ["Brand", "Manufacturer"],
+  gtin: ["Ean", "GTIN", "EAN13", "upc"],
+  category: ["Category", "product_type", "google_product_category"],
+  price: ["Price", "sale_price", "price"],
+  shipping: ["Shipping", "ShippingCost", "shipping_price"],
+  stock: ["Instock", "InStock", "availability", "Stock"],
+  stockQty: ["StockQuantity", "stock_quantity", "quantity"],
+  delivery: ["DeliveryTime", "delivery_time", "shipping_time"],
+  productUrl: ["ProductUrl", "link", "url"],
+  affiliateUrl: ["TrackingUrl", "TrackingLink", "tracking_url", "deeplink"],
+  image: ["ImageUrl", "image_link", "image"],
+};
+
 function createAdapter(network: AffiliateNetwork, columns: ColumnMap): FeedAdapter {
   return {
     network,
@@ -99,6 +121,7 @@ function createAdapter(network: AffiliateNetwork, columns: ColumnMap): FeedAdapt
 
 export const awinAdapter = createAdapter("awin", AWIN_COLUMNS);
 export const daisyconAdapter = createAdapter("daisycon", DAISYCON_COLUMNS);
+export const adtractionAdapter = createAdapter("adtraction", ADTRACTION_COLUMNS);
 
 export function getAdapter(network: AffiliateNetwork): FeedAdapter {
   switch (network) {
@@ -106,6 +129,8 @@ export function getAdapter(network: AffiliateNetwork): FeedAdapter {
       return awinAdapter;
     case "daisycon":
       return daisyconAdapter;
+    case "adtraction":
+      return adtractionAdapter;
     default:
       throw new Error(`No feed adapter for network "${network}"`);
   }
