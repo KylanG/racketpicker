@@ -206,6 +206,7 @@ export async function FilteredResults({
   searchParams,
   category = "rackets",
   defaultSort = "populair",
+  hideFacets = [],
 }: {
   locale: Locale;
   items: RacketItem[];
@@ -214,6 +215,8 @@ export async function FilteredResults({
   category?: "rackets" | "accessories" | "deals" | "brand";
   /** Order without ?sorteer; the deals page starts with the biggest discount. */
   defaultSort?: Sort;
+  /** Facets that make no sense here, e.g. "merk" on a brand page (RP-55). */
+  hideFacets?: Facet[];
 }) {
   const [params, t, tf, ts, tp, ta, td] = await Promise.all([
     searchParams,
@@ -268,7 +271,7 @@ export async function FilteredResults({
             emptyTitle: td("emptyTitle"),
             emptyText: td("emptyText"),
           };
-  const panel = { ...panelData(items, filters, locale, tf), sort: filters.sort };
+  const panel = { ...panelData(items, filters, locale, tf, hideFacets), sort: filters.sort };
   // Active filters as removable labels, in panel order.
   const chips = [
     ...panel.groups.flatMap((g) =>
@@ -501,6 +504,7 @@ function panelData(
   f: RacketFilters,
   locale: Locale,
   t: Translate,
+  hideFacets: Facet[] = [],
 ): FilterPanelData {
   const price = (n: number) => formatPrice(n, locale);
   const label: Record<Exclude<Facet, "merk">, (v: string) => string> = {
@@ -534,26 +538,28 @@ function panelData(
     FACETS.map((facet) => [facet, facetCounts(items, EMPTY_FILTERS, facet)]),
   ) as Record<Facet, Map<string, number>>;
 
-  const groups: FilterGroup[] = FACETS.map((facet) => {
-    const counts = facetCounts(items, f, facet);
-    const selected = f[facet] as string[];
-    const options =
-      facet === "merk"
-        ? brands.map(([slug, name]) => ({ value: slug, label: name }))
-        : values[facet]
-            .filter((v) => everywhere[facet].has(v) || selected.includes(v))
-            .map((v) => ({ value: v, label: label[facet](v) }));
-    return {
-      facet,
-      title: t(`facet.${facet}`),
-      open: OPEN_BY_DEFAULT.includes(facet) || selected.length > 0,
-      options: options.map((o) => ({
-        ...o,
-        count: counts.get(o.value) ?? 0,
-        checked: selected.includes(o.value),
-      })),
-    };
-  }).filter((g) => g.options.length > 0);
+  const groups: FilterGroup[] = FACETS.filter((facet) => !hideFacets.includes(facet))
+    .map((facet) => {
+      const counts = facetCounts(items, f, facet);
+      const selected = f[facet] as string[];
+      const options =
+        facet === "merk"
+          ? brands.map(([slug, name]) => ({ value: slug, label: name }))
+          : values[facet]
+              .filter((v) => everywhere[facet].has(v) || selected.includes(v))
+              .map((v) => ({ value: v, label: label[facet](v) }));
+      return {
+        facet,
+        title: t(`facet.${facet}`),
+        open: OPEN_BY_DEFAULT.includes(facet) || selected.length > 0,
+        options: options.map((o) => ({
+          ...o,
+          count: counts.get(o.value) ?? 0,
+          checked: selected.includes(o.value),
+        })),
+      };
+    })
+    .filter((g) => g.options.length > 0);
 
   return {
     groups,
